@@ -7,23 +7,19 @@ Symbol Table
     .__.ABS.                                                    =  0000 G
     .__.CPU.                                                    =  0000 L
     .__.H$L.                                                    =  0000 L
-  0 ___str_0                                                       0138 R
-  0 ___str_1                                                       0143 R
-  0 ___str_2                                                       0151 R
-  0 ___str_3                                                       0161 R
-  0 ___str_4                                                       018B R
-  0 ___str_5                                                       0197 R
-  7 __xinit__filename                                              0000 R
+    ___sdcc_enter_ix                                               **** GX
+  0 ___str_0                                                       0146 R
+  0 ___str_1                                                       0156 R
+  0 ___str_2                                                       0180 R
+  0 ___str_3                                                       018C R
     _block_read                                                    **** GX
     _block_set_data_ptr                                            **** GX
     _close                                                         **** GX
     _exit                                                          **** GX
-  2 _filename                                                      0000 GR
-  0 _ge5_load                                                      0030 GR
+  0 _ge5_load                                                      002B GR
     _getchar                                                       **** GX
-  0 _main                                                          0165 GR
+  0 _main                                                          015A GR
     _memcpy                                                        **** GX
-    _memset                                                        **** GX
     _open                                                          **** GX
     _puts                                                          **** GX
   1 _scratch                                                       0000 GR
@@ -39,13 +35,13 @@ Hexadecimal [16-Bits]
 
 Area Table
 
-   0 _CODE                                      size  1A3   flags    0
+   0 _CODE                                      size  198   flags    0
    1 _DATA                                      size   80   flags    0
-   2 _INITIALIZED                               size    B   flags    0
+   2 _INITIALIZED                               size    0   flags    0
    3 _DABS                                      size    0   flags    8
    4 _HOME                                      size    0   flags    0
    5 _GSINIT                                    size    0   flags    0
    6 _GSFINAL                                   size    0   flags    0
-   7 _INITIALIZER                               size    B   flags    0
+   7 _INITIALIZER                               size    0   flags    0
    8 _CABS                                      size    0   flags    8
 

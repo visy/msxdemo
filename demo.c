@@ -5,7 +5,6 @@
 #include "vdp.h"
 
 uint8_t scratch[128];
-char filename[11] = "";
 
 
 char *strcat(char *dest, char *src)
@@ -22,15 +21,20 @@ char *strcat(char *dest, char *src)
 uint8_t ge5_load(char *file_name, uint8_t vramh, uint16_t vraml) {
     fcb f;
     uint8_t i;
-
-    puts("memset f\r\n");
-    
-    memset((uint8_t *) &f, 0, sizeof(fcb));
-    
+        
     f.record_size = 128;
     f.drive = 0;
-
-    puts("memcpy name\r\n");
+    f.name[0] = '\0';
+    f.name[1] = '\0';
+    f.name[2] = '\0';
+    f.name[3] = '\0';
+    f.name[4] = '\0';
+    f.name[5] = '\0';
+    f.name[6] = '\0';
+    f.name[7] = '\0';
+    f.name[8] = '\0';
+    f.name[9] = '\0';
+    f.name[10] = '\0';
 
     memcpy(f.name, file_name, 11);    
 
