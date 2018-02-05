@@ -12,5 +12,7 @@ getchar.rel
 dos.rel
 vdp.rel
 conio.rel
+mem.rel
+heap.rel
 
 -e

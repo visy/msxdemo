@@ -8,25 +8,40 @@ Symbol Table
     .__.CPU.                                                    =  0000 L
     .__.H$L.                                                    =  0000 L
     ___sdcc_enter_ix                                               **** GX
-  0 ___str_0                                                       0146 R
-  0 ___str_1                                                       0156 R
-  0 ___str_2                                                       0180 R
-  0 ___str_3                                                       018C R
+  0 ___str_0                                                       032A R
+  0 ___str_1                                                       0338 R
+  0 ___str_10                                                      03B7 R
+  0 ___str_11                                                      03C3 R
+  0 ___str_12                                                      03CF R
+  0 ___str_13                                                      03DB R
+  0 ___str_14                                                      03E7 R
+  0 ___str_15                                                      03F3 R
+  0 ___str_16                                                      03FF R
+  0 ___str_2                                                       0355 R
+  0 ___str_3                                                       036C R
+  0 ___str_4                                                       036F R
+  0 ___str_5                                                       037B R
+  0 ___str_6                                                       0387 R
+  0 ___str_7                                                       0393 R
+  0 ___str_8                                                       039F R
+  0 ___str_9                                                       03AB R
     _block_read                                                    **** GX
     _block_set_data_ptr                                            **** GX
     _close                                                         **** GX
-    _exit                                                          **** GX
+  0 _cls                                                           01A8 GR
   0 _ge5_load                                                      002B GR
-    _getchar                                                       **** GX
-  0 _main                                                          015A GR
+  0 _main                                                          01DA GR
     _memcpy                                                        **** GX
+    _memset                                                        **** GX
     _open                                                          **** GX
+  0 _pal_load                                                      00FC GR
+  0 _pause                                                         0193 GR
     _puts                                                          **** GX
   1 _scratch                                                       0000 GR
   0 _strcat                                                        0000 GR
+    _vdp_load_palette                                              **** GX
     _vdp_load_screen                                               **** GX
     _vdp_set_screen5                                               **** GX
-    _vdp_set_text                                                  **** GX
     _vdp_set_write_address                                         **** GX
 
 
@@ -35,7 +50,7 @@ Hexadecimal [16-Bits]
 
 Area Table
 
-   0 _CODE                                      size  198   flags    0
+   0 _CODE                                      size  40D   flags    0
    1 _DATA                                      size   80   flags    0
    2 _INITIALIZED                               size    0   flags    0
    3 _DABS                                      size    0   flags    8

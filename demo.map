@@ -24,84 +24,89 @@ Area                                    Addr        Size        Decimal Bytes (A
      00000078  l__HEADER0                      
      00000083  l__DATA                         
      00000178  s__CODE                         
-     000005C0  l__CODE                         
-     00000738  s__DATA                         
-     000007BB  s__GSFINAL                      
-     000007BB  s__GSINIT                       
-     000007BB  s__HOME                         
-     000007BB  s__INITIALIZED                  
-     000007BC  s__HEAP                         
-     000007BC  s__INITIALIZER                  
+     00000854  l__CODE                         
+     000009CC  s__DATA                         
+     00000A4F  s__GSFINAL                      
+     00000A4F  s__GSINIT                       
+     00000A4F  s__HOME                         
+     00000A4F  s__INITIALIZED                  
+     00000A50  s__HEAP                         
+     00000A50  s__INITIALIZER                  
 
 ASxxxx Linker V03.00 + NoICE + sdld,  page 2.
 Hexadecimal  [32-Bits]
 
 Area                                    Addr        Size        Decimal Bytes (Attributes)
 --------------------------------        ----        ----        ------- ----- ------------
-_CODE                               00000178    000005C0 =        1472. bytes (REL,CON)
+_CODE                               00000178    00000854 =        2132. bytes (REL,CON)
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
      00000178  _strcat                            demo
      000001A3  _ge5_load                          demo
-     000002D2  _main                              demo
-     00000310  _putchar                           
-     0000031B  _getchar                           
-     00000321  _open                              
-     0000033B  _creat                             
-     00000355  _close                             
-     0000036F  _block_read                        
-     00000389  _block_set_data_ptr                
-     000003A3  _block_write                       
-     000003BD  _exit                              
-     000003D0  _vdp_set_screen5                   
-     000003F9  _vdp_set_text                      
-     0000040B  _vdp_load_palette                  
-     0000042A  _vdp_set_write_address             
-     00000459  _vdp_set_read_address              
-     00000486  _vdp_load_screen                   
-     000004A0  _vdp_copy                          
-     000004F5  _aux_vdp_copy                      
-     00000547  _puts                              conio
-     00000559  _puthex                            conio
-     000005A5  _puthex8                           conio
-     000005B7  _puthex16                          conio
-     000005C6  _putdec                            conio
-     0000061E  _putdec8                           conio
-     00000630  _putdec16                          conio
-     0000063F  __divuint                          
-     00000647  __divuchar                         
-     0000064E  __divu8                            
-     00000651  __divu16                           
-     00000680  _memcpy                            _memcpy
-     000006CF  ___sdcc_enter_ix                   
-     000006D9  __moduchar                         
-     000006E5  __moduint                          
-     000006F0  __divsint                          
-     000006F9  __divschar                         
-     00000700  __div8                             
-     00000704  __div_signexte                     
-     00000708  __div16                            
-     0000072E  __get_remainder                    
+     00000274  _pal_load                          demo
+     0000030B  _pause                             demo
+     00000320  _cls                               demo
+     00000352  _main                              demo
+     00000585  _putchar                           
+     00000590  _getchar                           
+     00000596  _open                              
+     000005B0  _creat                             
+     000005CA  _close                             
+     000005E4  _block_read                        
+     000005FE  _block_set_data_ptr                
+     00000618  _block_write                       
+     00000632  _exit                              
+     00000645  _vdp_set_screen5                   
+     0000066E  _vdp_set_text                      
+     00000680  _vdp_load_palette                  
+     0000069F  _vdp_set_write_address             
+     000006CE  _vdp_set_read_address              
+     000006FB  _vdp_load_screen                   
+     00000715  _vdp_copy                          
+     0000076A  _aux_vdp_copy                      
+     000007BC  _puts                              conio
+     000007CE  _puthex                            conio
+     0000081A  _puthex8                           conio
+     0000082C  _puthex16                          conio
+     0000083B  _putdec                            conio
+     00000893  _putdec8                           conio
+     000008A5  _putdec16                          conio
+     000008B4  _memcpy                            mem
+     000008EE  _memset                            mem
+     00000906  _malloc                            heap
+     00000922  __divuint                          
+     0000092A  __divuchar                         
+     00000931  __divu8                            
+     00000934  __divu16                           
+     00000963  ___sdcc_enter_ix                   
+     0000096D  __moduchar                         
+     00000979  __moduint                          
+     00000984  __divsint                          
+     0000098D  __divschar                         
+     00000994  __div8                             
+     00000998  __div_signexte                     
+     0000099C  __div16                            
+     000009C2  __get_remainder                    
 
 ASxxxx Linker V03.00 + NoICE + sdld,  page 3.
 Hexadecimal  [32-Bits]
 
 Area                                    Addr        Size        Decimal Bytes (Attributes)
 --------------------------------        ----        ----        ------- ----- ------------
-_DATA                               00000738    00000083 =         131. bytes (REL,CON)
+_DATA                               000009CC    00000083 =         131. bytes (REL,CON)
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
-     00000738  _scratch                           demo
-     000007B8  _heap_top                          
-     000007BA  _last_error                        
+     000009CC  _scratch                           demo
+     00000A4C  _heap_top                          
+     00000A4E  _last_error                        
 ASxxxx Linker V03.00 + NoICE + sdld,  page 4.
 Hexadecimal  [32-Bits]
 
 Area                                    Addr        Size        Decimal Bytes (Attributes)
 --------------------------------        ----        ----        ------- ----- ------------
-_GSFINAL                            000007BB    00000001 =           1. bytes (REL,CON)
+_GSFINAL                            00000A4F    00000001 =           1. bytes (REL,CON)
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
@@ -119,11 +124,11 @@ Hexadecimal  [32-Bits]
 
 Area                                    Addr        Size        Decimal Bytes (Attributes)
 --------------------------------        ----        ----        ------- ----- ------------
-_HEAP                               000007BC    00000000 =           0. bytes (REL,CON)
+_HEAP                               00000A50    00000000 =           0. bytes (REL,CON)
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
-     000007BC  _HEAP_start                        
+     00000A50  _HEAP_start                        
 
 ASxxxx Linker V03.00 + NoICE + sdld,  page 7.
 
@@ -136,14 +141,14 @@ getchar.rel                               [  ]
 dos.rel                                   [  ]
 vdp.rel                                   [  ]
 conio.rel                                 [ conio ]
+mem.rel                                   [ mem ]
+heap.rel                                  [ heap ]
 
 
 Libraries Linked                          [ object file ]
 
 /usr/local/bin/../share/sdcc/lib/z80/z80.lib
                                           [ divunsigned.rel ]
-/usr/local/bin/../share/sdcc/lib/z80/z80.lib
-                                          [ _memcpy.rel ]
 /usr/local/bin/../share/sdcc/lib/z80/z80.lib
                                           [ crtenter.rel ]
 /usr/local/bin/../share/sdcc/lib/z80/z80.lib
