@@ -1,0 +1,10 @@
+10 SCREEN 10,,,,,3
+20 COLOR ,,0
+30 VDP(9)=VDP(9)OR&H20
+40 BLOAD"matrix2.pia",S
+50 COLOR=RESTORE
+60 BLOAD"matrix2.sia",S
+70 SET PAGE 1,1
+80 BLOAD"matrix2.sja",S
+90 A$=INPUT$(1)
+

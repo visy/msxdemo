@@ -1,0 +1,16 @@
+-mjwx
+-i crt0msx_msxdos_advanced.ihx
+-b _CODE = 0x0178
+-b _DATA = 0x0000
+-k /usr/local/bin/../share/sdcc/lib/z80
+-k /usr/local/Cellar/sdcc/3.6.0/share/sdcc/lib/z80
+-l z80
+crt0msx_msxdos_advanced.rel
+putchar.rel
+getchar.rel
+dos.rel
+vdp.rel
+conio.rel
+demo.rel
+
+-e

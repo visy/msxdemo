@@ -1,0 +1,371 @@
+                              1 ;--------------------------------------------------------
+                              2 ; File Created by SDCC : free open source ANSI-C Compiler
+                              3 ; Version 3.6.0 #9615 (Mac OS X x86_64)
+                              4 ;--------------------------------------------------------
+                              5 	.module demo
+                              6 	.optsdcc -mz80
+                              7 	
+                              8 ;--------------------------------------------------------
+                              9 ; Public variables in this module
+                             10 ;--------------------------------------------------------
+                             11 	.globl _main
+                             12 	.globl _ge5_load
+                             13 	.globl _strcat
+                             14 	.globl _vdp_load_screen
+                             15 	.globl _vdp_set_write_address
+                             16 	.globl _vdp_set_text
+                             17 	.globl _vdp_set_screen5
+                             18 	.globl _memset
+                             19 	.globl _memcpy
+                             20 	.globl _exit
+                             21 	.globl _block_read
+                             22 	.globl _block_set_data_ptr
+                             23 	.globl _close
+                             24 	.globl _open
+                             25 	.globl _puts
+                             26 	.globl _getchar
+                             27 	.globl _filename
+                             28 	.globl _scratch
+                             29 ;--------------------------------------------------------
+                             30 ; special function registers
+                             31 ;--------------------------------------------------------
+                             32 ;--------------------------------------------------------
+                             33 ; ram data
+                             34 ;--------------------------------------------------------
+                             35 	.area _DATA
+   0000                      36 _scratch::
+   0000                      37 	.ds 128
+                             38 ;--------------------------------------------------------
+                             39 ; ram data
+                             40 ;--------------------------------------------------------
+                             41 	.area _INITIALIZED
+   0000                      42 _filename::
+   0000                      43 	.ds 11
+                             44 ;--------------------------------------------------------
+                             45 ; absolute external ram data
+                             46 ;--------------------------------------------------------
+                             47 	.area _DABS (ABS)
+                             48 ;--------------------------------------------------------
+                             49 ; global & static initialisations
+                             50 ;--------------------------------------------------------
+                             51 	.area _HOME
+                             52 	.area _GSINIT
+                             53 	.area _GSFINAL
+                             54 	.area _GSINIT
+                             55 ;--------------------------------------------------------
+                             56 ; Home
+                             57 ;--------------------------------------------------------
+                             58 	.area _HOME
+                             59 	.area _HOME
+                             60 ;--------------------------------------------------------
+                             61 ; code
+                             62 ;--------------------------------------------------------
+                             63 	.area _CODE
+                             64 ;demo.c:11: char *strcat(char *dest, char *src)
+                             65 ;	---------------------------------
+                             66 ; Function strcat
+                             67 ; ---------------------------------
+   0000                      68 _strcat::
+   0000 DD E5         [15]   69 	push	ix
+   0002 DD 21 00 00   [14]   70 	ld	ix,#0
+   0006 DD 39         [15]   71 	add	ix,sp
+                             72 ;demo.c:13: char *rdest = dest;
+   0008 DD 4E 04      [19]   73 	ld	c,4 (ix)
+   000B DD 46 05      [19]   74 	ld	b,5 (ix)
+                             75 ;demo.c:15: while (*dest)
+   000E C5            [11]   76 	push	bc
+   000F FD E1         [14]   77 	pop	iy
+   0011                      78 00101$:
+   0011 FD 7E 00      [19]   79 	ld	a, 0 (iy)
+   0014 B7            [ 4]   80 	or	a, a
+   0015 28 04         [12]   81 	jr	Z,00111$
+                             82 ;demo.c:16: dest++;
+   0017 FD 23         [10]   83 	inc	iy
+   0019 18 F6         [12]   84 	jr	00101$
+                             85 ;demo.c:17: while (*dest++ = *src++)
+   001B                      86 00111$:
+   001B DD 5E 06      [19]   87 	ld	e,6 (ix)
+   001E DD 56 07      [19]   88 	ld	d,7 (ix)
+   0021                      89 00104$:
+   0021 1A            [ 7]   90 	ld	a,(de)
+   0022 13            [ 6]   91 	inc	de
+   0023 FD 77 00      [19]   92 	ld	0 (iy), a
+   0026 FD 23         [10]   93 	inc	iy
+   0028 B7            [ 4]   94 	or	a, a
+   0029 20 F6         [12]   95 	jr	NZ,00104$
+                             96 ;demo.c:19: return rdest;
+   002B 69            [ 4]   97 	ld	l, c
+   002C 60            [ 4]   98 	ld	h, b
+   002D DD E1         [14]   99 	pop	ix
+   002F C9            [10]  100 	ret
+                            101 ;demo.c:22: uint8_t ge5_load(char *file_name, uint8_t vramh, uint16_t vraml) {
+                            102 ;	---------------------------------
+                            103 ; Function ge5_load
+                            104 ; ---------------------------------
+   0030                     105 _ge5_load::
+   0030 DD E5         [15]  106 	push	ix
+   0032 DD 21 00 00   [14]  107 	ld	ix,#0
+   0036 DD 39         [15]  108 	add	ix,sp
+   0038 21 D1 FF      [10]  109 	ld	hl,#-47
+   003B 39            [11]  110 	add	hl,sp
+   003C F9            [ 6]  111 	ld	sp,hl
+                            112 ;demo.c:26: puts("memset f\r\n");
+   003D 21r38r01      [10]  113 	ld	hl,#___str_0
+   0040 E5            [11]  114 	push	hl
+   0041 CDr00r00      [17]  115 	call	_puts
+   0044 F1            [10]  116 	pop	af
+                            117 ;demo.c:28: memset((uint8_t *) &f, 0, sizeof(fcb));
+   0045 21 01 00      [10]  118 	ld	hl,#0x0001
+   0048 39            [11]  119 	add	hl,sp
+   0049 4D            [ 4]  120 	ld	c,l
+   004A 44            [ 4]  121 	ld	b,h
+   004B 59            [ 4]  122 	ld	e, c
+   004C 50            [ 4]  123 	ld	d, b
+   004D C5            [11]  124 	push	bc
+   004E 21 2E 00      [10]  125 	ld	hl,#0x002e
+   0051 E5            [11]  126 	push	hl
+   0052 AF            [ 4]  127 	xor	a, a
+   0053 F5            [11]  128 	push	af
+   0054 33            [ 6]  129 	inc	sp
+   0055 D5            [11]  130 	push	de
+   0056 CDr00r00      [17]  131 	call	_memset
+   0059 F1            [10]  132 	pop	af
+   005A F1            [10]  133 	pop	af
+   005B 33            [ 6]  134 	inc	sp
+   005C C1            [10]  135 	pop	bc
+                            136 ;demo.c:30: f.record_size = 128;
+   005D 21 0F 00      [10]  137 	ld	hl,#0x000f
+   0060 09            [11]  138 	add	hl,bc
+   0061 36 80         [10]  139 	ld	(hl),#0x80
+                            140 ;demo.c:31: f.drive = 0;
+   0063 AF            [ 4]  141 	xor	a, a
+   0064 02            [ 7]  142 	ld	(bc),a
+                            143 ;demo.c:33: puts("memcpy name\r\n");
+   0065 C5            [11]  144 	push	bc
+   0066 21r43r01      [10]  145 	ld	hl,#___str_1
+   0069 E5            [11]  146 	push	hl
+   006A CDr00r00      [17]  147 	call	_puts
+   006D F1            [10]  148 	pop	af
+   006E C1            [10]  149 	pop	bc
+                            150 ;demo.c:35: memcpy(f.name, file_name, 11);    
+   006F 59            [ 4]  151 	ld	e, c
+   0070 50            [ 4]  152 	ld	d, b
+   0071 13            [ 6]  153 	inc	de
+   0072 D5            [11]  154 	push	de
+   0073 FD E1         [14]  155 	pop	iy
+   0075 C5            [11]  156 	push	bc
+   0076 D5            [11]  157 	push	de
+   0077 21 0B 00      [10]  158 	ld	hl,#0x000b
+   007A E5            [11]  159 	push	hl
+   007B DD 6E 04      [19]  160 	ld	l,4 (ix)
+   007E DD 66 05      [19]  161 	ld	h,5 (ix)
+   0081 E5            [11]  162 	push	hl
+   0082 FD E5         [15]  163 	push	iy
+   0084 CDr00r00      [17]  164 	call	_memcpy
+   0087 21 06 00      [10]  165 	ld	hl,#6
+   008A 39            [11]  166 	add	hl,sp
+   008B F9            [ 6]  167 	ld	sp,hl
+   008C 21r51r01      [10]  168 	ld	hl,#___str_2
+   008F E5            [11]  169 	push	hl
+   0090 CDr00r00      [17]  170 	call	_puts
+   0093 F1            [10]  171 	pop	af
+   0094 CDr00r00      [17]  172 	call	_puts
+   0097 21r61r01      [10]  173 	ld	hl, #___str_3
+   009A E3            [19]  174 	ex	(sp),hl
+   009B CDr00r00      [17]  175 	call	_puts
+   009E F1            [10]  176 	pop	af
+   009F CDr00r00      [17]  177 	call	_getchar
+   00A2 CDr00r00      [17]  178 	call	_vdp_set_screen5
+   00A5 C1            [10]  179 	pop	bc
+                            180 ;demo.c:46: if (open(&f) != 0)
+   00A6 59            [ 4]  181 	ld	e, c
+   00A7 50            [ 4]  182 	ld	d, b
+   00A8 C5            [11]  183 	push	bc
+   00A9 D5            [11]  184 	push	de
+   00AA CDr00r00      [17]  185 	call	_open
+   00AD F1            [10]  186 	pop	af
+   00AE C1            [10]  187 	pop	bc
+   00AF 7D            [ 4]  188 	ld	a,l
+   00B0 B7            [ 4]  189 	or	a, a
+   00B1 28 05         [12]  190 	jr	Z,00102$
+                            191 ;demo.c:47: return 0;
+   00B3 2E 00         [ 7]  192 	ld	l,#0x00
+   00B5 C3r33r01      [10]  193 	jp	00113$
+   00B8                     194 00102$:
+                            195 ;demo.c:49: vdp_set_write_address(vramh, vraml);
+   00B8 C5            [11]  196 	push	bc
+   00B9 DD 6E 07      [19]  197 	ld	l,7 (ix)
+   00BC DD 66 08      [19]  198 	ld	h,8 (ix)
+   00BF E5            [11]  199 	push	hl
+   00C0 DD 7E 06      [19]  200 	ld	a,6 (ix)
+   00C3 F5            [11]  201 	push	af
+   00C4 33            [ 6]  202 	inc	sp
+   00C5 CDr00r00      [17]  203 	call	_vdp_set_write_address
+   00C8 F1            [10]  204 	pop	af
+   00C9 33            [ 6]  205 	inc	sp
+   00CA C1            [10]  206 	pop	bc
+                            207 ;demo.c:51: for (i = 0; i < 213; i++) {
+   00CB 59            [ 4]  208 	ld	e, c
+   00CC 50            [ 4]  209 	ld	d, b
+   00CD DD 36 D1 00   [19]  210 	ld	-47 (ix),#0x00
+   00D1                     211 00111$:
+                            212 ;demo.c:52: if (block_set_data_ptr(scratch) != 0)
+   00D1 C5            [11]  213 	push	bc
+   00D2 D5            [11]  214 	push	de
+   00D3 21r00r00      [10]  215 	ld	hl,#_scratch
+   00D6 E5            [11]  216 	push	hl
+   00D7 CDr00r00      [17]  217 	call	_block_set_data_ptr
+   00DA F1            [10]  218 	pop	af
+   00DB D1            [10]  219 	pop	de
+   00DC C1            [10]  220 	pop	bc
+   00DD 7D            [ 4]  221 	ld	a,l
+   00DE B7            [ 4]  222 	or	a, a
+   00DF 28 04         [12]  223 	jr	Z,00104$
+                            224 ;demo.c:53: return 0;
+   00E1 2E 00         [ 7]  225 	ld	l,#0x00
+   00E3 18 4E         [12]  226 	jr	00113$
+   00E5                     227 00104$:
+                            228 ;demo.c:54: if (block_read(&f) != 0)
+   00E5 6B            [ 4]  229 	ld	l, e
+   00E6 62            [ 4]  230 	ld	h, d
+   00E7 C5            [11]  231 	push	bc
+   00E8 D5            [11]  232 	push	de
+   00E9 E5            [11]  233 	push	hl
+   00EA CDr00r00      [17]  234 	call	_block_read
+   00ED F1            [10]  235 	pop	af
+   00EE D1            [10]  236 	pop	de
+   00EF C1            [10]  237 	pop	bc
+   00F0 7D            [ 4]  238 	ld	a,l
+   00F1 B7            [ 4]  239 	or	a, a
+   00F2 28 04         [12]  240 	jr	Z,00106$
+                            241 ;demo.c:55: return 0;
+   00F4 2E 00         [ 7]  242 	ld	l,#0x00
+   00F6 18 3B         [12]  243 	jr	00113$
+   00F8                     244 00106$:
+                            245 ;demo.c:56: if (i == 0)
+   00F8 DD 7E D1      [19]  246 	ld	a,-47 (ix)
+   00FB B7            [ 4]  247 	or	a, a
+   00FC 20 13         [12]  248 	jr	NZ,00108$
+                            249 ;demo.c:57: vdp_load_screen(scratch + 7, 121);   // to skip GE5 header
+   00FE C5            [11]  250 	push	bc
+   00FF D5            [11]  251 	push	de
+   0100 3E 79         [ 7]  252 	ld	a,#0x79
+   0102 F5            [11]  253 	push	af
+   0103 33            [ 6]  254 	inc	sp
+   0104 21r07r00      [10]  255 	ld	hl,#(_scratch + 0x0007)
+   0107 E5            [11]  256 	push	hl
+   0108 CDr00r00      [17]  257 	call	_vdp_load_screen
+   010B F1            [10]  258 	pop	af
+   010C 33            [ 6]  259 	inc	sp
+   010D D1            [10]  260 	pop	de
+   010E C1            [10]  261 	pop	bc
+   010F 18 11         [12]  262 	jr	00112$
+   0111                     263 00108$:
+                            264 ;demo.c:59: vdp_load_screen(scratch, 128);
+   0111 C5            [11]  265 	push	bc
+   0112 D5            [11]  266 	push	de
+   0113 3E 80         [ 7]  267 	ld	a,#0x80
+   0115 F5            [11]  268 	push	af
+   0116 33            [ 6]  269 	inc	sp
+   0117 21r00r00      [10]  270 	ld	hl,#_scratch
+   011A E5            [11]  271 	push	hl
+   011B CDr00r00      [17]  272 	call	_vdp_load_screen
+   011E F1            [10]  273 	pop	af
+   011F 33            [ 6]  274 	inc	sp
+   0120 D1            [10]  275 	pop	de
+   0121 C1            [10]  276 	pop	bc
+   0122                     277 00112$:
+                            278 ;demo.c:51: for (i = 0; i < 213; i++) {
+   0122 DD 34 D1      [23]  279 	inc	-47 (ix)
+   0125 DD 7E D1      [19]  280 	ld	a,-47 (ix)
+   0128 D6 D5         [ 7]  281 	sub	a, #0xd5
+   012A 38 A5         [12]  282 	jr	C,00111$
+                            283 ;demo.c:62: close(&f);
+   012C C5            [11]  284 	push	bc
+   012D CDr00r00      [17]  285 	call	_close
+   0130 F1            [10]  286 	pop	af
+                            287 ;demo.c:64: return 1;
+   0131 2E 01         [ 7]  288 	ld	l,#0x01
+   0133                     289 00113$:
+   0133 DD F9         [10]  290 	ld	sp, ix
+   0135 DD E1         [14]  291 	pop	ix
+   0137 C9            [10]  292 	ret
+   0138                     293 ___str_0:
+   0138 6D 65 6D 73 65 74   294 	.ascii "memset f"
+        20 66
+   0140 0D                  295 	.db 0x0d
+   0141 0A                  296 	.db 0x0a
+   0142 00                  297 	.db 0x00
+   0143                     298 ___str_1:
+   0143 6D 65 6D 63 70 79   299 	.ascii "memcpy name"
+        20 6E 61 6D 65
+   014E 0D                  300 	.db 0x0d
+   014F 0A                  301 	.db 0x0a
+   0150 00                  302 	.db 0x00
+   0151                     303 ___str_2:
+   0151 6F 70 65 6E 69 6E   304 	.ascii "opening file: '"
+        67 20 66 69 6C 65
+        3A 20 27
+   0160 00                  305 	.db 0x00
+   0161                     306 ___str_3:
+   0161 27                  307 	.ascii "'"
+   0162 0D                  308 	.db 0x0d
+   0163 0A                  309 	.db 0x0a
+   0164 00                  310 	.db 0x00
+                            311 ;demo.c:67: void main(char** argv, int argc) {
+                            312 ;	---------------------------------
+                            313 ; Function main
+                            314 ; ---------------------------------
+   0165                     315 _main::
+                            316 ;demo.c:69: puts("demo init\r\n");
+   0165 21r8Br01      [10]  317 	ld	hl,#___str_4
+   0168 E5            [11]  318 	push	hl
+   0169 CDr00r00      [17]  319 	call	_puts
+                            320 ;demo.c:71: ge5_load("KETTU16 SC5", 0, 0x0000);        // load at visible VRAM
+   016C 21 00 00      [10]  321 	ld	hl, #0x0000
+   016F E3            [19]  322 	ex	(sp),hl
+   0170 AF            [ 4]  323 	xor	a, a
+   0171 F5            [11]  324 	push	af
+   0172 33            [ 6]  325 	inc	sp
+   0173 21r97r01      [10]  326 	ld	hl,#___str_5
+   0176 E5            [11]  327 	push	hl
+   0177 CDr30r00      [17]  328 	call	_ge5_load
+   017A F1            [10]  329 	pop	af
+   017B F1            [10]  330 	pop	af
+   017C 33            [ 6]  331 	inc	sp
+                            332 ;demo.c:73: getchar();
+   017D CDr00r00      [17]  333 	call	_getchar
+                            334 ;demo.c:74: vdp_set_text();
+   0180 CDr00r00      [17]  335 	call	_vdp_set_text
+                            336 ;demo.c:76: exit(0);
+   0183 AF            [ 4]  337 	xor	a, a
+   0184 F5            [11]  338 	push	af
+   0185 33            [ 6]  339 	inc	sp
+   0186 CDr00r00      [17]  340 	call	_exit
+   0189 33            [ 6]  341 	inc	sp
+   018A C9            [10]  342 	ret
+   018B                     343 ___str_4:
+   018B 64 65 6D 6F 20 69   344 	.ascii "demo init"
+        6E 69 74
+   0194 0D                  345 	.db 0x0d
+   0195 0A                  346 	.db 0x0a
+   0196 00                  347 	.db 0x00
+   0197                     348 ___str_5:
+   0197 4B 45 54 54 55 31   349 	.ascii "KETTU16 SC5"
+        36 20 53 43 35
+   01A2 00                  350 	.db 0x00
+                            351 	.area _CODE
+                            352 	.area _INITIALIZER
+   0000                     353 __xinit__filename:
+   0000 00                  354 	.db 0x00
+   0001 00                  355 	.db 0x00
+   0002 00                  356 	.db 0x00
+   0003 00                  357 	.db 0x00
+   0004 00                  358 	.db 0x00
+   0005 00                  359 	.db 0x00
+   0006 00                  360 	.db 0x00
+   0007 00                  361 	.db 0x00
+   0008 00                  362 	.db 0x00
+   0009 00                  363 	.db 0x00
+   000A 00                  364 	.db 0x00
+                            365 	.area _CABS (ABS)
