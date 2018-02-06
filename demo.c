@@ -4,6 +4,9 @@
 #include "mem.h"
 #include "heap.h"
 #include "vdp.h"
+#include "interrupt.h"
+#include "msxlib.h"
+#include "ArkosTrackerPlayer_MSX.h"
 
 uint8_t scratch[128];
 
@@ -14,6 +17,21 @@ char *strcat(char *dest, char *src) {
 	while (*dest++ = *src++)
 		;
 	return rdest;
+}
+
+volatile int vbicount=0;
+
+void my_isr(void) interrupt
+{
+        DI;
+        READ_VDP_STATUS;
+
+        PLY_Play();
+        PLY_SendRegisters();
+
+        vbicount++;
+
+        EI;
 }
 
 uint8_t ge5_load(char *file_name, uint8_t vramh, uint16_t vraml) {
@@ -28,7 +46,6 @@ uint8_t ge5_load(char *file_name, uint8_t vramh, uint16_t vraml) {
 	memcpy(f.name, file_name, 11);
 
 	if (open(&f) != 0) return 0;
-
 	vdp_set_write_address(vramh, vraml);
 
 	for (i = 0; i < 213; i++) {
@@ -80,59 +97,46 @@ void cls(uint8_t vramh, uint16_t vraml) {
 	vdp_load_screen(scratch, 128);
 }
 
-void main(char** argv, int argc) {
+void main() {
 	uint8_t i;
+	unsigned char quit=0;
+
+	spindown();
 
 	puts("demo init\r\n\r\n");
 
-	if(argc==0) {
-		puts("no parameters were passed.\r\n");
-	} else {
-		puts("parameters passed:\r\n\r\n");
-	}
+	puts("music init...");
 
-	for(i=0;i<argc;i++)
+	PLY_SongPtr = (char *)0x0103;
+	PLY_Init();
+	puts("done.\n\n");
+
+	if(isvdp2())
 	{
-		puts(argv[i]);
-		puts("\r\n");
+		msx2_sethz(50);
+//		msx2_palette(6,4,0,0); // Bloodier red for VDP2
 	}
-
-	pause();
-	pause();
-	pause();
-	pause();
 
 	vdp_set_screen5();
+	pal_load("KETTU16 PL5");
+	ge5_load("KETTU16 SC5", 0, 0x0000);
 
-	while (1) {
-		cls(0, 0x0000);
-		pal_load("KETTU11 PL5");
-		ge5_load("KETTU11 SC5", 0, 0x0000);
-		pause();
-		cls(0, 0x0000);
-		pal_load("KETTU12 PL5");
-		ge5_load("KETTU12 SC5", 0, 0x0000);
-		pause();
-		cls(0, 0x0000);
-		pal_load("KETTU13 PL5");
-		ge5_load("KETTU13 SC5", 0, 0x0000);
-		pause();
-		cls(0, 0x0000);
-		pal_load("KETTU14 PL5");
-		ge5_load("KETTU14 SC5", 0, 0x0000);
-		pause();
-		cls(0, 0x0000);
-		pal_load("KETTU15 PL5");
-		ge5_load("KETTU15 SC5", 0, 0x0000);
-		pause();
-		cls(0, 0x0000);
-		pal_load("KETTU16 PL5");
-		ge5_load("KETTU16 SC5", 0, 0x0000);
-		pause();
+    install_isr(my_isr);
+
+	while (!quit) {
+		waitVB();
+		if(space())
+			quit=1;
 	}
 
 	getchar();
-	vdp_set_text();
+
+    waitVB();
+    uninstall_isr();
+    PLY_Stop();
+    PLY_SendRegisters();
+
+	screen(0);
 
 	puts("demo exit\r\n\r\n");
 

@@ -1,36 +1,41 @@
-ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 1.
-Hexadecimal [16-Bits]
+ASxxxx Assembler V01.75 + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 1.
 
 Symbol Table
 
-    .__.$$$.                                                    =  2710 L
-    .__.ABS.                                                    =  0000 G
-    .__.CPU.                                                    =  0000 L
-    .__.H$L.                                                    =  0000 L
-    __divsint                                                      **** GX
-    __divuint                                                      **** GX
-    __moduint                                                      **** GX
+    __divsint_rrx_s                                                **** GX
+    __divuint_rrx_s                                                **** GX
+    __moduint_rrx_s                                                **** GX
     _putchar                                                       **** GX
-  0 _putdec                                                        007F GR
-  0 _putdec16                                                      00E9 GR
-  0 _putdec8                                                       00D7 GR
-  0 _puthex                                                        0012 GR
-  0 _puthex16                                                      0070 GR
-  0 _puthex8                                                       005E GR
+  0 _putdec                                                        00B8 GR
+  0 _putdec16                                                      0134 GR
+  0 _putdec16_end                                                  014F GR
+  0 _putdec16_start                                                0134 GR
+  0 _putdec8                                                       011A GR
+  0 _putdec8_end                                                   0134 GR
+  0 _putdec8_start                                                 011A GR
+  0 _putdec_end                                                    011A GR
+  0 _putdec_start                                                  00B8 GR
+  0 _puthex                                                        0022 GR
+  0 _puthex16                                                      009D GR
+  0 _puthex16_end                                                  00B8 GR
+  0 _puthex16_start                                                009D GR
+  0 _puthex8                                                       0083 GR
+  0 _puthex8_end                                                   009D GR
+  0 _puthex8_start                                                 0083 GR
+  0 _puthex_end                                                    0083 GR
+  0 _puthex_start                                                  0022 GR
   0 _puts                                                          0000 GR
+  0 _puts_end                                                      0022 GR
+  0 _puts_start                                                    0000 GR
 
-ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 2.
-Hexadecimal [16-Bits]
+ASxxxx Assembler V01.75 + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 2.
 
 Area Table
 
-   0 _CODE                                      size   F8   flags    0
-   1 _DATA                                      size    0   flags    0
-   2 _INITIALIZED                               size    0   flags    0
-   3 _DABS                                      size    0   flags    8
-   4 _HOME                                      size    0   flags    0
-   5 _GSINIT                                    size    0   flags    0
-   6 _GSFINAL                                   size    0   flags    0
-   7 _INITIALIZER                               size    0   flags    0
-   8 _CABS                                      size    0   flags    8
-
+   0 _CODE                                                          size  14F   flags 0
+   1 _DATA                                                          size    0   flags 0
+   2 _OVERLAY                                                       size    0   flags 0
+   3 _HOME                                                          size    0   flags 0
+   4 _GSINIT                                                        size    0   flags 0
+   5 _GSFINAL                                                       size    0   flags 0
+   6 _CABS                                                          size    0   flags 0

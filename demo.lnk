@@ -1,0 +1,24 @@
+--
+-m
+-j
+-x
+-i demo
+-b _CODE = 0x0c8e
+-b _DATA = 0x0000
+-k /usr/local/bin/../share/sdcc/lib/z80
+-k /usr/local/share/sdcc/lib/z80
+-l z80
+demo.o
+crt0msx_msxdos_biisi.o
+putchar.o
+getchar.o
+dos.o
+vdp.o
+arkos.o
+conio.o
+mem.o
+heap.o
+interrupt.o
+msxlib.o
+
+-e

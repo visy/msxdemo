@@ -1,16 +1,17 @@
 -mjwx
 -i demo.ihx
--b _CODE = 0x0178
+-b _CODE = 0x0000
 -b _DATA = 0x0000
 -k /usr/local/bin/../share/sdcc/lib/z80
 -k /usr/local/Cellar/sdcc/3.6.0/share/sdcc/lib/z80
 -l z80
 demo.rel
-crt0msx_msxdos_advanced.rel
+crt0msx_msxdos_biisi.rel
 putchar.rel
 getchar.rel
 dos.rel
 vdp.rel
+ArkosTrackerPlayer_MSX_ehja.rel
 conio.rel
 mem.rel
 heap.rel

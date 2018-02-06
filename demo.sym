@@ -1,62 +1,190 @@
-ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 1.
-Hexadecimal [16-Bits]
-
-Symbol Table
-
-    .__.$$$.                                                    =  2710 L
-    .__.ABS.                                                    =  0000 G
-    .__.CPU.                                                    =  0000 L
-    .__.H$L.                                                    =  0000 L
-    ___sdcc_enter_ix                                               **** GX
-  0 ___str_0                                                       032A R
-  0 ___str_1                                                       0338 R
-  0 ___str_10                                                      03B7 R
-  0 ___str_11                                                      03C3 R
-  0 ___str_12                                                      03CF R
-  0 ___str_13                                                      03DB R
-  0 ___str_14                                                      03E7 R
-  0 ___str_15                                                      03F3 R
-  0 ___str_16                                                      03FF R
-  0 ___str_2                                                       0355 R
-  0 ___str_3                                                       036C R
-  0 ___str_4                                                       036F R
-  0 ___str_5                                                       037B R
-  0 ___str_6                                                       0387 R
-  0 ___str_7                                                       0393 R
-  0 ___str_8                                                       039F R
-  0 ___str_9                                                       03AB R
-    _block_read                                                    **** GX
-    _block_set_data_ptr                                            **** GX
-    _close                                                         **** GX
-  0 _cls                                                           01A8 GR
-  0 _ge5_load                                                      002B GR
-  0 _main                                                          01DA GR
-    _memcpy                                                        **** GX
-    _memset                                                        **** GX
-    _open                                                          **** GX
-  0 _pal_load                                                      00FC GR
-  0 _pause                                                         0193 GR
-    _puts                                                          **** GX
-  1 _scratch                                                       0000 GR
-  0 _strcat                                                        0000 GR
-    _vdp_load_palette                                              **** GX
-    _vdp_load_screen                                               **** GX
-    _vdp_set_screen5                                               **** GX
-    _vdp_set_write_address                                         **** GX
-
-
-ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 2.
-Hexadecimal [16-Bits]
-
-Area Table
-
-   0 _CODE                                      size  40D   flags    0
-   1 _DATA                                      size   80   flags    0
-   2 _INITIALIZED                               size    0   flags    0
-   3 _DABS                                      size    0   flags    8
-   4 _HOME                                      size    0   flags    0
-   5 _GSINIT                                    size    0   flags    0
-   6 _GSFINAL                                   size    0   flags    0
-   7 _INITIALIZER                               size    0   flags    0
-   8 _CABS                                      size    0   flags    8
-
+; no$gmb format .sym file
+; Generated automagically by ASxxxx linker V01.75 + NoICE + SDCC Feb 1999 (SDK 3.0.0)
+; Area: .  .ABS.
+00:0000 __divsint_rrx_s
+00:0000 __divuint_rrx_s
+00:0000 __moduint_rrx_s
+00:0000 _heap_top
+00:0000 s__HEADER
+00:0C8E s__CODE
+00:22FA s__DATA
+00:2382 s__GSINIT
+00:2382 s__HOME
+00:2382 s__OVERLAY
+00:23A2 s__GSFINAL
+00:23A3 s__CABS
+; Area: _CODE
+00:0C8E _strcat
+00:0C8E _strcat_start
+00:0CCD _my_isr
+00:0CCD _my_isr_start
+00:0CCD _strcat_end
+00:0CF5 _ge5_load
+00:0CF5 _ge5_load_start
+00:0CF5 _my_isr_end
+00:0DC6 _ge5_load_end
+00:0DC6 _pal_load
+00:0DC6 _pal_load_start
+00:0E68 _pal_load_end
+00:0E68 _pause
+00:0E68 _pause_start
+00:0E7C _cls
+00:0E7C _cls_start
+00:0E7C _pause_end
+00:0EB7 _cls_end
+00:0EB7 _main
+00:0EB7 _main_start
+00:0F6A _main_end
+00:0FB4 _putchar
+00:0FBF _getchar
+00:0FC5 _open
+00:0FDF _creat
+00:0FF9 _close
+00:1013 _block_read
+00:102D _block_set_data_ptr
+00:1047 _block_write
+00:1061 _exit
+00:1074 _vdp_set_screen5
+00:109D _vdp_set_text
+00:10AF _vdp_load_palette
+00:10CE _vdp_set_write_address
+00:10FD _vdp_set_read_address
+00:112A _vdp_load_screen
+00:1144 _vdp_copier
+00:1199 _aux_vdp_copy
+00:11EB _PLY_Play
+00:1462 _PLY_SendRegisters
+00:14ED _PLY_PSGReg8
+00:14EF _PLY_PSGReg9
+00:14F1 _PLY_PSGReg10
+00:14F5 _PLY_PSGReg7
+00:16DD _PLY_PeriodTable
+00:17FD _PLY_SongPtr
+00:17FF _PLY_Init
+00:186E _PLY_Stop
+00:1880 _puts
+00:1880 _puts_start
+00:18A2 _puthex
+00:18A2 _puthex_start
+00:18A2 _puts_end
+00:1903 _puthex8
+00:1903 _puthex8_start
+00:1903 _puthex_end
+00:191D _puthex16
+00:191D _puthex16_start
+00:191D _puthex8_end
+00:1938 _putdec
+00:1938 _putdec_start
+00:1938 _puthex16_end
+00:199A _putdec8
+00:199A _putdec8_start
+00:199A _putdec_end
+00:19B4 _putdec16
+00:19B4 _putdec16_start
+00:19B4 _putdec8_end
+00:19CF _memcpy
+00:19CF _memcpy_start
+00:19CF _putdec16_end
+00:1A10 _memcpy_end
+00:1A10 _memset
+00:1A10 _memset_start
+00:1A33 _malloc
+00:1A33 _malloc_start
+00:1A33 _memset_end
+00:1A56 _install_isr
+00:1A56 _malloc_end
+00:1A72 _uninstall_isr
+00:1A7B _ispressed
+00:1A7B _ispressed_start
+00:1AA1 _ispressed_end
+00:1AA1 _screen
+00:1AA1 _screen_start
+00:1AC7 _screen_end
+00:1AC7 _vdp_address
+00:1AC7 _vdp_address_start
+00:1AE2 _vdp_address_end
+00:1AE2 _vdp_poke
+00:1AE2 _vdp_poke_start
+00:1B02 _vdp_peek
+00:1B02 _vdp_peek_start
+00:1B02 _vdp_poke_end
+00:1B1D _vdp_peek_end
+00:1B1D _vdp_set
+00:1B1D _vdp_set_start
+00:1B74 _vdp_set_end
+00:1B74 _vdp_slowset
+00:1B74 _vdp_slowset_start
+00:1BE3 _vdp_copy
+00:1BE3 _vdp_copy_start
+00:1BE3 _vdp_slowset_end
+00:1C34 _vdp_copy_end
+00:1C34 _vdp_slowcopy
+00:1C34 _vdp_slowcopy_start
+00:1C98 _vdp_bigcopy
+00:1C98 _vdp_bigcopy_start
+00:1C98 _vdp_slowcopy_end
+00:1CFD _vdp_bigcopy_end
+00:1CFD _vdp_register
+00:1CFD _vdp_register_start
+00:1D14 _msx2_sethz
+00:1D14 _msx2_sethz_start
+00:1D14 _vdp_register_end
+00:1D38 _msx2_sethz_end
+00:1D38 _vdp_status
+00:1D38 _vdp_status_start
+00:1D3C _vdp2_status
+00:1D3C _vdp2_status_start
+00:1D3C _vdp_status_end
+00:1D62 _sprite_col
+00:1D62 _sprite_col_start
+00:1D62 _vdp2_status_end
+00:1D8C _sprite_col_end
+00:1D8C _sprite_pos
+00:1D8C _sprite_pos_start
+00:1DC8 _sprite_pat
+00:1DC8 _sprite_pat_start
+00:1DC8 _sprite_pos_end
+00:1DF2 _msx2_palette
+00:1DF2 _msx2_palette_start
+00:1DF2 _sprite_pat_end
+00:1E1A _joy_status
+00:1E1A _joy_status_start
+00:1E1A _msx2_palette_end
+00:1E4E _joy_status_end
+00:1E57 _mouse_status
+00:1E57 _mouse_status_start
+00:1F29 _isvdp2
+00:1F29 _isvdp2_start
+00:1F29 _mouse_status_end
+00:1F49 _isvdp2_end
+00:1FE6 _readfile
+00:1FE6 _readfile_start
+00:21E0 _readfile_end
+00:21E0 _spindown
+00:21E0 _spindown_start
+00:21F1 _print
+00:21F1 _print_start
+00:21F1 _spindown_end
+00:2207 _random
+00:2207 _random_start
+00:221F _mem_set
+00:221F _mem_set_start
+00:221F _random_end
+00:2273 _mem_set_end
+00:2273 _mem_set_stack
+00:2273 _mem_set_stack_start
+00:22D0 _mem_cpy
+00:22D0 _mem_cpy_start
+00:22D0 _mem_set_stack_end
+00:22FA _mem_cpy_end
+; Area: _DATA
+00:22FA _scratch
+00:237A _vbicount
+00:237C _last_error
+00:237D _old_isr
+; Area: _OVERLAY
+; Area: _HOME
+; Area: _GSINIT
+; Area: _GSFINAL
+; Area: _CABS
+; Area: _HEADER

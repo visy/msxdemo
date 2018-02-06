@@ -1,0 +1,118 @@
+ASxxxx Assembler V01.75 + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 1.
+
+Symbol Table
+
+  0 $1                                                             0879 R
+  0 $21                                                            053B R
+  0 $22                                                            0563 R
+  0 $23                                                            0518 R
+  0 $24                                                            0530 R
+  0 $25                                                            04E7 R
+  0 PRLOOP                                                         077E R
+  0 _asm_readfile                                                  04CE R
+  0 _ispressed                                                     0000 GR
+  0 _ispressed_end                                                 0026 GR
+  0 _ispressed_start                                               0000 GR
+  0 _isvdp2                                                        04AE GR
+  0 _isvdp2_end                                                    04CE GR
+  0 _isvdp2_start                                                  04AE GR
+  0 _joy_status                                                    039F GR
+  0 _joy_status_end                                                03D3 GR
+  0 _joy_status_start                                              039F GR
+    _kbd1                                                       =  00A9 
+    _kbd2                                                       =  00AA 
+  0 _mem_cpy                                                       0855 GR
+  0 _mem_cpy_end                                                   087F GR
+  0 _mem_cpy_start                                                 0855 GR
+  0 _mem_set                                                       07A4 GR
+  0 _mem_set_end                                                   07F8 GR
+  0 _mem_set_stack                                                 07F8 GR
+  0 _mem_set_stack_end                                             0855 GR
+  0 _mem_set_stack_start                                           07F8 GR
+  0 _mem_set_start                                                 07A4 GR
+  0 _mouse_status                                                  03DC GR
+  0 _mouse_status_end                                              04AE GR
+  0 _mouse_status_start                                            03DC GR
+  0 _msx2_palette                                                  0377 GR
+  0 _msx2_palette_end                                              039F GR
+  0 _msx2_palette_start                                            0377 GR
+  0 _msx2_sethz                                                    0299 GR
+  0 _msx2_sethz_end                                                02BD GR
+  0 _msx2_sethz_start                                              0299 GR
+  0 _print                                                         0776 GR
+  0 _print_start                                                   0776 GR
+    _psgr                                                       =  00A2 
+    _psgsel                                                     =  00A0 
+    _psgw                                                       =  00A1 
+  0 _random                                                        078C GR
+  0 _random_end                                                    07A4 GR
+  0 _random_start                                                  078C GR
+  1 _randomseed                                                    0001 R
+  0 _readfile                                                      056B GR
+  0 _readfile_end                                                  0765 GR
+  0 _readfile_start                                                056B GR
+  1 _retvalli                                                      0000 R
+  0 _screen                                                        0026 GR
+  0 _screen_end                                                    004C GR
+  0 _screen_start                                                  0026 GR
+  0 _spindown                                                      0765 GR
+  0 _spindown_end                                                  0776 GR
+  0 _spindown_start                                                0765 GR
+  0 _sprite_col                                                    02E7 GR
+  0 _sprite_col_end                                                0311 GR
+  0 _sprite_col_start                                              02E7 GR
+  0 _sprite_pat                                                    034D GR
+  0 _sprite_pat_end                                                0377 GR
+  0 _sprite_pat_start                                              034D GR
+  0 _sprite_pos                                                    0311 GR
+  0 _sprite_pos_end                                                034D GR
+  0 _sprite_pos_start                                              0311 GR
+    _vdp1                                                       =  0098 
+    _vdp2                                                       =  0099 
+  0 _vdp2_status                                                   02C1 GR
+  0 _vdp2_status_end                                               02E7 GR
+  0 _vdp2_status_start                                             02C1 GR
+    _vdp3                                                       =  009A 
+  0 _vdp_address                                                   004C GR
+  0 _vdp_address_end                                               0067 GR
+  0 _vdp_address_start                                             004C GR
+  0 _vdp_bigcopy                                                   021D GR
+  0 _vdp_bigcopy_end                                               0282 GR
+  0 _vdp_bigcopy_start                                             021D GR
+  0 _vdp_copy                                                      0168 GR
+  0 _vdp_copy_end                                                  01B9 GR
+  0 _vdp_copy_start                                                0168 GR
+  0 _vdp_peek                                                      0087 GR
+  0 _vdp_peek_end                                                  00A2 GR
+  0 _vdp_peek_start                                                0087 GR
+  0 _vdp_poke                                                      0067 GR
+  0 _vdp_poke_end                                                  0087 GR
+  0 _vdp_poke_start                                                0067 GR
+  0 _vdp_register                                                  0282 GR
+  0 _vdp_register_end                                              0299 GR
+  0 _vdp_register_start                                            0282 GR
+  0 _vdp_set                                                       00A2 GR
+  0 _vdp_set_end                                                   00F9 GR
+  0 _vdp_set_start                                                 00A2 GR
+  0 _vdp_slowcopy                                                  01B9 GR
+  0 _vdp_slowcopy_end                                              021D GR
+  0 _vdp_slowcopy_start                                            01B9 GR
+  0 _vdp_slowset                                                   00F9 GR
+  0 _vdp_slowset_end                                               0168 GR
+  0 _vdp_slowset_start                                             00F9 GR
+  0 _vdp_status                                                    02BD GR
+  0 _vdp_status_end                                                02C1 GR
+  0 _vdp_status_start                                              02BD GR
+  0 _waitmouse                                                     03D3 R
+
+ASxxxx Assembler V01.75 + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 2.
+
+Area Table
+
+   0 _CODE                                                          size  87F   flags 0
+   1 _DATA                                                          size    3   flags 0
+   2 _OVERLAY                                                       size    0   flags 0
+   3 _HOME                                                          size    0   flags 0
+   4 _GSINIT                                                        size   10   flags 0
+   5 _GSFINAL                                                       size    0   flags 0
+   6 _CABS                                                          size    0   flags 0

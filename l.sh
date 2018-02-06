@@ -1,21 +1,26 @@
 #!/bin/bash
 rm *.rel
+rm *.o
 rm demo.com
 rm demo.ihx
 rm demo.dsk
-sdasz80 -o crt0msx_msxdos_advanced.s
-sdasz80 -o putchar.s
-sdasz80 -o getchar.s
-sdasz80 -o dos.s
-sdasz80 -o dos2.s
-sdasz80 -o interrupt.s
-sdasz80 -o ioport.s
-sdasz80 -o keyboard.s
-sdasz80 -o vdp.s
-sdcc -mz80 -c -o conio.rel conio.c
-sdcc -mz80 -c -o heap.rel heap.c
-sdcc -mz80 -c -o mem.rel mem.c
-sdcc -mz80 --code-loc 0x0178 --data-loc 0 --no-std-crt0 --opt-code-size --out-fmt-ihx crt0msx_msxdos_advanced.rel putchar.rel getchar.rel dos.rel vdp.rel conio.rel mem.rel heap.rel demo.c
+as-z80 -o crt0msx_msxdos_biisi.o crt0msx_msxdos_biisi.s
+as-z80 -l crt0msx_msxdos_biisi.lst crt0msx_msxdos_biisi.s
+as-z80 -o putchar.o putchar.s
+as-z80 -o getchar.o getchar.s
+as-z80 -o dos.o dos.s
+as-z80 -o dos2.o dos2.s
+as-z80 -o interrupt.o interrupt.s
+as-z80 -o ioport.o ioport.s
+as-z80 -o keyboard.o keyboard.s
+as-z80 -o vdp.o vdp.s
+as-z80 -o arkos.o ArkosTrackerPlayer_MSX_ehja.s
+sdcc -mz80 -c -o conio.o conio.c
+sdcc -mz80 -c -o heap.o heap.c
+sdcc -mz80 -c -o mem.o mem.c
+sdcc -mz80 -c -o msxlib.o msxlib.c
+export CODELOC=$(grep "1 _HEADER" crt0msx_msxdos_biisi.lst | sed "s/.*size//;s/flags.*//;s/ //g;s/\t//g" | tr -d "\n")
+sdcc -mz80 --code-loc 0x$CODELOC --data-loc 0 --no-std-crt0 --opt-code-size --out-fmt-ihx crt0msx_msxdos_biisi.o putchar.o getchar.o dos.o vdp.o arkos.o conio.o mem.o heap.o interrupt.o msxlib.o demo.c
 
 if [ -f demo.ihx ]; then
 	hex2bin demo.ihx

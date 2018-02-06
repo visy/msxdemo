@@ -1,6 +1,7 @@
 ;--------------------------------------------------------
 ; File Created by SDCC : free open source ANSI-C Compiler
-; Version 3.6.0 #9615 (Mac OS X x86_64)
+; Version 2.9.0 #5416 (Mar 22 2009) (Mac OS X i386)
+; This file was generated Wed Feb  7 00:32:14 2018
 ;--------------------------------------------------------
 	.module heap
 	.optsdcc -mz80
@@ -13,17 +14,16 @@
 ; special function registers
 ;--------------------------------------------------------
 ;--------------------------------------------------------
-; ram data
+;  ram data
 ;--------------------------------------------------------
 	.area _DATA
 ;--------------------------------------------------------
-; ram data
+; overlayable items in  ram 
 ;--------------------------------------------------------
-	.area _INITIALIZED
+	.area _OVERLAY
 ;--------------------------------------------------------
-; absolute external ram data
+; external initialized ram data
 ;--------------------------------------------------------
-	.area _DABS (ABS)
 ;--------------------------------------------------------
 ; global & static initialisations
 ;--------------------------------------------------------
@@ -44,29 +44,34 @@
 ;	---------------------------------
 ; Function malloc
 ; ---------------------------------
-_malloc::
+_malloc_start::
+_malloc:
+	push	ix
+	ld	ix,#0
+	add	ix,sp
 ;heap.c:8: uint8_t *ret = heap_top;
-	ld	bc,(_heap_top)
 ;heap.c:9: heap_top += size;
-	ld	hl,#2
-	add	hl,sp
-	push	de
-	ld	iy,#_heap_top
-	push	iy
-	pop	de
-	ld	a,(de)
-	add	a, (hl)
-	ld	(de),a
-	inc	de
-	ld	a,(de)
+	ld	hl,#_heap_top
+	ld	a,(hl)
+	add	a,4 (ix)
 	inc	hl
-	adc	a, (hl)
-	ld	(de),a
-	pop	de
+	dec	hl
+	push	bc
+	ld	c, a
+	inc	hl
+	ld	a, (hl)
+	ld	b, a
+	ld	a, c
+	dec	hl
+	ld	(hl), a
+	ld	a, b
+	pop	bc
+	adc	a,5 (ix)
+	inc	hl
+	ld	(hl),a
 ;heap.c:10: return (void *) ret;
-	ld	l, c
-	ld	h, b
+	pop	ix
 	ret
+_malloc_end::
 	.area _CODE
-	.area _INITIALIZER
-	.area _CABS (ABS)
+	.area _CABS

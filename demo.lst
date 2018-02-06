@@ -1,771 +1,663 @@
                               1 ;--------------------------------------------------------
                               2 ; File Created by SDCC : free open source ANSI-C Compiler
-                              3 ; Version 3.6.0 #9615 (Mac OS X x86_64)
-                              4 ;--------------------------------------------------------
-                              5 	.module demo
-                              6 	.optsdcc -mz80
-                              7 	
-                              8 ;--------------------------------------------------------
-                              9 ; Public variables in this module
-                             10 ;--------------------------------------------------------
-                             11 	.globl _main
-                             12 	.globl _cls
-                             13 	.globl _pause
-                             14 	.globl _pal_load
-                             15 	.globl _ge5_load
-                             16 	.globl _strcat
-                             17 	.globl _vdp_load_screen
-                             18 	.globl _vdp_set_write_address
-                             19 	.globl _vdp_load_palette
-                             20 	.globl _vdp_set_screen5
-                             21 	.globl _memset
-                             22 	.globl _memcpy
-                             23 	.globl _block_read
-                             24 	.globl _block_set_data_ptr
-                             25 	.globl _close
-                             26 	.globl _open
-                             27 	.globl _puts
-                             28 	.globl _scratch
-                             29 ;--------------------------------------------------------
-                             30 ; special function registers
-                             31 ;--------------------------------------------------------
+                              3 ; Version 2.9.0 #5416 (Mar 22 2009) (Mac OS X i386)
+                              4 ; This file was generated Wed Feb  7 00:32:14 2018
+                              5 ;--------------------------------------------------------
+                              6 	.module demo
+                              7 	.optsdcc -mz80
+                              8 	
+                              9 ;--------------------------------------------------------
+                             10 ; Public variables in this module
+                             11 ;--------------------------------------------------------
+                             12 	.globl _main
+                             13 	.globl _cls
+                             14 	.globl _pause
+                             15 	.globl _pal_load
+                             16 	.globl _ge5_load
+                             17 	.globl _my_isr
+                             18 	.globl _strcat
+                             19 	.globl _vbicount
+                             20 	.globl _scratch
+                             21 ;--------------------------------------------------------
+                             22 ; special function registers
+                             23 ;--------------------------------------------------------
+                             24 ;--------------------------------------------------------
+                             25 ;  ram data
+                             26 ;--------------------------------------------------------
+                             27 	.area _DATA
+   0000                      28 _scratch::
+   0000                      29 	.ds 128
+   0080                      30 _vbicount::
+   0080                      31 	.ds 2
                              32 ;--------------------------------------------------------
-                             33 ; ram data
+                             33 ; overlayable items in  ram 
                              34 ;--------------------------------------------------------
-                             35 	.area _DATA
-   0000                      36 _scratch::
-   0000                      37 	.ds 128
+                             35 	.area _OVERLAY
+                             36 ;--------------------------------------------------------
+                             37 ; external initialized ram data
                              38 ;--------------------------------------------------------
-                             39 ; ram data
-                             40 ;--------------------------------------------------------
-                             41 	.area _INITIALIZED
-                             42 ;--------------------------------------------------------
-                             43 ; absolute external ram data
-                             44 ;--------------------------------------------------------
-                             45 	.area _DABS (ABS)
-                             46 ;--------------------------------------------------------
-                             47 ; global & static initialisations
-                             48 ;--------------------------------------------------------
-                             49 	.area _HOME
-                             50 	.area _GSINIT
-                             51 	.area _GSFINAL
-                             52 	.area _GSINIT
+                             39 ;--------------------------------------------------------
+                             40 ; global & static initialisations
+                             41 ;--------------------------------------------------------
+                             42 	.area _HOME
+                             43 	.area _GSINIT
+                             44 	.area _GSFINAL
+                             45 	.area _GSINIT
+                             46 ;demo.c:22: volatile int vbicount=0;
+   0000 FD 21r80s00          47 	ld	iy,#_vbicount
+   0004 FD 36 00 00          48 	ld	0 (iy),#0x00
+   0008 FD 21r80s00          49 	ld	iy,#_vbicount
+   000C FD 36 01 00          50 	ld	1 (iy),#0x00
+                             51 ;--------------------------------------------------------
+                             52 ; Home
                              53 ;--------------------------------------------------------
-                             54 ; Home
-                             55 ;--------------------------------------------------------
-                             56 	.area _HOME
-                             57 	.area _HOME
+                             54 	.area _HOME
+                             55 	.area _HOME
+                             56 ;--------------------------------------------------------
+                             57 ; code
                              58 ;--------------------------------------------------------
-                             59 ; code
-                             60 ;--------------------------------------------------------
-                             61 	.area _CODE
-                             62 ;demo.c:10: char *strcat(char *dest, char *src)
-                             63 ;	---------------------------------
-                             64 ; Function strcat
-                             65 ; ---------------------------------
-   0000                      66 _strcat::
-   0000 CDr00r00      [17]   67 	call	___sdcc_enter_ix
-                             68 ;demo.c:12: char *rdest = dest;
-   0003 DD 4E 04      [19]   69 	ld	c,4 (ix)
-   0006 DD 46 05      [19]   70 	ld	b,5 (ix)
-                             71 ;demo.c:14: while (*dest)
-   0009 C5            [11]   72 	push	bc
-   000A FD E1         [14]   73 	pop	iy
-   000C                      74 00101$:
-   000C FD 7E 00      [19]   75 	ld	a, 0 (iy)
-   000F B7            [ 4]   76 	or	a, a
-   0010 28 04         [12]   77 	jr	Z,00111$
-                             78 ;demo.c:15: dest++;
-   0012 FD 23         [10]   79 	inc	iy
-   0014 18 F6         [12]   80 	jr	00101$
-                             81 ;demo.c:16: while (*dest++ = *src++)
-   0016                      82 00111$:
-   0016 DD 5E 06      [19]   83 	ld	e,6 (ix)
-   0019 DD 56 07      [19]   84 	ld	d,7 (ix)
-   001C                      85 00104$:
-   001C 1A            [ 7]   86 	ld	a,(de)
-   001D 13            [ 6]   87 	inc	de
-   001E FD 77 00      [19]   88 	ld	0 (iy), a
-   0021 FD 23         [10]   89 	inc	iy
-   0023 B7            [ 4]   90 	or	a, a
-   0024 20 F6         [12]   91 	jr	NZ,00104$
-                             92 ;demo.c:18: return rdest;
-   0026 69            [ 4]   93 	ld	l, c
-   0027 60            [ 4]   94 	ld	h, b
-   0028 DD E1         [14]   95 	pop	ix
-   002A C9            [10]   96 	ret
-                             97 ;demo.c:21: uint8_t ge5_load(char *file_name, uint8_t vramh, uint16_t vraml) {
-                             98 ;	---------------------------------
-                             99 ; Function ge5_load
-                            100 ; ---------------------------------
-   002B                     101 _ge5_load::
-   002B CDr00r00      [17]  102 	call	___sdcc_enter_ix
-   002E 21 D1 FF      [10]  103 	ld	hl,#-47
-   0031 39            [11]  104 	add	hl,sp
-   0032 F9            [ 6]  105 	ld	sp,hl
-                            106 ;demo.c:25: memset((uint8_t *) &f, 0, sizeof(fcb));
-   0033 21 01 00      [10]  107 	ld	hl,#0x0001
-   0036 39            [11]  108 	add	hl,sp
-   0037 4D            [ 4]  109 	ld	c,l
-   0038 44            [ 4]  110 	ld	b,h
-   0039 59            [ 4]  111 	ld	e, c
-   003A 50            [ 4]  112 	ld	d, b
-   003B C5            [11]  113 	push	bc
-   003C 21 2E 00      [10]  114 	ld	hl,#0x002e
-   003F E5            [11]  115 	push	hl
-   0040 AF            [ 4]  116 	xor	a, a
-   0041 F5            [11]  117 	push	af
-   0042 33            [ 6]  118 	inc	sp
-   0043 D5            [11]  119 	push	de
-   0044 CDr00r00      [17]  120 	call	_memset
-   0047 F1            [10]  121 	pop	af
-   0048 F1            [10]  122 	pop	af
-   0049 33            [ 6]  123 	inc	sp
-   004A C1            [10]  124 	pop	bc
-                            125 ;demo.c:27: f.record_size = 128;
-   004B 21 0F 00      [10]  126 	ld	hl,#0x000f
-   004E 09            [11]  127 	add	hl,bc
-   004F 36 80         [10]  128 	ld	(hl),#0x80
-                            129 ;demo.c:28: f.drive = 0;
-   0051 AF            [ 4]  130 	xor	a, a
-   0052 02            [ 7]  131 	ld	(bc),a
-                            132 ;demo.c:30: memcpy(f.name, file_name, 11);
-   0053 59            [ 4]  133 	ld	e, c
-   0054 50            [ 4]  134 	ld	d, b
-   0055 13            [ 6]  135 	inc	de
-   0056 C5            [11]  136 	push	bc
-   0057 21 0B 00      [10]  137 	ld	hl,#0x000b
-   005A E5            [11]  138 	push	hl
-   005B DD 6E 04      [19]  139 	ld	l,4 (ix)
-   005E DD 66 05      [19]  140 	ld	h,5 (ix)
-   0061 E5            [11]  141 	push	hl
-   0062 D5            [11]  142 	push	de
-   0063 CDr00r00      [17]  143 	call	_memcpy
-   0066 F1            [10]  144 	pop	af
-   0067 F1            [10]  145 	pop	af
-   0068 F1            [10]  146 	pop	af
-   0069 C1            [10]  147 	pop	bc
-                            148 ;demo.c:32: if (open(&f) != 0)
-   006A 59            [ 4]  149 	ld	e, c
-   006B 50            [ 4]  150 	ld	d, b
-   006C C5            [11]  151 	push	bc
-   006D D5            [11]  152 	push	de
-   006E CDr00r00      [17]  153 	call	_open
-   0071 F1            [10]  154 	pop	af
-   0072 C1            [10]  155 	pop	bc
-   0073 7D            [ 4]  156 	ld	a,l
-   0074 B7            [ 4]  157 	or	a, a
-   0075 28 05         [12]  158 	jr	Z,00102$
-                            159 ;demo.c:33: return 0;
-   0077 2E 00         [ 7]  160 	ld	l,#0x00
-   0079 C3rF7r00      [10]  161 	jp	00113$
-   007C                     162 00102$:
-                            163 ;demo.c:35: vdp_set_write_address(vramh, vraml);
-   007C C5            [11]  164 	push	bc
-   007D DD 6E 07      [19]  165 	ld	l,7 (ix)
-   0080 DD 66 08      [19]  166 	ld	h,8 (ix)
-   0083 E5            [11]  167 	push	hl
-   0084 DD 7E 06      [19]  168 	ld	a,6 (ix)
-   0087 F5            [11]  169 	push	af
-   0088 33            [ 6]  170 	inc	sp
-   0089 CDr00r00      [17]  171 	call	_vdp_set_write_address
-   008C F1            [10]  172 	pop	af
-   008D 33            [ 6]  173 	inc	sp
-   008E C1            [10]  174 	pop	bc
-                            175 ;demo.c:37: for (i = 0; i < 213; i++) {
-   008F 59            [ 4]  176 	ld	e, c
-   0090 50            [ 4]  177 	ld	d, b
-   0091 DD 36 D1 00   [19]  178 	ld	-47 (ix),#0x00
-   0095                     179 00111$:
-                            180 ;demo.c:38: if (block_set_data_ptr(scratch) != 0)
-   0095 C5            [11]  181 	push	bc
-   0096 D5            [11]  182 	push	de
-   0097 21r00r00      [10]  183 	ld	hl,#_scratch
-   009A E5            [11]  184 	push	hl
-   009B CDr00r00      [17]  185 	call	_block_set_data_ptr
-   009E F1            [10]  186 	pop	af
-   009F D1            [10]  187 	pop	de
-   00A0 C1            [10]  188 	pop	bc
-   00A1 7D            [ 4]  189 	ld	a,l
-   00A2 B7            [ 4]  190 	or	a, a
-   00A3 28 04         [12]  191 	jr	Z,00104$
-                            192 ;demo.c:39: return 0;
-   00A5 2E 00         [ 7]  193 	ld	l,#0x00
-   00A7 18 4E         [12]  194 	jr	00113$
-   00A9                     195 00104$:
-                            196 ;demo.c:40: if (block_read(&f) != 0)
-   00A9 6B            [ 4]  197 	ld	l, e
-   00AA 62            [ 4]  198 	ld	h, d
-   00AB C5            [11]  199 	push	bc
-   00AC D5            [11]  200 	push	de
-   00AD E5            [11]  201 	push	hl
-   00AE CDr00r00      [17]  202 	call	_block_read
-   00B1 F1            [10]  203 	pop	af
-   00B2 D1            [10]  204 	pop	de
-   00B3 C1            [10]  205 	pop	bc
-   00B4 7D            [ 4]  206 	ld	a,l
-   00B5 B7            [ 4]  207 	or	a, a
-   00B6 28 04         [12]  208 	jr	Z,00106$
-                            209 ;demo.c:41: return 0;
-   00B8 2E 00         [ 7]  210 	ld	l,#0x00
-   00BA 18 3B         [12]  211 	jr	00113$
-   00BC                     212 00106$:
-                            213 ;demo.c:42: if (i == 0)
-   00BC DD 7E D1      [19]  214 	ld	a,-47 (ix)
-   00BF B7            [ 4]  215 	or	a, a
-   00C0 20 13         [12]  216 	jr	NZ,00108$
-                            217 ;demo.c:43: vdp_load_screen(scratch + 7, 121);   // to skip GE5 header
-   00C2 C5            [11]  218 	push	bc
-   00C3 D5            [11]  219 	push	de
-   00C4 3E 79         [ 7]  220 	ld	a,#0x79
-   00C6 F5            [11]  221 	push	af
-   00C7 33            [ 6]  222 	inc	sp
-   00C8 21r07r00      [10]  223 	ld	hl,#(_scratch + 0x0007)
-   00CB E5            [11]  224 	push	hl
-   00CC CDr00r00      [17]  225 	call	_vdp_load_screen
-   00CF F1            [10]  226 	pop	af
-   00D0 33            [ 6]  227 	inc	sp
-   00D1 D1            [10]  228 	pop	de
-   00D2 C1            [10]  229 	pop	bc
-   00D3 18 11         [12]  230 	jr	00112$
-   00D5                     231 00108$:
-                            232 ;demo.c:45: vdp_load_screen(scratch, 128);
-   00D5 C5            [11]  233 	push	bc
-   00D6 D5            [11]  234 	push	de
-   00D7 3E 80         [ 7]  235 	ld	a,#0x80
-   00D9 F5            [11]  236 	push	af
-   00DA 33            [ 6]  237 	inc	sp
-   00DB 21r00r00      [10]  238 	ld	hl,#_scratch
-   00DE E5            [11]  239 	push	hl
-   00DF CDr00r00      [17]  240 	call	_vdp_load_screen
-   00E2 F1            [10]  241 	pop	af
-   00E3 33            [ 6]  242 	inc	sp
-   00E4 D1            [10]  243 	pop	de
-   00E5 C1            [10]  244 	pop	bc
-   00E6                     245 00112$:
-                            246 ;demo.c:37: for (i = 0; i < 213; i++) {
-   00E6 DD 34 D1      [23]  247 	inc	-47 (ix)
-   00E9 DD 7E D1      [19]  248 	ld	a,-47 (ix)
-   00EC D6 D5         [ 7]  249 	sub	a, #0xd5
-   00EE 38 A5         [12]  250 	jr	C,00111$
-                            251 ;demo.c:48: close(&f);
-   00F0 C5            [11]  252 	push	bc
-   00F1 CDr00r00      [17]  253 	call	_close
-   00F4 F1            [10]  254 	pop	af
-                            255 ;demo.c:50: return 1;
-   00F5 2E 01         [ 7]  256 	ld	l,#0x01
-   00F7                     257 00113$:
-   00F7 DD F9         [10]  258 	ld	sp, ix
-   00F9 DD E1         [14]  259 	pop	ix
-   00FB C9            [10]  260 	ret
-                            261 ;demo.c:53: uint8_t pal_load(char *file_name) {
-                            262 ;	---------------------------------
-                            263 ; Function pal_load
-                            264 ; ---------------------------------
-   00FC                     265 _pal_load::
-   00FC CDr00r00      [17]  266 	call	___sdcc_enter_ix
-   00FF 21 D2 FF      [10]  267 	ld	hl,#-46
-   0102 39            [11]  268 	add	hl,sp
-   0103 F9            [ 6]  269 	ld	sp,hl
-                            270 ;demo.c:56: memset((uint8_t *) &f, 0, sizeof(fcb));
-   0104 21 00 00      [10]  271 	ld	hl,#0x0000
-   0107 39            [11]  272 	add	hl,sp
-   0108 4D            [ 4]  273 	ld	c,l
-   0109 44            [ 4]  274 	ld	b,h
-   010A 59            [ 4]  275 	ld	e, c
-   010B 50            [ 4]  276 	ld	d, b
-   010C C5            [11]  277 	push	bc
-   010D 21 2E 00      [10]  278 	ld	hl,#0x002e
-   0110 E5            [11]  279 	push	hl
-   0111 AF            [ 4]  280 	xor	a, a
-   0112 F5            [11]  281 	push	af
-   0113 33            [ 6]  282 	inc	sp
-   0114 D5            [11]  283 	push	de
-   0115 CDr00r00      [17]  284 	call	_memset
-   0118 F1            [10]  285 	pop	af
-   0119 33            [ 6]  286 	inc	sp
-   011A 21 80 00      [10]  287 	ld	hl,#0x0080
-   011D E3            [19]  288 	ex	(sp),hl
-   011E AF            [ 4]  289 	xor	a, a
-   011F F5            [11]  290 	push	af
-   0120 33            [ 6]  291 	inc	sp
-   0121 21r00r00      [10]  292 	ld	hl,#_scratch
-   0124 E5            [11]  293 	push	hl
-   0125 CDr00r00      [17]  294 	call	_memset
-   0128 F1            [10]  295 	pop	af
-   0129 F1            [10]  296 	pop	af
-   012A 33            [ 6]  297 	inc	sp
-   012B C1            [10]  298 	pop	bc
-                            299 ;demo.c:59: f.record_size = 128;
-   012C 21 0F 00      [10]  300 	ld	hl,#0x000f
-   012F 09            [11]  301 	add	hl,bc
-   0130 36 80         [10]  302 	ld	(hl),#0x80
-                            303 ;demo.c:60: f.drive = 0;
-   0132 AF            [ 4]  304 	xor	a, a
-   0133 02            [ 7]  305 	ld	(bc),a
-                            306 ;demo.c:62: memcpy(f.name, file_name, 11);
-   0134 59            [ 4]  307 	ld	e, c
-   0135 50            [ 4]  308 	ld	d, b
-   0136 13            [ 6]  309 	inc	de
-   0137 C5            [11]  310 	push	bc
-   0138 21 0B 00      [10]  311 	ld	hl,#0x000b
-   013B E5            [11]  312 	push	hl
-   013C DD 6E 04      [19]  313 	ld	l,4 (ix)
-   013F DD 66 05      [19]  314 	ld	h,5 (ix)
-   0142 E5            [11]  315 	push	hl
-   0143 D5            [11]  316 	push	de
-   0144 CDr00r00      [17]  317 	call	_memcpy
-   0147 F1            [10]  318 	pop	af
-   0148 F1            [10]  319 	pop	af
-   0149 F1            [10]  320 	pop	af
-   014A C1            [10]  321 	pop	bc
-                            322 ;demo.c:64: if (open(&f) != 0)
-   014B 59            [ 4]  323 	ld	e, c
-   014C 50            [ 4]  324 	ld	d, b
-   014D C5            [11]  325 	push	bc
-   014E D5            [11]  326 	push	de
-   014F CDr00r00      [17]  327 	call	_open
-   0152 F1            [10]  328 	pop	af
-   0153 C1            [10]  329 	pop	bc
-   0154 7D            [ 4]  330 	ld	a,l
-   0155 B7            [ 4]  331 	or	a, a
-   0156 28 04         [12]  332 	jr	Z,00102$
-                            333 ;demo.c:65: return 0;
-   0158 2E 00         [ 7]  334 	ld	l,#0x00
-   015A 18 32         [12]  335 	jr	00107$
-   015C                     336 00102$:
-                            337 ;demo.c:67: if (block_set_data_ptr(scratch) != 0)
-   015C C5            [11]  338 	push	bc
-   015D 21r00r00      [10]  339 	ld	hl,#_scratch
-   0160 E5            [11]  340 	push	hl
-   0161 CDr00r00      [17]  341 	call	_block_set_data_ptr
-   0164 F1            [10]  342 	pop	af
-   0165 C1            [10]  343 	pop	bc
-   0166 7D            [ 4]  344 	ld	a,l
-   0167 B7            [ 4]  345 	or	a, a
-   0168 28 04         [12]  346 	jr	Z,00104$
-                            347 ;demo.c:68: return 0;
-   016A 2E 00         [ 7]  348 	ld	l,#0x00
-   016C 18 20         [12]  349 	jr	00107$
-   016E                     350 00104$:
-                            351 ;demo.c:70: if (block_read(&f) != 0)
-   016E 59            [ 4]  352 	ld	e, c
-   016F 50            [ 4]  353 	ld	d, b
-   0170 C5            [11]  354 	push	bc
-   0171 D5            [11]  355 	push	de
-   0172 CDr00r00      [17]  356 	call	_block_read
-   0175 F1            [10]  357 	pop	af
-   0176 C1            [10]  358 	pop	bc
-   0177 7D            [ 4]  359 	ld	a,l
-   0178 B7            [ 4]  360 	or	a, a
-   0179 28 04         [12]  361 	jr	Z,00106$
-                            362 ;demo.c:71: return 0;
-   017B 2E 00         [ 7]  363 	ld	l,#0x00
-   017D 18 0F         [12]  364 	jr	00107$
-   017F                     365 00106$:
-                            366 ;demo.c:73: vdp_load_palette(scratch+7);
-   017F C5            [11]  367 	push	bc
-   0180 21r07r00      [10]  368 	ld	hl,#(_scratch + 0x0007)
-   0183 E5            [11]  369 	push	hl
-   0184 CDr00r00      [17]  370 	call	_vdp_load_palette
-   0187 F1            [10]  371 	pop	af
-   0188 CDr00r00      [17]  372 	call	_close
-   018B F1            [10]  373 	pop	af
-                            374 ;demo.c:77: return 1;
-   018C 2E 01         [ 7]  375 	ld	l,#0x01
-   018E                     376 00107$:
-   018E DD F9         [10]  377 	ld	sp, ix
-   0190 DD E1         [14]  378 	pop	ix
-   0192 C9            [10]  379 	ret
-                            380 ;demo.c:80: void pause() {
-                            381 ;	---------------------------------
-                            382 ; Function pause
-                            383 ; ---------------------------------
-   0193                     384 _pause::
-                            385 ;demo.c:81: uint8_t i,j,k = 0;
-   0193 1E 00         [ 7]  386 	ld	e,#0x00
-                            387 ;demo.c:82: for (i = 0; i < 255; i++) {	
-   0195 06 00         [ 7]  388 	ld	b,#0x00
-   0197                     389 00106$:
-                            390 ;demo.c:83: for (j = 0; j < 255; j++) {
-   0197 0E FF         [ 7]  391 	ld	c,#0xff
-   0199                     392 00105$:
-                            393 ;demo.c:84: k++;
-   0199 1C            [ 4]  394 	inc	e
-   019A 51            [ 4]  395 	ld	d,c
-   019B 15            [ 4]  396 	dec	d
-                            397 ;demo.c:83: for (j = 0; j < 255; j++) {
-   019C 7A            [ 4]  398 	ld	a,d
-   019D 4F            [ 4]  399 	ld	c,a
-   019E B7            [ 4]  400 	or	a, a
-   019F 20 F8         [12]  401 	jr	NZ,00105$
-                            402 ;demo.c:82: for (i = 0; i < 255; i++) {	
-   01A1 04            [ 4]  403 	inc	b
-   01A2 78            [ 4]  404 	ld	a,b
-   01A3 D6 FF         [ 7]  405 	sub	a, #0xff
-   01A5 38 F0         [12]  406 	jr	C,00106$
-   01A7 C9            [10]  407 	ret
-                            408 ;demo.c:89: void cls(uint8_t vramh, uint16_t vraml) {
-                            409 ;	---------------------------------
-                            410 ; Function cls
-                            411 ; ---------------------------------
-   01A8                     412 _cls::
-                            413 ;demo.c:90: vdp_set_write_address(vramh, vraml);
-   01A8 21 03 00      [10]  414 	ld	hl, #3
-   01AB 39            [11]  415 	add	hl, sp
-   01AC 4E            [ 7]  416 	ld	c, (hl)
-   01AD 23            [ 6]  417 	inc	hl
-   01AE 46            [ 7]  418 	ld	b, (hl)
-   01AF C5            [11]  419 	push	bc
-   01B0 21 04 00      [10]  420 	ld	hl, #4+0
-   01B3 39            [11]  421 	add	hl, sp
-   01B4 7E            [ 7]  422 	ld	a, (hl)
-   01B5 F5            [11]  423 	push	af
-   01B6 33            [ 6]  424 	inc	sp
-   01B7 CDr00r00      [17]  425 	call	_vdp_set_write_address
-                            426 ;demo.c:91: memset((uint8_t *) &scratch, 0, 128);
-   01BA 33            [ 6]  427 	inc	sp
-   01BB 21 80 00      [10]  428 	ld	hl,#0x0080
-   01BE E3            [19]  429 	ex	(sp),hl
-   01BF AF            [ 4]  430 	xor	a, a
-   01C0 F5            [11]  431 	push	af
-   01C1 33            [ 6]  432 	inc	sp
-   01C2 21r00r00      [10]  433 	ld	hl,#_scratch
-   01C5 E5            [11]  434 	push	hl
-   01C6 CDr00r00      [17]  435 	call	_memset
-   01C9 F1            [10]  436 	pop	af
-   01CA F1            [10]  437 	pop	af
-   01CB 33            [ 6]  438 	inc	sp
-                            439 ;demo.c:92: vdp_load_screen(scratch, 128);
-   01CC 3E 80         [ 7]  440 	ld	a,#0x80
-   01CE F5            [11]  441 	push	af
-   01CF 33            [ 6]  442 	inc	sp
-   01D0 21r00r00      [10]  443 	ld	hl,#_scratch
-   01D3 E5            [11]  444 	push	hl
-   01D4 CDr00r00      [17]  445 	call	_vdp_load_screen
-   01D7 F1            [10]  446 	pop	af
-   01D8 33            [ 6]  447 	inc	sp
-   01D9 C9            [10]  448 	ret
-                            449 ;demo.c:95: void main(char** argv, int argc) {
-                            450 ;	---------------------------------
-                            451 ; Function main
-                            452 ; ---------------------------------
-   01DA                     453 _main::
-   01DA CDr00r00      [17]  454 	call	___sdcc_enter_ix
-                            455 ;demo.c:98: puts("demo init\r\n\r\n");
-   01DD 21r2Ar03      [10]  456 	ld	hl,#___str_0
-   01E0 E5            [11]  457 	push	hl
-   01E1 CDr00r00      [17]  458 	call	_puts
-   01E4 F1            [10]  459 	pop	af
-                            460 ;demo.c:100: if(argc==0)
-   01E5 DD 7E 07      [19]  461 	ld	a,7 (ix)
-   01E8 DD B6 06      [19]  462 	or	a,6 (ix)
-   01EB 20 0A         [12]  463 	jr	NZ,00102$
-                            464 ;demo.c:102: puts("no parameters were passed.\r\n");
-   01ED 21r38r03      [10]  465 	ld	hl,#___str_1
-   01F0 E5            [11]  466 	push	hl
-   01F1 CDr00r00      [17]  467 	call	_puts
-   01F4 F1            [10]  468 	pop	af
-   01F5 18 08         [12]  469 	jr	00115$
-   01F7                     470 00102$:
-                            471 ;demo.c:104: puts("parameters passed:\r\n\r\n");
-   01F7 21r55r03      [10]  472 	ld	hl,#___str_2
-   01FA E5            [11]  473 	push	hl
-   01FB CDr00r00      [17]  474 	call	_puts
-   01FE F1            [10]  475 	pop	af
-                            476 ;demo.c:107: for(i=0;i<argc;i++)
-   01FF                     477 00115$:
-   01FF 0E 00         [ 7]  478 	ld	c,#0x00
-   0201                     479 00109$:
-   0201 69            [ 4]  480 	ld	l,c
-   0202 26 00         [ 7]  481 	ld	h,#0x00
-   0204 7D            [ 4]  482 	ld	a,l
-   0205 DD 96 06      [19]  483 	sub	a, 6 (ix)
-   0208 7C            [ 4]  484 	ld	a,h
-   0209 DD 9E 07      [19]  485 	sbc	a, 7 (ix)
-   020C E2r11r02      [10]  486 	jp	PO, 00130$
-   020F EE 80         [ 7]  487 	xor	a, #0x80
-   0211                     488 00130$:
-   0211 F2r31r02      [10]  489 	jp	P,00104$
-                            490 ;demo.c:109: puts(argv[i]);
-   0214 29            [11]  491 	add	hl, hl
-   0215 EB            [ 4]  492 	ex	de,hl
-   0216 DD 6E 04      [19]  493 	ld	l,4 (ix)
-   0219 DD 66 05      [19]  494 	ld	h,5 (ix)
-   021C 19            [11]  495 	add	hl,de
-   021D 5E            [ 7]  496 	ld	e,(hl)
-   021E 23            [ 6]  497 	inc	hl
-   021F 56            [ 7]  498 	ld	d,(hl)
-   0220 C5            [11]  499 	push	bc
-   0221 D5            [11]  500 	push	de
-   0222 CDr00r00      [17]  501 	call	_puts
-   0225 21r6Cr03      [10]  502 	ld	hl, #___str_3
-   0228 E3            [19]  503 	ex	(sp),hl
-   0229 CDr00r00      [17]  504 	call	_puts
-   022C F1            [10]  505 	pop	af
-   022D C1            [10]  506 	pop	bc
-                            507 ;demo.c:107: for(i=0;i<argc;i++)
-   022E 0C            [ 4]  508 	inc	c
-   022F 18 D0         [12]  509 	jr	00109$
-   0231                     510 00104$:
-                            511 ;demo.c:113: pause();
-   0231 CDr93r01      [17]  512 	call	_pause
-                            513 ;demo.c:114: pause();
-   0234 CDr93r01      [17]  514 	call	_pause
-                            515 ;demo.c:115: pause();
-   0237 CDr93r01      [17]  516 	call	_pause
-                            517 ;demo.c:116: pause();
-   023A CDr93r01      [17]  518 	call	_pause
-                            519 ;demo.c:118: vdp_set_screen5();
-   023D CDr00r00      [17]  520 	call	_vdp_set_screen5
-                            521 ;demo.c:120: while (1) {
-   0240                     522 00106$:
-                            523 ;demo.c:121: cls(0, 0x0000);
-   0240 21 00 00      [10]  524 	ld	hl,#0x0000
-   0243 E5            [11]  525 	push	hl
-   0244 AF            [ 4]  526 	xor	a, a
-   0245 F5            [11]  527 	push	af
-   0246 33            [ 6]  528 	inc	sp
-   0247 CDrA8r01      [17]  529 	call	_cls
-                            530 ;demo.c:122: pal_load("KETTU11 PL5");
-   024A 33            [ 6]  531 	inc	sp
-   024B 21r6Fr03      [10]  532 	ld	hl,#___str_4
-   024E E3            [19]  533 	ex	(sp),hl
-   024F CDrFCr00      [17]  534 	call	_pal_load
-                            535 ;demo.c:123: ge5_load("KETTU11 SC5", 0, 0x0000);
-   0252 21 00 00      [10]  536 	ld	hl, #0x0000
-   0255 E3            [19]  537 	ex	(sp),hl
-   0256 AF            [ 4]  538 	xor	a, a
-   0257 F5            [11]  539 	push	af
-   0258 33            [ 6]  540 	inc	sp
-   0259 21r7Br03      [10]  541 	ld	hl,#___str_5
-   025C E5            [11]  542 	push	hl
-   025D CDr2Br00      [17]  543 	call	_ge5_load
-   0260 F1            [10]  544 	pop	af
-   0261 F1            [10]  545 	pop	af
-   0262 33            [ 6]  546 	inc	sp
-                            547 ;demo.c:124: pause();
-   0263 CDr93r01      [17]  548 	call	_pause
-                            549 ;demo.c:125: cls(0, 0x0000);
-   0266 21 00 00      [10]  550 	ld	hl,#0x0000
-   0269 E5            [11]  551 	push	hl
-   026A AF            [ 4]  552 	xor	a, a
-   026B F5            [11]  553 	push	af
-   026C 33            [ 6]  554 	inc	sp
-   026D CDrA8r01      [17]  555 	call	_cls
-                            556 ;demo.c:126: pal_load("KETTU12 PL5");
-   0270 33            [ 6]  557 	inc	sp
-   0271 21r87r03      [10]  558 	ld	hl,#___str_6
-   0274 E3            [19]  559 	ex	(sp),hl
-   0275 CDrFCr00      [17]  560 	call	_pal_load
-                            561 ;demo.c:127: ge5_load("KETTU12 SC5", 0, 0x0000);
-   0278 21 00 00      [10]  562 	ld	hl, #0x0000
-   027B E3            [19]  563 	ex	(sp),hl
-   027C AF            [ 4]  564 	xor	a, a
-   027D F5            [11]  565 	push	af
-   027E 33            [ 6]  566 	inc	sp
-   027F 21r93r03      [10]  567 	ld	hl,#___str_7
-   0282 E5            [11]  568 	push	hl
-   0283 CDr2Br00      [17]  569 	call	_ge5_load
-   0286 F1            [10]  570 	pop	af
-   0287 F1            [10]  571 	pop	af
-   0288 33            [ 6]  572 	inc	sp
-                            573 ;demo.c:128: pause();
-   0289 CDr93r01      [17]  574 	call	_pause
-                            575 ;demo.c:129: cls(0, 0x0000);
-   028C 21 00 00      [10]  576 	ld	hl,#0x0000
-   028F E5            [11]  577 	push	hl
-   0290 AF            [ 4]  578 	xor	a, a
-   0291 F5            [11]  579 	push	af
-   0292 33            [ 6]  580 	inc	sp
-   0293 CDrA8r01      [17]  581 	call	_cls
-                            582 ;demo.c:130: pal_load("KETTU13 PL5");
-   0296 33            [ 6]  583 	inc	sp
-   0297 21r9Fr03      [10]  584 	ld	hl,#___str_8
-   029A E3            [19]  585 	ex	(sp),hl
-   029B CDrFCr00      [17]  586 	call	_pal_load
-                            587 ;demo.c:131: ge5_load("KETTU13 SC5", 0, 0x0000);
-   029E 21 00 00      [10]  588 	ld	hl, #0x0000
-   02A1 E3            [19]  589 	ex	(sp),hl
-   02A2 AF            [ 4]  590 	xor	a, a
-   02A3 F5            [11]  591 	push	af
-   02A4 33            [ 6]  592 	inc	sp
-   02A5 21rABr03      [10]  593 	ld	hl,#___str_9
-   02A8 E5            [11]  594 	push	hl
-   02A9 CDr2Br00      [17]  595 	call	_ge5_load
-   02AC F1            [10]  596 	pop	af
-   02AD F1            [10]  597 	pop	af
-   02AE 33            [ 6]  598 	inc	sp
-                            599 ;demo.c:132: pause();
-   02AF CDr93r01      [17]  600 	call	_pause
-                            601 ;demo.c:133: cls(0, 0x0000);
-   02B2 21 00 00      [10]  602 	ld	hl,#0x0000
-   02B5 E5            [11]  603 	push	hl
-   02B6 AF            [ 4]  604 	xor	a, a
-   02B7 F5            [11]  605 	push	af
-   02B8 33            [ 6]  606 	inc	sp
-   02B9 CDrA8r01      [17]  607 	call	_cls
-                            608 ;demo.c:134: pal_load("KETTU14 PL5");
-   02BC 33            [ 6]  609 	inc	sp
-   02BD 21rB7r03      [10]  610 	ld	hl,#___str_10
-   02C0 E3            [19]  611 	ex	(sp),hl
-   02C1 CDrFCr00      [17]  612 	call	_pal_load
-                            613 ;demo.c:135: ge5_load("KETTU14 SC5", 0, 0x0000);
-   02C4 21 00 00      [10]  614 	ld	hl, #0x0000
-   02C7 E3            [19]  615 	ex	(sp),hl
-   02C8 AF            [ 4]  616 	xor	a, a
-   02C9 F5            [11]  617 	push	af
-   02CA 33            [ 6]  618 	inc	sp
-   02CB 21rC3r03      [10]  619 	ld	hl,#___str_11
-   02CE E5            [11]  620 	push	hl
-   02CF CDr2Br00      [17]  621 	call	_ge5_load
-   02D2 F1            [10]  622 	pop	af
-   02D3 F1            [10]  623 	pop	af
-   02D4 33            [ 6]  624 	inc	sp
-                            625 ;demo.c:136: pause();
-   02D5 CDr93r01      [17]  626 	call	_pause
-                            627 ;demo.c:137: cls(0, 0x0000);
-   02D8 21 00 00      [10]  628 	ld	hl,#0x0000
-   02DB E5            [11]  629 	push	hl
-   02DC AF            [ 4]  630 	xor	a, a
-   02DD F5            [11]  631 	push	af
-   02DE 33            [ 6]  632 	inc	sp
-   02DF CDrA8r01      [17]  633 	call	_cls
-                            634 ;demo.c:138: pal_load("KETTU15 PL5");
-   02E2 33            [ 6]  635 	inc	sp
-   02E3 21rCFr03      [10]  636 	ld	hl,#___str_12
-   02E6 E3            [19]  637 	ex	(sp),hl
-   02E7 CDrFCr00      [17]  638 	call	_pal_load
-                            639 ;demo.c:139: ge5_load("KETTU15 SC5", 0, 0x0000);
-   02EA 21 00 00      [10]  640 	ld	hl, #0x0000
-   02ED E3            [19]  641 	ex	(sp),hl
-   02EE AF            [ 4]  642 	xor	a, a
-   02EF F5            [11]  643 	push	af
-   02F0 33            [ 6]  644 	inc	sp
-   02F1 21rDBr03      [10]  645 	ld	hl,#___str_13
-   02F4 E5            [11]  646 	push	hl
-   02F5 CDr2Br00      [17]  647 	call	_ge5_load
-   02F8 F1            [10]  648 	pop	af
-   02F9 F1            [10]  649 	pop	af
-   02FA 33            [ 6]  650 	inc	sp
-                            651 ;demo.c:140: pause();
-   02FB CDr93r01      [17]  652 	call	_pause
-                            653 ;demo.c:141: cls(0, 0x0000);
-   02FE 21 00 00      [10]  654 	ld	hl,#0x0000
-   0301 E5            [11]  655 	push	hl
-   0302 AF            [ 4]  656 	xor	a, a
-   0303 F5            [11]  657 	push	af
-   0304 33            [ 6]  658 	inc	sp
-   0305 CDrA8r01      [17]  659 	call	_cls
-                            660 ;demo.c:142: pal_load("KETTU16 PL5");
-   0308 33            [ 6]  661 	inc	sp
-   0309 21rE7r03      [10]  662 	ld	hl,#___str_14
-   030C E3            [19]  663 	ex	(sp),hl
-   030D CDrFCr00      [17]  664 	call	_pal_load
-                            665 ;demo.c:143: ge5_load("KETTU16 SC5", 0, 0x0000);
-   0310 21 00 00      [10]  666 	ld	hl, #0x0000
-   0313 E3            [19]  667 	ex	(sp),hl
-   0314 AF            [ 4]  668 	xor	a, a
-   0315 F5            [11]  669 	push	af
-   0316 33            [ 6]  670 	inc	sp
-   0317 21rF3r03      [10]  671 	ld	hl,#___str_15
-   031A E5            [11]  672 	push	hl
-   031B CDr2Br00      [17]  673 	call	_ge5_load
-   031E F1            [10]  674 	pop	af
-   031F F1            [10]  675 	pop	af
-   0320 33            [ 6]  676 	inc	sp
-                            677 ;demo.c:144: pause();
-   0321 CDr93r01      [17]  678 	call	_pause
-   0324 C3r40r02      [10]  679 	jp	00106$
-                            680 ;demo.c:153: exit(0);
-   0327 DD E1         [14]  681 	pop	ix
-   0329 C9            [10]  682 	ret
-   032A                     683 ___str_0:
-   032A 64 65 6D 6F 20 69   684 	.ascii "demo init"
+                             59 	.area _CODE
+                             60 ;demo.c:13: char *strcat(char *dest, char *src) {
+                             61 ;	---------------------------------
+                             62 ; Function strcat
+                             63 ; ---------------------------------
+   0000                      64 _strcat_start::
+   0000                      65 _strcat:
+   0000 DD E5                66 	push	ix
+   0002 DD 21 00 00          67 	ld	ix,#0
+   0006 DD 39                68 	add	ix,sp
+   0008 F5                   69 	push	af
+                             70 ;demo.c:14: char *rdest = dest;
+   0009 DD 4E 04             71 	ld	c,4 (ix)
+   000C DD 46 05             72 	ld	b,5 (ix)
+                             73 ;demo.c:15: while (*dest)
+   000F 59                   74 	ld	e,c
+   0010 50                   75 	ld	d,b
+   0011                      76 00101$:
+   0011 1A                   77 	ld	a,(de)
+   0012 B7                   78 	or	a,a
+   0013 28 03                79 	jr	Z,00111$
+                             80 ;demo.c:16: dest++;
+   0015 13                   81 	inc	de
+   0016 18 F9                82 	jr	00101$
+                             83 ;demo.c:17: while (*dest++ = *src++)
+   0018                      84 00111$:
+   0018 DD 7E 06             85 	ld	a,6 (ix)
+   001B DD 77 FE             86 	ld	-2 (ix),a
+   001E DD 7E 07             87 	ld	a,7 (ix)
+   0021 DD 77 FF             88 	ld	-1 (ix),a
+   0024                      89 00104$:
+   0024 DD 6E FE             90 	ld	l,-2 (ix)
+   0027 DD 66 FF             91 	ld	h,-1 (ix)
+   002A 7E                   92 	ld	a,(hl)
+   002B DD 34 FE             93 	inc	-2 (ix)
+   002E 20 03                94 	jr	NZ,00115$
+   0030 DD 34 FF             95 	inc	-1 (ix)
+   0033                      96 00115$:
+   0033 12                   97 	ld	(de),a
+   0034 13                   98 	inc	de
+   0035 B7                   99 	or	a,a
+   0036 20 EC               100 	jr	NZ,00104$
+                            101 ;demo.c:19: return rdest;
+   0038 69                  102 	ld	l,c
+   0039 60                  103 	ld	h,b
+   003A DD F9               104 	ld	sp,ix
+   003C DD E1               105 	pop	ix
+   003E C9                  106 	ret
+   003F                     107 _strcat_end::
+                            108 ;demo.c:24: void my_isr(void) interrupt
+                            109 ;	---------------------------------
+                            110 ; Function my_isr
+                            111 ; ---------------------------------
+   003F                     112 _my_isr_start::
+   003F                     113 _my_isr:
+   003F F5                  114 	push	af
+   0040 C5                  115 	push	bc
+   0041 D5                  116 	push	de
+   0042 E5                  117 	push	hl
+   0043 FD E5               118 	push	iy
+                            119 ;demo.c:26: DI;
+   0045 F3                  120 		di 
+                            121 ;demo.c:27: READ_VDP_STATUS;
+   0046 DB 99               122 		in a,(#0x99) 
+                            123 ;demo.c:29: PLY_Play();
+   0048 CDr00s00            124 	call	_PLY_Play
+                            125 ;demo.c:30: PLY_SendRegisters();
+   004B CDr00s00            126 	call	_PLY_SendRegisters
+                            127 ;demo.c:32: vbicount++;
+   004E FD 21r80s00         128 	ld	iy,#_vbicount
+   0052 FD 34 00            129 	inc	0 (iy)
+   0055 20 07               130 	jr	NZ,00103$
+   0057 FD 21r80s00         131 	ld	iy,#_vbicount
+   005B FD 34 01            132 	inc	1 (iy)
+   005E                     133 00103$:
+                            134 ;demo.c:34: EI;
+   005E FB                  135 		ei 
+   005F FD E1               136 	pop	iy
+   0061 E1                  137 	pop	hl
+   0062 D1                  138 	pop	de
+   0063 C1                  139 	pop	bc
+   0064 F1                  140 	pop	af
+   0065 ED 4D               141 	reti
+   0067                     142 _my_isr_end::
+                            143 ;demo.c:37: uint8_t ge5_load(char *file_name, uint8_t vramh, uint16_t vraml) {
+                            144 ;	---------------------------------
+                            145 ; Function ge5_load
+                            146 ; ---------------------------------
+   0067                     147 _ge5_load_start::
+   0067                     148 _ge5_load:
+   0067 DD E5               149 	push	ix
+   0069 DD 21 00 00         150 	ld	ix,#0
+   006D DD 39               151 	add	ix,sp
+   006F 21 D2 FF            152 	ld	hl,#-46
+   0072 39                  153 	add	hl,sp
+   0073 F9                  154 	ld	sp,hl
+                            155 ;demo.c:41: memset((uint8_t *) &f, 0, sizeof(fcb));
+   0074 21 00 00            156 	ld	hl,#0x0000
+   0077 39                  157 	add	hl,sp
+   0078 4D                  158 	ld	c,l
+   0079 44                  159 	ld	b,h
+   007A 21 2E 00            160 	ld	hl,#0x002E
+   007D E5                  161 	push	hl
+   007E 3E 00               162 	ld	a,#0x00
+   0080 F5                  163 	push	af
+   0081 33                  164 	inc	sp
+   0082 C5                  165 	push	bc
+   0083 CDr00s00            166 	call	_memset
+   0086 F1                  167 	pop	af
+   0087 F1                  168 	pop	af
+   0088 33                  169 	inc	sp
+                            170 ;demo.c:43: f.record_size = 128;
+   0089 21 00 00            171 	ld	hl,#0x0000
+   008C 39                  172 	add	hl,sp
+   008D 4D                  173 	ld	c,l
+   008E 44                  174 	ld	b,h
+   008F 21 0F 00            175 	ld	hl,#0x000F
+   0092 09                  176 	add	hl,bc
+   0093 EB                  177 	ex	de,hl
+   0094 3E 80               178 	ld	a,#0x80
+   0096 12                  179 	ld	(de),a
+                            180 ;demo.c:44: f.drive = 0;
+   0097 3E 00               181 	ld	a,#0x00
+   0099 02                  182 	ld	(bc),a
+                            183 ;demo.c:46: memcpy(f.name, file_name, 11);
+   009A DD 5E 04            184 	ld	e,4 (ix)
+   009D DD 56 05            185 	ld	d,5 (ix)
+   00A0 03                  186 	inc	bc
+   00A1 21 0B 00            187 	ld	hl,#0x000B
+   00A4 E5                  188 	push	hl
+   00A5 D5                  189 	push	de
+   00A6 C5                  190 	push	bc
+   00A7 CDr00s00            191 	call	_memcpy
+   00AA F1                  192 	pop	af
+   00AB F1                  193 	pop	af
+   00AC F1                  194 	pop	af
+                            195 ;demo.c:48: if (open(&f) != 0) return 0;
+   00AD 21 00 00            196 	ld	hl,#0x0000
+   00B0 39                  197 	add	hl,sp
+   00B1 E5                  198 	push	hl
+   00B2 CDr00s00            199 	call	_open
+   00B5 F1                  200 	pop	af
+   00B6 AF                  201 	xor	a,a
+   00B7 B5                  202 	or	a,l
+   00B8 28 05               203 	jr	Z,00102$
+   00BA 2E 00               204 	ld	l,#0x00
+   00BC C3r33s01            205 	jp	00114$
+   00BF                     206 00102$:
+                            207 ;demo.c:49: vdp_set_write_address(vramh, vraml);
+   00BF DD 6E 07            208 	ld	l,7 (ix)
+   00C2 DD 66 08            209 	ld	h,8 (ix)
+   00C5 E5                  210 	push	hl
+   00C6 DD 7E 06            211 	ld	a,6 (ix)
+   00C9 F5                  212 	push	af
+   00CA 33                  213 	inc	sp
+   00CB CDr00s00            214 	call	_vdp_set_write_address
+   00CE F1                  215 	pop	af
+   00CF 33                  216 	inc	sp
+                            217 ;demo.c:51: for (i = 0; i < 213; i++) {
+   00D0 0E 00               218 	ld	c,#0x00
+   00D2                     219 00110$:
+   00D2 79                  220 	ld	a,c
+   00D3 D6 D5               221 	sub	a,#0xD5
+   00D5 D2r28s01            222 	jp	NC,00113$
+                            223 ;demo.c:52: if (block_set_data_ptr(scratch) != 0) return 0;
+   00D8 C5                  224 	push	bc
+   00D9 21r00s00            225 	ld	hl,#_scratch
+   00DC E5                  226 	push	hl
+   00DD CDr00s00            227 	call	_block_set_data_ptr
+   00E0 F1                  228 	pop	af
+   00E1 7D                  229 	ld	a,l
+   00E2 C1                  230 	pop	bc
+   00E3 47                  231 	ld	b,a
+   00E4 B7                  232 	or	a,a
+   00E5 28 05               233 	jr	Z,00104$
+   00E7 2E 00               234 	ld	l,#0x00
+   00E9 C3r33s01            235 	jp	00114$
+   00EC                     236 00104$:
+                            237 ;demo.c:53: if (block_read(&f) != 0) return 0;
+   00EC 21 00 00            238 	ld	hl,#0x0000
+   00EF 39                  239 	add	hl,sp
+   00F0 C5                  240 	push	bc
+   00F1 E5                  241 	push	hl
+   00F2 CDr00s00            242 	call	_block_read
+   00F5 F1                  243 	pop	af
+   00F6 7D                  244 	ld	a,l
+   00F7 C1                  245 	pop	bc
+   00F8 47                  246 	ld	b,a
+   00F9 B7                  247 	or	a,a
+   00FA 28 04               248 	jr	Z,00106$
+   00FC 2E 00               249 	ld	l,#0x00
+   00FE 18 33               250 	jr	00114$
+   0100                     251 00106$:
+                            252 ;demo.c:55: if (i == 0) vdp_load_screen(scratch + 7, 121);   // to skip GE5 header
+   0100 AF                  253 	xor	a,a
+   0101 B1                  254 	or	a,c
+   0102 20 11               255 	jr	NZ,00108$
+   0104 11r07s00            256 	ld	de,#_scratch + 7
+   0107 C5                  257 	push	bc
+   0108 3E 79               258 	ld	a,#0x79
+   010A F5                  259 	push	af
+   010B 33                  260 	inc	sp
+   010C D5                  261 	push	de
+   010D CDr00s00            262 	call	_vdp_load_screen
+   0110 F1                  263 	pop	af
+   0111 33                  264 	inc	sp
+   0112 C1                  265 	pop	bc
+   0113 18 0F               266 	jr	00112$
+   0115                     267 00108$:
+                            268 ;demo.c:56: else vdp_load_screen(scratch, 128);
+   0115 C5                  269 	push	bc
+   0116 3E 80               270 	ld	a,#0x80
+   0118 F5                  271 	push	af
+   0119 33                  272 	inc	sp
+   011A 21r00s00            273 	ld	hl,#_scratch
+   011D E5                  274 	push	hl
+   011E CDr00s00            275 	call	_vdp_load_screen
+   0121 F1                  276 	pop	af
+   0122 33                  277 	inc	sp
+   0123 C1                  278 	pop	bc
+   0124                     279 00112$:
+                            280 ;demo.c:51: for (i = 0; i < 213; i++) {
+   0124 0C                  281 	inc	c
+   0125 C3rD2s00            282 	jp	00110$
+   0128                     283 00113$:
+                            284 ;demo.c:59: close(&f);
+   0128 21 00 00            285 	ld	hl,#0x0000
+   012B 39                  286 	add	hl,sp
+   012C E5                  287 	push	hl
+   012D CDr00s00            288 	call	_close
+   0130 F1                  289 	pop	af
+                            290 ;demo.c:61: return 1;
+   0131 2E 01               291 	ld	l,#0x01
+   0133                     292 00114$:
+   0133 DD F9               293 	ld	sp,ix
+   0135 DD E1               294 	pop	ix
+   0137 C9                  295 	ret
+   0138                     296 _ge5_load_end::
+                            297 ;demo.c:64: uint8_t pal_load(char *file_name) {
+                            298 ;	---------------------------------
+                            299 ; Function pal_load
+                            300 ; ---------------------------------
+   0138                     301 _pal_load_start::
+   0138                     302 _pal_load:
+   0138 DD E5               303 	push	ix
+   013A DD 21 00 00         304 	ld	ix,#0
+   013E DD 39               305 	add	ix,sp
+   0140 21 D2 FF            306 	ld	hl,#-46
+   0143 39                  307 	add	hl,sp
+   0144 F9                  308 	ld	sp,hl
+                            309 ;demo.c:67: memset((uint8_t *) &f, 0, sizeof(fcb));
+   0145 21 00 00            310 	ld	hl,#0x0000
+   0148 39                  311 	add	hl,sp
+   0149 4D                  312 	ld	c,l
+   014A 44                  313 	ld	b,h
+   014B 21 2E 00            314 	ld	hl,#0x002E
+   014E E5                  315 	push	hl
+   014F 3E 00               316 	ld	a,#0x00
+   0151 F5                  317 	push	af
+   0152 33                  318 	inc	sp
+   0153 C5                  319 	push	bc
+   0154 CDr00s00            320 	call	_memset
+   0157 F1                  321 	pop	af
+   0158 F1                  322 	pop	af
+   0159 33                  323 	inc	sp
+                            324 ;demo.c:68: memset((uint8_t *) &scratch, 0, 128);
+   015A 21 80 00            325 	ld	hl,#0x0080
+   015D E5                  326 	push	hl
+   015E 3E 00               327 	ld	a,#0x00
+   0160 F5                  328 	push	af
+   0161 33                  329 	inc	sp
+   0162 21r00s00            330 	ld	hl,#_scratch
+   0165 E5                  331 	push	hl
+   0166 CDr00s00            332 	call	_memset
+   0169 F1                  333 	pop	af
+   016A F1                  334 	pop	af
+   016B 33                  335 	inc	sp
+                            336 ;demo.c:70: f.record_size = 128;
+   016C 21 00 00            337 	ld	hl,#0x0000
+   016F 39                  338 	add	hl,sp
+   0170 4D                  339 	ld	c,l
+   0171 44                  340 	ld	b,h
+   0172 21 0F 00            341 	ld	hl,#0x000F
+   0175 09                  342 	add	hl,bc
+   0176 EB                  343 	ex	de,hl
+   0177 3E 80               344 	ld	a,#0x80
+   0179 12                  345 	ld	(de),a
+                            346 ;demo.c:71: f.drive = 0;
+   017A 3E 00               347 	ld	a,#0x00
+   017C 02                  348 	ld	(bc),a
+                            349 ;demo.c:73: memcpy(f.name, file_name, 11);
+   017D DD 5E 04            350 	ld	e,4 (ix)
+   0180 DD 56 05            351 	ld	d,5 (ix)
+   0183 03                  352 	inc	bc
+   0184 21 0B 00            353 	ld	hl,#0x000B
+   0187 E5                  354 	push	hl
+   0188 D5                  355 	push	de
+   0189 C5                  356 	push	bc
+   018A CDr00s00            357 	call	_memcpy
+   018D F1                  358 	pop	af
+   018E F1                  359 	pop	af
+   018F F1                  360 	pop	af
+                            361 ;demo.c:75: if (open(&f) != 0) return 0;
+   0190 21 00 00            362 	ld	hl,#0x0000
+   0193 39                  363 	add	hl,sp
+   0194 E5                  364 	push	hl
+   0195 CDr00s00            365 	call	_open
+   0198 F1                  366 	pop	af
+   0199 AF                  367 	xor	a,a
+   019A B5                  368 	or	a,l
+   019B 28 04               369 	jr	Z,00102$
+   019D 2E 00               370 	ld	l,#0x00
+   019F 18 34               371 	jr	00107$
+   01A1                     372 00102$:
+                            373 ;demo.c:76: if (block_set_data_ptr(scratch) != 0) return 0;
+   01A1 21r00s00            374 	ld	hl,#_scratch
+   01A4 E5                  375 	push	hl
+   01A5 CDr00s00            376 	call	_block_set_data_ptr
+   01A8 F1                  377 	pop	af
+   01A9 AF                  378 	xor	a,a
+   01AA B5                  379 	or	a,l
+   01AB 28 04               380 	jr	Z,00104$
+   01AD 2E 00               381 	ld	l,#0x00
+   01AF 18 24               382 	jr	00107$
+   01B1                     383 00104$:
+                            384 ;demo.c:77: if (block_read(&f) != 0) return 0;
+   01B1 21 00 00            385 	ld	hl,#0x0000
+   01B4 39                  386 	add	hl,sp
+   01B5 E5                  387 	push	hl
+   01B6 CDr00s00            388 	call	_block_read
+   01B9 F1                  389 	pop	af
+   01BA AF                  390 	xor	a,a
+   01BB B5                  391 	or	a,l
+   01BC 28 04               392 	jr	Z,00106$
+   01BE 2E 00               393 	ld	l,#0x00
+   01C0 18 13               394 	jr	00107$
+   01C2                     395 00106$:
+                            396 ;demo.c:79: vdp_load_palette(scratch+7);
+   01C2 01r07s00            397 	ld	bc,#_scratch + 7
+   01C5 C5                  398 	push	bc
+   01C6 CDr00s00            399 	call	_vdp_load_palette
+   01C9 F1                  400 	pop	af
+                            401 ;demo.c:81: close(&f);
+   01CA 21 00 00            402 	ld	hl,#0x0000
+   01CD 39                  403 	add	hl,sp
+   01CE E5                  404 	push	hl
+   01CF CDr00s00            405 	call	_close
+   01D2 F1                  406 	pop	af
+                            407 ;demo.c:82: return 1;
+   01D3 2E 01               408 	ld	l,#0x01
+   01D5                     409 00107$:
+   01D5 DD F9               410 	ld	sp,ix
+   01D7 DD E1               411 	pop	ix
+   01D9 C9                  412 	ret
+   01DA                     413 _pal_load_end::
+                            414 ;demo.c:85: void pause() {
+                            415 ;	---------------------------------
+                            416 ; Function pause
+                            417 ; ---------------------------------
+   01DA                     418 _pause_start::
+   01DA                     419 _pause:
+                            420 ;demo.c:86: uint8_t i,j,k = 0;
+                            421 ;demo.c:87: for (i = 0; i < 255; i++) {	
+   01DA 01 00 00            422 	ld	bc,#0x0000
+   01DD                     423 00104$:
+   01DD 78                  424 	ld	a,b
+   01DE D6 FF               425 	sub	a,#0xFF
+   01E0 D0                  426 	ret	NC
+                            427 ;demo.c:88: for (j = 0; j < 255; j++) {
+   01E1 59                  428 	ld	e,c
+   01E2 16 FF               429 	ld	d,#0xFF
+   01E4                     430 00103$:
+                            431 ;demo.c:89: k++;
+   01E4 1C                  432 	inc	e
+   01E5 15                  433 	dec	d
+                            434 ;demo.c:88: for (j = 0; j < 255; j++) {
+   01E6 AF                  435 	xor	a,a
+   01E7 B2                  436 	or	a,d
+   01E8 20 FA               437 	jr	NZ,00103$
+                            438 ;demo.c:87: for (i = 0; i < 255; i++) {	
+   01EA 4B                  439 	ld	c,e
+   01EB 04                  440 	inc	b
+   01EC 18 EF               441 	jr	00104$
+   01EE                     442 _pause_end::
+                            443 ;demo.c:94: void cls(uint8_t vramh, uint16_t vraml) {
+                            444 ;	---------------------------------
+                            445 ; Function cls
+                            446 ; ---------------------------------
+   01EE                     447 _cls_start::
+   01EE                     448 _cls:
+   01EE DD E5               449 	push	ix
+   01F0 DD 21 00 00         450 	ld	ix,#0
+   01F4 DD 39               451 	add	ix,sp
+                            452 ;demo.c:95: vdp_set_write_address(vramh, vraml);
+   01F6 DD 6E 05            453 	ld	l,5 (ix)
+   01F9 DD 66 06            454 	ld	h,6 (ix)
+   01FC E5                  455 	push	hl
+   01FD DD 7E 04            456 	ld	a,4 (ix)
+   0200 F5                  457 	push	af
+   0201 33                  458 	inc	sp
+   0202 CDr00s00            459 	call	_vdp_set_write_address
+   0205 F1                  460 	pop	af
+   0206 33                  461 	inc	sp
+                            462 ;demo.c:96: memset((uint8_t *) &scratch, 0, 128);
+   0207 21 80 00            463 	ld	hl,#0x0080
+   020A E5                  464 	push	hl
+   020B 3E 00               465 	ld	a,#0x00
+   020D F5                  466 	push	af
+   020E 33                  467 	inc	sp
+   020F 21r00s00            468 	ld	hl,#_scratch
+   0212 E5                  469 	push	hl
+   0213 CDr00s00            470 	call	_memset
+   0216 F1                  471 	pop	af
+   0217 F1                  472 	pop	af
+   0218 33                  473 	inc	sp
+                            474 ;demo.c:97: vdp_load_screen(scratch, 128);
+   0219 3E 80               475 	ld	a,#0x80
+   021B F5                  476 	push	af
+   021C 33                  477 	inc	sp
+   021D 21r00s00            478 	ld	hl,#_scratch
+   0220 E5                  479 	push	hl
+   0221 CDr00s00            480 	call	_vdp_load_screen
+   0224 F1                  481 	pop	af
+   0225 33                  482 	inc	sp
+   0226 DD E1               483 	pop	ix
+   0228 C9                  484 	ret
+   0229                     485 _cls_end::
+                            486 ;demo.c:100: void main() {
+                            487 ;	---------------------------------
+                            488 ; Function main
+                            489 ; ---------------------------------
+   0229                     490 _main_start::
+   0229                     491 _main:
+                            492 ;demo.c:102: unsigned char quit=0;
+   0229 0E 00               493 	ld	c,#0x00
+                            494 ;demo.c:104: spindown();
+   022B C5                  495 	push	bc
+   022C CDr00s00            496 	call	_spindown
+   022F C1                  497 	pop	bc
+                            498 ;demo.c:106: puts("demo init\r\n\r\n");
+   0230 C5                  499 	push	bc
+   0231 21rDCs02            500 	ld	hl,#__str_0
+   0234 E5                  501 	push	hl
+   0235 CDr00s00            502 	call	_puts
+   0238 F1                  503 	pop	af
+   0239 C1                  504 	pop	bc
+                            505 ;demo.c:108: puts("music init...");
+   023A C5                  506 	push	bc
+   023B 21rEAs02            507 	ld	hl,#__str_1
+   023E E5                  508 	push	hl
+   023F CDr00s00            509 	call	_puts
+   0242 F1                  510 	pop	af
+   0243 C1                  511 	pop	bc
+                            512 ;demo.c:110: PLY_SongPtr = (char *)0x0103;
+   0244 21r00s00            513 	ld	hl,#_PLY_SongPtr + 0
+   0247 36 03               514 	ld	(hl), #0x03
+   0249 21r01s00            515 	ld	hl,#_PLY_SongPtr + 1
+   024C 36 01               516 	ld	(hl), #0x01
+                            517 ;demo.c:111: PLY_Init();
+   024E C5                  518 	push	bc
+   024F CDr00s00            519 	call	_PLY_Init
+   0252 C1                  520 	pop	bc
+                            521 ;demo.c:112: puts("done.\n\n");
+   0253 C5                  522 	push	bc
+   0254 21rF8s02            523 	ld	hl,#__str_2
+   0257 E5                  524 	push	hl
+   0258 CDr00s00            525 	call	_puts
+   025B F1                  526 	pop	af
+   025C C1                  527 	pop	bc
+                            528 ;demo.c:114: if(isvdp2())
+   025D C5                  529 	push	bc
+   025E CDr00s00            530 	call	_isvdp2
+   0261 7D                  531 	ld	a,l
+   0262 C1                  532 	pop	bc
+   0263 47                  533 	ld	b,a
+   0264 B7                  534 	or	a,a
+   0265 28 0A               535 	jr	Z,00102$
+                            536 ;demo.c:116: msx2_sethz(50);
+   0267 C5                  537 	push	bc
+   0268 3E 32               538 	ld	a,#0x32
+   026A F5                  539 	push	af
+   026B 33                  540 	inc	sp
+   026C CDr00s00            541 	call	_msx2_sethz
+   026F 33                  542 	inc	sp
+   0270 C1                  543 	pop	bc
+   0271                     544 00102$:
+                            545 ;demo.c:120: vdp_set_screen5();
+   0271 C5                  546 	push	bc
+   0272 CDr00s00            547 	call	_vdp_set_screen5
+   0275 C1                  548 	pop	bc
+                            549 ;demo.c:121: pal_load("KETTU16 PL5");
+   0276 C5                  550 	push	bc
+   0277 21r00s03            551 	ld	hl,#__str_3
+   027A E5                  552 	push	hl
+   027B CDr38s01            553 	call	_pal_load
+   027E F1                  554 	pop	af
+   027F C1                  555 	pop	bc
+                            556 ;demo.c:122: ge5_load("KETTU16 SC5", 0, 0x0000);
+   0280 C5                  557 	push	bc
+   0281 21 00 00            558 	ld	hl,#0x0000
+   0284 E5                  559 	push	hl
+   0285 3E 00               560 	ld	a,#0x00
+   0287 F5                  561 	push	af
+   0288 33                  562 	inc	sp
+   0289 21r0Cs03            563 	ld	hl,#__str_4
+   028C E5                  564 	push	hl
+   028D CDr67s00            565 	call	_ge5_load
+   0290 F1                  566 	pop	af
+   0291 F1                  567 	pop	af
+   0292 33                  568 	inc	sp
+   0293 C1                  569 	pop	bc
+                            570 ;demo.c:124: install_isr(my_isr);
+   0294 C5                  571 	push	bc
+   0295 21r3Fs00            572 	ld	hl,#_my_isr
+   0298 E5                  573 	push	hl
+   0299 CDr00s00            574 	call	_install_isr
+   029C F1                  575 	pop	af
+   029D C1                  576 	pop	bc
+                            577 ;demo.c:126: while (!quit) {
+   029E                     578 00105$:
+   029E AF                  579 	xor	a,a
+   029F B1                  580 	or	a,c
+   02A0 20 14               581 	jr	NZ,00107$
+                            582 ;demo.c:127: waitVB();
+   02A2 76                  583 		halt 
+                            584 ;demo.c:128: if(space())
+   02A3 C5                  585 	push	bc
+   02A4 21 08 01            586 	ld	hl,#0x0108
+   02A7 E5                  587 	push	hl
+   02A8 CDr00s00            588 	call	_ispressed
+   02AB F1                  589 	pop	af
+   02AC 7D                  590 	ld	a,l
+   02AD C1                  591 	pop	bc
+   02AE 47                  592 	ld	b,a
+   02AF B7                  593 	or	a,a
+   02B0 28 EC               594 	jr	Z,00105$
+                            595 ;demo.c:129: quit=1;
+   02B2 0E 01               596 	ld	c,#0x01
+   02B4 18 E8               597 	jr	00105$
+   02B6                     598 00107$:
+                            599 ;demo.c:132: getchar();
+   02B6 CDr00s00            600 	call	_getchar
+                            601 ;demo.c:134: waitVB();
+   02B9 76                  602 		halt 
+                            603 ;demo.c:135: uninstall_isr();
+   02BA CDr00s00            604 	call	_uninstall_isr
+                            605 ;demo.c:136: PLY_Stop();
+   02BD CDr00s00            606 	call	_PLY_Stop
+                            607 ;demo.c:137: PLY_SendRegisters();
+   02C0 CDr00s00            608 	call	_PLY_SendRegisters
+                            609 ;demo.c:139: screen(0);
+   02C3 3E 00               610 	ld	a,#0x00
+   02C5 F5                  611 	push	af
+   02C6 33                  612 	inc	sp
+   02C7 CDr00s00            613 	call	_screen
+   02CA 33                  614 	inc	sp
+                            615 ;demo.c:141: puts("demo exit\r\n\r\n");
+   02CB 21r18s03            616 	ld	hl,#__str_5
+   02CE E5                  617 	push	hl
+   02CF CDr00s00            618 	call	_puts
+   02D2 F1                  619 	pop	af
+                            620 ;demo.c:143: exit(0);
+   02D3 3E 00               621 	ld	a,#0x00
+   02D5 F5                  622 	push	af
+   02D6 33                  623 	inc	sp
+   02D7 CDr00s00            624 	call	_exit
+   02DA 33                  625 	inc	sp
+   02DB C9                  626 	ret
+   02DC                     627 _main_end::
+   02DC                     628 __str_0:
+   02DC 64 65 6D 6F 20 69   629 	.ascii "demo init"
         6E 69 74
-   0333 0D                  685 	.db 0x0d
-   0334 0A                  686 	.db 0x0a
-   0335 0D                  687 	.db 0x0d
-   0336 0A                  688 	.db 0x0a
-   0337 00                  689 	.db 0x00
-   0338                     690 ___str_1:
-   0338 6E 6F 20 70 61 72   691 	.ascii "no parameters were passed."
-        61 6D 65 74 65 72
-        73 20 77 65 72 65
-        20 70 61 73 73 65
-        64 2E
-   0352 0D                  692 	.db 0x0d
-   0353 0A                  693 	.db 0x0a
-   0354 00                  694 	.db 0x00
-   0355                     695 ___str_2:
-   0355 70 61 72 61 6D 65   696 	.ascii "parameters passed:"
-        74 65 72 73 20 70
-        61 73 73 65 64 3A
-   0367 0D                  697 	.db 0x0d
-   0368 0A                  698 	.db 0x0a
-   0369 0D                  699 	.db 0x0d
-   036A 0A                  700 	.db 0x0a
-   036B 00                  701 	.db 0x00
-   036C                     702 ___str_3:
-   036C 0D                  703 	.db 0x0d
-   036D 0A                  704 	.db 0x0a
-   036E 00                  705 	.db 0x00
-   036F                     706 ___str_4:
-   036F 4B 45 54 54 55 31   707 	.ascii "KETTU11 PL5"
-        31 20 50 4C 35
-   037A 00                  708 	.db 0x00
-   037B                     709 ___str_5:
-   037B 4B 45 54 54 55 31   710 	.ascii "KETTU11 SC5"
-        31 20 53 43 35
-   0386 00                  711 	.db 0x00
-   0387                     712 ___str_6:
-   0387 4B 45 54 54 55 31   713 	.ascii "KETTU12 PL5"
-        32 20 50 4C 35
-   0392 00                  714 	.db 0x00
-   0393                     715 ___str_7:
-   0393 4B 45 54 54 55 31   716 	.ascii "KETTU12 SC5"
-        32 20 53 43 35
-   039E 00                  717 	.db 0x00
-   039F                     718 ___str_8:
-   039F 4B 45 54 54 55 31   719 	.ascii "KETTU13 PL5"
-        33 20 50 4C 35
-   03AA 00                  720 	.db 0x00
-   03AB                     721 ___str_9:
-   03AB 4B 45 54 54 55 31   722 	.ascii "KETTU13 SC5"
-        33 20 53 43 35
-   03B6 00                  723 	.db 0x00
-   03B7                     724 ___str_10:
-   03B7 4B 45 54 54 55 31   725 	.ascii "KETTU14 PL5"
-        34 20 50 4C 35
-   03C2 00                  726 	.db 0x00
-   03C3                     727 ___str_11:
-   03C3 4B 45 54 54 55 31   728 	.ascii "KETTU14 SC5"
-        34 20 53 43 35
-   03CE 00                  729 	.db 0x00
-   03CF                     730 ___str_12:
-   03CF 4B 45 54 54 55 31   731 	.ascii "KETTU15 PL5"
-        35 20 50 4C 35
-   03DA 00                  732 	.db 0x00
-   03DB                     733 ___str_13:
-   03DB 4B 45 54 54 55 31   734 	.ascii "KETTU15 SC5"
-        35 20 53 43 35
-   03E6 00                  735 	.db 0x00
-   03E7                     736 ___str_14:
-   03E7 4B 45 54 54 55 31   737 	.ascii "KETTU16 PL5"
+   02E5 0D                  630 	.db 0x0D
+   02E6 0A                  631 	.db 0x0A
+   02E7 0D                  632 	.db 0x0D
+   02E8 0A                  633 	.db 0x0A
+   02E9 00                  634 	.db 0x00
+   02EA                     635 __str_1:
+   02EA 6D 75 73 69 63 20   636 	.ascii "music init..."
+        69 6E 69 74 2E 2E
+        2E
+   02F7 00                  637 	.db 0x00
+   02F8                     638 __str_2:
+   02F8 64 6F 6E 65 2E      639 	.ascii "done."
+   02FD 0A                  640 	.db 0x0A
+   02FE 0A                  641 	.db 0x0A
+   02FF 00                  642 	.db 0x00
+   0300                     643 __str_3:
+   0300 4B 45 54 54 55 31   644 	.ascii "KETTU16 PL5"
         36 20 50 4C 35
-   03F2 00                  738 	.db 0x00
-   03F3                     739 ___str_15:
-   03F3 4B 45 54 54 55 31   740 	.ascii "KETTU16 SC5"
+   030B 00                  645 	.db 0x00
+   030C                     646 __str_4:
+   030C 4B 45 54 54 55 31   647 	.ascii "KETTU16 SC5"
         36 20 53 43 35
-   03FE 00                  741 	.db 0x00
-   03FF                     742 ___str_16:
-   03FF 64 65 6D 6F 20 65   743 	.ascii "demo exit"
+   0317 00                  648 	.db 0x00
+   0318                     649 __str_5:
+   0318 64 65 6D 6F 20 65   650 	.ascii "demo exit"
         78 69 74
-   0408 0D                  744 	.db 0x0d
-   0409 0A                  745 	.db 0x0a
-   040A 0D                  746 	.db 0x0d
-   040B 0A                  747 	.db 0x0a
-   040C 00                  748 	.db 0x00
-                            749 	.area _CODE
-                            750 	.area _INITIALIZER
-                            751 	.area _CABS (ABS)
+   0321 0D                  651 	.db 0x0D
+   0322 0A                  652 	.db 0x0A
+   0323 0D                  653 	.db 0x0D
+   0324 0A                  654 	.db 0x0A
+   0325 00                  655 	.db 0x00
+                            656 	.area _CODE
+                            657 	.area _CABS

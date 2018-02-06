@@ -152,7 +152,7 @@ _vdp_load_screen__fill:
 
 
 
-_vdp_copy::
+_vdp_copier::
 	push ix
 	ld ix,#0
 	add ix,sp

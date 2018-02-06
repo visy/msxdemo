@@ -1,166 +1,249 @@
-ASxxxx Linker V03.00 + NoICE + sdld,  page 1.
-Hexadecimal  [32-Bits]
 
-Area                                    Addr        Size        Decimal Bytes (Attributes)
---------------------------------        ----        ----        ------- ----- ------------
-.  .ABS.                            00000000    00000000 =           0. bytes (ABS,CON)
+Hexadecimal
 
-      Value  Global                              Global Defined In Module
-      -----  --------------------------------   ------------------------
-     00000000  .__.ABS.                           
-     00000000  l__CABS                         
-     00000000  l__DABS                         
-     00000000  l__GSINIT                       
-     00000000  l__HEADER                       
-     00000000  l__HEAP                         
-     00000000  l__HOME                         
-     00000000  l__INITIALIZED                  
-     00000000  l__INITIALIZER                  
-     00000000  s__CABS                         
-     00000000  s__DABS                         
-     00000000  s__HEADER                       
-     00000000  s__HEADER0                      
-     00000001  l__GSFINAL                      
-     00000078  l__HEADER0                      
-     00000083  l__DATA                         
-     00000178  s__CODE                         
-     00000854  l__CODE                         
-     000009CC  s__DATA                         
-     00000A4F  s__GSFINAL                      
-     00000A4F  s__GSINIT                       
-     00000A4F  s__HOME                         
-     00000A4F  s__INITIALIZED                  
-     00000A50  s__HEAP                         
-     00000A50  s__INITIALIZER                  
+Area                               Addr   Size   Decimal Bytes (Attributes)
+--------------------------------   ----   ----   ------- ----- ------------
+.  .ABS.                           0000   0000 =      0. bytes (ABS,CON)
 
-ASxxxx Linker V03.00 + NoICE + sdld,  page 2.
-Hexadecimal  [32-Bits]
+      Value  Global
+   --------  --------------------------------
+     0000    __divsint_rrx_s
+     0000    __divuint_rrx_s
+     0000    __moduint_rrx_s
+     0000    _heap_top
+     0000    l__CABS
+     0000    l__HOME
+     0000    l__OVERLAY
+     0000    s__HEADER
+     0001    l__GSFINAL
+     0020    l__GSINIT
+     0088    l__DATA
+     0C8E    l__HEADER
+     0C8E    s__CODE
+     166C    l__CODE
+     22FA    s__DATA
+     2382    s__GSINIT
+     2382    s__HOME
+     2382    s__OVERLAY
+     23A2    s__GSFINAL
+     23A3    s__CABS
 
-Area                                    Addr        Size        Decimal Bytes (Attributes)
---------------------------------        ----        ----        ------- ----- ------------
-_CODE                               00000178    00000854 =        2132. bytes (REL,CON)
+Hexadecimal
 
-      Value  Global                              Global Defined In Module
-      -----  --------------------------------   ------------------------
-     00000178  _strcat                            demo
-     000001A3  _ge5_load                          demo
-     00000274  _pal_load                          demo
-     0000030B  _pause                             demo
-     00000320  _cls                               demo
-     00000352  _main                              demo
-     00000585  _putchar                           
-     00000590  _getchar                           
-     00000596  _open                              
-     000005B0  _creat                             
-     000005CA  _close                             
-     000005E4  _block_read                        
-     000005FE  _block_set_data_ptr                
-     00000618  _block_write                       
-     00000632  _exit                              
-     00000645  _vdp_set_screen5                   
-     0000066E  _vdp_set_text                      
-     00000680  _vdp_load_palette                  
-     0000069F  _vdp_set_write_address             
-     000006CE  _vdp_set_read_address              
-     000006FB  _vdp_load_screen                   
-     00000715  _vdp_copy                          
-     0000076A  _aux_vdp_copy                      
-     000007BC  _puts                              conio
-     000007CE  _puthex                            conio
-     0000081A  _puthex8                           conio
-     0000082C  _puthex16                          conio
-     0000083B  _putdec                            conio
-     00000893  _putdec8                           conio
-     000008A5  _putdec16                          conio
-     000008B4  _memcpy                            mem
-     000008EE  _memset                            mem
-     00000906  _malloc                            heap
-     00000922  __divuint                          
-     0000092A  __divuchar                         
-     00000931  __divu8                            
-     00000934  __divu16                           
-     00000963  ___sdcc_enter_ix                   
-     0000096D  __moduchar                         
-     00000979  __moduint                          
-     00000984  __divsint                          
-     0000098D  __divschar                         
-     00000994  __div8                             
-     00000998  __div_signexte                     
-     0000099C  __div16                            
-     000009C2  __get_remainder                    
+Area                               Addr   Size   Decimal Bytes (Attributes)
+--------------------------------   ----   ----   ------- ----- ------------
+_CODE                              0C8E   166C =   5740. bytes (REL,CON)
 
-ASxxxx Linker V03.00 + NoICE + sdld,  page 3.
-Hexadecimal  [32-Bits]
+      Value  Global
+   --------  --------------------------------
+     0C8E    _strcat
+     0C8E    _strcat_start
+     0CCD    _my_isr
+     0CCD    _my_isr_start
+     0CCD    _strcat_end
+     0CF5    _ge5_load
+     0CF5    _ge5_load_start
+     0CF5    _my_isr_end
+     0DC6    _ge5_load_end
+     0DC6    _pal_load
+     0DC6    _pal_load_start
+     0E68    _pal_load_end
+     0E68    _pause
+     0E68    _pause_start
+     0E7C    _cls
+     0E7C    _cls_start
+     0E7C    _pause_end
+     0EB7    _cls_end
+     0EB7    _main
+     0EB7    _main_start
+     0F6A    _main_end
+     0FB4    _putchar
+     0FBF    _getchar
+     0FC5    _open
+     0FDF    _creat
+     0FF9    _close
+     1013    _block_read
+     102D    _block_set_data_ptr
+     1047    _block_write
+     1061    _exit
+     1074    _vdp_set_screen5
+     109D    _vdp_set_text
+     10AF    _vdp_load_palette
+     10CE    _vdp_set_write_address
+     10FD    _vdp_set_read_address
+     112A    _vdp_load_screen
+     1144    _vdp_copier
+     1199    _aux_vdp_copy
+     11EB    _PLY_Play
+     1462    _PLY_SendRegisters
+     14ED    _PLY_PSGReg8
+     14EF    _PLY_PSGReg9
+     14F1    _PLY_PSGReg10
+     14F5    _PLY_PSGReg7
+     16DD    _PLY_PeriodTable
+     17FD    _PLY_SongPtr
+     17FF    _PLY_Init
+     186E    _PLY_Stop
+     1880    _puts
+     1880    _puts_start
+     18A2    _puthex
+     18A2    _puthex_start
+     18A2    _puts_end
+     1903    _puthex8
+     1903    _puthex8_start
+     1903    _puthex_end
+     191D    _puthex16
+     191D    _puthex16_start
+     191D    _puthex8_end
+     1938    _putdec
+     1938    _putdec_start
+     1938    _puthex16_end
+     199A    _putdec8
+     199A    _putdec8_start
+     199A    _putdec_end
+     19B4    _putdec16
+     19B4    _putdec16_start
+     19B4    _putdec8_end
+     19CF    _memcpy
+     19CF    _memcpy_start
+     19CF    _putdec16_end
+     1A10    _memcpy_end
+     1A10    _memset
+     1A10    _memset_start
+     1A33    _malloc
+     1A33    _malloc_start
+     1A33    _memset_end
+     1A56    _install_isr
+     1A56    _malloc_end
+     1A72    _uninstall_isr
+     1A7B    _ispressed
+     1A7B    _ispressed_start
+     1AA1    _ispressed_end
+     1AA1    _screen
+     1AA1    _screen_start
+     1AC7    _screen_end
+     1AC7    _vdp_address
+     1AC7    _vdp_address_start
+     1AE2    _vdp_address_end
+     1AE2    _vdp_poke
+     1AE2    _vdp_poke_start
+     1B02    _vdp_peek
+     1B02    _vdp_peek_start
+     1B02    _vdp_poke_end
+     1B1D    _vdp_peek_end
+     1B1D    _vdp_set
+     1B1D    _vdp_set_start
+     1B74    _vdp_set_end
+     1B74    _vdp_slowset
+     1B74    _vdp_slowset_start
+     1BE3    _vdp_copy
+     1BE3    _vdp_copy_start
+     1BE3    _vdp_slowset_end
+     1C34    _vdp_copy_end
+     1C34    _vdp_slowcopy
+     1C34    _vdp_slowcopy_start
+     1C98    _vdp_bigcopy
+     1C98    _vdp_bigcopy_start
+     1C98    _vdp_slowcopy_end
+     1CFD    _vdp_bigcopy_end
+     1CFD    _vdp_register
+     1CFD    _vdp_register_start
+     1D14    _msx2_sethz
+     1D14    _msx2_sethz_start
+     1D14    _vdp_register_end
+     1D38    _msx2_sethz_end
+     1D38    _vdp_status
+     1D38    _vdp_status_start
+     1D3C    _vdp2_status
+     1D3C    _vdp2_status_start
+     1D3C    _vdp_status_end
+     1D62    _sprite_col
+     1D62    _sprite_col_start
+     1D62    _vdp2_status_end
+     1D8C    _sprite_col_end
+     1D8C    _sprite_pos
+     1D8C    _sprite_pos_start
+     1DC8    _sprite_pat
+     1DC8    _sprite_pat_start
+     1DC8    _sprite_pos_end
+     1DF2    _msx2_palette
+     1DF2    _msx2_palette_start
+     1DF2    _sprite_pat_end
+     1E1A    _joy_status
+     1E1A    _joy_status_start
+     1E1A    _msx2_palette_end
+     1E4E    _joy_status_end
+     1E57    _mouse_status
+     1E57    _mouse_status_start
+     1F29    _isvdp2
+     1F29    _isvdp2_start
+     1F29    _mouse_status_end
+     1F49    _isvdp2_end
+     1FE6    _readfile
+     1FE6    _readfile_start
+     21E0    _readfile_end
+     21E0    _spindown
+     21E0    _spindown_start
+     21F1    _print
+     21F1    _print_start
+     21F1    _spindown_end
+     2207    _random
+     2207    _random_start
+     221F    _mem_set
+     221F    _mem_set_start
+     221F    _random_end
+     2273    _mem_set_end
+     2273    _mem_set_stack
+     2273    _mem_set_stack_start
+     22D0    _mem_cpy
+     22D0    _mem_cpy_start
+     22D0    _mem_set_stack_end
+     22FA    _mem_cpy_end
 
-Area                                    Addr        Size        Decimal Bytes (Attributes)
---------------------------------        ----        ----        ------- ----- ------------
-_DATA                               000009CC    00000083 =         131. bytes (REL,CON)
+Hexadecimal
 
-      Value  Global                              Global Defined In Module
-      -----  --------------------------------   ------------------------
-     000009CC  _scratch                           demo
-     00000A4C  _heap_top                          
-     00000A4E  _last_error                        
-ASxxxx Linker V03.00 + NoICE + sdld,  page 4.
-Hexadecimal  [32-Bits]
+Area                               Addr   Size   Decimal Bytes (Attributes)
+--------------------------------   ----   ----   ------- ----- ------------
+_DATA                              22FA   0088 =    136. bytes (REL,CON)
 
-Area                                    Addr        Size        Decimal Bytes (Attributes)
---------------------------------        ----        ----        ------- ----- ------------
-_GSFINAL                            00000A4F    00000001 =           1. bytes (REL,CON)
-
-      Value  Global                              Global Defined In Module
-      -----  --------------------------------   ------------------------
-ASxxxx Linker V03.00 + NoICE + sdld,  page 5.
-Hexadecimal  [32-Bits]
-
-Area                                    Addr        Size        Decimal Bytes (Attributes)
---------------------------------        ----        ----        ------- ----- ------------
-_HEADER0                            00000000    00000078 =         120. bytes (ABS,CON)
-
-      Value  Global                              Global Defined In Module
-      -----  --------------------------------   ------------------------
-ASxxxx Linker V03.00 + NoICE + sdld,  page 6.
-Hexadecimal  [32-Bits]
-
-Area                                    Addr        Size        Decimal Bytes (Attributes)
---------------------------------        ----        ----        ------- ----- ------------
-_HEAP                               00000A50    00000000 =           0. bytes (REL,CON)
-
-      Value  Global                              Global Defined In Module
-      -----  --------------------------------   ------------------------
-     00000A50  _HEAP_start                        
-
-ASxxxx Linker V03.00 + NoICE + sdld,  page 7.
-
-Files Linked                              [ module(s) ]
-
-demo.rel                                  [ demo ]
-crt0msx_msxdos_advanced.rel               [  ]
-putchar.rel                               [  ]
-getchar.rel                               [  ]
-dos.rel                                   [  ]
-vdp.rel                                   [  ]
-conio.rel                                 [ conio ]
-mem.rel                                   [ mem ]
-heap.rel                                  [ heap ]
+      Value  Global
+   --------  --------------------------------
+     22FA    _scratch
+     237A    _vbicount
+     237C    _last_error
+     237D    _old_isr
 
 
-Libraries Linked                          [ object file ]
 
-/usr/local/bin/../share/sdcc/lib/z80/z80.lib
-                                          [ divunsigned.rel ]
-/usr/local/bin/../share/sdcc/lib/z80/z80.lib
-                                          [ crtenter.rel ]
-/usr/local/bin/../share/sdcc/lib/z80/z80.lib
-                                          [ modunsigned.rel ]
-/usr/local/bin/../share/sdcc/lib/z80/z80.lib
-                                          [ divsigned.rel ]
 
-ASxxxx Linker V03.00 + NoICE + sdld,  page 8.
 
-User Base Address Definitions
 
-_CODE = 0x0178
-_DATA = 0x0000
+MODULES
+	FILE demo.o
+		NAME demo
+	FILE crt0msx_msxdos_biisi.o
+	FILE putchar.o
+	FILE getchar.o
+	FILE dos.o
+	FILE vdp.o
+	FILE arkos.o
+	FILE conio.o
+		NAME conio
+	FILE mem.o
+		NAME mem
+	FILE heap.o
+		NAME heap
+	FILE interrupt.o
+	FILE msxlib.o
+		NAME msxlib
+USERBASEDEF
+	_CODE = 0x0c8e
+	_DATA = 0x0000
 
-
+?ASlink-Warning-Undefined Global '__moduint_rrx_s' referenced by module 'conio'
+
+?ASlink-Warning-Undefined Global '__divsint_rrx_s' referenced by module 'conio'
+
+?ASlink-Warning-Undefined Global '__divuint_rrx_s' referenced by module 'conio'
+
+?ASlink-Warning-Undefined Global '_heap_top' referenced by module 'heap'
