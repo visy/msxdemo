@@ -20,7 +20,7 @@ sdcc -mz80 -c -o heap.o heap.c
 sdcc -mz80 -c -o mem.o mem.c
 sdcc -mz80 -c -o msxlib.o msxlib.c
 export CODELOC=$(grep "1 _HEADER" crt0msx_msxdos_biisi.lst | sed "s/.*size//;s/flags.*//;s/ //g;s/\t//g" | tr -d "\n")
-sdcc -mz80 --code-loc 0x$CODELOC --data-loc 0 --no-std-crt0 --out-fmt-ihx crt0msx_msxdos_biisi.o putchar.o getchar.o dos.o vdp.o arkos.o conio.o mem.o heap.o interrupt.o msxlib.o demo.c
+sdcc -mz80 -L. --code-loc 0x$CODELOC --data-loc 0 --no-std-crt0 --out-fmt-ihx crt0msx_msxdos_biisi.o putchar.o getchar.o dos.o vdp.o arkos.o conio.o mem.o heap.o interrupt.o msxlib.o demo.c
 
 if [ -f demo.ihx ]; then
 	hex2bin demo.ihx

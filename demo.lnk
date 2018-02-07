@@ -5,6 +5,7 @@
 -i demo
 -b _CODE = 0x0c8e
 -b _DATA = 0x0000
+-k .
 -k /usr/local/bin/../share/sdcc/lib/z80
 -k /usr/local/share/sdcc/lib/z80
 -l z80
