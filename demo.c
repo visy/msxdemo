@@ -71,13 +71,13 @@ uint8_t ge5_load(char *file_name, uint8_t vramh, uint16_t vraml) {
 	return 1;
 }
 
-uint8_t pal_load(char *file_name) {
+uint8_t pal_load(char *file_name, uint8_t ss) {
 	fcb f;
 
 	memset((uint8_t *) &f, 0, sizeof(fcb));
 	memset((uint8_t *) &scratch, 0, 128);
 
-	f.record_size = 32;
+	f.record_size = ss;
 	f.drive = 0;
 
 	memcpy(f.name, file_name, 11);
@@ -86,11 +86,13 @@ uint8_t pal_load(char *file_name) {
 	if (block_set_data_ptr(scratch) != 0) return 0;
 	if (block_read(&f) != 0) return 0;
 
-	memcpy(cur_palette, scratch+7, 32);
+	memcpy(cur_palette, scratch+7, ss);
 
 	close(&f);
 	return 1;
 }
+
+
 
 void pause() {
 	uint8_t i,j,k = 0;
@@ -149,8 +151,19 @@ void main() {
 //		msx2_palette(6,4,0,0); // Bloodier red for VDP2
 	}
 
+
+	vdp_set_screen6();
+
+	pal_load("MONOLOG PL6", 8);
+	vdp_load_palette(cur_palette);
+
+	ge5_load("MONOLOG SC6", 0, 0x0000);
+
+	while (1==1) {
+	}
+
 	vdp_set_screen5();
-	pal_load("KETTU16 PL5");
+	pal_load("KETTU16 PL5", 32);
 
 	//vdp_load_palette(cur_palette);
 

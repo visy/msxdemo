@@ -31,6 +31,33 @@ _vdp_set_screen5::
 	ret
 
 
+_vdp_set_screen6::
+	push ix
+
+	; ponemos el modo screen 6
+	ld iy,(#0xFCC0)
+	ld ix,#0x005F
+	ld a,#6
+	call #0x001C
+	; visualizamos la pagina 0
+	ld a,#0x1F
+	out (#0x99),a
+	ld a,#0x82
+	out (#0x99),a
+	; ponemos el 0 como color de fondo
+	xor a
+	out (#0x99),a
+	ld a,#0x87
+	out (#0x99),a
+	; activamos las interrupciones vblank
+	ld a,#0x62
+	out (#0x99),a
+	ld a,#0x81
+	out (#0x99),a
+
+	pop ix
+	ret
+
 _vdp_set_text::
 	push ix
 
