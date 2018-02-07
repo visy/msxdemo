@@ -2,25 +2,25 @@
 
 
 
-                              1 	;--- crt0.s for MSX-DOS - by Konami Man & Avelino, 11/2004
-                              2 	;    Simple version: allows "void main()" only.
-                              3 	;    Overhead: 6 bytes.
-                              4 	;
+                              1         ;--- crt0.s for MSX-DOS - by Konami Man & Avelino, 11/2004
+                              2         ;    Simple version: allows "void main()" only.
+                              3         ;    Overhead: 6 bytes.
+                              4         ;
                               5         ;    Compile programs with --code-loc 0x106 --data-loc X
                               6         ;    X=0  -> global vars will be placed immediately after code
                               7         ;    X!=0 -> global vars will be placed at address X
                               8         ;            (make sure that X>0x100+code size)
                               9 
-                             10 	.globl	_main
+                             10         .globl  _main
                              11 
-                             12 	.area _HEADER (ABS)
+                             12         .area _HEADER (ABS)
                              13 
    0100                      14         .org    0x0100  ;MSX-DOS .COM programs start address
                              15 
                              16         ;--- Initialize globals and jump to "main"
                              17 
    0100 C3 88 0C             18         jp init
-                             19         
+                             19 
 ASxxxx Assembler V01.75 + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 2.
 
 
@@ -620,42 +620,59 @@
 
 
                              21 
-   0C88 CD 00 00             22 init:   call gsinit
-   0C8B C3 00 00             23 	jp   _main
-                             24     
-                             25 
-                             26         ;--- Program code and data (global vars) start here
-                             27 
-                             28 	;* Place data after program code, and data init code after data
-                             29 
-                             30 	.area	_CODE
-                             31         .area	_DATA
-                             32 
-                             33 gsinit: .area   _GSINIT
-                             34         
-                             35 	.area   _GSFINAL
-   0000 C9                   36         ret
+   0C88 CD 02 00             22 init:   call gsinit
+   0C8B C3 00 00             23         jp   __pre_main
+                             24 
+                             25         ;--- Program code and data (global vars) start here
+                             26 
+                             27         ;* Place data after program code, and data init code after data
+                             28 
+                             29         .area   _CODE
+                             30 
+   0000                      31 __pre_main:
+   0000 D5                   32         push de
+   0001 11 00 00             33         ld de,#_HEAP_start
+   0004 ED 53 00 00          34         ld (_heap_top),de
+   0008 D1                   35         pop de
+   0009 C3 00 00             36         jp _main
                              37 
-                             38         ;* These doesn't seem to be necessary... (?)
+                             38         .area   _DATA
                              39 
-                             40         ;.area  _OVERLAY
-                             41 	;.area	_HOME
-                             42         ;.area  _BSS
-                             43 	;.area	_HEAP
+   0000                      40 _heap_top::
+   0000 00 00                41         .dw 0
+                             42 
+                             43 gsinit: .area   _GSINIT
+                             44        
+                             45         .area   _GSFINAL
+   0000 C9                   46         ret
+                             47 
+                             48         ;* These doesn't seem to be necessary... (?)
+                             49 
+                             50         ;.area  _OVERLAY
+                             51         ;.area  _HOME
+                             52         ;.area  _BSS
+                             53 
+                             54         .area   _HEAP
+                             55 
+   0000                      56 _HEAP_start::
 ASxxxx Assembler V01.75 + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 13.
 
 Symbol Table
 
+  5 _HEAP_start                                                    0000 GR
+  0 __pre_main                                                     0000 R
+  2 _heap_top                                                      0000 GR
     _main                                                          **** GX
-  2 gsinit                                                         0000 R
+  2 gsinit                                                         0002 R
   1 init                                                           0C88 R
 
 ASxxxx Assembler V01.75 + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 14.
 
 Area Table
 
-   0 _CODE                                                          size    0   flags 0
+   0 _CODE                                                          size    C   flags 0
    1 _HEADER                                                        size  C8E   flags 8
-   2 _DATA                                                          size    0   flags 0
+   2 _DATA                                                          size    2   flags 0
    3 _GSINIT                                                        size    0   flags 0
    4 _GSFINAL                                                       size    1   flags 0
+   5 _HEAP                                                          size    0   flags 0
