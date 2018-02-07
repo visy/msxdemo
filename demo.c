@@ -8,7 +8,7 @@
 #include "msxlib.h"
 #include "ArkosTrackerPlayer_MSX.h"
 
-signed char sini[256]={
+signed char sintab[256]={
 0,3,6,9,12,15,18,21,24,27,30,33,36,39,42,45,48,51,54,57,59,62,65,67,70,73,75,
 78,80,82,85,87,89,91,94,96,98,100,102,103,105,107,108,110,112,113,114,116,117,
 118,119,120,121,122,123,123,124,125,125,126,126,126,126,126,127,126,126,126,
@@ -168,7 +168,7 @@ void main() {
 
 		if (vbicount < 256) fadein();
 		else {
-//	        vdp_register(VDP_VOFFSET,vbicount & 255);
+	        vdp_register(VDP_VOFFSET,sintab[vbicount & 255]);
 		}
 
 		if(space())

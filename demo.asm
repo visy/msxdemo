@@ -1,7 +1,7 @@
 ;--------------------------------------------------------
 ; File Created by SDCC : free open source ANSI-C Compiler
 ; Version 2.9.0 #5416 (Mar 22 2009) (Mac OS X i386)
-; This file was generated Wed Feb  7 20:19:51 2018
+; This file was generated Wed Feb  7 20:20:58 2018
 ;--------------------------------------------------------
 	.module demo
 	.optsdcc -mz80
@@ -20,7 +20,7 @@
 	.globl _vbicount
 	.globl _cur_palette
 	.globl _scratch
-	.globl _sini
+	.globl _sintab
 ;--------------------------------------------------------
 ; special function registers
 ;--------------------------------------------------------
@@ -28,7 +28,7 @@
 ;  ram data
 ;--------------------------------------------------------
 	.area _DATA
-_sini::
+_sintab::
 	.ds 256
 _scratch::
 	.ds 128
@@ -52,8 +52,8 @@ _tick::
 	.area _GSINIT
 	.area _GSFINAL
 	.area _GSINIT
-;demo.c:11: signed char sini[256]={
-	ld	hl,#_sini
+;demo.c:11: signed char sintab[256]={
+	ld	hl,#_sintab
 	call	__initrleblock
 	.db	59
 	.db	0x00, 0x03, 0x06, 0x09, 0x0C, 0x0F, 0x12, 0x15
@@ -785,10 +785,10 @@ _main:
 	pop	af
 	pop	bc
 ;demo.c:166: while (!quit) {
-00107$:
+00108$:
 	xor	a,a
 	or	a,c
-	jr	NZ,00109$
+	jr	NZ,00110$
 ;demo.c:167: waitVB();
 		halt 
 ;demo.c:169: if (vbicount < 256) fadein();
@@ -800,7 +800,26 @@ _main:
 	push	bc
 	call	_fadein
 	pop	bc
+	jr	00105$
 00104$:
+;demo.c:171: vdp_register(VDP_VOFFSET,sintab[vbicount & 255]);
+	ld	hl,#_vbicount + 0
+	ld	e,(hl)
+	ld	d,#0x00
+	ld	hl,#_sintab
+	add	hl,de
+	ld	a,(hl)
+	ld	b,a
+	push	bc
+	push	bc
+	inc	sp
+	ld	a,#0x17
+	push	af
+	inc	sp
+	call	_vdp_register
+	pop	af
+	pop	bc
+00105$:
 ;demo.c:174: if(space())
 	push	bc
 	ld	hl,#0x0108
@@ -811,11 +830,11 @@ _main:
 	pop	bc
 	ld	b,a
 	or	a,a
-	jr	Z,00107$
+	jr	Z,00108$
 ;demo.c:175: quit=1;
 	ld	c,#0x01
-	jr	00107$
-00109$:
+	jr	00108$
+00110$:
 ;demo.c:178: getchar();
 	call	_getchar
 ;demo.c:180: waitVB();

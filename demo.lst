@@ -1,7 +1,7 @@
                               1 ;--------------------------------------------------------
                               2 ; File Created by SDCC : free open source ANSI-C Compiler
                               3 ; Version 2.9.0 #5416 (Mar 22 2009) (Mac OS X i386)
-                              4 ; This file was generated Wed Feb  7 20:19:51 2018
+                              4 ; This file was generated Wed Feb  7 20:20:58 2018
                               5 ;--------------------------------------------------------
                               6 	.module demo
                               7 	.optsdcc -mz80
@@ -20,7 +20,7 @@
                              20 	.globl _vbicount
                              21 	.globl _cur_palette
                              22 	.globl _scratch
-                             23 	.globl _sini
+                             23 	.globl _sintab
                              24 ;--------------------------------------------------------
                              25 ; special function registers
                              26 ;--------------------------------------------------------
@@ -28,7 +28,7 @@
                              28 ;  ram data
                              29 ;--------------------------------------------------------
                              30 	.area _DATA
-   0000                      31 _sini::
+   0000                      31 _sintab::
    0000                      32 	.ds 256
    0100                      33 _scratch::
    0100                      34 	.ds 128
@@ -52,8 +52,8 @@
                              52 	.area _GSINIT
                              53 	.area _GSFINAL
                              54 	.area _GSINIT
-                             55 ;demo.c:11: signed char sini[256]={
-   0000 21r00s00             56 	ld	hl,#_sini
+                             55 ;demo.c:11: signed char sintab[256]={
+   0000 21r00s00             56 	ld	hl,#_sintab
    0003 CDr00s00             57 	call	__initrleblock
    0006 3B                   58 	.db	59
    0007 00 03 06 09 0C 0F    59 	.db	0x00, 0x03, 0x06, 0x09, 0x0C, 0x0F, 0x12, 0x15
@@ -700,14 +700,14 @@
    02D6 C1                  672 	pop	bc
                             673 ;demo.c:138: puts("demo init\r\n\r\n");
    02D7 C5                  674 	push	bc
-   02D8 21rC7s03            675 	ld	hl,#__str_0
+   02D8 21rE1s03            675 	ld	hl,#__str_0
    02DB E5                  676 	push	hl
    02DC CDr00s00            677 	call	_puts
    02DF F1                  678 	pop	af
    02E0 C1                  679 	pop	bc
                             680 ;demo.c:140: puts("music init...");
    02E1 C5                  681 	push	bc
-   02E2 21rD5s03            682 	ld	hl,#__str_1
+   02E2 21rEFs03            682 	ld	hl,#__str_1
    02E5 E5                  683 	push	hl
    02E6 CDr00s00            684 	call	_puts
    02E9 F1                  685 	pop	af
@@ -723,7 +723,7 @@
    02F9 C1                  695 	pop	bc
                             696 ;demo.c:144: puts("done.\n\n");
    02FA C5                  697 	push	bc
-   02FB 21rE3s03            698 	ld	hl,#__str_2
+   02FB 21rFDs03            698 	ld	hl,#__str_2
    02FE E5                  699 	push	hl
    02FF CDr00s00            700 	call	_puts
    0302 F1                  701 	pop	af
@@ -751,7 +751,7 @@
    031C C1                  723 	pop	bc
                             724 ;demo.c:153: pal_load("KETTU16 PL5");
    031D C5                  725 	push	bc
-   031E 21rEBs03            726 	ld	hl,#__str_3
+   031E 21r05s04            726 	ld	hl,#__str_3
    0321 E5                  727 	push	hl
    0322 CDr09s01            728 	call	_pal_load
    0325 F1                  729 	pop	af
@@ -784,7 +784,7 @@
    034A 3E 00               756 	ld	a,#0x00
    034C F5                  757 	push	af
    034D 33                  758 	inc	sp
-   034E 21rF7s03            759 	ld	hl,#__str_4
+   034E 21r11s04            759 	ld	hl,#__str_4
    0351 E5                  760 	push	hl
    0352 CDr38s00            761 	call	_ge5_load
    0355 F1                  762 	pop	af
@@ -813,10 +813,10 @@
    0375 F1                  785 	pop	af
    0376 C1                  786 	pop	bc
                             787 ;demo.c:166: while (!quit) {
-   0377                     788 00107$:
+   0377                     788 00108$:
    0377 AF                  789 	xor	a,a
    0378 B1                  790 	or	a,c
-   0379 20 26               791 	jr	NZ,00109$
+   0379 20 40               791 	jr	NZ,00110$
                             792 ;demo.c:167: waitVB();
    037B 76                  793 		halt 
                             794 ;demo.c:169: if (vbicount < 256) fadein();
@@ -824,88 +824,107 @@
    037F D6 00               796 	sub	a,#0x00
    0381 3ArA1s01            797 	ld	a,(#_vbicount+1)
    0384 DE 01               798 	sbc	a,#0x01
-   0386 F2r8Es03            799 	jp	P,00104$
+   0386 F2r90s03            799 	jp	P,00104$
    0389 C5                  800 	push	bc
    038A CDr04s02            801 	call	_fadein
    038D C1                  802 	pop	bc
-   038E                     803 00104$:
-                            804 ;demo.c:174: if(space())
-   038E C5                  805 	push	bc
-   038F 21 08 01            806 	ld	hl,#0x0108
-   0392 E5                  807 	push	hl
-   0393 CDr00s00            808 	call	_ispressed
-   0396 F1                  809 	pop	af
-   0397 7D                  810 	ld	a,l
-   0398 C1                  811 	pop	bc
-   0399 47                  812 	ld	b,a
-   039A B7                  813 	or	a,a
-   039B 28 DA               814 	jr	Z,00107$
-                            815 ;demo.c:175: quit=1;
-   039D 0E 01               816 	ld	c,#0x01
-   039F 18 D6               817 	jr	00107$
-   03A1                     818 00109$:
-                            819 ;demo.c:178: getchar();
-   03A1 CDr00s00            820 	call	_getchar
-                            821 ;demo.c:180: waitVB();
-   03A4 76                  822 		halt 
-                            823 ;demo.c:181: uninstall_isr();
-   03A5 CDr00s00            824 	call	_uninstall_isr
-                            825 ;demo.c:182: PLY_Stop();
-   03A8 CDr00s00            826 	call	_PLY_Stop
-                            827 ;demo.c:183: PLY_SendRegisters();
-   03AB CDr00s00            828 	call	_PLY_SendRegisters
-                            829 ;demo.c:185: screen(0);
-   03AE 3E 00               830 	ld	a,#0x00
-   03B0 F5                  831 	push	af
-   03B1 33                  832 	inc	sp
-   03B2 CDr00s00            833 	call	_screen
-   03B5 33                  834 	inc	sp
-                            835 ;demo.c:187: puts("demo exit\r\n\r\n");
-   03B6 21r03s04            836 	ld	hl,#__str_5
-   03B9 E5                  837 	push	hl
-   03BA CDr00s00            838 	call	_puts
-   03BD F1                  839 	pop	af
-                            840 ;demo.c:189: exit(0);
-   03BE 3E 00               841 	ld	a,#0x00
-   03C0 F5                  842 	push	af
-   03C1 33                  843 	inc	sp
-   03C2 CDr00s00            844 	call	_exit
-   03C5 33                  845 	inc	sp
-   03C6 C9                  846 	ret
-   03C7                     847 _main_end::
-   03C7                     848 __str_0:
-   03C7 64 65 6D 6F 20 69   849 	.ascii "demo init"
+   038E 18 18               803 	jr	00105$
+   0390                     804 00104$:
+                            805 ;demo.c:171: vdp_register(VDP_VOFFSET,sintab[vbicount & 255]);
+   0390 21rA0s01            806 	ld	hl,#_vbicount + 0
+   0393 5E                  807 	ld	e,(hl)
+   0394 16 00               808 	ld	d,#0x00
+   0396 21r00s00            809 	ld	hl,#_sintab
+   0399 19                  810 	add	hl,de
+   039A 7E                  811 	ld	a,(hl)
+   039B 47                  812 	ld	b,a
+   039C C5                  813 	push	bc
+   039D C5                  814 	push	bc
+   039E 33                  815 	inc	sp
+   039F 3E 17               816 	ld	a,#0x17
+   03A1 F5                  817 	push	af
+   03A2 33                  818 	inc	sp
+   03A3 CDr00s00            819 	call	_vdp_register
+   03A6 F1                  820 	pop	af
+   03A7 C1                  821 	pop	bc
+   03A8                     822 00105$:
+                            823 ;demo.c:174: if(space())
+   03A8 C5                  824 	push	bc
+   03A9 21 08 01            825 	ld	hl,#0x0108
+   03AC E5                  826 	push	hl
+   03AD CDr00s00            827 	call	_ispressed
+   03B0 F1                  828 	pop	af
+   03B1 7D                  829 	ld	a,l
+   03B2 C1                  830 	pop	bc
+   03B3 47                  831 	ld	b,a
+   03B4 B7                  832 	or	a,a
+   03B5 28 C0               833 	jr	Z,00108$
+                            834 ;demo.c:175: quit=1;
+   03B7 0E 01               835 	ld	c,#0x01
+   03B9 18 BC               836 	jr	00108$
+   03BB                     837 00110$:
+                            838 ;demo.c:178: getchar();
+   03BB CDr00s00            839 	call	_getchar
+                            840 ;demo.c:180: waitVB();
+   03BE 76                  841 		halt 
+                            842 ;demo.c:181: uninstall_isr();
+   03BF CDr00s00            843 	call	_uninstall_isr
+                            844 ;demo.c:182: PLY_Stop();
+   03C2 CDr00s00            845 	call	_PLY_Stop
+                            846 ;demo.c:183: PLY_SendRegisters();
+   03C5 CDr00s00            847 	call	_PLY_SendRegisters
+                            848 ;demo.c:185: screen(0);
+   03C8 3E 00               849 	ld	a,#0x00
+   03CA F5                  850 	push	af
+   03CB 33                  851 	inc	sp
+   03CC CDr00s00            852 	call	_screen
+   03CF 33                  853 	inc	sp
+                            854 ;demo.c:187: puts("demo exit\r\n\r\n");
+   03D0 21r1Ds04            855 	ld	hl,#__str_5
+   03D3 E5                  856 	push	hl
+   03D4 CDr00s00            857 	call	_puts
+   03D7 F1                  858 	pop	af
+                            859 ;demo.c:189: exit(0);
+   03D8 3E 00               860 	ld	a,#0x00
+   03DA F5                  861 	push	af
+   03DB 33                  862 	inc	sp
+   03DC CDr00s00            863 	call	_exit
+   03DF 33                  864 	inc	sp
+   03E0 C9                  865 	ret
+   03E1                     866 _main_end::
+   03E1                     867 __str_0:
+   03E1 64 65 6D 6F 20 69   868 	.ascii "demo init"
         6E 69 74
-   03D0 0D                  850 	.db 0x0D
-   03D1 0A                  851 	.db 0x0A
-   03D2 0D                  852 	.db 0x0D
-   03D3 0A                  853 	.db 0x0A
-   03D4 00                  854 	.db 0x00
-   03D5                     855 __str_1:
-   03D5 6D 75 73 69 63 20   856 	.ascii "music init..."
+   03EA 0D                  869 	.db 0x0D
+   03EB 0A                  870 	.db 0x0A
+   03EC 0D                  871 	.db 0x0D
+   03ED 0A                  872 	.db 0x0A
+   03EE 00                  873 	.db 0x00
+   03EF                     874 __str_1:
+   03EF 6D 75 73 69 63 20   875 	.ascii "music init..."
         69 6E 69 74 2E 2E
         2E
-   03E2 00                  857 	.db 0x00
-   03E3                     858 __str_2:
-   03E3 64 6F 6E 65 2E      859 	.ascii "done."
-   03E8 0A                  860 	.db 0x0A
-   03E9 0A                  861 	.db 0x0A
-   03EA 00                  862 	.db 0x00
-   03EB                     863 __str_3:
-   03EB 4B 45 54 54 55 31   864 	.ascii "KETTU16 PL5"
+   03FC 00                  876 	.db 0x00
+   03FD                     877 __str_2:
+   03FD 64 6F 6E 65 2E      878 	.ascii "done."
+   0402 0A                  879 	.db 0x0A
+   0403 0A                  880 	.db 0x0A
+   0404 00                  881 	.db 0x00
+   0405                     882 __str_3:
+   0405 4B 45 54 54 55 31   883 	.ascii "KETTU16 PL5"
         36 20 50 4C 35
-   03F6 00                  865 	.db 0x00
-   03F7                     866 __str_4:
-   03F7 4B 45 54 54 55 31   867 	.ascii "KETTU16 SC5"
+   0410 00                  884 	.db 0x00
+   0411                     885 __str_4:
+   0411 4B 45 54 54 55 31   886 	.ascii "KETTU16 SC5"
         36 20 53 43 35
-   0402 00                  868 	.db 0x00
-   0403                     869 __str_5:
-   0403 64 65 6D 6F 20 65   870 	.ascii "demo exit"
+   041C 00                  887 	.db 0x00
+   041D                     888 __str_5:
+   041D 64 65 6D 6F 20 65   889 	.ascii "demo exit"
         78 69 74
-   040C 0D                  871 	.db 0x0D
-   040D 0A                  872 	.db 0x0A
-   040E 0D                  873 	.db 0x0D
-   040F 0A                  874 	.db 0x0A
-   0410 00                  875 	.db 0x00
-                            876 	.area _CODE
-                            877 	.area _CABS
+   0426 0D                  890 	.db 0x0D
+   0427 0A                  891 	.db 0x0A
+   0428 0D                  892 	.db 0x0D
+   0429 0A                  893 	.db 0x0A
+   042A 00                  894 	.db 0x00
+                            895 	.area _CODE
+                            896 	.area _CABS
