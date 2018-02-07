@@ -48,6 +48,7 @@
 #define VDP_COLOR   7
 
 #define VDP_MODE3   9   /* MSX2 only! */
+#define VDP_VOFFSET   23   /* MSX2 only! */
 
 #define PATTERN_TABLE		0	/* Base addresses for VDP (screen 2) */
 #define NAME_TABLE		0x1800
