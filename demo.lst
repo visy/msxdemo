@@ -1,7 +1,7 @@
                               1 ;--------------------------------------------------------
                               2 ; File Created by SDCC : free open source ANSI-C Compiler
                               3 ; Version 2.9.0 #5416 (Mar 22 2009) (Mac OS X i386)
-                              4 ; This file was generated Thu Feb  8 19:39:27 2018
+                              4 ; This file was generated Fri Feb  9 00:49:13 2018
                               5 ;--------------------------------------------------------
                               6 	.module demo
                               7 	.optsdcc -mz80
@@ -10,1077 +10,1244 @@
                              10 ; Public variables in this module
                              11 ;--------------------------------------------------------
                              12 	.globl _main
-                             13 	.globl _fadein
-                             14 	.globl _pack_load
-                             15 	.globl _pause
-                             16 	.globl _pal_load
-                             17 	.globl _ge5_load
-                             18 	.globl _my_isr
-                             19 	.globl _tick
-                             20 	.globl _vbicount
-                             21 	.globl _cur_palette
-                             22 	.globl _scratch
-                             23 	.globl _sintab
-                             24 	.globl _packbuffer
-                             25 ;--------------------------------------------------------
-                             26 ; special function registers
-                             27 ;--------------------------------------------------------
+                             13 	.globl _do_ymmm
+                             14 	.globl _fadein
+                             15 	.globl _pack_load
+                             16 	.globl _pause
+                             17 	.globl _pal_load
+                             18 	.globl _scratch_clear
+                             19 	.globl _ge5_load
+                             20 	.globl _my_isr
+                             21 	.globl _yo
+                             22 	.globl _tick
+                             23 	.globl _vbicount
+                             24 	.globl _cur_palette
+                             25 	.globl _scratch
+                             26 	.globl _packbuffer
+                             27 	.globl _sintab
                              28 ;--------------------------------------------------------
-                             29 ;  ram data
+                             29 ; special function registers
                              30 ;--------------------------------------------------------
-                             31 	.area _DATA
-   0000                      32 _packbuffer::
-   0000                      33 	.ds 5000
-   1388                      34 _sintab::
-   1388                      35 	.ds 256
-   1488                      36 _scratch::
-   1488                      37 	.ds 128
-   1508                      38 _cur_palette::
-   1508                      39 	.ds 32
-   1528                      40 _vbicount::
-   1528                      41 	.ds 2
-   152A                      42 _tick::
-   152A                      43 	.ds 2
-                             44 ;--------------------------------------------------------
-                             45 ; overlayable items in  ram 
-                             46 ;--------------------------------------------------------
-                             47 	.area _OVERLAY
-                             48 ;--------------------------------------------------------
-                             49 ; external initialized ram data
-                             50 ;--------------------------------------------------------
+                             31 ;--------------------------------------------------------
+                             32 ;  ram data
+                             33 ;--------------------------------------------------------
+                             34 	.area _DATA
+   0000                      35 _sintab::
+   0000                      36 	.ds 256
+   0100                      37 _packbuffer::
+   0100                      38 	.ds 5000
+   1488                      39 _scratch::
+   1488                      40 	.ds 128
+   1508                      41 _cur_palette::
+   1508                      42 	.ds 32
+   1528                      43 _vbicount::
+   1528                      44 	.ds 2
+   152A                      45 _tick::
+   152A                      46 	.ds 2
+   152C                      47 _yo::
+   152C                      48 	.ds 1
+                             49 ;--------------------------------------------------------
+                             50 ; overlayable items in  ram 
                              51 ;--------------------------------------------------------
-                             52 ; global & static initialisations
+                             52 	.area _OVERLAY
                              53 ;--------------------------------------------------------
-                             54 	.area _HOME
-                             55 	.area _GSINIT
-                             56 	.area _GSFINAL
-                             57 	.area _GSINIT
-                             58 ;demo.c:14: uint8_t packbuffer[5000] = {0};
-   0000 21r00s00             59 	ld	hl,#_packbuffer
-   0003 CDr00s00             60 	call	__initrleblock
-   0006 81 00                61 	.db	#-127,#0x00
-   0008 81 00                62 	.db	#-127,#0x00
-   000A 81 00                63 	.db	#-127,#0x00
-   000C 81 00                64 	.db	#-127,#0x00
-   000E 81 00                65 	.db	#-127,#0x00
-   0010 81 00                66 	.db	#-127,#0x00
-   0012 81 00                67 	.db	#-127,#0x00
-   0014 81 00                68 	.db	#-127,#0x00
-   0016 81 00                69 	.db	#-127,#0x00
-   0018 81 00                70 	.db	#-127,#0x00
-   001A 81 00                71 	.db	#-127,#0x00
-   001C 81 00                72 	.db	#-127,#0x00
-   001E 81 00                73 	.db	#-127,#0x00
-   0020 81 00                74 	.db	#-127,#0x00
-   0022 81 00                75 	.db	#-127,#0x00
-   0024 81 00                76 	.db	#-127,#0x00
-   0026 81 00                77 	.db	#-127,#0x00
-   0028 81 00                78 	.db	#-127,#0x00
-   002A 81 00                79 	.db	#-127,#0x00
-   002C 81 00                80 	.db	#-127,#0x00
-   002E 81 00                81 	.db	#-127,#0x00
-   0030 81 00                82 	.db	#-127,#0x00
-   0032 81 00                83 	.db	#-127,#0x00
-   0034 81 00                84 	.db	#-127,#0x00
-   0036 81 00                85 	.db	#-127,#0x00
-   0038 81 00                86 	.db	#-127,#0x00
-   003A 81 00                87 	.db	#-127,#0x00
-   003C 81 00                88 	.db	#-127,#0x00
-   003E 81 00                89 	.db	#-127,#0x00
-   0040 81 00                90 	.db	#-127,#0x00
-   0042 81 00                91 	.db	#-127,#0x00
-   0044 81 00                92 	.db	#-127,#0x00
-   0046 81 00                93 	.db	#-127,#0x00
-   0048 81 00                94 	.db	#-127,#0x00
-   004A 81 00                95 	.db	#-127,#0x00
-   004C 81 00                96 	.db	#-127,#0x00
-   004E 81 00                97 	.db	#-127,#0x00
-   0050 81 00                98 	.db	#-127,#0x00
-   0052 81 00                99 	.db	#-127,#0x00
-   0054 D1 00               100 	.db	#-47,#0x00
-   0056 00                  101 	.db	0
-                            102 ;demo.c:16: signed char sintab[256]={
-   0057 21r88s13            103 	ld	hl,#_sintab
-   005A CDr00s00            104 	call	__initrleblock
-   005D 3B                  105 	.db	59
-   005E 00 03 06 09 0C 0F   106 	.db	0x00, 0x03, 0x06, 0x09, 0x0C, 0x0F, 0x12, 0x15
+                             54 ; external initialized ram data
+                             55 ;--------------------------------------------------------
+                             56 ;--------------------------------------------------------
+                             57 ; global & static initialisations
+                             58 ;--------------------------------------------------------
+                             59 	.area _HOME
+                             60 	.area _GSINIT
+                             61 	.area _GSFINAL
+                             62 	.area _GSINIT
+                             63 ;types.h:27: signed char sintab[256]={
+   0000 21r00s00             64 	ld	hl,#_sintab
+   0003 CDr00s00             65 	call	__initrleblock
+   0006 3B                   66 	.db	59
+   0007 00 03 06 09 0C 0F    67 	.db	0x00, 0x03, 0x06, 0x09, 0x0C, 0x0F, 0x12, 0x15
         12 15
-   0066 18 1B 1E 21 24 27   107 	.db	0x18, 0x1B, 0x1E, 0x21, 0x24, 0x27, 0x2A, 0x2D
+   000F 18 1B 1E 21 24 27    68 	.db	0x18, 0x1B, 0x1E, 0x21, 0x24, 0x27, 0x2A, 0x2D
         2A 2D
-   006E 30 33 36 39 3B 3E   108 	.db	0x30, 0x33, 0x36, 0x39, 0x3B, 0x3E, 0x41, 0x43
+   0017 30 33 36 39 3B 3E    69 	.db	0x30, 0x33, 0x36, 0x39, 0x3B, 0x3E, 0x41, 0x43
         41 43
-   0076 46 49 4B 4E 50 52   109 	.db	0x46, 0x49, 0x4B, 0x4E, 0x50, 0x52, 0x55, 0x57
+   001F 46 49 4B 4E 50 52    70 	.db	0x46, 0x49, 0x4B, 0x4E, 0x50, 0x52, 0x55, 0x57
         55 57
-   007E 59 5B 5E 60 62 64   110 	.db	0x59, 0x5B, 0x5E, 0x60, 0x62, 0x64, 0x66, 0x67
+   0027 59 5B 5E 60 62 64    71 	.db	0x59, 0x5B, 0x5E, 0x60, 0x62, 0x64, 0x66, 0x67
         66 67
-   0086 69 6B 6C 6E 70 71   111 	.db	0x69, 0x6B, 0x6C, 0x6E, 0x70, 0x71, 0x72, 0x74
+   002F 69 6B 6C 6E 70 71    72 	.db	0x69, 0x6B, 0x6C, 0x6E, 0x70, 0x71, 0x72, 0x74
         72 74
-   008E 75 76 77 78 79 7A   112 	.db	0x75, 0x76, 0x77, 0x78, 0x79, 0x7A, 0x7B, 0x7B
+   0037 75 76 77 78 79 7A    73 	.db	0x75, 0x76, 0x77, 0x78, 0x79, 0x7A, 0x7B, 0x7B
         7B 7B
-   0096 7C 7D 7D            113 	.db	0x7C, 0x7D, 0x7D
-   0099 FB 7E               114 	.db	#-5,#0x7E
-   009B 01                  115 	.db	1
-   009C 7F                  116 	.db	0x7F
-   009D FB 7E               117 	.db	#-5,#0x7E
-   009F 75                  118 	.db	117
-   00A0 7D 7D 7C 7B 7B 7A   119 	.db	0x7D, 0x7D, 0x7C, 0x7B, 0x7B, 0x7A, 0x79, 0x78
+   003F 7C 7D 7D             74 	.db	0x7C, 0x7D, 0x7D
+   0042 FB 7E                75 	.db	#-5,#0x7E
+   0044 01                   76 	.db	1
+   0045 7F                   77 	.db	0x7F
+   0046 FB 7E                78 	.db	#-5,#0x7E
+   0048 75                   79 	.db	117
+   0049 7D 7D 7C 7B 7B 7A    80 	.db	0x7D, 0x7D, 0x7C, 0x7B, 0x7B, 0x7A, 0x79, 0x78
         79 78
-   00A8 77 76 75 74 72 71   120 	.db	0x77, 0x76, 0x75, 0x74, 0x72, 0x71, 0x70, 0x6E
+   0051 77 76 75 74 72 71    81 	.db	0x77, 0x76, 0x75, 0x74, 0x72, 0x71, 0x70, 0x6E
         70 6E
-   00B0 6C 6B 69 67 66 64   121 	.db	0x6C, 0x6B, 0x69, 0x67, 0x66, 0x64, 0x62, 0x60
+   0059 6C 6B 69 67 66 64    82 	.db	0x6C, 0x6B, 0x69, 0x67, 0x66, 0x64, 0x62, 0x60
         62 60
-   00B8 5E 5B 59 57 55 52   122 	.db	0x5E, 0x5B, 0x59, 0x57, 0x55, 0x52, 0x50, 0x4E
+   0061 5E 5B 59 57 55 52    83 	.db	0x5E, 0x5B, 0x59, 0x57, 0x55, 0x52, 0x50, 0x4E
         50 4E
-   00C0 4B 49 46 43 41 3E   123 	.db	0x4B, 0x49, 0x46, 0x43, 0x41, 0x3E, 0x3B, 0x39
+   0069 4B 49 46 43 41 3E    84 	.db	0x4B, 0x49, 0x46, 0x43, 0x41, 0x3E, 0x3B, 0x39
         3B 39
-   00C8 36 33 30 2D 2A 27   124 	.db	0x36, 0x33, 0x30, 0x2D, 0x2A, 0x27, 0x24, 0x21
+   0071 36 33 30 2D 2A 27    85 	.db	0x36, 0x33, 0x30, 0x2D, 0x2A, 0x27, 0x24, 0x21
         24 21
-   00D0 1E 1B 18 15 12 0F   125 	.db	0x1E, 0x1B, 0x18, 0x15, 0x12, 0x0F, 0x0C, 0x09
+   0079 1E 1B 18 15 12 0F    86 	.db	0x1E, 0x1B, 0x18, 0x15, 0x12, 0x0F, 0x0C, 0x09
         0C 09
-   00D8 06 03 00 FD FA F7   126 	.db	0x06, 0x03, 0x00, 0xFD, 0xFA, 0xF7, 0xF4, 0xF1
+   0081 06 03 00 FD FA F7    87 	.db	0x06, 0x03, 0x00, 0xFD, 0xFA, 0xF7, 0xF4, 0xF1
         F4 F1
-   00E0 EE EB E8 E5 E2 DF   127 	.db	0xEE, 0xEB, 0xE8, 0xE5, 0xE2, 0xDF, 0xDC, 0xD9
+   0089 EE EB E8 E5 E2 DF    88 	.db	0xEE, 0xEB, 0xE8, 0xE5, 0xE2, 0xDF, 0xDC, 0xD9
         DC D9
-   00E8 D6 D3 D0 CD CA C7   128 	.db	0xD6, 0xD3, 0xD0, 0xCD, 0xCA, 0xC7, 0xC5, 0xC2
+   0091 D6 D3 D0 CD CA C7    89 	.db	0xD6, 0xD3, 0xD0, 0xCD, 0xCA, 0xC7, 0xC5, 0xC2
         C5 C2
-   00F0 BF BD BA B7 B5 B2   129 	.db	0xBF, 0xBD, 0xBA, 0xB7, 0xB5, 0xB2, 0xB0, 0xAE
+   0099 BF BD BA B7 B5 B2    90 	.db	0xBF, 0xBD, 0xBA, 0xB7, 0xB5, 0xB2, 0xB0, 0xAE
         B0 AE
-   00F8 AB A9 A7 A5 A2 A0   130 	.db	0xAB, 0xA9, 0xA7, 0xA5, 0xA2, 0xA0, 0x9E, 0x9C
+   00A1 AB A9 A7 A5 A2 A0    91 	.db	0xAB, 0xA9, 0xA7, 0xA5, 0xA2, 0xA0, 0x9E, 0x9C
         9E 9C
-   0100 9A 99 97 95 94 92   131 	.db	0x9A, 0x99, 0x97, 0x95, 0x94, 0x92, 0x90, 0x8F
+   00A9 9A 99 97 95 94 92    92 	.db	0x9A, 0x99, 0x97, 0x95, 0x94, 0x92, 0x90, 0x8F
         90 8F
-   0108 8E 8C 8B 8A 89 88   132 	.db	0x8E, 0x8C, 0x8B, 0x8A, 0x89, 0x88, 0x87, 0x86
+   00B1 8E 8C 8B 8A 89 88    93 	.db	0x8E, 0x8C, 0x8B, 0x8A, 0x89, 0x88, 0x87, 0x86
         87 86
-   0110 85 85 84 83 83      133 	.db	0x85, 0x85, 0x84, 0x83, 0x83
-   0115 FB 82               134 	.db	#-5,#0x82
-   0117 01                  135 	.db	1
-   0118 81                  136 	.db	0x81
-   0119 FB 82               137 	.db	#-5,#0x82
-   011B 3A                  138 	.db	58
-   011C 83 83 84 85 85 86   139 	.db	0x83, 0x83, 0x84, 0x85, 0x85, 0x86, 0x87, 0x88
+   00B9 85 85 84 83 83       94 	.db	0x85, 0x85, 0x84, 0x83, 0x83
+   00BE FB 82                95 	.db	#-5,#0x82
+   00C0 01                   96 	.db	1
+   00C1 81                   97 	.db	0x81
+   00C2 FB 82                98 	.db	#-5,#0x82
+   00C4 3A                   99 	.db	58
+   00C5 83 83 84 85 85 86   100 	.db	0x83, 0x83, 0x84, 0x85, 0x85, 0x86, 0x87, 0x88
         87 88
-   0124 89 8A 8B 8C 8E 8F   140 	.db	0x89, 0x8A, 0x8B, 0x8C, 0x8E, 0x8F, 0x90, 0x92
+   00CD 89 8A 8B 8C 8E 8F   101 	.db	0x89, 0x8A, 0x8B, 0x8C, 0x8E, 0x8F, 0x90, 0x92
         90 92
-   012C 94 95 97 99 9A 9C   141 	.db	0x94, 0x95, 0x97, 0x99, 0x9A, 0x9C, 0x9E, 0xA0
+   00D5 94 95 97 99 9A 9C   102 	.db	0x94, 0x95, 0x97, 0x99, 0x9A, 0x9C, 0x9E, 0xA0
         9E A0
-   0134 A2 A5 A7 A9 AB AE   142 	.db	0xA2, 0xA5, 0xA7, 0xA9, 0xAB, 0xAE, 0xB0, 0xB2
+   00DD A2 A5 A7 A9 AB AE   103 	.db	0xA2, 0xA5, 0xA7, 0xA9, 0xAB, 0xAE, 0xB0, 0xB2
         B0 B2
-   013C B5 B7 BA BD BF C2   143 	.db	0xB5, 0xB7, 0xBA, 0xBD, 0xBF, 0xC2, 0xC5, 0xC7
+   00E5 B5 B7 BA BD BF C2   104 	.db	0xB5, 0xB7, 0xBA, 0xBD, 0xBF, 0xC2, 0xC5, 0xC7
         C5 C7
-   0144 CA CD D0 D3 D6 D9   144 	.db	0xCA, 0xCD, 0xD0, 0xD3, 0xD6, 0xD9, 0xDC, 0xDF
+   00ED CA CD D0 D3 D6 D9   105 	.db	0xCA, 0xCD, 0xD0, 0xD3, 0xD6, 0xD9, 0xDC, 0xDF
         DC DF
-   014C E2 E5 E8 EB EE F1   145 	.db	0xE2, 0xE5, 0xE8, 0xEB, 0xEE, 0xF1, 0xF4, 0xF7
+   00F5 E2 E5 E8 EB EE F1   106 	.db	0xE2, 0xE5, 0xE8, 0xEB, 0xEE, 0xF1, 0xF4, 0xF7
         F4 F7
-   0154 FA FD               146 	.db	0xFA, 0xFD
-   0156 00                  147 	.db	0
-                            148 ;demo.c:35: volatile int vbicount=0;
-   0157 FD 21r28s15         149 	ld	iy,#_vbicount
-   015B FD 36 00 00         150 	ld	0 (iy),#0x00
-   015F FD 21r28s15         151 	ld	iy,#_vbicount
-   0163 FD 36 01 00         152 	ld	1 (iy),#0x00
-                            153 ;demo.c:36: volatile int tick=0;
-   0167 FD 21r2As15         154 	ld	iy,#_tick
-   016B FD 36 00 00         155 	ld	0 (iy),#0x00
-   016F FD 21r2As15         156 	ld	iy,#_tick
-   0173 FD 36 01 00         157 	ld	1 (iy),#0x00
-                            158 ;--------------------------------------------------------
-                            159 ; Home
-                            160 ;--------------------------------------------------------
-                            161 	.area _HOME
-                            162 	.area _HOME
-                            163 ;--------------------------------------------------------
-                            164 ; code
-                            165 ;--------------------------------------------------------
-                            166 	.area _CODE
-                            167 ;demo.c:39: void my_isr(void) interrupt
-                            168 ;	---------------------------------
-                            169 ; Function my_isr
-                            170 ; ---------------------------------
-   0000                     171 _my_isr_start::
-   0000                     172 _my_isr:
-   0000 F5                  173 	push	af
-   0001 C5                  174 	push	bc
-   0002 D5                  175 	push	de
-   0003 E5                  176 	push	hl
-   0004 FD E5               177 	push	iy
-                            178 ;demo.c:41: DI;
-   0006 F3                  179 		di 
-                            180 ;demo.c:42: READ_VDP_STATUS;
-   0007 DB 99               181 		in a,(#0x99) 
-                            182 ;demo.c:44: PLY_Play();
-   0009 CDr00s00            183 	call	_PLY_Play
-                            184 ;demo.c:45: PLY_SendRegisters();
-   000C CDr00s00            185 	call	_PLY_SendRegisters
-                            186 ;demo.c:47: vbicount++;
-   000F FD 21r28s15         187 	ld	iy,#_vbicount
-   0013 FD 34 00            188 	inc	0 (iy)
-   0016 20 07               189 	jr	NZ,00103$
-   0018 FD 21r28s15         190 	ld	iy,#_vbicount
-   001C FD 34 01            191 	inc	1 (iy)
-   001F                     192 00103$:
-                            193 ;demo.c:48: tick++;
-   001F FD 21r2As15         194 	ld	iy,#_tick
-   0023 FD 34 00            195 	inc	0 (iy)
-   0026 20 07               196 	jr	NZ,00104$
-   0028 FD 21r2As15         197 	ld	iy,#_tick
-   002C FD 34 01            198 	inc	1 (iy)
-   002F                     199 00104$:
-                            200 ;demo.c:50: EI;
-   002F FB                  201 		ei 
-   0030 FD E1               202 	pop	iy
-   0032 E1                  203 	pop	hl
-   0033 D1                  204 	pop	de
-   0034 C1                  205 	pop	bc
-   0035 F1                  206 	pop	af
-   0036 ED 4D               207 	reti
-   0038                     208 _my_isr_end::
-                            209 ;demo.c:53: uint8_t ge5_load(char *file_name, uint8_t vramh, uint16_t vraml) {
-                            210 ;	---------------------------------
-                            211 ; Function ge5_load
-                            212 ; ---------------------------------
-   0038                     213 _ge5_load_start::
-   0038                     214 _ge5_load:
-   0038 DD E5               215 	push	ix
-   003A DD 21 00 00         216 	ld	ix,#0
-   003E DD 39               217 	add	ix,sp
-   0040 21 D2 FF            218 	ld	hl,#-46
-   0043 39                  219 	add	hl,sp
-   0044 F9                  220 	ld	sp,hl
-                            221 ;demo.c:57: memset((uint8_t *) &f, 0, sizeof(fcb));
-   0045 21 00 00            222 	ld	hl,#0x0000
-   0048 39                  223 	add	hl,sp
-   0049 4D                  224 	ld	c,l
-   004A 44                  225 	ld	b,h
-   004B 21 2E 00            226 	ld	hl,#0x002E
-   004E E5                  227 	push	hl
-   004F 3E 00               228 	ld	a,#0x00
-   0051 F5                  229 	push	af
-   0052 33                  230 	inc	sp
-   0053 C5                  231 	push	bc
-   0054 CDr00s00            232 	call	_memset
-   0057 F1                  233 	pop	af
-   0058 F1                  234 	pop	af
-   0059 33                  235 	inc	sp
-                            236 ;demo.c:59: f.record_size = 128;
-   005A 21 00 00            237 	ld	hl,#0x0000
-   005D 39                  238 	add	hl,sp
-   005E 4D                  239 	ld	c,l
-   005F 44                  240 	ld	b,h
-   0060 21 0F 00            241 	ld	hl,#0x000F
-   0063 09                  242 	add	hl,bc
-   0064 EB                  243 	ex	de,hl
-   0065 3E 80               244 	ld	a,#0x80
-   0067 12                  245 	ld	(de),a
-                            246 ;demo.c:60: f.drive = 0;
-   0068 3E 00               247 	ld	a,#0x00
-   006A 02                  248 	ld	(bc),a
-                            249 ;demo.c:62: memcpy(f.name, file_name, 11);
-   006B DD 5E 04            250 	ld	e,4 (ix)
-   006E DD 56 05            251 	ld	d,5 (ix)
-   0071 03                  252 	inc	bc
-   0072 21 0B 00            253 	ld	hl,#0x000B
-   0075 E5                  254 	push	hl
-   0076 D5                  255 	push	de
-   0077 C5                  256 	push	bc
-   0078 CDr00s00            257 	call	_memcpy
-   007B F1                  258 	pop	af
-   007C F1                  259 	pop	af
-   007D F1                  260 	pop	af
-                            261 ;demo.c:64: if (open(&f) != 0) return 0;
-   007E 21 00 00            262 	ld	hl,#0x0000
-   0081 39                  263 	add	hl,sp
-   0082 E5                  264 	push	hl
-   0083 CDr00s00            265 	call	_open
-   0086 F1                  266 	pop	af
-   0087 AF                  267 	xor	a,a
-   0088 B5                  268 	or	a,l
-   0089 28 05               269 	jr	Z,00102$
-   008B 2E 00               270 	ld	l,#0x00
-   008D C3r04s01            271 	jp	00114$
-   0090                     272 00102$:
-                            273 ;demo.c:65: vdp_set_write_address(vramh, vraml);
-   0090 DD 6E 07            274 	ld	l,7 (ix)
-   0093 DD 66 08            275 	ld	h,8 (ix)
-   0096 E5                  276 	push	hl
-   0097 DD 7E 06            277 	ld	a,6 (ix)
-   009A F5                  278 	push	af
-   009B 33                  279 	inc	sp
-   009C CDr00s00            280 	call	_vdp_set_write_address
-   009F F1                  281 	pop	af
-   00A0 33                  282 	inc	sp
-                            283 ;demo.c:67: for (i = 0; i < 213; i++) {
-   00A1 0E 00               284 	ld	c,#0x00
-   00A3                     285 00110$:
-   00A3 79                  286 	ld	a,c
-   00A4 D6 D5               287 	sub	a,#0xD5
-   00A6 D2rF9s00            288 	jp	NC,00113$
-                            289 ;demo.c:68: if (block_set_data_ptr(scratch) != 0) return 0;
-   00A9 C5                  290 	push	bc
-   00AA 21r88s14            291 	ld	hl,#_scratch
-   00AD E5                  292 	push	hl
-   00AE CDr00s00            293 	call	_block_set_data_ptr
-   00B1 F1                  294 	pop	af
-   00B2 7D                  295 	ld	a,l
-   00B3 C1                  296 	pop	bc
-   00B4 47                  297 	ld	b,a
-   00B5 B7                  298 	or	a,a
-   00B6 28 05               299 	jr	Z,00104$
-   00B8 2E 00               300 	ld	l,#0x00
-   00BA C3r04s01            301 	jp	00114$
-   00BD                     302 00104$:
-                            303 ;demo.c:69: if (block_read(&f) != 0) return 0;
-   00BD 21 00 00            304 	ld	hl,#0x0000
-   00C0 39                  305 	add	hl,sp
-   00C1 C5                  306 	push	bc
-   00C2 E5                  307 	push	hl
-   00C3 CDr00s00            308 	call	_block_read
-   00C6 F1                  309 	pop	af
-   00C7 7D                  310 	ld	a,l
-   00C8 C1                  311 	pop	bc
-   00C9 47                  312 	ld	b,a
-   00CA B7                  313 	or	a,a
-   00CB 28 04               314 	jr	Z,00106$
-   00CD 2E 00               315 	ld	l,#0x00
-   00CF 18 33               316 	jr	00114$
-   00D1                     317 00106$:
-                            318 ;demo.c:71: if (i == 0) vdp_load_screen(scratch + 7, 121);   // to skip GE5 header
-   00D1 AF                  319 	xor	a,a
-   00D2 B1                  320 	or	a,c
-   00D3 20 11               321 	jr	NZ,00108$
-   00D5 11r8Fs14            322 	ld	de,#_scratch + 7
-   00D8 C5                  323 	push	bc
-   00D9 3E 79               324 	ld	a,#0x79
-   00DB F5                  325 	push	af
-   00DC 33                  326 	inc	sp
-   00DD D5                  327 	push	de
-   00DE CDr00s00            328 	call	_vdp_load_screen
-   00E1 F1                  329 	pop	af
-   00E2 33                  330 	inc	sp
-   00E3 C1                  331 	pop	bc
-   00E4 18 0F               332 	jr	00112$
-   00E6                     333 00108$:
-                            334 ;demo.c:72: else vdp_load_screen(scratch, 128);
-   00E6 C5                  335 	push	bc
-   00E7 3E 80               336 	ld	a,#0x80
-   00E9 F5                  337 	push	af
-   00EA 33                  338 	inc	sp
-   00EB 21r88s14            339 	ld	hl,#_scratch
-   00EE E5                  340 	push	hl
-   00EF CDr00s00            341 	call	_vdp_load_screen
-   00F2 F1                  342 	pop	af
-   00F3 33                  343 	inc	sp
-   00F4 C1                  344 	pop	bc
-   00F5                     345 00112$:
-                            346 ;demo.c:67: for (i = 0; i < 213; i++) {
-   00F5 0C                  347 	inc	c
-   00F6 C3rA3s00            348 	jp	00110$
-   00F9                     349 00113$:
-                            350 ;demo.c:75: close(&f);
-   00F9 21 00 00            351 	ld	hl,#0x0000
-   00FC 39                  352 	add	hl,sp
-   00FD E5                  353 	push	hl
-   00FE CDr00s00            354 	call	_close
-   0101 F1                  355 	pop	af
-                            356 ;demo.c:77: return 1;
-   0102 2E 01               357 	ld	l,#0x01
-   0104                     358 00114$:
-   0104 DD F9               359 	ld	sp,ix
-   0106 DD E1               360 	pop	ix
-   0108 C9                  361 	ret
-   0109                     362 _ge5_load_end::
-                            363 ;demo.c:80: uint8_t pal_load(char *file_name, uint8_t ss) {
-                            364 ;	---------------------------------
-                            365 ; Function pal_load
-                            366 ; ---------------------------------
-   0109                     367 _pal_load_start::
-   0109                     368 _pal_load:
-   0109 DD E5               369 	push	ix
-   010B DD 21 00 00         370 	ld	ix,#0
-   010F DD 39               371 	add	ix,sp
-   0111 21 D2 FF            372 	ld	hl,#-46
-   0114 39                  373 	add	hl,sp
-   0115 F9                  374 	ld	sp,hl
-                            375 ;demo.c:83: memset((uint8_t *) &f, 0, sizeof(fcb));
-   0116 21 00 00            376 	ld	hl,#0x0000
-   0119 39                  377 	add	hl,sp
-   011A 4D                  378 	ld	c,l
-   011B 44                  379 	ld	b,h
-   011C 21 2E 00            380 	ld	hl,#0x002E
-   011F E5                  381 	push	hl
-   0120 3E 00               382 	ld	a,#0x00
-   0122 F5                  383 	push	af
-   0123 33                  384 	inc	sp
-   0124 C5                  385 	push	bc
-   0125 CDr00s00            386 	call	_memset
-   0128 F1                  387 	pop	af
-   0129 F1                  388 	pop	af
-   012A 33                  389 	inc	sp
-                            390 ;demo.c:84: memset((uint8_t *) &scratch, 0, 128);
-   012B 21 80 00            391 	ld	hl,#0x0080
-   012E E5                  392 	push	hl
-   012F 3E 00               393 	ld	a,#0x00
-   0131 F5                  394 	push	af
-   0132 33                  395 	inc	sp
-   0133 21r88s14            396 	ld	hl,#_scratch
-   0136 E5                  397 	push	hl
-   0137 CDr00s00            398 	call	_memset
-   013A F1                  399 	pop	af
-   013B F1                  400 	pop	af
-   013C 33                  401 	inc	sp
-                            402 ;demo.c:86: f.record_size = ss;
-   013D 21 00 00            403 	ld	hl,#0x0000
-   0140 39                  404 	add	hl,sp
-   0141 4D                  405 	ld	c,l
-   0142 44                  406 	ld	b,h
-   0143 21 0F 00            407 	ld	hl,#0x000F
-   0146 09                  408 	add	hl,bc
-   0147 EB                  409 	ex	de,hl
-   0148 DD 7E 06            410 	ld	a,6 (ix)
-   014B 12                  411 	ld	(de),a
-                            412 ;demo.c:87: f.drive = 0;
-   014C 3E 00               413 	ld	a,#0x00
-   014E 02                  414 	ld	(bc),a
-                            415 ;demo.c:89: memcpy(f.name, file_name, 11);
-   014F DD 5E 04            416 	ld	e,4 (ix)
-   0152 DD 56 05            417 	ld	d,5 (ix)
-   0155 03                  418 	inc	bc
-   0156 21 0B 00            419 	ld	hl,#0x000B
-   0159 E5                  420 	push	hl
-   015A D5                  421 	push	de
-   015B C5                  422 	push	bc
-   015C CDr00s00            423 	call	_memcpy
-   015F F1                  424 	pop	af
-   0160 F1                  425 	pop	af
-   0161 F1                  426 	pop	af
-                            427 ;demo.c:91: if (open(&f) != 0) return 0;
-   0162 21 00 00            428 	ld	hl,#0x0000
-   0165 39                  429 	add	hl,sp
-   0166 E5                  430 	push	hl
-   0167 CDr00s00            431 	call	_open
-   016A F1                  432 	pop	af
-   016B AF                  433 	xor	a,a
-   016C B5                  434 	or	a,l
-   016D 28 04               435 	jr	Z,00102$
-   016F 2E 00               436 	ld	l,#0x00
-   0171 18 40               437 	jr	00107$
-   0173                     438 00102$:
-                            439 ;demo.c:92: if (block_set_data_ptr(scratch) != 0) return 0;
-   0173 21r88s14            440 	ld	hl,#_scratch
-   0176 E5                  441 	push	hl
-   0177 CDr00s00            442 	call	_block_set_data_ptr
-   017A F1                  443 	pop	af
-   017B AF                  444 	xor	a,a
-   017C B5                  445 	or	a,l
-   017D 28 04               446 	jr	Z,00104$
-   017F 2E 00               447 	ld	l,#0x00
-   0181 18 30               448 	jr	00107$
-   0183                     449 00104$:
-                            450 ;demo.c:93: if (block_read(&f) != 0) return 0;
-   0183 21 00 00            451 	ld	hl,#0x0000
-   0186 39                  452 	add	hl,sp
-   0187 E5                  453 	push	hl
-   0188 CDr00s00            454 	call	_block_read
-   018B F1                  455 	pop	af
-   018C AF                  456 	xor	a,a
-   018D B5                  457 	or	a,l
-   018E 28 04               458 	jr	Z,00106$
-   0190 2E 00               459 	ld	l,#0x00
-   0192 18 1F               460 	jr	00107$
-   0194                     461 00106$:
-                            462 ;demo.c:95: memcpy(cur_palette, scratch+7, ss);
-   0194 DD 4E 06            463 	ld	c,6 (ix)
-   0197 06 00               464 	ld	b,#0x00
-   0199 11r8Fs14            465 	ld	de,#_scratch + 7
-   019C C5                  466 	push	bc
-   019D D5                  467 	push	de
-   019E 21r08s15            468 	ld	hl,#_cur_palette
-   01A1 E5                  469 	push	hl
-   01A2 CDr00s00            470 	call	_memcpy
-   01A5 F1                  471 	pop	af
-   01A6 F1                  472 	pop	af
-   01A7 F1                  473 	pop	af
-                            474 ;demo.c:97: close(&f);
-   01A8 21 00 00            475 	ld	hl,#0x0000
-   01AB 39                  476 	add	hl,sp
-   01AC E5                  477 	push	hl
-   01AD CDr00s00            478 	call	_close
-   01B0 F1                  479 	pop	af
-                            480 ;demo.c:98: return 1;
-   01B1 2E 01               481 	ld	l,#0x01
-   01B3                     482 00107$:
-   01B3 DD F9               483 	ld	sp,ix
-   01B5 DD E1               484 	pop	ix
-   01B7 C9                  485 	ret
-   01B8                     486 _pal_load_end::
-                            487 ;demo.c:102: void pause() {
-                            488 ;	---------------------------------
-                            489 ; Function pause
-                            490 ; ---------------------------------
-   01B8                     491 _pause_start::
-   01B8                     492 _pause:
-                            493 ;demo.c:103: uint8_t i,j,k = 0;
-                            494 ;demo.c:104: for (i = 0; i < 255; i++) {	
-   01B8 01 00 00            495 	ld	bc,#0x0000
-   01BB                     496 00104$:
-   01BB 78                  497 	ld	a,b
-   01BC D6 FF               498 	sub	a,#0xFF
-   01BE D0                  499 	ret	NC
-                            500 ;demo.c:105: for (j = 0; j < 255; j++) {
-   01BF 59                  501 	ld	e,c
-   01C0 16 FF               502 	ld	d,#0xFF
-   01C2                     503 00103$:
-                            504 ;demo.c:106: k++;
-   01C2 1C                  505 	inc	e
-   01C3 15                  506 	dec	d
-                            507 ;demo.c:105: for (j = 0; j < 255; j++) {
-   01C4 AF                  508 	xor	a,a
-   01C5 B2                  509 	or	a,d
-   01C6 20 FA               510 	jr	NZ,00103$
-                            511 ;demo.c:104: for (i = 0; i < 255; i++) {	
-   01C8 4B                  512 	ld	c,e
-   01C9 04                  513 	inc	b
-   01CA 18 EF               514 	jr	00104$
-   01CC                     515 _pause_end::
-                            516 ;demo.c:112: uint8_t pack_load(char *file_name, int size) {
-                            517 ;	---------------------------------
-                            518 ; Function pack_load
-                            519 ; ---------------------------------
-   01CC                     520 _pack_load_start::
-   01CC                     521 _pack_load:
-   01CC DD E5               522 	push	ix
-   01CE DD 21 00 00         523 	ld	ix,#0
-   01D2 DD 39               524 	add	ix,sp
-   01D4 21 D2 FF            525 	ld	hl,#-46
-   01D7 39                  526 	add	hl,sp
-   01D8 F9                  527 	ld	sp,hl
-                            528 ;demo.c:117: memset((uint8_t *) &f, 0, sizeof(fcb));
-   01D9 21 00 00            529 	ld	hl,#0x0000
-   01DC 39                  530 	add	hl,sp
-   01DD 4D                  531 	ld	c,l
-   01DE 44                  532 	ld	b,h
-   01DF 21 2E 00            533 	ld	hl,#0x002E
-   01E2 E5                  534 	push	hl
-   01E3 3E 00               535 	ld	a,#0x00
-   01E5 F5                  536 	push	af
-   01E6 33                  537 	inc	sp
-   01E7 C5                  538 	push	bc
-   01E8 CDr00s00            539 	call	_memset
-   01EB F1                  540 	pop	af
-   01EC F1                  541 	pop	af
-   01ED 33                  542 	inc	sp
-                            543 ;demo.c:119: f.record_size = 128;
-   01EE 21 00 00            544 	ld	hl,#0x0000
-   01F1 39                  545 	add	hl,sp
-   01F2 4D                  546 	ld	c,l
-   01F3 44                  547 	ld	b,h
-   01F4 21 0F 00            548 	ld	hl,#0x000F
-   01F7 09                  549 	add	hl,bc
-   01F8 EB                  550 	ex	de,hl
-   01F9 3E 80               551 	ld	a,#0x80
-   01FB 12                  552 	ld	(de),a
-                            553 ;demo.c:120: f.drive = 0;
-   01FC 3E 00               554 	ld	a,#0x00
-   01FE 02                  555 	ld	(bc),a
-                            556 ;demo.c:122: memcpy(f.name, file_name, 11);
-   01FF DD 5E 04            557 	ld	e,4 (ix)
-   0202 DD 56 05            558 	ld	d,5 (ix)
-   0205 03                  559 	inc	bc
-   0206 21 0B 00            560 	ld	hl,#0x000B
-   0209 E5                  561 	push	hl
-   020A D5                  562 	push	de
-   020B C5                  563 	push	bc
-   020C CDr00s00            564 	call	_memcpy
-   020F F1                  565 	pop	af
-   0210 F1                  566 	pop	af
-   0211 F1                  567 	pop	af
-                            568 ;demo.c:124: if (open(&f) != 0) return 0;
-   0212 21 00 00            569 	ld	hl,#0x0000
-   0215 39                  570 	add	hl,sp
-   0216 E5                  571 	push	hl
-   0217 CDr00s00            572 	call	_open
-   021A F1                  573 	pop	af
-   021B AF                  574 	xor	a,a
-   021C B5                  575 	or	a,l
-   021D 28 05               576 	jr	Z,00116$
-   021F 2E 00               577 	ld	l,#0x00
-   0221 C3r83s02            578 	jp	00110$
-                            579 ;demo.c:126: while(total < size) {
-   0224                     580 00116$:
-   0224 01 00 00            581 	ld	bc,#0x0000
-   0227                     582 00107$:
-   0227 79                  583 	ld	a,c
-   0228 DD 96 06            584 	sub	a,6 (ix)
-   022B 78                  585 	ld	a,b
-   022C DD 9E 07            586 	sbc	a,7 (ix)
-   022F F2r78s02            587 	jp	P,00109$
-                            588 ;demo.c:127: if (block_set_data_ptr(scratch) != 0) return 0;
-   0232 C5                  589 	push	bc
-   0233 21r88s14            590 	ld	hl,#_scratch
-   0236 E5                  591 	push	hl
-   0237 CDr00s00            592 	call	_block_set_data_ptr
-   023A F1                  593 	pop	af
-   023B 5D                  594 	ld	e,l
-   023C C1                  595 	pop	bc
-   023D AF                  596 	xor	a,a
-   023E B3                  597 	or	a,e
-   023F 28 04               598 	jr	Z,00104$
-   0241 2E 00               599 	ld	l,#0x00
-   0243 18 3E               600 	jr	00110$
-   0245                     601 00104$:
-                            602 ;demo.c:128: if (block_read(&f) != 0) return 0;
-   0245 21 00 00            603 	ld	hl,#0x0000
-   0248 39                  604 	add	hl,sp
-   0249 C5                  605 	push	bc
-   024A E5                  606 	push	hl
-   024B CDr00s00            607 	call	_block_read
-   024E F1                  608 	pop	af
-   024F 5D                  609 	ld	e,l
-   0250 C1                  610 	pop	bc
-   0251 AF                  611 	xor	a,a
-   0252 B3                  612 	or	a,e
-   0253 28 04               613 	jr	Z,00106$
-   0255 2E 00               614 	ld	l,#0x00
-   0257 18 2A               615 	jr	00110$
-   0259                     616 00106$:
-                            617 ;demo.c:130: memcpy(packbuffer+total,scratch,incr);
-   0259 21r00s00            618 	ld	hl,#_packbuffer
-   025C 09                  619 	add	hl,bc
-   025D EB                  620 	ex	de,hl
-   025E C5                  621 	push	bc
-   025F 21 80 00            622 	ld	hl,#0x0080
-   0262 E5                  623 	push	hl
-   0263 21r88s14            624 	ld	hl,#_scratch
-   0266 E5                  625 	push	hl
-   0267 D5                  626 	push	de
-   0268 CDr00s00            627 	call	_memcpy
-   026B F1                  628 	pop	af
-   026C F1                  629 	pop	af
-   026D F1                  630 	pop	af
-   026E C1                  631 	pop	bc
-                            632 ;demo.c:132: total+=incr;
-   026F 21 80 00            633 	ld	hl,#0x0080
-   0272 09                  634 	add	hl,bc
-   0273 4D                  635 	ld	c,l
-   0274 44                  636 	ld	b,h
-   0275 C3r27s02            637 	jp	00107$
-   0278                     638 00109$:
-                            639 ;demo.c:135: close(&f);
-   0278 21 00 00            640 	ld	hl,#0x0000
-   027B 39                  641 	add	hl,sp
-   027C E5                  642 	push	hl
-   027D CDr00s00            643 	call	_close
-   0280 F1                  644 	pop	af
-                            645 ;demo.c:137: return 1;
-   0281 2E 01               646 	ld	l,#0x01
-   0283                     647 00110$:
-   0283 DD F9               648 	ld	sp,ix
-   0285 DD E1               649 	pop	ix
-   0287 C9                  650 	ret
-   0288                     651 _pack_load_end::
-                            652 ;demo.c:140: void fadein() {
-                            653 ;	---------------------------------
-                            654 ; Function fadein
-                            655 ; ---------------------------------
-   0288                     656 _fadein_start::
-   0288                     657 _fadein:
-   0288 DD E5               658 	push	ix
-   028A DD 21 00 00         659 	ld	ix,#0
-   028E DD 39               660 	add	ix,sp
-   0290 F5                  661 	push	af
-                            662 ;demo.c:143: if (tick < 4) return;
-   0291 3Ar2As15            663 	ld	a,(#_tick+0)
-   0294 D6 04               664 	sub	a,#0x04
-   0296 3Ar2Bs15            665 	ld	a,(#_tick+1)
-   0299 DE 00               666 	sbc	a,#0x00
-   029B F2rA1s02            667 	jp	P,00102$
-   029E C3r4Fs03            668 	jp	00113$
-   02A1                     669 00102$:
-                            670 ;demo.c:145: tick = 0;
-   02A1 21r2As15            671 	ld	hl,#_tick + 0
-   02A4 36 00               672 	ld	(hl), #0x00
-   02A6 21r2Bs15            673 	ld	hl,#_tick + 1
-   02A9 36 00               674 	ld	(hl), #0x00
-                            675 ;demo.c:147: for(i = 0; i < 32; i+=2) {
-   02AB 0E 00               676 	ld	c,#0x00
-   02AD                     677 00109$:
-   02AD 79                  678 	ld	a,c
-   02AE D6 20               679 	sub	a,#0x20
-   02B0 D2r47s03            680 	jp	NC,00112$
-                            681 ;demo.c:148: uint8_t r = scratch[i] >> 4;
-   02B3 3Er88               682 	ld	a,#<_scratch
-   02B5 81                  683 	add	a,c
-   02B6 5F                  684 	ld	e,a
-   02B7 3Es14               685 	ld	a,#>_scratch
-   02B9 CE 00               686 	adc	a,#0x00
-   02BB 57                  687 	ld	d,a
-   02BC 1A                  688 	ld	a,(de)
-   02BD 47                  689 	ld	b,a
-   02BE 58                  690 	ld	e,b
-   02BF CB 3B               691 	srl	e
-   02C1 CB 3B               692 	srl	e
-   02C3 CB 3B               693 	srl	e
-   02C5 CB 3B               694 	srl	e
-                            695 ;demo.c:149: uint8_t b = scratch[i] & 0xf;
-   02C7 78                  696 	ld	a,b
-   02C8 E6 0F               697 	and	a,#0x0F
-   02CA DD 77 FF            698 	ld	-1 (ix),a
-                            699 ;demo.c:150: uint8_t g = scratch[i+1];
-   02CD 51                  700 	ld	d,c
-   02CE 14                  701 	inc	d
-   02CF 3Er88               702 	ld	a,#<_scratch
-   02D1 82                  703 	add	a,d
-   02D2 6F                  704 	ld	l,a
-   02D3 3Es14               705 	ld	a,#>_scratch
-   02D5 CE 00               706 	adc	a,#0x00
-   02D7 67                  707 	ld	h,a
-   02D8 56                  708 	ld	d,(hl)
-   02D9 DD 72 FE            709 	ld	-2 (ix),d
-                            710 ;demo.c:152: if (r < (cur_palette[i] >> 4)) r++;
-   02DC 3Er08               711 	ld	a,#<_cur_palette
-   02DE 81                  712 	add	a,c
-   02DF 6F                  713 	ld	l,a
-   02E0 3Es15               714 	ld	a,#>_cur_palette
-   02E2 CE 00               715 	adc	a,#0x00
-   02E4 67                  716 	ld	h,a
-   02E5 56                  717 	ld	d,(hl)
-   02E6 CB 3A               718 	srl	d
-   02E8 CB 3A               719 	srl	d
-   02EA CB 3A               720 	srl	d
-   02EC CB 3A               721 	srl	d
-   02EE 7B                  722 	ld	a,e
-   02EF 92                  723 	sub	a,d
-   02F0 30 01               724 	jr	NC,00104$
-   02F2 1C                  725 	inc	e
-   02F3                     726 00104$:
-                            727 ;demo.c:153: if (b < (cur_palette[i] & 0xf)) b++;
-   02F3 3Er08               728 	ld	a,#<_cur_palette
-   02F5 81                  729 	add	a,c
-   02F6 6F                  730 	ld	l,a
-   02F7 3Es15               731 	ld	a,#>_cur_palette
-   02F9 CE 00               732 	adc	a,#0x00
-   02FB 67                  733 	ld	h,a
-   02FC 7E                  734 	ld	a,(hl)
-   02FD E6 0F               735 	and	a,#0x0F
-   02FF 47                  736 	ld	b,a
-   0300 DD 7E FF            737 	ld	a,-1 (ix)
-   0303 90                  738 	sub	a,b
-   0304 30 03               739 	jr	NC,00106$
-   0306 DD 34 FF            740 	inc	-1 (ix)
-   0309                     741 00106$:
-                            742 ;demo.c:155: scratch[i] = (r << 4) | b;
-   0309 3Er88               743 	ld	a,#<_scratch
-   030B 81                  744 	add	a,c
-   030C 47                  745 	ld	b,a
-   030D 3Es14               746 	ld	a,#>_scratch
-   030F CE 00               747 	adc	a,#0x00
-   0311 57                  748 	ld	d,a
-   0312 7B                  749 	ld	a,e
-   0313 07                  750 	rlca
-   0314 07                  751 	rlca
-   0315 07                  752 	rlca
-   0316 07                  753 	rlca
-   0317 E6 F0               754 	and	a,#0xF0
-   0319 DD B6 FF            755 	or	a,-1 (ix)
-   031C 68                  756 	ld	l,b
-   031D 62                  757 	ld	h,d
-   031E 77                  758 	ld	(hl),a
-                            759 ;demo.c:156: if (g < cur_palette[i+1]) scratch[i+1]++;
-   031F 41                  760 	ld	b,c
-   0320 04                  761 	inc	b
-   0321 3Er08               762 	ld	a,#<_cur_palette
-   0323 80                  763 	add	a,b
-   0324 5F                  764 	ld	e,a
-   0325 3Es15               765 	ld	a,#>_cur_palette
-   0327 CE 00               766 	adc	a,#0x00
-   0329 57                  767 	ld	d,a
-   032A 1A                  768 	ld	a,(de)
-   032B 5F                  769 	ld	e,a
-   032C DD 7E FE            770 	ld	a,-2 (ix)
-   032F 93                  771 	sub	a,e
-   0330 30 10               772 	jr	NC,00111$
-   0332 3Er88               773 	ld	a,#<_scratch
-   0334 80                  774 	add	a,b
-   0335 47                  775 	ld	b,a
-   0336 3Es14               776 	ld	a,#>_scratch
-   0338 CE 00               777 	adc	a,#0x00
-   033A 5F                  778 	ld	e,a
-   033B 68                  779 	ld	l,b
-   033C 67                  780 	ld	h,a
-   033D 7E                  781 	ld	a,(hl)
-   033E 3C                  782 	inc	a
-   033F 68                  783 	ld	l,b
-   0340 63                  784 	ld	h,e
-   0341 77                  785 	ld	(hl),a
-   0342                     786 00111$:
-                            787 ;demo.c:147: for(i = 0; i < 32; i+=2) {
-   0342 0C                  788 	inc	c
-   0343 0C                  789 	inc	c
-   0344 C3rADs02            790 	jp	00109$
-   0347                     791 00112$:
-                            792 ;demo.c:160: vdp_load_palette(scratch);
-   0347 21r88s14            793 	ld	hl,#_scratch
-   034A E5                  794 	push	hl
-   034B CDr00s00            795 	call	_vdp_load_palette
-   034E F1                  796 	pop	af
-   034F                     797 00113$:
-   034F DD F9               798 	ld	sp,ix
-   0351 DD E1               799 	pop	ix
-   0353 C9                  800 	ret
-   0354                     801 _fadein_end::
-                            802 ;demo.c:163: void main() {
-                            803 ;	---------------------------------
-                            804 ; Function main
-                            805 ; ---------------------------------
-   0354                     806 _main_start::
-   0354                     807 _main:
-                            808 ;demo.c:164: unsigned char quit=0;
-   0354 0E 00               809 	ld	c,#0x00
-                            810 ;demo.c:166: spindown();
-   0356 C5                  811 	push	bc
-   0357 CDr00s00            812 	call	_spindown
-   035A C1                  813 	pop	bc
-                            814 ;demo.c:168: puts("demo init\r\n\r\n");
-   035B C5                  815 	push	bc
-   035C 21r7Bs04            816 	ld	hl,#__str_0
-   035F E5                  817 	push	hl
-   0360 CDr00s00            818 	call	_puts
-   0363 F1                  819 	pop	af
-   0364 C1                  820 	pop	bc
-                            821 ;demo.c:170: puts("music init...");
-   0365 C5                  822 	push	bc
-   0366 21r89s04            823 	ld	hl,#__str_1
-   0369 E5                  824 	push	hl
-   036A CDr00s00            825 	call	_puts
-   036D F1                  826 	pop	af
-   036E C1                  827 	pop	bc
-                            828 ;demo.c:172: PLY_SongPtr = (char *)0x0103;
-   036F 21r00s00            829 	ld	hl,#_PLY_SongPtr + 0
-   0372 36 03               830 	ld	(hl), #0x03
-   0374 21r01s00            831 	ld	hl,#_PLY_SongPtr + 1
-   0377 36 01               832 	ld	(hl), #0x01
-                            833 ;demo.c:173: PLY_Init();
-   0379 C5                  834 	push	bc
-   037A CDr00s00            835 	call	_PLY_Init
-   037D C1                  836 	pop	bc
-                            837 ;demo.c:174: puts("done.\n\n");
-   037E C5                  838 	push	bc
-   037F 21r97s04            839 	ld	hl,#__str_2
-   0382 E5                  840 	push	hl
-   0383 CDr00s00            841 	call	_puts
-   0386 F1                  842 	pop	af
-   0387 C1                  843 	pop	bc
-                            844 ;demo.c:176: if(isvdp2())
-   0388 C5                  845 	push	bc
-   0389 CDr00s00            846 	call	_isvdp2
-   038C 7D                  847 	ld	a,l
-   038D C1                  848 	pop	bc
-   038E 47                  849 	ld	b,a
-   038F B7                  850 	or	a,a
-   0390 28 0A               851 	jr	Z,00102$
-                            852 ;demo.c:178: msx2_sethz(50);
-   0392 C5                  853 	push	bc
-   0393 3E 32               854 	ld	a,#0x32
-   0395 F5                  855 	push	af
-   0396 33                  856 	inc	sp
-   0397 CDr00s00            857 	call	_msx2_sethz
-   039A 33                  858 	inc	sp
-   039B C1                  859 	pop	bc
-   039C                     860 00102$:
-                            861 ;demo.c:182: vdp_set_screen5();
-   039C C5                  862 	push	bc
-   039D CDr00s00            863 	call	_vdp_set_screen5
-   03A0 C1                  864 	pop	bc
-                            865 ;demo.c:184: vdp_register(VDP_VOFFSET,0);
-   03A1 C5                  866 	push	bc
-   03A2 21 17 00            867 	ld	hl,#0x0017
-   03A5 E5                  868 	push	hl
-   03A6 CDr00s00            869 	call	_vdp_register
-   03A9 F1                  870 	pop	af
-   03AA C1                  871 	pop	bc
-                            872 ;demo.c:186: pal_load("KETTU16 PL5", 32);
-   03AB C5                  873 	push	bc
-   03AC 3E 20               874 	ld	a,#0x20
-   03AE F5                  875 	push	af
-   03AF 33                  876 	inc	sp
-   03B0 21r9Fs04            877 	ld	hl,#__str_3
-   03B3 E5                  878 	push	hl
-   03B4 CDr09s01            879 	call	_pal_load
-   03B7 F1                  880 	pop	af
-   03B8 33                  881 	inc	sp
-   03B9 C1                  882 	pop	bc
-                            883 ;demo.c:188: memset((uint8_t *) &packbuffer, 0, 5000);
-   03BA C5                  884 	push	bc
-   03BB 21 88 13            885 	ld	hl,#0x1388
-   03BE E5                  886 	push	hl
-   03BF 3E 00               887 	ld	a,#0x00
-   03C1 F5                  888 	push	af
-   03C2 33                  889 	inc	sp
-   03C3 21r00s00            890 	ld	hl,#_packbuffer
-   03C6 E5                  891 	push	hl
-   03C7 CDr00s00            892 	call	_memset
-   03CA F1                  893 	pop	af
-   03CB F1                  894 	pop	af
-   03CC 33                  895 	inc	sp
-   03CD C1                  896 	pop	bc
-                            897 ;demo.c:189: pack_load("KETTU16 PCK", 4501);
-   03CE C5                  898 	push	bc
-   03CF 21 95 11            899 	ld	hl,#0x1195
-   03D2 E5                  900 	push	hl
-   03D3 21rABs04            901 	ld	hl,#__str_4
-   03D6 E5                  902 	push	hl
-   03D7 CDrCCs01            903 	call	_pack_load
-   03DA F1                  904 	pop	af
-   03DB F1                  905 	pop	af
-   03DC C1                  906 	pop	bc
-                            907 ;demo.c:190: vdp_register(14,0);
-   03DD C5                  908 	push	bc
-   03DE 21 0E 00            909 	ld	hl,#0x000E
-   03E1 E5                  910 	push	hl
-   03E2 CDr00s00            911 	call	_vdp_register
-   03E5 F1                  912 	pop	af
-   03E6 C1                  913 	pop	bc
-                            914 ;demo.c:192: bitbuster(packbuffer,0);
-   03E7 C5                  915 	push	bc
-   03E8 21 00 00            916 	ld	hl,#0x0000
-   03EB E5                  917 	push	hl
-   03EC 21r00s00            918 	ld	hl,#_packbuffer
-   03EF E5                  919 	push	hl
-   03F0 CDr00s00            920 	call	_bitbuster
-   03F3 F1                  921 	pop	af
-   03F4 F1                  922 	pop	af
-   03F5 C1                  923 	pop	bc
-                            924 ;demo.c:194: memset((uint8_t *) &scratch, 0, 128);
-   03F6 C5                  925 	push	bc
-   03F7 21 80 00            926 	ld	hl,#0x0080
-   03FA E5                  927 	push	hl
-   03FB 3E 00               928 	ld	a,#0x00
-   03FD F5                  929 	push	af
-   03FE 33                  930 	inc	sp
-   03FF 21r88s14            931 	ld	hl,#_scratch
-   0402 E5                  932 	push	hl
-   0403 CDr00s00            933 	call	_memset
-   0406 F1                  934 	pop	af
-   0407 F1                  935 	pop	af
-   0408 33                  936 	inc	sp
-   0409 C1                  937 	pop	bc
-                            938 ;demo.c:196: install_isr(my_isr);
-   040A C5                  939 	push	bc
-   040B 21r00s00            940 	ld	hl,#_my_isr
-   040E E5                  941 	push	hl
-   040F CDr00s00            942 	call	_install_isr
-   0412 F1                  943 	pop	af
-   0413 C1                  944 	pop	bc
-                            945 ;demo.c:198: while (!quit) {
-   0414                     946 00108$:
-   0414 AF                  947 	xor	a,a
-   0415 B1                  948 	or	a,c
-   0416 20 40               949 	jr	NZ,00110$
-                            950 ;demo.c:199: waitVB();
-   0418 76                  951 		halt 
-                            952 ;demo.c:201: if (vbicount < 256) fadein();
-   0419 3Ar28s15            953 	ld	a,(#_vbicount+0)
-   041C D6 00               954 	sub	a,#0x00
-   041E 3Ar29s15            955 	ld	a,(#_vbicount+1)
-   0421 DE 01               956 	sbc	a,#0x01
-   0423 F2r2Ds04            957 	jp	P,00104$
-   0426 C5                  958 	push	bc
-   0427 CDr88s02            959 	call	_fadein
-   042A C1                  960 	pop	bc
-   042B 18 18               961 	jr	00105$
-   042D                     962 00104$:
-                            963 ;demo.c:203: vdp_register(VDP_VOFFSET,sintab[vbicount & 255]);
-   042D 21r28s15            964 	ld	hl,#_vbicount + 0
-   0430 5E                  965 	ld	e,(hl)
-   0431 16 00               966 	ld	d,#0x00
-   0433 21r88s13            967 	ld	hl,#_sintab
-   0436 19                  968 	add	hl,de
-   0437 7E                  969 	ld	a,(hl)
-   0438 47                  970 	ld	b,a
-   0439 C5                  971 	push	bc
-   043A C5                  972 	push	bc
-   043B 33                  973 	inc	sp
-   043C 3E 17               974 	ld	a,#0x17
-   043E F5                  975 	push	af
-   043F 33                  976 	inc	sp
-   0440 CDr00s00            977 	call	_vdp_register
-   0443 F1                  978 	pop	af
-   0444 C1                  979 	pop	bc
-   0445                     980 00105$:
-                            981 ;demo.c:206: if(space())
-   0445 C5                  982 	push	bc
-   0446 21 08 01            983 	ld	hl,#0x0108
-   0449 E5                  984 	push	hl
-   044A CDr00s00            985 	call	_ispressed
-   044D F1                  986 	pop	af
-   044E 7D                  987 	ld	a,l
-   044F C1                  988 	pop	bc
-   0450 47                  989 	ld	b,a
-   0451 B7                  990 	or	a,a
-   0452 28 C0               991 	jr	Z,00108$
-                            992 ;demo.c:207: quit=1;
-   0454 0E 01               993 	ld	c,#0x01
-   0456 18 BC               994 	jr	00108$
-   0458                     995 00110$:
-                            996 ;demo.c:210: waitVB();
-   0458 76                  997 		halt 
-                            998 ;demo.c:211: uninstall_isr();
-   0459 CDr00s00            999 	call	_uninstall_isr
-                           1000 ;demo.c:212: PLY_Stop();
-   045C CDr00s00           1001 	call	_PLY_Stop
-                           1002 ;demo.c:213: PLY_SendRegisters();
-   045F CDr00s00           1003 	call	_PLY_SendRegisters
-                           1004 ;demo.c:215: screen(0);
-   0462 3E 00              1005 	ld	a,#0x00
-   0464 F5                 1006 	push	af
-   0465 33                 1007 	inc	sp
-   0466 CDr00s00           1008 	call	_screen
-   0469 33                 1009 	inc	sp
-                           1010 ;demo.c:217: puts("demo exit\r\n\r\n");
-   046A 21rB7s04           1011 	ld	hl,#__str_5
-   046D E5                 1012 	push	hl
-   046E CDr00s00           1013 	call	_puts
-   0471 F1                 1014 	pop	af
-                           1015 ;demo.c:219: exit(0);
-   0472 3E 00              1016 	ld	a,#0x00
-   0474 F5                 1017 	push	af
-   0475 33                 1018 	inc	sp
-   0476 CDr00s00           1019 	call	_exit
-   0479 33                 1020 	inc	sp
-   047A C9                 1021 	ret
-   047B                    1022 _main_end::
-   047B                    1023 __str_0:
-   047B 64 65 6D 6F 20 69  1024 	.ascii "demo init"
+   00FD FA FD               107 	.db	0xFA, 0xFD
+   00FF 00                  108 	.db	0
+                            109 ;demo.c:13: uint8_t packbuffer[5000] = {0};
+   0100 21r00s01            110 	ld	hl,#_packbuffer
+   0103 CDr00s00            111 	call	__initrleblock
+   0106 81 00               112 	.db	#-127,#0x00
+   0108 81 00               113 	.db	#-127,#0x00
+   010A 81 00               114 	.db	#-127,#0x00
+   010C 81 00               115 	.db	#-127,#0x00
+   010E 81 00               116 	.db	#-127,#0x00
+   0110 81 00               117 	.db	#-127,#0x00
+   0112 81 00               118 	.db	#-127,#0x00
+   0114 81 00               119 	.db	#-127,#0x00
+   0116 81 00               120 	.db	#-127,#0x00
+   0118 81 00               121 	.db	#-127,#0x00
+   011A 81 00               122 	.db	#-127,#0x00
+   011C 81 00               123 	.db	#-127,#0x00
+   011E 81 00               124 	.db	#-127,#0x00
+   0120 81 00               125 	.db	#-127,#0x00
+   0122 81 00               126 	.db	#-127,#0x00
+   0124 81 00               127 	.db	#-127,#0x00
+   0126 81 00               128 	.db	#-127,#0x00
+   0128 81 00               129 	.db	#-127,#0x00
+   012A 81 00               130 	.db	#-127,#0x00
+   012C 81 00               131 	.db	#-127,#0x00
+   012E 81 00               132 	.db	#-127,#0x00
+   0130 81 00               133 	.db	#-127,#0x00
+   0132 81 00               134 	.db	#-127,#0x00
+   0134 81 00               135 	.db	#-127,#0x00
+   0136 81 00               136 	.db	#-127,#0x00
+   0138 81 00               137 	.db	#-127,#0x00
+   013A 81 00               138 	.db	#-127,#0x00
+   013C 81 00               139 	.db	#-127,#0x00
+   013E 81 00               140 	.db	#-127,#0x00
+   0140 81 00               141 	.db	#-127,#0x00
+   0142 81 00               142 	.db	#-127,#0x00
+   0144 81 00               143 	.db	#-127,#0x00
+   0146 81 00               144 	.db	#-127,#0x00
+   0148 81 00               145 	.db	#-127,#0x00
+   014A 81 00               146 	.db	#-127,#0x00
+   014C 81 00               147 	.db	#-127,#0x00
+   014E 81 00               148 	.db	#-127,#0x00
+   0150 81 00               149 	.db	#-127,#0x00
+   0152 81 00               150 	.db	#-127,#0x00
+   0154 D1 00               151 	.db	#-47,#0x00
+   0156 00                  152 	.db	0
+                            153 ;demo.c:18: volatile int vbicount=0;
+   0157 FD 21r28s15         154 	ld	iy,#_vbicount
+   015B FD 36 00 00         155 	ld	0 (iy),#0x00
+   015F FD 21r28s15         156 	ld	iy,#_vbicount
+   0163 FD 36 01 00         157 	ld	1 (iy),#0x00
+                            158 ;demo.c:19: volatile int tick=0;
+   0167 FD 21r2As15         159 	ld	iy,#_tick
+   016B FD 36 00 00         160 	ld	0 (iy),#0x00
+   016F FD 21r2As15         161 	ld	iy,#_tick
+   0173 FD 36 01 00         162 	ld	1 (iy),#0x00
+                            163 ;demo.c:162: uint8_t yo = 0;
+   0177 FD 21r2Cs15         164 	ld	iy,#_yo
+   017B FD 36 00 00         165 	ld	0 (iy),#0x00
+                            166 ;--------------------------------------------------------
+                            167 ; Home
+                            168 ;--------------------------------------------------------
+                            169 	.area _HOME
+                            170 	.area _HOME
+                            171 ;--------------------------------------------------------
+                            172 ; code
+                            173 ;--------------------------------------------------------
+                            174 	.area _CODE
+                            175 ;demo.c:25: void my_isr(void) interrupt
+                            176 ;	---------------------------------
+                            177 ; Function my_isr
+                            178 ; ---------------------------------
+   0000                     179 _my_isr_start::
+   0000                     180 _my_isr:
+   0000 F5                  181 	push	af
+   0001 C5                  182 	push	bc
+   0002 D5                  183 	push	de
+   0003 E5                  184 	push	hl
+   0004 FD E5               185 	push	iy
+                            186 ;demo.c:27: DI;
+   0006 F3                  187 		di 
+                            188 ;demo.c:28: READ_VDP_STATUS;
+   0007 DB 99               189 		in a,(#0x99) 
+                            190 ;demo.c:30: PLY_Play();
+   0009 CDr00s00            191 	call	_PLY_Play
+                            192 ;demo.c:31: PLY_SendRegisters();
+   000C CDr00s00            193 	call	_PLY_SendRegisters
+                            194 ;demo.c:33: vbicount++;
+   000F FD 21r28s15         195 	ld	iy,#_vbicount
+   0013 FD 34 00            196 	inc	0 (iy)
+   0016 20 07               197 	jr	NZ,00103$
+   0018 FD 21r28s15         198 	ld	iy,#_vbicount
+   001C FD 34 01            199 	inc	1 (iy)
+   001F                     200 00103$:
+                            201 ;demo.c:34: tick++;
+   001F FD 21r2As15         202 	ld	iy,#_tick
+   0023 FD 34 00            203 	inc	0 (iy)
+   0026 20 07               204 	jr	NZ,00104$
+   0028 FD 21r2As15         205 	ld	iy,#_tick
+   002C FD 34 01            206 	inc	1 (iy)
+   002F                     207 00104$:
+                            208 ;demo.c:36: EI;
+   002F FB                  209 		ei 
+   0030 FD E1               210 	pop	iy
+   0032 E1                  211 	pop	hl
+   0033 D1                  212 	pop	de
+   0034 C1                  213 	pop	bc
+   0035 F1                  214 	pop	af
+   0036 ED 4D               215 	reti
+   0038                     216 _my_isr_end::
+                            217 ;demo.c:43: uint8_t ge5_load(char *file_name, uint8_t vramh, uint16_t vraml) {
+                            218 ;	---------------------------------
+                            219 ; Function ge5_load
+                            220 ; ---------------------------------
+   0038                     221 _ge5_load_start::
+   0038                     222 _ge5_load:
+   0038 DD E5               223 	push	ix
+   003A DD 21 00 00         224 	ld	ix,#0
+   003E DD 39               225 	add	ix,sp
+   0040 21 D2 FF            226 	ld	hl,#-46
+   0043 39                  227 	add	hl,sp
+   0044 F9                  228 	ld	sp,hl
+                            229 ;demo.c:47: memset((uint8_t *) &f, 0, sizeof(fcb));
+   0045 21 00 00            230 	ld	hl,#0x0000
+   0048 39                  231 	add	hl,sp
+   0049 4D                  232 	ld	c,l
+   004A 44                  233 	ld	b,h
+   004B 21 2E 00            234 	ld	hl,#0x002E
+   004E E5                  235 	push	hl
+   004F 3E 00               236 	ld	a,#0x00
+   0051 F5                  237 	push	af
+   0052 33                  238 	inc	sp
+   0053 C5                  239 	push	bc
+   0054 CDr00s00            240 	call	_memset
+   0057 F1                  241 	pop	af
+   0058 F1                  242 	pop	af
+   0059 33                  243 	inc	sp
+                            244 ;demo.c:49: f.record_size = 128;
+   005A 21 00 00            245 	ld	hl,#0x0000
+   005D 39                  246 	add	hl,sp
+   005E 4D                  247 	ld	c,l
+   005F 44                  248 	ld	b,h
+   0060 21 0F 00            249 	ld	hl,#0x000F
+   0063 09                  250 	add	hl,bc
+   0064 EB                  251 	ex	de,hl
+   0065 3E 80               252 	ld	a,#0x80
+   0067 12                  253 	ld	(de),a
+                            254 ;demo.c:50: f.drive = 0;
+   0068 3E 00               255 	ld	a,#0x00
+   006A 02                  256 	ld	(bc),a
+                            257 ;demo.c:52: memcpy(f.name, file_name, 11);
+   006B DD 5E 04            258 	ld	e,4 (ix)
+   006E DD 56 05            259 	ld	d,5 (ix)
+   0071 03                  260 	inc	bc
+   0072 21 0B 00            261 	ld	hl,#0x000B
+   0075 E5                  262 	push	hl
+   0076 D5                  263 	push	de
+   0077 C5                  264 	push	bc
+   0078 CDr00s00            265 	call	_memcpy
+   007B F1                  266 	pop	af
+   007C F1                  267 	pop	af
+   007D F1                  268 	pop	af
+                            269 ;demo.c:54: if (open(&f) != 0) return 0;
+   007E 21 00 00            270 	ld	hl,#0x0000
+   0081 39                  271 	add	hl,sp
+   0082 E5                  272 	push	hl
+   0083 CDr00s00            273 	call	_open
+   0086 F1                  274 	pop	af
+   0087 AF                  275 	xor	a,a
+   0088 B5                  276 	or	a,l
+   0089 28 05               277 	jr	Z,00102$
+   008B 2E 00               278 	ld	l,#0x00
+   008D C3r04s01            279 	jp	00114$
+   0090                     280 00102$:
+                            281 ;demo.c:55: vdp_set_write_address(vramh, vraml);
+   0090 DD 6E 07            282 	ld	l,7 (ix)
+   0093 DD 66 08            283 	ld	h,8 (ix)
+   0096 E5                  284 	push	hl
+   0097 DD 7E 06            285 	ld	a,6 (ix)
+   009A F5                  286 	push	af
+   009B 33                  287 	inc	sp
+   009C CDr00s00            288 	call	_vdp_set_write_address
+   009F F1                  289 	pop	af
+   00A0 33                  290 	inc	sp
+                            291 ;demo.c:57: for (i = 0; i < 213; i++) {
+   00A1 0E 00               292 	ld	c,#0x00
+   00A3                     293 00110$:
+   00A3 79                  294 	ld	a,c
+   00A4 D6 D5               295 	sub	a,#0xD5
+   00A6 D2rF9s00            296 	jp	NC,00113$
+                            297 ;demo.c:58: if (block_set_data_ptr(scratch) != 0) return 0;
+   00A9 C5                  298 	push	bc
+   00AA 21r88s14            299 	ld	hl,#_scratch
+   00AD E5                  300 	push	hl
+   00AE CDr00s00            301 	call	_block_set_data_ptr
+   00B1 F1                  302 	pop	af
+   00B2 7D                  303 	ld	a,l
+   00B3 C1                  304 	pop	bc
+   00B4 47                  305 	ld	b,a
+   00B5 B7                  306 	or	a,a
+   00B6 28 05               307 	jr	Z,00104$
+   00B8 2E 00               308 	ld	l,#0x00
+   00BA C3r04s01            309 	jp	00114$
+   00BD                     310 00104$:
+                            311 ;demo.c:59: if (block_read(&f) != 0) return 0;
+   00BD 21 00 00            312 	ld	hl,#0x0000
+   00C0 39                  313 	add	hl,sp
+   00C1 C5                  314 	push	bc
+   00C2 E5                  315 	push	hl
+   00C3 CDr00s00            316 	call	_block_read
+   00C6 F1                  317 	pop	af
+   00C7 7D                  318 	ld	a,l
+   00C8 C1                  319 	pop	bc
+   00C9 47                  320 	ld	b,a
+   00CA B7                  321 	or	a,a
+   00CB 28 04               322 	jr	Z,00106$
+   00CD 2E 00               323 	ld	l,#0x00
+   00CF 18 33               324 	jr	00114$
+   00D1                     325 00106$:
+                            326 ;demo.c:61: if (i == 0) vdp_load_screen(scratch + 7, 121);   // to skip GE5 header
+   00D1 AF                  327 	xor	a,a
+   00D2 B1                  328 	or	a,c
+   00D3 20 11               329 	jr	NZ,00108$
+   00D5 11r8Fs14            330 	ld	de,#_scratch + 7
+   00D8 C5                  331 	push	bc
+   00D9 3E 79               332 	ld	a,#0x79
+   00DB F5                  333 	push	af
+   00DC 33                  334 	inc	sp
+   00DD D5                  335 	push	de
+   00DE CDr00s00            336 	call	_vdp_load_screen
+   00E1 F1                  337 	pop	af
+   00E2 33                  338 	inc	sp
+   00E3 C1                  339 	pop	bc
+   00E4 18 0F               340 	jr	00112$
+   00E6                     341 00108$:
+                            342 ;demo.c:62: else vdp_load_screen(scratch, 128);
+   00E6 C5                  343 	push	bc
+   00E7 3E 80               344 	ld	a,#0x80
+   00E9 F5                  345 	push	af
+   00EA 33                  346 	inc	sp
+   00EB 21r88s14            347 	ld	hl,#_scratch
+   00EE E5                  348 	push	hl
+   00EF CDr00s00            349 	call	_vdp_load_screen
+   00F2 F1                  350 	pop	af
+   00F3 33                  351 	inc	sp
+   00F4 C1                  352 	pop	bc
+   00F5                     353 00112$:
+                            354 ;demo.c:57: for (i = 0; i < 213; i++) {
+   00F5 0C                  355 	inc	c
+   00F6 C3rA3s00            356 	jp	00110$
+   00F9                     357 00113$:
+                            358 ;demo.c:65: close(&f);
+   00F9 21 00 00            359 	ld	hl,#0x0000
+   00FC 39                  360 	add	hl,sp
+   00FD E5                  361 	push	hl
+   00FE CDr00s00            362 	call	_close
+   0101 F1                  363 	pop	af
+                            364 ;demo.c:67: return 1;
+   0102 2E 01               365 	ld	l,#0x01
+   0104                     366 00114$:
+   0104 DD F9               367 	ld	sp,ix
+   0106 DD E1               368 	pop	ix
+   0108 C9                  369 	ret
+   0109                     370 _ge5_load_end::
+                            371 ;demo.c:70: void scratch_clear() {
+                            372 ;	---------------------------------
+                            373 ; Function scratch_clear
+                            374 ; ---------------------------------
+   0109                     375 _scratch_clear_start::
+   0109                     376 _scratch_clear:
+                            377 ;demo.c:71: memset((uint8_t *) &scratch, 0, 128);
+   0109 21 80 00            378 	ld	hl,#0x0080
+   010C E5                  379 	push	hl
+   010D 3E 00               380 	ld	a,#0x00
+   010F F5                  381 	push	af
+   0110 33                  382 	inc	sp
+   0111 21r88s14            383 	ld	hl,#_scratch
+   0114 E5                  384 	push	hl
+   0115 CDr00s00            385 	call	_memset
+   0118 F1                  386 	pop	af
+   0119 F1                  387 	pop	af
+   011A 33                  388 	inc	sp
+   011B C9                  389 	ret
+   011C                     390 _scratch_clear_end::
+                            391 ;demo.c:74: uint8_t pal_load(char *file_name, uint8_t ss) {
+                            392 ;	---------------------------------
+                            393 ; Function pal_load
+                            394 ; ---------------------------------
+   011C                     395 _pal_load_start::
+   011C                     396 _pal_load:
+   011C DD E5               397 	push	ix
+   011E DD 21 00 00         398 	ld	ix,#0
+   0122 DD 39               399 	add	ix,sp
+   0124 21 D2 FF            400 	ld	hl,#-46
+   0127 39                  401 	add	hl,sp
+   0128 F9                  402 	ld	sp,hl
+                            403 ;demo.c:77: memset((uint8_t *) &f, 0, sizeof(fcb));
+   0129 21 00 00            404 	ld	hl,#0x0000
+   012C 39                  405 	add	hl,sp
+   012D 4D                  406 	ld	c,l
+   012E 44                  407 	ld	b,h
+   012F 21 2E 00            408 	ld	hl,#0x002E
+   0132 E5                  409 	push	hl
+   0133 3E 00               410 	ld	a,#0x00
+   0135 F5                  411 	push	af
+   0136 33                  412 	inc	sp
+   0137 C5                  413 	push	bc
+   0138 CDr00s00            414 	call	_memset
+   013B F1                  415 	pop	af
+   013C F1                  416 	pop	af
+   013D 33                  417 	inc	sp
+                            418 ;demo.c:78: scratch_clear();
+   013E CDr09s01            419 	call	_scratch_clear
+                            420 ;demo.c:80: f.record_size = ss;
+   0141 21 00 00            421 	ld	hl,#0x0000
+   0144 39                  422 	add	hl,sp
+   0145 4D                  423 	ld	c,l
+   0146 44                  424 	ld	b,h
+   0147 21 0F 00            425 	ld	hl,#0x000F
+   014A 09                  426 	add	hl,bc
+   014B EB                  427 	ex	de,hl
+   014C DD 7E 06            428 	ld	a,6 (ix)
+   014F 12                  429 	ld	(de),a
+                            430 ;demo.c:81: f.drive = 0;
+   0150 3E 00               431 	ld	a,#0x00
+   0152 02                  432 	ld	(bc),a
+                            433 ;demo.c:83: memcpy(f.name, file_name, 11);
+   0153 DD 5E 04            434 	ld	e,4 (ix)
+   0156 DD 56 05            435 	ld	d,5 (ix)
+   0159 03                  436 	inc	bc
+   015A 21 0B 00            437 	ld	hl,#0x000B
+   015D E5                  438 	push	hl
+   015E D5                  439 	push	de
+   015F C5                  440 	push	bc
+   0160 CDr00s00            441 	call	_memcpy
+   0163 F1                  442 	pop	af
+   0164 F1                  443 	pop	af
+   0165 F1                  444 	pop	af
+                            445 ;demo.c:85: if (open(&f) != 0) return 0;
+   0166 21 00 00            446 	ld	hl,#0x0000
+   0169 39                  447 	add	hl,sp
+   016A E5                  448 	push	hl
+   016B CDr00s00            449 	call	_open
+   016E F1                  450 	pop	af
+   016F AF                  451 	xor	a,a
+   0170 B5                  452 	or	a,l
+   0171 28 04               453 	jr	Z,00102$
+   0173 2E 00               454 	ld	l,#0x00
+   0175 18 40               455 	jr	00107$
+   0177                     456 00102$:
+                            457 ;demo.c:86: if (block_set_data_ptr(scratch) != 0) return 0;
+   0177 21r88s14            458 	ld	hl,#_scratch
+   017A E5                  459 	push	hl
+   017B CDr00s00            460 	call	_block_set_data_ptr
+   017E F1                  461 	pop	af
+   017F AF                  462 	xor	a,a
+   0180 B5                  463 	or	a,l
+   0181 28 04               464 	jr	Z,00104$
+   0183 2E 00               465 	ld	l,#0x00
+   0185 18 30               466 	jr	00107$
+   0187                     467 00104$:
+                            468 ;demo.c:87: if (block_read(&f) != 0) return 0;
+   0187 21 00 00            469 	ld	hl,#0x0000
+   018A 39                  470 	add	hl,sp
+   018B E5                  471 	push	hl
+   018C CDr00s00            472 	call	_block_read
+   018F F1                  473 	pop	af
+   0190 AF                  474 	xor	a,a
+   0191 B5                  475 	or	a,l
+   0192 28 04               476 	jr	Z,00106$
+   0194 2E 00               477 	ld	l,#0x00
+   0196 18 1F               478 	jr	00107$
+   0198                     479 00106$:
+                            480 ;demo.c:89: memcpy(cur_palette, scratch+7, ss);
+   0198 DD 4E 06            481 	ld	c,6 (ix)
+   019B 06 00               482 	ld	b,#0x00
+   019D 11r8Fs14            483 	ld	de,#_scratch + 7
+   01A0 C5                  484 	push	bc
+   01A1 D5                  485 	push	de
+   01A2 21r08s15            486 	ld	hl,#_cur_palette
+   01A5 E5                  487 	push	hl
+   01A6 CDr00s00            488 	call	_memcpy
+   01A9 F1                  489 	pop	af
+   01AA F1                  490 	pop	af
+   01AB F1                  491 	pop	af
+                            492 ;demo.c:91: close(&f);
+   01AC 21 00 00            493 	ld	hl,#0x0000
+   01AF 39                  494 	add	hl,sp
+   01B0 E5                  495 	push	hl
+   01B1 CDr00s00            496 	call	_close
+   01B4 F1                  497 	pop	af
+                            498 ;demo.c:92: return 1;
+   01B5 2E 01               499 	ld	l,#0x01
+   01B7                     500 00107$:
+   01B7 DD F9               501 	ld	sp,ix
+   01B9 DD E1               502 	pop	ix
+   01BB C9                  503 	ret
+   01BC                     504 _pal_load_end::
+                            505 ;demo.c:96: void pause() {
+                            506 ;	---------------------------------
+                            507 ; Function pause
+                            508 ; ---------------------------------
+   01BC                     509 _pause_start::
+   01BC                     510 _pause:
+                            511 ;demo.c:97: uint8_t i,j,k = 0;
+                            512 ;demo.c:98: for (i = 0; i < 255; i++) {	
+   01BC 01 00 00            513 	ld	bc,#0x0000
+   01BF                     514 00104$:
+   01BF 78                  515 	ld	a,b
+   01C0 D6 FF               516 	sub	a,#0xFF
+   01C2 D0                  517 	ret	NC
+                            518 ;demo.c:99: for (j = 0; j < 255; j++) {
+   01C3 59                  519 	ld	e,c
+   01C4 16 FF               520 	ld	d,#0xFF
+   01C6                     521 00103$:
+                            522 ;demo.c:100: k++;
+   01C6 1C                  523 	inc	e
+   01C7 15                  524 	dec	d
+                            525 ;demo.c:99: for (j = 0; j < 255; j++) {
+   01C8 AF                  526 	xor	a,a
+   01C9 B2                  527 	or	a,d
+   01CA 20 FA               528 	jr	NZ,00103$
+                            529 ;demo.c:98: for (i = 0; i < 255; i++) {	
+   01CC 4B                  530 	ld	c,e
+   01CD 04                  531 	inc	b
+   01CE 18 EF               532 	jr	00104$
+   01D0                     533 _pause_end::
+                            534 ;demo.c:106: uint8_t pack_load(char *file_name, int size) {
+                            535 ;	---------------------------------
+                            536 ; Function pack_load
+                            537 ; ---------------------------------
+   01D0                     538 _pack_load_start::
+   01D0                     539 _pack_load:
+   01D0 DD E5               540 	push	ix
+   01D2 DD 21 00 00         541 	ld	ix,#0
+   01D6 DD 39               542 	add	ix,sp
+   01D8 21 D2 FF            543 	ld	hl,#-46
+   01DB 39                  544 	add	hl,sp
+   01DC F9                  545 	ld	sp,hl
+                            546 ;demo.c:111: memset((uint8_t *) &f, 0, sizeof(fcb));
+   01DD 21 00 00            547 	ld	hl,#0x0000
+   01E0 39                  548 	add	hl,sp
+   01E1 4D                  549 	ld	c,l
+   01E2 44                  550 	ld	b,h
+   01E3 21 2E 00            551 	ld	hl,#0x002E
+   01E6 E5                  552 	push	hl
+   01E7 3E 00               553 	ld	a,#0x00
+   01E9 F5                  554 	push	af
+   01EA 33                  555 	inc	sp
+   01EB C5                  556 	push	bc
+   01EC CDr00s00            557 	call	_memset
+   01EF F1                  558 	pop	af
+   01F0 F1                  559 	pop	af
+   01F1 33                  560 	inc	sp
+                            561 ;demo.c:112: scratch_clear();
+   01F2 CDr09s01            562 	call	_scratch_clear
+                            563 ;demo.c:114: f.record_size = 128;
+   01F5 21 00 00            564 	ld	hl,#0x0000
+   01F8 39                  565 	add	hl,sp
+   01F9 4D                  566 	ld	c,l
+   01FA 44                  567 	ld	b,h
+   01FB 21 0F 00            568 	ld	hl,#0x000F
+   01FE 09                  569 	add	hl,bc
+   01FF EB                  570 	ex	de,hl
+   0200 3E 80               571 	ld	a,#0x80
+   0202 12                  572 	ld	(de),a
+                            573 ;demo.c:115: f.drive = 0;
+   0203 3E 00               574 	ld	a,#0x00
+   0205 02                  575 	ld	(bc),a
+                            576 ;demo.c:117: memcpy(f.name, file_name, 11);
+   0206 DD 5E 04            577 	ld	e,4 (ix)
+   0209 DD 56 05            578 	ld	d,5 (ix)
+   020C 03                  579 	inc	bc
+   020D 21 0B 00            580 	ld	hl,#0x000B
+   0210 E5                  581 	push	hl
+   0211 D5                  582 	push	de
+   0212 C5                  583 	push	bc
+   0213 CDr00s00            584 	call	_memcpy
+   0216 F1                  585 	pop	af
+   0217 F1                  586 	pop	af
+   0218 F1                  587 	pop	af
+                            588 ;demo.c:119: if (open(&f) != 0) return 0;
+   0219 21 00 00            589 	ld	hl,#0x0000
+   021C 39                  590 	add	hl,sp
+   021D E5                  591 	push	hl
+   021E CDr00s00            592 	call	_open
+   0221 F1                  593 	pop	af
+   0222 AF                  594 	xor	a,a
+   0223 B5                  595 	or	a,l
+   0224 28 05               596 	jr	Z,00116$
+   0226 2E 00               597 	ld	l,#0x00
+   0228 C3r8As02            598 	jp	00110$
+                            599 ;demo.c:121: while(total < size) {
+   022B                     600 00116$:
+   022B 01 00 00            601 	ld	bc,#0x0000
+   022E                     602 00107$:
+   022E 79                  603 	ld	a,c
+   022F DD 96 06            604 	sub	a,6 (ix)
+   0232 78                  605 	ld	a,b
+   0233 DD 9E 07            606 	sbc	a,7 (ix)
+   0236 F2r7Fs02            607 	jp	P,00109$
+                            608 ;demo.c:122: if (block_set_data_ptr(scratch) != 0) return 0;
+   0239 C5                  609 	push	bc
+   023A 21r88s14            610 	ld	hl,#_scratch
+   023D E5                  611 	push	hl
+   023E CDr00s00            612 	call	_block_set_data_ptr
+   0241 F1                  613 	pop	af
+   0242 5D                  614 	ld	e,l
+   0243 C1                  615 	pop	bc
+   0244 AF                  616 	xor	a,a
+   0245 B3                  617 	or	a,e
+   0246 28 04               618 	jr	Z,00104$
+   0248 2E 00               619 	ld	l,#0x00
+   024A 18 3E               620 	jr	00110$
+   024C                     621 00104$:
+                            622 ;demo.c:123: if (block_read(&f) != 0) return 0;
+   024C 21 00 00            623 	ld	hl,#0x0000
+   024F 39                  624 	add	hl,sp
+   0250 C5                  625 	push	bc
+   0251 E5                  626 	push	hl
+   0252 CDr00s00            627 	call	_block_read
+   0255 F1                  628 	pop	af
+   0256 5D                  629 	ld	e,l
+   0257 C1                  630 	pop	bc
+   0258 AF                  631 	xor	a,a
+   0259 B3                  632 	or	a,e
+   025A 28 04               633 	jr	Z,00106$
+   025C 2E 00               634 	ld	l,#0x00
+   025E 18 2A               635 	jr	00110$
+   0260                     636 00106$:
+                            637 ;demo.c:125: memcpy(packbuffer+total,scratch,incr);
+   0260 21r00s01            638 	ld	hl,#_packbuffer
+   0263 09                  639 	add	hl,bc
+   0264 EB                  640 	ex	de,hl
+   0265 C5                  641 	push	bc
+   0266 21 80 00            642 	ld	hl,#0x0080
+   0269 E5                  643 	push	hl
+   026A 21r88s14            644 	ld	hl,#_scratch
+   026D E5                  645 	push	hl
+   026E D5                  646 	push	de
+   026F CDr00s00            647 	call	_memcpy
+   0272 F1                  648 	pop	af
+   0273 F1                  649 	pop	af
+   0274 F1                  650 	pop	af
+   0275 C1                  651 	pop	bc
+                            652 ;demo.c:127: total+=incr;
+   0276 21 80 00            653 	ld	hl,#0x0080
+   0279 09                  654 	add	hl,bc
+   027A 4D                  655 	ld	c,l
+   027B 44                  656 	ld	b,h
+   027C C3r2Es02            657 	jp	00107$
+   027F                     658 00109$:
+                            659 ;demo.c:130: close(&f);
+   027F 21 00 00            660 	ld	hl,#0x0000
+   0282 39                  661 	add	hl,sp
+   0283 E5                  662 	push	hl
+   0284 CDr00s00            663 	call	_close
+   0287 F1                  664 	pop	af
+                            665 ;demo.c:132: return 1;
+   0288 2E 01               666 	ld	l,#0x01
+   028A                     667 00110$:
+   028A DD F9               668 	ld	sp,ix
+   028C DD E1               669 	pop	ix
+   028E C9                  670 	ret
+   028F                     671 _pack_load_end::
+                            672 ;demo.c:135: void fadein() {
+                            673 ;	---------------------------------
+                            674 ; Function fadein
+                            675 ; ---------------------------------
+   028F                     676 _fadein_start::
+   028F                     677 _fadein:
+   028F DD E5               678 	push	ix
+   0291 DD 21 00 00         679 	ld	ix,#0
+   0295 DD 39               680 	add	ix,sp
+   0297 F5                  681 	push	af
+                            682 ;demo.c:138: if (tick < 4) return;
+   0298 3Ar2As15            683 	ld	a,(#_tick+0)
+   029B D6 04               684 	sub	a,#0x04
+   029D 3Ar2Bs15            685 	ld	a,(#_tick+1)
+   02A0 DE 00               686 	sbc	a,#0x00
+   02A2 F2rA8s02            687 	jp	P,00102$
+   02A5 C3r56s03            688 	jp	00113$
+   02A8                     689 00102$:
+                            690 ;demo.c:140: tick = 0;
+   02A8 21r2As15            691 	ld	hl,#_tick + 0
+   02AB 36 00               692 	ld	(hl), #0x00
+   02AD 21r2Bs15            693 	ld	hl,#_tick + 1
+   02B0 36 00               694 	ld	(hl), #0x00
+                            695 ;demo.c:142: for(i = 0; i < 32; i+=2) {
+   02B2 0E 00               696 	ld	c,#0x00
+   02B4                     697 00109$:
+   02B4 79                  698 	ld	a,c
+   02B5 D6 20               699 	sub	a,#0x20
+   02B7 D2r4Es03            700 	jp	NC,00112$
+                            701 ;demo.c:143: uint8_t r = scratch[i] >> 4;
+   02BA 3Er88               702 	ld	a,#<_scratch
+   02BC 81                  703 	add	a,c
+   02BD 5F                  704 	ld	e,a
+   02BE 3Es14               705 	ld	a,#>_scratch
+   02C0 CE 00               706 	adc	a,#0x00
+   02C2 57                  707 	ld	d,a
+   02C3 1A                  708 	ld	a,(de)
+   02C4 47                  709 	ld	b,a
+   02C5 58                  710 	ld	e,b
+   02C6 CB 3B               711 	srl	e
+   02C8 CB 3B               712 	srl	e
+   02CA CB 3B               713 	srl	e
+   02CC CB 3B               714 	srl	e
+                            715 ;demo.c:144: uint8_t b = scratch[i] & 0xf;
+   02CE 78                  716 	ld	a,b
+   02CF E6 0F               717 	and	a,#0x0F
+   02D1 DD 77 FF            718 	ld	-1 (ix),a
+                            719 ;demo.c:145: uint8_t g = scratch[i+1];
+   02D4 51                  720 	ld	d,c
+   02D5 14                  721 	inc	d
+   02D6 3Er88               722 	ld	a,#<_scratch
+   02D8 82                  723 	add	a,d
+   02D9 6F                  724 	ld	l,a
+   02DA 3Es14               725 	ld	a,#>_scratch
+   02DC CE 00               726 	adc	a,#0x00
+   02DE 67                  727 	ld	h,a
+   02DF 56                  728 	ld	d,(hl)
+   02E0 DD 72 FE            729 	ld	-2 (ix),d
+                            730 ;demo.c:147: if (r < (cur_palette[i] >> 4)) r++;
+   02E3 3Er08               731 	ld	a,#<_cur_palette
+   02E5 81                  732 	add	a,c
+   02E6 6F                  733 	ld	l,a
+   02E7 3Es15               734 	ld	a,#>_cur_palette
+   02E9 CE 00               735 	adc	a,#0x00
+   02EB 67                  736 	ld	h,a
+   02EC 56                  737 	ld	d,(hl)
+   02ED CB 3A               738 	srl	d
+   02EF CB 3A               739 	srl	d
+   02F1 CB 3A               740 	srl	d
+   02F3 CB 3A               741 	srl	d
+   02F5 7B                  742 	ld	a,e
+   02F6 92                  743 	sub	a,d
+   02F7 30 01               744 	jr	NC,00104$
+   02F9 1C                  745 	inc	e
+   02FA                     746 00104$:
+                            747 ;demo.c:148: if (b < (cur_palette[i] & 0xf)) b++;
+   02FA 3Er08               748 	ld	a,#<_cur_palette
+   02FC 81                  749 	add	a,c
+   02FD 6F                  750 	ld	l,a
+   02FE 3Es15               751 	ld	a,#>_cur_palette
+   0300 CE 00               752 	adc	a,#0x00
+   0302 67                  753 	ld	h,a
+   0303 7E                  754 	ld	a,(hl)
+   0304 E6 0F               755 	and	a,#0x0F
+   0306 47                  756 	ld	b,a
+   0307 DD 7E FF            757 	ld	a,-1 (ix)
+   030A 90                  758 	sub	a,b
+   030B 30 03               759 	jr	NC,00106$
+   030D DD 34 FF            760 	inc	-1 (ix)
+   0310                     761 00106$:
+                            762 ;demo.c:150: scratch[i] = (r << 4) | b;
+   0310 3Er88               763 	ld	a,#<_scratch
+   0312 81                  764 	add	a,c
+   0313 47                  765 	ld	b,a
+   0314 3Es14               766 	ld	a,#>_scratch
+   0316 CE 00               767 	adc	a,#0x00
+   0318 57                  768 	ld	d,a
+   0319 7B                  769 	ld	a,e
+   031A 07                  770 	rlca
+   031B 07                  771 	rlca
+   031C 07                  772 	rlca
+   031D 07                  773 	rlca
+   031E E6 F0               774 	and	a,#0xF0
+   0320 DD B6 FF            775 	or	a,-1 (ix)
+   0323 68                  776 	ld	l,b
+   0324 62                  777 	ld	h,d
+   0325 77                  778 	ld	(hl),a
+                            779 ;demo.c:151: if (g < cur_palette[i+1]) scratch[i+1]++;
+   0326 41                  780 	ld	b,c
+   0327 04                  781 	inc	b
+   0328 3Er08               782 	ld	a,#<_cur_palette
+   032A 80                  783 	add	a,b
+   032B 5F                  784 	ld	e,a
+   032C 3Es15               785 	ld	a,#>_cur_palette
+   032E CE 00               786 	adc	a,#0x00
+   0330 57                  787 	ld	d,a
+   0331 1A                  788 	ld	a,(de)
+   0332 5F                  789 	ld	e,a
+   0333 DD 7E FE            790 	ld	a,-2 (ix)
+   0336 93                  791 	sub	a,e
+   0337 30 10               792 	jr	NC,00111$
+   0339 3Er88               793 	ld	a,#<_scratch
+   033B 80                  794 	add	a,b
+   033C 47                  795 	ld	b,a
+   033D 3Es14               796 	ld	a,#>_scratch
+   033F CE 00               797 	adc	a,#0x00
+   0341 5F                  798 	ld	e,a
+   0342 68                  799 	ld	l,b
+   0343 67                  800 	ld	h,a
+   0344 7E                  801 	ld	a,(hl)
+   0345 3C                  802 	inc	a
+   0346 68                  803 	ld	l,b
+   0347 63                  804 	ld	h,e
+   0348 77                  805 	ld	(hl),a
+   0349                     806 00111$:
+                            807 ;demo.c:142: for(i = 0; i < 32; i+=2) {
+   0349 0C                  808 	inc	c
+   034A 0C                  809 	inc	c
+   034B C3rB4s02            810 	jp	00109$
+   034E                     811 00112$:
+                            812 ;demo.c:155: vdp_load_palette(scratch);
+   034E 21r88s14            813 	ld	hl,#_scratch
+   0351 E5                  814 	push	hl
+   0352 CDr00s00            815 	call	_vdp_load_palette
+   0355 F1                  816 	pop	af
+   0356                     817 00113$:
+   0356 DD F9               818 	ld	sp,ix
+   0358 DD E1               819 	pop	ix
+   035A C9                  820 	ret
+   035B                     821 _fadein_end::
+                            822 ;demo.c:164: void do_ymmm() {
+                            823 ;	---------------------------------
+                            824 ; Function do_ymmm
+                            825 ; ---------------------------------
+   035B                     826 _do_ymmm_start::
+   035B                     827 _do_ymmm:
+   035B DD E5               828 	push	ix
+   035D DD 21 00 00         829 	ld	ix,#0
+   0361 DD 39               830 	add	ix,sp
+   0363 21 ED FF            831 	ld	hl,#-19
+   0366 39                  832 	add	hl,sp
+   0367 F9                  833 	ld	sp,hl
+                            834 ;demo.c:168: vdp_set_write_address(0x1,0x00);
+   0368 21 00 00            835 	ld	hl,#0x0000
+   036B E5                  836 	push	hl
+   036C 3E 01               837 	ld	a,#0x01
+   036E F5                  838 	push	af
+   036F 33                  839 	inc	sp
+   0370 CDr00s00            840 	call	_vdp_set_write_address
+   0373 F1                  841 	pop	af
+   0374 33                  842 	inc	sp
+                            843 ;demo.c:170: for (yo = 0; yo<212;yo+=step) {
+   0375 21r2Cs15            844 	ld	hl,#_yo + 0
+   0378 36 00               845 	ld	(hl), #0x00
+   037A                     846 00101$:
+   037A 3Ar2Cs15            847 	ld	a,(#_yo+0)
+   037D D6 D4               848 	sub	a,#0xD4
+   037F D2r45s04            849 	jp	NC,00105$
+                            850 ;demo.c:172: cmd.source_x = 0;
+   0382 21 04 00            851 	ld	hl,#0x0004
+   0385 39                  852 	add	hl,sp
+   0386 36 00               853 	ld	(hl),#0x00
+   0388 23                  854 	inc	hl
+   0389 36 00               855 	ld	(hl),#0x00
+                            856 ;demo.c:173: cmd.source_y = yo;
+   038B 21 04 00            857 	ld	hl,#0x0004
+   038E 39                  858 	add	hl,sp
+   038F 4D                  859 	ld	c,l
+   0390 44                  860 	ld	b,h
+   0391 21 02 00            861 	ld	hl,#0x0002
+   0394 09                  862 	add	hl,bc
+   0395 DD 75 EF            863 	ld	-17 (ix),l
+   0398 DD 74 F0            864 	ld	-16 (ix),h
+   039B 21r2Cs15            865 	ld	hl,#_yo + 0
+   039E 5E                  866 	ld	e,(hl)
+   039F 16 00               867 	ld	d,#0x00
+   03A1 DD 6E EF            868 	ld	l,-17 (ix)
+   03A4 DD 66 F0            869 	ld	h,-16 (ix)
+   03A7 73                  870 	ld	(hl),e
+   03A8 23                  871 	inc	hl
+   03A9 72                  872 	ld	(hl),d
+                            873 ;demo.c:174: cmd.dest_x = sintab[(vbicount+yo) & 255]>>2;
+   03AA 21 04 00            874 	ld	hl,#0x0004
+   03AD 09                  875 	add	hl,bc
+   03AE DD 75 EF            876 	ld	-17 (ix),l
+   03B1 DD 74 F0            877 	ld	-16 (ix),h
+   03B4 3Ar2Cs15            878 	ld	a,(#_yo+0)
+   03B7 DD 77 ED            879 	ld	-19 (ix),a
+   03BA DD 36 EE 00         880 	ld	-18 (ix),#0x00
+   03BE 3Ar28s15            881 	ld	a,(#_vbicount+0)
+   03C1 DD 86 ED            882 	add	a,-19 (ix)
+   03C4 5F                  883 	ld	e,a
+   03C5 3Ar29s15            884 	ld	a,(#_vbicount+1)
+   03C8 DD 8E EE            885 	adc	a,-18 (ix)
+   03CB 16 00               886 	ld	d,#0x00
+   03CD 21r00s00            887 	ld	hl,#_sintab
+   03D0 19                  888 	add	hl,de
+   03D1 5E                  889 	ld	e,(hl)
+   03D2 CB 2B               890 	sra	e
+   03D4 CB 2B               891 	sra	e
+   03D6 7B                  892 	ld	a,e
+   03D7 17                  893 	rla	
+   03D8 9F                  894 	sbc	a,a
+   03D9 57                  895 	ld	d,a
+   03DA DD 6E EF            896 	ld	l,-17 (ix)
+   03DD DD 66 F0            897 	ld	h,-16 (ix)
+   03E0 73                  898 	ld	(hl),e
+   03E1 23                  899 	inc	hl
+   03E2 72                  900 	ld	(hl),d
+                            901 ;demo.c:175: cmd.dest_y = (yo-1);
+   03E3 21 06 00            902 	ld	hl,#0x0006
+   03E6 09                  903 	add	hl,bc
+   03E7 DD 75 EF            904 	ld	-17 (ix),l
+   03EA DD 74 F0            905 	ld	-16 (ix),h
+   03ED DD 5E ED            906 	ld	e,-19 (ix)
+   03F0 DD 56 EE            907 	ld	d,-18 (ix)
+   03F3 1B                  908 	dec	de
+   03F4 DD 6E EF            909 	ld	l,-17 (ix)
+   03F7 DD 66 F0            910 	ld	h,-16 (ix)
+   03FA 73                  911 	ld	(hl),e
+   03FB 23                  912 	inc	hl
+   03FC 72                  913 	ld	(hl),d
+                            914 ;demo.c:176: cmd.size_x = 255;
+   03FD 21 08 00            915 	ld	hl,#0x0008
+   0400 09                  916 	add	hl,bc
+   0401 36 FF               917 	ld	(hl),#0xFF
+   0403 23                  918 	inc	hl
+   0404 36 00               919 	ld	(hl),#0x00
+                            920 ;demo.c:177: cmd.size_y = 4;
+   0406 21 0A 00            921 	ld	hl,#0x000A
+   0409 09                  922 	add	hl,bc
+   040A 36 04               923 	ld	(hl),#0x04
+   040C 23                  924 	inc	hl
+   040D 36 00               925 	ld	(hl),#0x00
+                            926 ;demo.c:178: cmd.data = 0;
+   040F 21 0C 00            927 	ld	hl,#0x000C
+   0412 09                  928 	add	hl,bc
+   0413 EB                  929 	ex	de,hl
+   0414 3E 00               930 	ld	a,#0x00
+   0416 12                  931 	ld	(de),a
+                            932 ;demo.c:179: cmd.argument = 0;
+   0417 21 0D 00            933 	ld	hl,#0x000D
+   041A 09                  934 	add	hl,bc
+   041B EB                  935 	ex	de,hl
+   041C 3E 00               936 	ld	a,#0x00
+   041E 12                  937 	ld	(de),a
+                            938 ;demo.c:180: cmd.command = 0xD0;
+   041F 21 0E 00            939 	ld	hl,#0x000E
+   0422 09                  940 	add	hl,bc
+   0423 EB                  941 	ex	de,hl
+   0424 3E D0               942 	ld	a,#0xD0
+   0426 12                  943 	ld	(de),a
+                            944 ;demo.c:183: vdp_copier(&cmd);
+   0427 C5                  945 	push	bc
+   0428 CDr00s00            946 	call	_vdp_copier
+   042B F1                  947 	pop	af
+                            948 ;demo.c:184: yo+=step;
+   042C 21r2Cs15            949 	ld	hl,#_yo + 0
+   042F 4E                  950 	ld	c,(hl)
+   0430 21r2Cs15            951 	ld	hl,#_yo
+   0433 79                  952 	ld	a,c
+   0434 C6 04               953 	add	a,#0x04
+   0436 77                  954 	ld	(hl),a
+                            955 ;demo.c:170: for (yo = 0; yo<212;yo+=step) {
+   0437 21r2Cs15            956 	ld	hl,#_yo + 0
+   043A 4E                  957 	ld	c,(hl)
+   043B 21r2Cs15            958 	ld	hl,#_yo
+   043E 79                  959 	ld	a,c
+   043F C6 04               960 	add	a,#0x04
+   0441 77                  961 	ld	(hl),a
+   0442 C3r7As03            962 	jp	00101$
+   0445                     963 00105$:
+   0445 DD F9               964 	ld	sp,ix
+   0447 DD E1               965 	pop	ix
+   0449 C9                  966 	ret
+   044A                     967 _do_ymmm_end::
+                            968 ;demo.c:192: void main() {
+                            969 ;	---------------------------------
+                            970 ; Function main
+                            971 ; ---------------------------------
+   044A                     972 _main_start::
+   044A                     973 _main:
+                            974 ;demo.c:193: unsigned char quit=0;
+   044A 0E 00               975 	ld	c,#0x00
+                            976 ;demo.c:195: spindown();
+   044C C5                  977 	push	bc
+   044D CDr00s00            978 	call	_spindown
+   0450 C1                  979 	pop	bc
+                            980 ;demo.c:197: puts("demo init\r\n\r\n");
+   0451 C5                  981 	push	bc
+   0452 21r68s05            982 	ld	hl,#__str_0
+   0455 E5                  983 	push	hl
+   0456 CDr00s00            984 	call	_puts
+   0459 F1                  985 	pop	af
+   045A C1                  986 	pop	bc
+                            987 ;demo.c:199: puts("music init...");
+   045B C5                  988 	push	bc
+   045C 21r76s05            989 	ld	hl,#__str_1
+   045F E5                  990 	push	hl
+   0460 CDr00s00            991 	call	_puts
+   0463 F1                  992 	pop	af
+   0464 C1                  993 	pop	bc
+                            994 ;demo.c:201: PLY_SongPtr = (char *)0x0103;
+   0465 21r00s00            995 	ld	hl,#_PLY_SongPtr + 0
+   0468 36 03               996 	ld	(hl), #0x03
+   046A 21r01s00            997 	ld	hl,#_PLY_SongPtr + 1
+   046D 36 01               998 	ld	(hl), #0x01
+                            999 ;demo.c:202: PLY_Init();
+   046F C5                 1000 	push	bc
+   0470 CDr00s00           1001 	call	_PLY_Init
+   0473 C1                 1002 	pop	bc
+                           1003 ;demo.c:203: puts("done.\n\n");
+   0474 C5                 1004 	push	bc
+   0475 21r84s05           1005 	ld	hl,#__str_2
+   0478 E5                 1006 	push	hl
+   0479 CDr00s00           1007 	call	_puts
+   047C F1                 1008 	pop	af
+   047D C1                 1009 	pop	bc
+                           1010 ;demo.c:205: if(isvdp2())
+   047E C5                 1011 	push	bc
+   047F CDr00s00           1012 	call	_isvdp2
+   0482 7D                 1013 	ld	a,l
+   0483 C1                 1014 	pop	bc
+   0484 47                 1015 	ld	b,a
+   0485 B7                 1016 	or	a,a
+   0486 28 0A              1017 	jr	Z,00102$
+                           1018 ;demo.c:207: msx2_sethz(50);
+   0488 C5                 1019 	push	bc
+   0489 3E 32              1020 	ld	a,#0x32
+   048B F5                 1021 	push	af
+   048C 33                 1022 	inc	sp
+   048D CDr00s00           1023 	call	_msx2_sethz
+   0490 33                 1024 	inc	sp
+   0491 C1                 1025 	pop	bc
+   0492                    1026 00102$:
+                           1027 ;demo.c:211: puts("demo start\r\n");
+   0492 C5                 1028 	push	bc
+   0493 21r8Cs05           1029 	ld	hl,#__str_3
+   0496 E5                 1030 	push	hl
+   0497 CDr00s00           1031 	call	_puts
+   049A F1                 1032 	pop	af
+   049B C1                 1033 	pop	bc
+                           1034 ;demo.c:213: scratch_clear();
+   049C C5                 1035 	push	bc
+   049D CDr09s01           1036 	call	_scratch_clear
+   04A0 C1                 1037 	pop	bc
+                           1038 ;demo.c:214: vdp_load_palette(scratch);
+   04A1 C5                 1039 	push	bc
+   04A2 21r88s14           1040 	ld	hl,#_scratch
+   04A5 E5                 1041 	push	hl
+   04A6 CDr00s00           1042 	call	_vdp_load_palette
+   04A9 F1                 1043 	pop	af
+   04AA C1                 1044 	pop	bc
+                           1045 ;demo.c:216: vdp_set_screen5();
+   04AB C5                 1046 	push	bc
+   04AC CDr00s00           1047 	call	_vdp_set_screen5
+   04AF C1                 1048 	pop	bc
+                           1049 ;demo.c:218: vdp_register(VDP_VOFFSET,0);
+   04B0 C5                 1050 	push	bc
+   04B1 21 17 00           1051 	ld	hl,#0x0017
+   04B4 E5                 1052 	push	hl
+   04B5 CDr00s00           1053 	call	_vdp_register
+   04B8 F1                 1054 	pop	af
+   04B9 C1                 1055 	pop	bc
+                           1056 ;demo.c:220: pal_load("KETTU16 PL5", 32);
+   04BA C5                 1057 	push	bc
+   04BB 3E 20              1058 	ld	a,#0x20
+   04BD F5                 1059 	push	af
+   04BE 33                 1060 	inc	sp
+   04BF 21r99s05           1061 	ld	hl,#__str_4
+   04C2 E5                 1062 	push	hl
+   04C3 CDr1Cs01           1063 	call	_pal_load
+   04C6 F1                 1064 	pop	af
+   04C7 33                 1065 	inc	sp
+   04C8 C1                 1066 	pop	bc
+                           1067 ;demo.c:222: memset((uint8_t *) &packbuffer, 0, 5000);
+   04C9 C5                 1068 	push	bc
+   04CA 21 88 13           1069 	ld	hl,#0x1388
+   04CD E5                 1070 	push	hl
+   04CE 3E 00              1071 	ld	a,#0x00
+   04D0 F5                 1072 	push	af
+   04D1 33                 1073 	inc	sp
+   04D2 21r00s01           1074 	ld	hl,#_packbuffer
+   04D5 E5                 1075 	push	hl
+   04D6 CDr00s00           1076 	call	_memset
+   04D9 F1                 1077 	pop	af
+   04DA F1                 1078 	pop	af
+   04DB 33                 1079 	inc	sp
+   04DC C1                 1080 	pop	bc
+                           1081 ;demo.c:223: pack_load("KETTU16 PCK", 4502);
+   04DD C5                 1082 	push	bc
+   04DE 21 96 11           1083 	ld	hl,#0x1196
+   04E1 E5                 1084 	push	hl
+   04E2 21rA5s05           1085 	ld	hl,#__str_5
+   04E5 E5                 1086 	push	hl
+   04E6 CDrD0s01           1087 	call	_pack_load
+   04E9 F1                 1088 	pop	af
+   04EA F1                 1089 	pop	af
+   04EB C1                 1090 	pop	bc
+                           1091 ;demo.c:224: vdp_register(14,0);
+   04EC C5                 1092 	push	bc
+   04ED 21 0E 00           1093 	ld	hl,#0x000E
+   04F0 E5                 1094 	push	hl
+   04F1 CDr00s00           1095 	call	_vdp_register
+   04F4 F1                 1096 	pop	af
+   04F5 C1                 1097 	pop	bc
+                           1098 ;demo.c:226: bitbuster(packbuffer,0);
+   04F6 C5                 1099 	push	bc
+   04F7 21 00 00           1100 	ld	hl,#0x0000
+   04FA E5                 1101 	push	hl
+   04FB 21r00s01           1102 	ld	hl,#_packbuffer
+   04FE E5                 1103 	push	hl
+   04FF CDr00s00           1104 	call	_bitbuster
+   0502 F1                 1105 	pop	af
+   0503 F1                 1106 	pop	af
+   0504 C1                 1107 	pop	bc
+                           1108 ;demo.c:228: scratch_clear();
+   0505 C5                 1109 	push	bc
+   0506 CDr09s01           1110 	call	_scratch_clear
+   0509 C1                 1111 	pop	bc
+                           1112 ;demo.c:230: install_isr(my_isr);
+   050A C5                 1113 	push	bc
+   050B 21r00s00           1114 	ld	hl,#_my_isr
+   050E E5                 1115 	push	hl
+   050F CDr00s00           1116 	call	_install_isr
+   0512 F1                 1117 	pop	af
+   0513 C1                 1118 	pop	bc
+                           1119 ;demo.c:232: while (!quit) {
+   0514                    1120 00108$:
+   0514 AF                 1121 	xor	a,a
+   0515 B1                 1122 	or	a,c
+   0516 20 2D              1123 	jr	NZ,00110$
+                           1124 ;demo.c:233: waitVB();
+   0518 76                 1125 		halt 
+                           1126 ;demo.c:235: if (vbicount < 192) fadein();
+   0519 3Ar28s15           1127 	ld	a,(#_vbicount+0)
+   051C D6 C0              1128 	sub	a,#0xC0
+   051E 3Ar29s15           1129 	ld	a,(#_vbicount+1)
+   0521 DE 00              1130 	sbc	a,#0x00
+   0523 F2r2Ds05           1131 	jp	P,00104$
+   0526 C5                 1132 	push	bc
+   0527 CDr8Fs02           1133 	call	_fadein
+   052A C1                 1134 	pop	bc
+   052B 18 05              1135 	jr	00105$
+   052D                    1136 00104$:
+                           1137 ;demo.c:238: do_ymmm();
+   052D C5                 1138 	push	bc
+   052E CDr5Bs03           1139 	call	_do_ymmm
+   0531 C1                 1140 	pop	bc
+   0532                    1141 00105$:
+                           1142 ;demo.c:241: if(space())
+   0532 C5                 1143 	push	bc
+   0533 21 08 01           1144 	ld	hl,#0x0108
+   0536 E5                 1145 	push	hl
+   0537 CDr00s00           1146 	call	_ispressed
+   053A F1                 1147 	pop	af
+   053B 7D                 1148 	ld	a,l
+   053C C1                 1149 	pop	bc
+   053D 47                 1150 	ld	b,a
+   053E B7                 1151 	or	a,a
+   053F 28 D3              1152 	jr	Z,00108$
+                           1153 ;demo.c:242: quit=1;
+   0541 0E 01              1154 	ld	c,#0x01
+   0543 18 CF              1155 	jr	00108$
+   0545                    1156 00110$:
+                           1157 ;demo.c:245: waitVB();
+   0545 76                 1158 		halt 
+                           1159 ;demo.c:246: uninstall_isr();
+   0546 CDr00s00           1160 	call	_uninstall_isr
+                           1161 ;demo.c:247: PLY_Stop();
+   0549 CDr00s00           1162 	call	_PLY_Stop
+                           1163 ;demo.c:248: PLY_SendRegisters();
+   054C CDr00s00           1164 	call	_PLY_SendRegisters
+                           1165 ;demo.c:250: screen(0);
+   054F 3E 00              1166 	ld	a,#0x00
+   0551 F5                 1167 	push	af
+   0552 33                 1168 	inc	sp
+   0553 CDr00s00           1169 	call	_screen
+   0556 33                 1170 	inc	sp
+                           1171 ;demo.c:252: puts("demo exit\r\n\r\n");
+   0557 21rB1s05           1172 	ld	hl,#__str_6
+   055A E5                 1173 	push	hl
+   055B CDr00s00           1174 	call	_puts
+   055E F1                 1175 	pop	af
+                           1176 ;demo.c:254: exit(0);
+   055F 3E 00              1177 	ld	a,#0x00
+   0561 F5                 1178 	push	af
+   0562 33                 1179 	inc	sp
+   0563 CDr00s00           1180 	call	_exit
+   0566 33                 1181 	inc	sp
+   0567 C9                 1182 	ret
+   0568                    1183 _main_end::
+   0568                    1184 __str_0:
+   0568 64 65 6D 6F 20 69  1185 	.ascii "demo init"
         6E 69 74
-   0484 0D                 1025 	.db 0x0D
-   0485 0A                 1026 	.db 0x0A
-   0486 0D                 1027 	.db 0x0D
-   0487 0A                 1028 	.db 0x0A
-   0488 00                 1029 	.db 0x00
-   0489                    1030 __str_1:
-   0489 6D 75 73 69 63 20  1031 	.ascii "music init..."
+   0571 0D                 1186 	.db 0x0D
+   0572 0A                 1187 	.db 0x0A
+   0573 0D                 1188 	.db 0x0D
+   0574 0A                 1189 	.db 0x0A
+   0575 00                 1190 	.db 0x00
+   0576                    1191 __str_1:
+   0576 6D 75 73 69 63 20  1192 	.ascii "music init..."
         69 6E 69 74 2E 2E
         2E
-   0496 00                 1032 	.db 0x00
-   0497                    1033 __str_2:
-   0497 64 6F 6E 65 2E     1034 	.ascii "done."
-   049C 0A                 1035 	.db 0x0A
-   049D 0A                 1036 	.db 0x0A
-   049E 00                 1037 	.db 0x00
-   049F                    1038 __str_3:
-   049F 4B 45 54 54 55 31  1039 	.ascii "KETTU16 PL5"
+   0583 00                 1193 	.db 0x00
+   0584                    1194 __str_2:
+   0584 64 6F 6E 65 2E     1195 	.ascii "done."
+   0589 0A                 1196 	.db 0x0A
+   058A 0A                 1197 	.db 0x0A
+   058B 00                 1198 	.db 0x00
+   058C                    1199 __str_3:
+   058C 64 65 6D 6F 20 73  1200 	.ascii "demo start"
+        74 61 72 74
+   0596 0D                 1201 	.db 0x0D
+   0597 0A                 1202 	.db 0x0A
+   0598 00                 1203 	.db 0x00
+   0599                    1204 __str_4:
+   0599 4B 45 54 54 55 31  1205 	.ascii "KETTU16 PL5"
         36 20 50 4C 35
-   04AA 00                 1040 	.db 0x00
-   04AB                    1041 __str_4:
-   04AB 4B 45 54 54 55 31  1042 	.ascii "KETTU16 PCK"
+   05A4 00                 1206 	.db 0x00
+   05A5                    1207 __str_5:
+   05A5 4B 45 54 54 55 31  1208 	.ascii "KETTU16 PCK"
         36 20 50 43 4B
-   04B6 00                 1043 	.db 0x00
-   04B7                    1044 __str_5:
-   04B7 64 65 6D 6F 20 65  1045 	.ascii "demo exit"
+   05B0 00                 1209 	.db 0x00
+   05B1                    1210 __str_6:
+   05B1 64 65 6D 6F 20 65  1211 	.ascii "demo exit"
         78 69 74
-   04C0 0D                 1046 	.db 0x0D
-   04C1 0A                 1047 	.db 0x0A
-   04C2 0D                 1048 	.db 0x0D
-   04C3 0A                 1049 	.db 0x0A
-   04C4 00                 1050 	.db 0x00
-                           1051 	.area _CODE
-                           1052 	.area _CABS
+   05BA 0D                 1212 	.db 0x0D
+   05BB 0A                 1213 	.db 0x0A
+   05BC 0D                 1214 	.db 0x0D
+   05BD 0A                 1215 	.db 0x0A
+   05BE 00                 1216 	.db 0x00
+                           1217 	.area _CODE
+                           1218 	.area _CABS

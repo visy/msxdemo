@@ -3,10 +3,25 @@
 ;     DE = destination
 ;
 
+	.area _DATA
+
+
+_storage::
+	.dw 1
+_storage2::
+	.dw 1
+
+
+	.area _CODE
+
+
 _bitbuster::
 
 unPack12V:	
+		ld (_storage),ix
+		ld (_storage2),sp
 		push ix
+
 		ld ix,#0
 		add ix,sp
 
@@ -36,18 +51,6 @@ unpack_loop:		call	getBit		; get compression type bit
 		ld	c,#0x98		; copy byte from compressed data to destination
 		outi
 		inc	de
-;unrolled for extra speed
-;		call	getBit		; get compression type bit
-;		jr	c,.outCompress	; if set, we got lz77 compression
-;		ld	c,#0x98		; copy byte from compressed data to destination
-;		outi
-;		inc	de
-;		call	getBit		; get compression type bit
-;		jr	c,.outCompress	; if set, we got lz77 compression
-;		ld	c,#0x98		; copy byte from compressed data to destination
-;		outi
-;		inc	de
-
 		jr	unpack_loop
 
 .outCompress:	ld	c,(hl)		; get lowest 7 bits of offset, plus offset
@@ -91,6 +94,9 @@ GetGammaValue:	exx			; to second register set!
 .end:		
 		inc	hl		; length was stored as length-2 so correct this
 		exx			; back to normal register set
+		ld ix,(_storage)
+		ld sp,(_storage2)
+
 		ret	c
 
 		push	hl		; address compressed data on stack
@@ -108,19 +114,9 @@ GetGammaValue:	exx			; to second register set!
 		pop	af
 
 		pop	hl		; address compressed data back from stack
-;unrolled for extra speed
-;		call	getBit		; get compression type bit
-;		jr	c,unPack12V.outCompress	; if set, we got lz77 compression
-;		ld	c,$98		; copy byte from compressed data to destination
-;		outi
-;		inc	de
-;		call	getBit		; get compression type bit
-;		jr	c,unPack12V.outCompress	; if set, we got lz77 compression
-;		ld	c,$98		; copy byte from compressed data to destination
-;		outi
-;		inc	de
 
 		jr	unpack_loop
+
 ;
 getBit:		add	a,a		; shift out new bit
 		ret	nz		; if remaining value isn't zere, we're done
@@ -177,10 +173,13 @@ vram_ldir:		di
 		rlca
 .writePnt:	or	#0
 		out	(0x99),a
+		nop
 		ld	a,#128+ 14
 		out	(0x99),a
+		nop
 		ld	a,e
 		out	(0x99),a
+		nop
 		ld	a,d
 		and	#63
 		or	#64
@@ -193,7 +192,6 @@ vram_ldir:		di
 		or	b
 		jr	nz,.ldir_loop
 		ei
-;		pop ix
 
 		ret
 ;

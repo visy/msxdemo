@@ -1,7 +1,7 @@
                               1 ;--------------------------------------------------------
                               2 ; File Created by SDCC : free open source ANSI-C Compiler
                               3 ; Version 2.9.0 #5416 (Mar 22 2009) (Mac OS X i386)
-                              4 ; This file was generated Thu Feb  8 19:39:26 2018
+                              4 ; This file was generated Fri Feb  9 00:49:12 2018
                               5 ;--------------------------------------------------------
                               6 	.module heap
                               7 	.optsdcc -mz80
@@ -9,69 +9,146 @@
                               9 ;--------------------------------------------------------
                              10 ; Public variables in this module
                              11 ;--------------------------------------------------------
-                             12 	.globl _malloc
-                             13 ;--------------------------------------------------------
-                             14 ; special function registers
-                             15 ;--------------------------------------------------------
+                             12 	.globl _sintab
+                             13 	.globl _malloc
+                             14 ;--------------------------------------------------------
+                             15 ; special function registers
                              16 ;--------------------------------------------------------
-                             17 ;  ram data
-                             18 ;--------------------------------------------------------
-                             19 	.area _DATA
-                             20 ;--------------------------------------------------------
-                             21 ; overlayable items in  ram 
-                             22 ;--------------------------------------------------------
-                             23 	.area _OVERLAY
-                             24 ;--------------------------------------------------------
-                             25 ; external initialized ram data
-                             26 ;--------------------------------------------------------
+                             17 ;--------------------------------------------------------
+                             18 ;  ram data
+                             19 ;--------------------------------------------------------
+                             20 	.area _DATA
+   0000                      21 _sintab::
+   0000                      22 	.ds 256
+                             23 ;--------------------------------------------------------
+                             24 ; overlayable items in  ram 
+                             25 ;--------------------------------------------------------
+                             26 	.area _OVERLAY
                              27 ;--------------------------------------------------------
-                             28 ; global & static initialisations
+                             28 ; external initialized ram data
                              29 ;--------------------------------------------------------
-                             30 	.area _HOME
-                             31 	.area _GSINIT
-                             32 	.area _GSFINAL
-                             33 	.area _GSINIT
-                             34 ;--------------------------------------------------------
-                             35 ; Home
-                             36 ;--------------------------------------------------------
-                             37 	.area _HOME
-                             38 	.area _HOME
-                             39 ;--------------------------------------------------------
-                             40 ; code
-                             41 ;--------------------------------------------------------
-                             42 	.area _CODE
-                             43 ;heap.c:7: void *malloc(uint16_t size) {
-                             44 ;	---------------------------------
-                             45 ; Function malloc
-                             46 ; ---------------------------------
-   0000                      47 _malloc_start::
-   0000                      48 _malloc:
-   0000 DD E5                49 	push	ix
-   0002 DD 21 00 00          50 	ld	ix,#0
-   0006 DD 39                51 	add	ix,sp
-                             52 ;heap.c:8: uint8_t *ret = heap_top;
-                             53 ;heap.c:9: heap_top += size;
-   0008 21r00s00             54 	ld	hl,#_heap_top
-   000B 7E                   55 	ld	a,(hl)
-   000C DD 86 04             56 	add	a,4 (ix)
-   000F 23                   57 	inc	hl
-   0010 2B                   58 	dec	hl
-   0011 C5                   59 	push	bc
-   0012 4F                   60 	ld	c, a
-   0013 23                   61 	inc	hl
-   0014 7E                   62 	ld	a, (hl)
-   0015 47                   63 	ld	b, a
-   0016 79                   64 	ld	a, c
-   0017 2B                   65 	dec	hl
-   0018 77                   66 	ld	(hl), a
-   0019 78                   67 	ld	a, b
-   001A C1                   68 	pop	bc
-   001B DD 8E 05             69 	adc	a,5 (ix)
-   001E 23                   70 	inc	hl
-   001F 77                   71 	ld	(hl),a
-                             72 ;heap.c:10: return (void *) ret;
-   0020 DD E1                73 	pop	ix
-   0022 C9                   74 	ret
-   0023                      75 _malloc_end::
-                             76 	.area _CODE
-                             77 	.area _CABS
+                             30 ;--------------------------------------------------------
+                             31 ; global & static initialisations
+                             32 ;--------------------------------------------------------
+                             33 	.area _HOME
+                             34 	.area _GSINIT
+                             35 	.area _GSFINAL
+                             36 	.area _GSINIT
+                             37 ;types.h:27: signed char sintab[256]={
+   0000 21r00s00             38 	ld	hl,#_sintab
+   0003 CDr00s00             39 	call	__initrleblock
+   0006 3B                   40 	.db	59
+   0007 00 03 06 09 0C 0F    41 	.db	0x00, 0x03, 0x06, 0x09, 0x0C, 0x0F, 0x12, 0x15
+        12 15
+   000F 18 1B 1E 21 24 27    42 	.db	0x18, 0x1B, 0x1E, 0x21, 0x24, 0x27, 0x2A, 0x2D
+        2A 2D
+   0017 30 33 36 39 3B 3E    43 	.db	0x30, 0x33, 0x36, 0x39, 0x3B, 0x3E, 0x41, 0x43
+        41 43
+   001F 46 49 4B 4E 50 52    44 	.db	0x46, 0x49, 0x4B, 0x4E, 0x50, 0x52, 0x55, 0x57
+        55 57
+   0027 59 5B 5E 60 62 64    45 	.db	0x59, 0x5B, 0x5E, 0x60, 0x62, 0x64, 0x66, 0x67
+        66 67
+   002F 69 6B 6C 6E 70 71    46 	.db	0x69, 0x6B, 0x6C, 0x6E, 0x70, 0x71, 0x72, 0x74
+        72 74
+   0037 75 76 77 78 79 7A    47 	.db	0x75, 0x76, 0x77, 0x78, 0x79, 0x7A, 0x7B, 0x7B
+        7B 7B
+   003F 7C 7D 7D             48 	.db	0x7C, 0x7D, 0x7D
+   0042 FB 7E                49 	.db	#-5,#0x7E
+   0044 01                   50 	.db	1
+   0045 7F                   51 	.db	0x7F
+   0046 FB 7E                52 	.db	#-5,#0x7E
+   0048 75                   53 	.db	117
+   0049 7D 7D 7C 7B 7B 7A    54 	.db	0x7D, 0x7D, 0x7C, 0x7B, 0x7B, 0x7A, 0x79, 0x78
+        79 78
+   0051 77 76 75 74 72 71    55 	.db	0x77, 0x76, 0x75, 0x74, 0x72, 0x71, 0x70, 0x6E
+        70 6E
+   0059 6C 6B 69 67 66 64    56 	.db	0x6C, 0x6B, 0x69, 0x67, 0x66, 0x64, 0x62, 0x60
+        62 60
+   0061 5E 5B 59 57 55 52    57 	.db	0x5E, 0x5B, 0x59, 0x57, 0x55, 0x52, 0x50, 0x4E
+        50 4E
+   0069 4B 49 46 43 41 3E    58 	.db	0x4B, 0x49, 0x46, 0x43, 0x41, 0x3E, 0x3B, 0x39
+        3B 39
+   0071 36 33 30 2D 2A 27    59 	.db	0x36, 0x33, 0x30, 0x2D, 0x2A, 0x27, 0x24, 0x21
+        24 21
+   0079 1E 1B 18 15 12 0F    60 	.db	0x1E, 0x1B, 0x18, 0x15, 0x12, 0x0F, 0x0C, 0x09
+        0C 09
+   0081 06 03 00 FD FA F7    61 	.db	0x06, 0x03, 0x00, 0xFD, 0xFA, 0xF7, 0xF4, 0xF1
+        F4 F1
+   0089 EE EB E8 E5 E2 DF    62 	.db	0xEE, 0xEB, 0xE8, 0xE5, 0xE2, 0xDF, 0xDC, 0xD9
+        DC D9
+   0091 D6 D3 D0 CD CA C7    63 	.db	0xD6, 0xD3, 0xD0, 0xCD, 0xCA, 0xC7, 0xC5, 0xC2
+        C5 C2
+   0099 BF BD BA B7 B5 B2    64 	.db	0xBF, 0xBD, 0xBA, 0xB7, 0xB5, 0xB2, 0xB0, 0xAE
+        B0 AE
+   00A1 AB A9 A7 A5 A2 A0    65 	.db	0xAB, 0xA9, 0xA7, 0xA5, 0xA2, 0xA0, 0x9E, 0x9C
+        9E 9C
+   00A9 9A 99 97 95 94 92    66 	.db	0x9A, 0x99, 0x97, 0x95, 0x94, 0x92, 0x90, 0x8F
+        90 8F
+   00B1 8E 8C 8B 8A 89 88    67 	.db	0x8E, 0x8C, 0x8B, 0x8A, 0x89, 0x88, 0x87, 0x86
+        87 86
+   00B9 85 85 84 83 83       68 	.db	0x85, 0x85, 0x84, 0x83, 0x83
+   00BE FB 82                69 	.db	#-5,#0x82
+   00C0 01                   70 	.db	1
+   00C1 81                   71 	.db	0x81
+   00C2 FB 82                72 	.db	#-5,#0x82
+   00C4 3A                   73 	.db	58
+   00C5 83 83 84 85 85 86    74 	.db	0x83, 0x83, 0x84, 0x85, 0x85, 0x86, 0x87, 0x88
+        87 88
+   00CD 89 8A 8B 8C 8E 8F    75 	.db	0x89, 0x8A, 0x8B, 0x8C, 0x8E, 0x8F, 0x90, 0x92
+        90 92
+   00D5 94 95 97 99 9A 9C    76 	.db	0x94, 0x95, 0x97, 0x99, 0x9A, 0x9C, 0x9E, 0xA0
+        9E A0
+   00DD A2 A5 A7 A9 AB AE    77 	.db	0xA2, 0xA5, 0xA7, 0xA9, 0xAB, 0xAE, 0xB0, 0xB2
+        B0 B2
+   00E5 B5 B7 BA BD BF C2    78 	.db	0xB5, 0xB7, 0xBA, 0xBD, 0xBF, 0xC2, 0xC5, 0xC7
+        C5 C7
+   00ED CA CD D0 D3 D6 D9    79 	.db	0xCA, 0xCD, 0xD0, 0xD3, 0xD6, 0xD9, 0xDC, 0xDF
+        DC DF
+   00F5 E2 E5 E8 EB EE F1    80 	.db	0xE2, 0xE5, 0xE8, 0xEB, 0xEE, 0xF1, 0xF4, 0xF7
+        F4 F7
+   00FD FA FD                81 	.db	0xFA, 0xFD
+   00FF 00                   82 	.db	0
+                             83 ;--------------------------------------------------------
+                             84 ; Home
+                             85 ;--------------------------------------------------------
+                             86 	.area _HOME
+                             87 	.area _HOME
+                             88 ;--------------------------------------------------------
+                             89 ; code
+                             90 ;--------------------------------------------------------
+                             91 	.area _CODE
+                             92 ;heap.c:7: void *malloc(uint16_t size) {
+                             93 ;	---------------------------------
+                             94 ; Function malloc
+                             95 ; ---------------------------------
+   0000                      96 _malloc_start::
+   0000                      97 _malloc:
+   0000 DD E5                98 	push	ix
+   0002 DD 21 00 00          99 	ld	ix,#0
+   0006 DD 39               100 	add	ix,sp
+                            101 ;heap.c:8: uint8_t *ret = heap_top;
+                            102 ;heap.c:9: heap_top += size;
+   0008 21r00s00            103 	ld	hl,#_heap_top
+   000B 7E                  104 	ld	a,(hl)
+   000C DD 86 04            105 	add	a,4 (ix)
+   000F 23                  106 	inc	hl
+   0010 2B                  107 	dec	hl
+   0011 C5                  108 	push	bc
+   0012 4F                  109 	ld	c, a
+   0013 23                  110 	inc	hl
+   0014 7E                  111 	ld	a, (hl)
+   0015 47                  112 	ld	b, a
+   0016 79                  113 	ld	a, c
+   0017 2B                  114 	dec	hl
+   0018 77                  115 	ld	(hl), a
+   0019 78                  116 	ld	a, b
+   001A C1                  117 	pop	bc
+   001B DD 8E 05            118 	adc	a,5 (ix)
+   001E 23                  119 	inc	hl
+   001F 77                  120 	ld	(hl),a
+                            121 ;heap.c:10: return (void *) ret;
+   0020 DD E1               122 	pop	ix
+   0022 C9                  123 	ret
+   0023                     124 _malloc_end::
+                            125 	.area _CODE
+                            126 	.area _CABS
