@@ -34,10 +34,10 @@ _pletter::
 
 ; VRAM address setup
 	ld	a,e
-	out	(#0x99),a
+	out	(0x99),a
 	ld	a,d
 	or	#0x40
-	out	(#0x99),a
+	out	(0x99),a
 
 ; Initialization
 	ld	a,(hl)
@@ -55,12 +55,12 @@ _pletter::
 	ld 	hl,#modes
 	add	hl,de
 	ld	e,(hl)
-.db #0xDD
-.db #0x6B  ;	ld	ixl,e
+.db 0xDD
+.db 0x6B  ;	ld	ixl,e
 	inc	hl
 	ld	e,(hl)
-.db #0xDD
-.db #0x63  ;	ld	ixh,e
+.db 0xDD
+.db 0x63  ;	ld	ixh,e
 	ld	e,#1
 	exx
 	ld iy,#loop
@@ -139,22 +139,22 @@ offsok: inc	bc
 	push	af
 loopa:	
 	ld a,l
-	out	(#0x99),a
+	out	(0x99),a
 	ld	a,h
 	nop                     ; VDP timing
-	out	(#0x99),a
+	out	(0x99),a
 	nop                     ; VDP timing
-	in	a,(#0x98)
+	in	a,(0x98)
 	ex	af,af'
 	ld	a,e
 	nop			; VDP timing
-	out	(#0x99),a
+	out	(0x99),a
 	ld	a,d
 	or	#0x40
-	out	(#0x99),a
+	out	(0x99),a
 	ex	af,af'
 	nop			; VDP timing
-	out	(#0x98),a
+	out	(0x98),a
 	inc	de
 	cpi
 	jp	pe,loopa

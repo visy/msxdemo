@@ -26,7 +26,7 @@ sdcc -mz80 -L. --code-loc 0x$CODELOC --data-loc 0 --no-std-crt0 --out-fmt-ihx cr
 if [ -f demo.ihx ]; then
 	hex2bin demo.ihx
 	mv demo.bin demo.com
-	wrdsk demo.dsk demo.com monolog.pck monolog.pl6 kettu16.sc5 kettu16.pl5 msxdos2.sys command2.com autoexec.bat
+	wrdsk demo.dsk demo.com monolog.pck monolog.pl6 kettu11.pck kettu12.pck kettu16.pl5 msxdos2.sys command2.com autoexec.bat
 	echo "done, demo built to demo.dsk"
 fi
 

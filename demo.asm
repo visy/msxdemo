@@ -1,7 +1,7 @@
 ;--------------------------------------------------------
 ; File Created by SDCC : free open source ANSI-C Compiler
 ; Version 2.9.0 #5416 (Mar 22 2009) (Mac OS X i386)
-; This file was generated Thu Feb  8 13:14:38 2018
+; This file was generated Thu Feb  8 15:05:24 2018
 ;--------------------------------------------------------
 	.module demo
 	.optsdcc -mz80
@@ -11,18 +11,17 @@
 ;--------------------------------------------------------
 	.globl _main
 	.globl _fadein
-	.globl _cls
+	.globl _pack_load
 	.globl _pause
 	.globl _pal_load
-	.globl _pack_load
 	.globl _ge5_load
 	.globl _my_isr
 	.globl _tick
 	.globl _vbicount
 	.globl _cur_palette
-	.globl _packbuffer
 	.globl _scratch
 	.globl _sintab
+	.globl _packbuffer
 ;--------------------------------------------------------
 ; special function registers
 ;--------------------------------------------------------
@@ -30,12 +29,12 @@
 ;  ram data
 ;--------------------------------------------------------
 	.area _DATA
+_packbuffer::
+	.ds 3000
 _sintab::
 	.ds 256
 _scratch::
 	.ds 128
-_packbuffer::
-	.ds 2048
 _cur_palette::
 	.ds 32
 _vbicount::
@@ -56,7 +55,35 @@ _tick::
 	.area _GSINIT
 	.area _GSFINAL
 	.area _GSINIT
-;demo.c:17: signed char sintab[256]={
+;demo.c:13: uint8_t packbuffer[3000] = {0};
+	ld	hl,#_packbuffer
+	call	__initrleblock
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-79,#0x00
+	.db	0
+;demo.c:15: signed char sintab[256]={
 	ld	hl,#_sintab
 	call	__initrleblock
 	.db	59
@@ -102,12 +129,12 @@ _tick::
 	.db	0xE2, 0xE5, 0xE8, 0xEB, 0xEE, 0xF1, 0xF4, 0xF7
 	.db	0xFA, 0xFD
 	.db	0
-;demo.c:37: volatile int vbicount=0;
+;demo.c:34: volatile int vbicount=0;
 	ld	iy,#_vbicount
 	ld	0 (iy),#0x00
 	ld	iy,#_vbicount
 	ld	1 (iy),#0x00
-;demo.c:38: volatile int tick=0;
+;demo.c:35: volatile int tick=0;
 	ld	iy,#_tick
 	ld	0 (iy),#0x00
 	ld	iy,#_tick
@@ -121,7 +148,7 @@ _tick::
 ; code
 ;--------------------------------------------------------
 	.area _CODE
-;demo.c:40: void my_isr(void) interrupt
+;demo.c:38: void my_isr(void) interrupt
 ;	---------------------------------
 ; Function my_isr
 ; ---------------------------------
@@ -132,29 +159,29 @@ _my_isr:
 	push	de
 	push	hl
 	push	iy
-;demo.c:42: DI;
+;demo.c:40: DI;
 		di 
-;demo.c:43: READ_VDP_STATUS;
+;demo.c:41: READ_VDP_STATUS;
 		in a,(#0x99) 
-;demo.c:45: PLY_Play();
+;demo.c:43: PLY_Play();
 	call	_PLY_Play
-;demo.c:46: PLY_SendRegisters();
+;demo.c:44: PLY_SendRegisters();
 	call	_PLY_SendRegisters
-;demo.c:48: vbicount++;
+;demo.c:46: vbicount++;
 	ld	iy,#_vbicount
 	inc	0 (iy)
 	jr	NZ,00103$
 	ld	iy,#_vbicount
 	inc	1 (iy)
 00103$:
-;demo.c:49: tick++;
+;demo.c:47: tick++;
 	ld	iy,#_tick
 	inc	0 (iy)
 	jr	NZ,00104$
 	ld	iy,#_tick
 	inc	1 (iy)
 00104$:
-;demo.c:51: EI;
+;demo.c:49: EI;
 		ei 
 	pop	iy
 	pop	hl
@@ -163,7 +190,7 @@ _my_isr:
 	pop	af
 	reti
 _my_isr_end::
-;demo.c:54: uint8_t ge5_load(char *file_name, uint8_t vramh, uint16_t vraml) {
+;demo.c:52: uint8_t ge5_load(char *file_name, uint8_t vramh, uint16_t vraml) {
 ;	---------------------------------
 ; Function ge5_load
 ; ---------------------------------
@@ -175,7 +202,7 @@ _ge5_load:
 	ld	hl,#-46
 	add	hl,sp
 	ld	sp,hl
-;demo.c:58: memset((uint8_t *) &f, 0, sizeof(fcb));
+;demo.c:56: memset((uint8_t *) &f, 0, sizeof(fcb));
 	ld	hl,#0x0000
 	add	hl,sp
 	ld	c,l
@@ -190,7 +217,7 @@ _ge5_load:
 	pop	af
 	pop	af
 	inc	sp
-;demo.c:60: f.record_size = 128;
+;demo.c:58: f.record_size = 128;
 	ld	hl,#0x0000
 	add	hl,sp
 	ld	c,l
@@ -200,10 +227,10 @@ _ge5_load:
 	ex	de,hl
 	ld	a,#0x80
 	ld	(de),a
-;demo.c:61: f.drive = 0;
+;demo.c:59: f.drive = 0;
 	ld	a,#0x00
 	ld	(bc),a
-;demo.c:63: memcpy(f.name, file_name, 11);
+;demo.c:61: memcpy(f.name, file_name, 11);
 	ld	e,4 (ix)
 	ld	d,5 (ix)
 	inc	bc
@@ -215,7 +242,7 @@ _ge5_load:
 	pop	af
 	pop	af
 	pop	af
-;demo.c:65: if (open(&f) != 0) return 0;
+;demo.c:63: if (open(&f) != 0) return 0;
 	ld	hl,#0x0000
 	add	hl,sp
 	push	hl
@@ -227,7 +254,7 @@ _ge5_load:
 	ld	l,#0x00
 	jp	00114$
 00102$:
-;demo.c:66: vdp_set_write_address(vramh, vraml);
+;demo.c:64: vdp_set_write_address(vramh, vraml);
 	ld	l,7 (ix)
 	ld	h,8 (ix)
 	push	hl
@@ -237,13 +264,13 @@ _ge5_load:
 	call	_vdp_set_write_address
 	pop	af
 	inc	sp
-;demo.c:68: for (i = 0; i < 213; i++) {
+;demo.c:66: for (i = 0; i < 213; i++) {
 	ld	c,#0x00
 00110$:
 	ld	a,c
 	sub	a,#0xD5
 	jp	NC,00113$
-;demo.c:69: if (block_set_data_ptr(scratch) != 0) return 0;
+;demo.c:67: if (block_set_data_ptr(scratch) != 0) return 0;
 	push	bc
 	ld	hl,#_scratch
 	push	hl
@@ -257,7 +284,7 @@ _ge5_load:
 	ld	l,#0x00
 	jp	00114$
 00104$:
-;demo.c:70: if (block_read(&f) != 0) return 0;
+;demo.c:68: if (block_read(&f) != 0) return 0;
 	ld	hl,#0x0000
 	add	hl,sp
 	push	bc
@@ -272,7 +299,7 @@ _ge5_load:
 	ld	l,#0x00
 	jr	00114$
 00106$:
-;demo.c:72: if (i == 0) vdp_load_screen(scratch + 7, 121);   // to skip GE5 header
+;demo.c:70: if (i == 0) vdp_load_screen(scratch + 7, 121);   // to skip GE5 header
 	xor	a,a
 	or	a,c
 	jr	NZ,00108$
@@ -288,7 +315,7 @@ _ge5_load:
 	pop	bc
 	jr	00112$
 00108$:
-;demo.c:73: else vdp_load_screen(scratch, 128);
+;demo.c:71: else vdp_load_screen(scratch, 128);
 	push	bc
 	ld	a,#0x80
 	push	af
@@ -300,146 +327,24 @@ _ge5_load:
 	inc	sp
 	pop	bc
 00112$:
-;demo.c:68: for (i = 0; i < 213; i++) {
+;demo.c:66: for (i = 0; i < 213; i++) {
 	inc	c
 	jp	00110$
 00113$:
-;demo.c:76: close(&f);
+;demo.c:74: close(&f);
 	ld	hl,#0x0000
 	add	hl,sp
 	push	hl
 	call	_close
 	pop	af
-;demo.c:78: return 1;
+;demo.c:76: return 1;
 	ld	l,#0x01
 00114$:
 	ld	sp,ix
 	pop	ix
 	ret
 _ge5_load_end::
-;demo.c:81: uint8_t pack_load(char *file_name, uint16_t size) {
-;	---------------------------------
-; Function pack_load
-; ---------------------------------
-_pack_load_start::
-_pack_load:
-	push	ix
-	ld	ix,#0
-	add	ix,sp
-	ld	hl,#-46
-	add	hl,sp
-	ld	sp,hl
-;demo.c:86: memset((uint8_t *) &f, 0, sizeof(fcb));
-	ld	hl,#0x0000
-	add	hl,sp
-	ld	c,l
-	ld	b,h
-	ld	hl,#0x002E
-	push	hl
-	ld	a,#0x00
-	push	af
-	inc	sp
-	push	bc
-	call	_memset
-	pop	af
-	pop	af
-	inc	sp
-;demo.c:88: f.record_size = 128;
-	ld	hl,#0x0000
-	add	hl,sp
-	ld	c,l
-	ld	b,h
-	ld	hl,#0x000F
-	add	hl,bc
-	ex	de,hl
-	ld	a,#0x80
-	ld	(de),a
-;demo.c:89: f.drive = 0;
-	ld	a,#0x00
-	ld	(bc),a
-;demo.c:91: memcpy(f.name, file_name, 11);
-	ld	e,4 (ix)
-	ld	d,5 (ix)
-	inc	bc
-	ld	hl,#0x000B
-	push	hl
-	push	de
-	push	bc
-	call	_memcpy
-	pop	af
-	pop	af
-	pop	af
-;demo.c:93: if (open(&f) != 0) return 0;
-	ld	hl,#0x0000
-	add	hl,sp
-	push	hl
-	call	_open
-	pop	af
-	xor	a,a
-	or	a,l
-	jr	Z,00116$
-	ld	l,#0x00
-	jp	00110$
-;demo.c:95: while (total < size) {
-00116$:
-	ld	bc,#0x0000
-00107$:
-	ld	a,c
-	sub	a,6 (ix)
-	ld	a,b
-	sbc	a,7 (ix)
-	jr	NC,00109$
-;demo.c:96: if (block_set_data_ptr(packbuffer+total) != 0) return 0;
-	ld	hl,#_packbuffer
-	add	hl,bc
-	push	bc
-	push	hl
-	call	_block_set_data_ptr
-	pop	af
-	ld	e,l
-	pop	bc
-	xor	a,a
-	or	a,e
-	jr	Z,00104$
-	ld	l,#0x00
-	jr	00110$
-00104$:
-;demo.c:97: if (block_read(&f) != 0) return 0;
-	ld	hl,#0x0000
-	add	hl,sp
-	push	bc
-	push	hl
-	call	_block_read
-	pop	af
-	ld	e,l
-	pop	bc
-	xor	a,a
-	or	a,e
-	jr	Z,00106$
-	ld	l,#0x00
-	jr	00110$
-00106$:
-;demo.c:98: total+=128;
-	ld	hl,#0x0080
-	add	hl,bc
-	ld	c,l
-	ld	b,h
-	jr	00107$
-00109$:
-;demo.c:101: close(&f);
-	ld	hl,#0x0000
-	add	hl,sp
-	push	hl
-	call	_close
-	pop	af
-;demo.c:103: return 1;
-	ld	l,#0x01
-00110$:
-	ld	sp,ix
-	pop	ix
-	ret
-_pack_load_end::
-;demo.c:107: uint8_t pal_load(char *file_name, uint8_t ss) {
+;demo.c:79: uint8_t pal_load(char *file_name, uint8_t ss) {
 ;	---------------------------------
 ; Function pal_load
 ; ---------------------------------
@@ -451,7 +356,7 @@ _pal_load:
 	ld	hl,#-46
 	add	hl,sp
 	ld	sp,hl
-;demo.c:110: memset((uint8_t *) &f, 0, sizeof(fcb));
+;demo.c:82: memset((uint8_t *) &f, 0, sizeof(fcb));
 	ld	hl,#0x0000
 	add	hl,sp
 	ld	c,l
@@ -466,7 +371,7 @@ _pal_load:
 	pop	af
 	pop	af
 	inc	sp
-;demo.c:111: memset((uint8_t *) &scratch, 0, 128);
+;demo.c:83: memset((uint8_t *) &scratch, 0, 128);
 	ld	hl,#0x0080
 	push	hl
 	ld	a,#0x00
@@ -478,7 +383,7 @@ _pal_load:
 	pop	af
 	pop	af
 	inc	sp
-;demo.c:113: f.record_size = ss;
+;demo.c:85: f.record_size = ss;
 	ld	hl,#0x0000
 	add	hl,sp
 	ld	c,l
@@ -488,10 +393,10 @@ _pal_load:
 	ex	de,hl
 	ld	a,6 (ix)
 	ld	(de),a
-;demo.c:114: f.drive = 0;
+;demo.c:86: f.drive = 0;
 	ld	a,#0x00
 	ld	(bc),a
-;demo.c:116: memcpy(f.name, file_name, 11);
+;demo.c:88: memcpy(f.name, file_name, 11);
 	ld	e,4 (ix)
 	ld	d,5 (ix)
 	inc	bc
@@ -503,7 +408,7 @@ _pal_load:
 	pop	af
 	pop	af
 	pop	af
-;demo.c:118: if (open(&f) != 0) return 0;
+;demo.c:90: if (open(&f) != 0) return 0;
 	ld	hl,#0x0000
 	add	hl,sp
 	push	hl
@@ -515,7 +420,7 @@ _pal_load:
 	ld	l,#0x00
 	jr	00107$
 00102$:
-;demo.c:119: if (block_set_data_ptr(scratch) != 0) return 0;
+;demo.c:91: if (block_set_data_ptr(scratch) != 0) return 0;
 	ld	hl,#_scratch
 	push	hl
 	call	_block_set_data_ptr
@@ -526,7 +431,7 @@ _pal_load:
 	ld	l,#0x00
 	jr	00107$
 00104$:
-;demo.c:120: if (block_read(&f) != 0) return 0;
+;demo.c:92: if (block_read(&f) != 0) return 0;
 	ld	hl,#0x0000
 	add	hl,sp
 	push	hl
@@ -538,7 +443,7 @@ _pal_load:
 	ld	l,#0x00
 	jr	00107$
 00106$:
-;demo.c:122: memcpy(cur_palette, scratch+7, ss);
+;demo.c:94: memcpy(cur_palette, scratch+7, ss);
 	ld	c,6 (ix)
 	ld	b,#0x00
 	ld	de,#_scratch + 7
@@ -550,92 +455,185 @@ _pal_load:
 	pop	af
 	pop	af
 	pop	af
-;demo.c:124: close(&f);
+;demo.c:96: close(&f);
 	ld	hl,#0x0000
 	add	hl,sp
 	push	hl
 	call	_close
 	pop	af
-;demo.c:125: return 1;
+;demo.c:97: return 1;
 	ld	l,#0x01
 00107$:
 	ld	sp,ix
 	pop	ix
 	ret
 _pal_load_end::
-;demo.c:129: void pause() {
+;demo.c:101: void pause() {
 ;	---------------------------------
 ; Function pause
 ; ---------------------------------
 _pause_start::
 _pause:
-;demo.c:130: uint8_t i,j,k = 0;
-;demo.c:131: for (i = 0; i < 255; i++) {	
+;demo.c:102: uint8_t i,j,k = 0;
+;demo.c:103: for (i = 0; i < 255; i++) {	
 	ld	bc,#0x0000
 00104$:
 	ld	a,b
 	sub	a,#0xFF
 	ret	NC
-;demo.c:132: for (j = 0; j < 255; j++) {
+;demo.c:104: for (j = 0; j < 255; j++) {
 	ld	e,c
 	ld	d,#0xFF
 00103$:
-;demo.c:133: k++;
+;demo.c:105: k++;
 	inc	e
 	dec	d
-;demo.c:132: for (j = 0; j < 255; j++) {
+;demo.c:104: for (j = 0; j < 255; j++) {
 	xor	a,a
 	or	a,d
 	jr	NZ,00103$
-;demo.c:131: for (i = 0; i < 255; i++) {	
+;demo.c:103: for (i = 0; i < 255; i++) {	
 	ld	c,e
 	inc	b
 	jr	00104$
 _pause_end::
-;demo.c:138: void cls(uint8_t vramh, uint16_t vraml) {
+;demo.c:111: uint8_t pack_load(char *file_name, int size) {
 ;	---------------------------------
-; Function cls
+; Function pack_load
 ; ---------------------------------
-_cls_start::
-_cls:
+_pack_load_start::
+_pack_load:
 	push	ix
 	ld	ix,#0
 	add	ix,sp
-;demo.c:139: vdp_set_write_address(vramh, vraml);
-	ld	l,5 (ix)
-	ld	h,6 (ix)
-	push	hl
-	ld	a,4 (ix)
-	push	af
-	inc	sp
-	call	_vdp_set_write_address
-	pop	af
-	inc	sp
-;demo.c:140: memset((uint8_t *) &scratch, 0, 128);
-	ld	hl,#0x0080
+	ld	hl,#-46
+	add	hl,sp
+	ld	sp,hl
+;demo.c:117: memset((uint8_t *) &f, 0, sizeof(fcb));
+	ld	hl,#0x0000
+	add	hl,sp
+	ld	c,l
+	ld	b,h
+	ld	hl,#0x002E
 	push	hl
 	ld	a,#0x00
 	push	af
 	inc	sp
-	ld	hl,#_scratch
-	push	hl
+	push	bc
 	call	_memset
 	pop	af
 	pop	af
 	inc	sp
-;demo.c:141: vdp_load_screen(scratch, 128);
+;demo.c:119: f.record_size = 128;
+	ld	hl,#0x0000
+	add	hl,sp
+	ld	c,l
+	ld	b,h
+	ld	hl,#0x000F
+	add	hl,bc
+	ex	de,hl
 	ld	a,#0x80
-	push	af
-	inc	sp
+	ld	(de),a
+;demo.c:120: f.drive = 0;
+	ld	a,#0x00
+	ld	(bc),a
+;demo.c:122: memcpy(f.name, file_name, 11);
+	ld	e,4 (ix)
+	ld	d,5 (ix)
+	inc	bc
+	ld	hl,#0x000B
+	push	hl
+	push	de
+	push	bc
+	call	_memcpy
+	pop	af
+	pop	af
+	pop	af
+;demo.c:124: if (open(&f) != 0) return 0;
+	ld	hl,#0x0000
+	add	hl,sp
+	push	hl
+	call	_open
+	pop	af
+	xor	a,a
+	or	a,l
+	jr	Z,00116$
+	ld	l,#0x00
+	jp	00110$
+;demo.c:126: while(total < size) {
+00116$:
+	ld	bc,#0x0000
+00107$:
+	ld	a,c
+	sub	a,6 (ix)
+	ld	a,b
+	sbc	a,7 (ix)
+	jp	P,00109$
+;demo.c:127: if (block_set_data_ptr(scratch) != 0) return 0;
+	push	bc
 	ld	hl,#_scratch
 	push	hl
-	call	_vdp_load_screen
+	call	_block_set_data_ptr
 	pop	af
-	inc	sp
+	ld	e,l
+	pop	bc
+	xor	a,a
+	or	a,e
+	jr	Z,00104$
+	ld	l,#0x00
+	jr	00110$
+00104$:
+;demo.c:128: if (block_read(&f) != 0) return 0;
+	ld	hl,#0x0000
+	add	hl,sp
+	push	bc
+	push	hl
+	call	_block_read
+	pop	af
+	ld	e,l
+	pop	bc
+	xor	a,a
+	or	a,e
+	jr	Z,00106$
+	ld	l,#0x00
+	jr	00110$
+00106$:
+;demo.c:130: memcpy(packbuffer+total,scratch,incr);
+	ld	hl,#_packbuffer
+	add	hl,bc
+	ex	de,hl
+	push	bc
+	ld	hl,#0x0080
+	push	hl
+	ld	hl,#_scratch
+	push	hl
+	push	de
+	call	_memcpy
+	pop	af
+	pop	af
+	pop	af
+	pop	bc
+;demo.c:132: total+=incr;
+	ld	hl,#0x0080
+	add	hl,bc
+	ld	c,l
+	ld	b,h
+	jp	00107$
+00109$:
+;demo.c:135: close(&f);
+	ld	hl,#0x0000
+	add	hl,sp
+	push	hl
+	call	_close
+	pop	af
+;demo.c:137: return 1;
+	ld	l,#0x01
+00110$:
+	ld	sp,ix
 	pop	ix
 	ret
-_cls_end::
-;demo.c:144: void fadein() {
+_pack_load_end::
+;demo.c:140: void fadein() {
 ;	---------------------------------
 ; Function fadein
 ; ---------------------------------
@@ -645,7 +643,7 @@ _fadein:
 	ld	ix,#0
 	add	ix,sp
 	push	af
-;demo.c:147: if (tick < 4) return;
+;demo.c:143: if (tick < 4) return;
 	ld	a,(#_tick+0)
 	sub	a,#0x04
 	ld	a,(#_tick+1)
@@ -653,18 +651,18 @@ _fadein:
 	jp	P,00102$
 	jp	00113$
 00102$:
-;demo.c:149: tick = 0;
+;demo.c:145: tick = 0;
 	ld	hl,#_tick + 0
 	ld	(hl), #0x00
 	ld	hl,#_tick + 1
 	ld	(hl), #0x00
-;demo.c:151: for(i = 0; i < 32; i+=2) {
+;demo.c:147: for(i = 0; i < 32; i+=2) {
 	ld	c,#0x00
 00109$:
 	ld	a,c
 	sub	a,#0x20
 	jp	NC,00112$
-;demo.c:152: uint8_t r = scratch[i] >> 4;
+;demo.c:148: uint8_t r = scratch[i] >> 4;
 	ld	a,#<_scratch
 	add	a,c
 	ld	e,a
@@ -678,11 +676,11 @@ _fadein:
 	srl	e
 	srl	e
 	srl	e
-;demo.c:153: uint8_t b = scratch[i] & 0xf;
+;demo.c:149: uint8_t b = scratch[i] & 0xf;
 	ld	a,b
 	and	a,#0x0F
 	ld	-1 (ix),a
-;demo.c:154: uint8_t g = scratch[i+1];
+;demo.c:150: uint8_t g = scratch[i+1];
 	ld	d,c
 	inc	d
 	ld	a,#<_scratch
@@ -693,7 +691,7 @@ _fadein:
 	ld	h,a
 	ld	d,(hl)
 	ld	-2 (ix),d
-;demo.c:156: if (r < (cur_palette[i] >> 4)) r++;
+;demo.c:152: if (r < (cur_palette[i] >> 4)) r++;
 	ld	a,#<_cur_palette
 	add	a,c
 	ld	l,a
@@ -710,7 +708,7 @@ _fadein:
 	jr	NC,00104$
 	inc	e
 00104$:
-;demo.c:157: if (b < (cur_palette[i] & 0xf)) b++;
+;demo.c:153: if (b < (cur_palette[i] & 0xf)) b++;
 	ld	a,#<_cur_palette
 	add	a,c
 	ld	l,a
@@ -725,7 +723,7 @@ _fadein:
 	jr	NC,00106$
 	inc	-1 (ix)
 00106$:
-;demo.c:159: scratch[i] = (r << 4) | b;
+;demo.c:155: scratch[i] = (r << 4) | b;
 	ld	a,#<_scratch
 	add	a,c
 	ld	b,a
@@ -742,7 +740,7 @@ _fadein:
 	ld	l,b
 	ld	h,d
 	ld	(hl),a
-;demo.c:160: if (g < cur_palette[i+1]) scratch[i+1]++;
+;demo.c:156: if (g < cur_palette[i+1]) scratch[i+1]++;
 	ld	b,c
 	inc	b
 	ld	a,#<_cur_palette
@@ -770,12 +768,12 @@ _fadein:
 	ld	h,e
 	ld	(hl),a
 00111$:
-;demo.c:151: for(i = 0; i < 32; i+=2) {
+;demo.c:147: for(i = 0; i < 32; i+=2) {
 	inc	c
 	inc	c
 	jp	00109$
 00112$:
-;demo.c:164: vdp_load_palette(scratch);
+;demo.c:160: vdp_load_palette(scratch);
 	ld	hl,#_scratch
 	push	hl
 	call	_vdp_load_palette
@@ -785,52 +783,79 @@ _fadein:
 	pop	ix
 	ret
 _fadein_end::
-;demo.c:167: void main() {
+;demo.c:163: void main() {
 ;	---------------------------------
 ; Function main
 ; ---------------------------------
 _main_start::
 _main:
-;demo.c:170: spindown();
+;demo.c:164: unsigned char quit=0;
+	ld	c,#0x00
+;demo.c:166: spindown();
+	push	bc
 	call	_spindown
-;demo.c:172: puts("demo init\r\n\r\n");
+	pop	bc
+;demo.c:168: puts("demo init\r\n\r\n");
+	push	bc
 	ld	hl,#__str_0
 	push	hl
 	call	_puts
 	pop	af
-;demo.c:174: puts("music init...");
+	pop	bc
+;demo.c:170: puts("music init...");
+	push	bc
 	ld	hl,#__str_1
 	push	hl
 	call	_puts
 	pop	af
-;demo.c:176: PLY_SongPtr = (char *)0x0103;
+	pop	bc
+;demo.c:172: PLY_SongPtr = (char *)0x0103;
 	ld	hl,#_PLY_SongPtr + 0
 	ld	(hl), #0x03
 	ld	hl,#_PLY_SongPtr + 1
 	ld	(hl), #0x01
-;demo.c:177: PLY_Init();
+;demo.c:173: PLY_Init();
+	push	bc
 	call	_PLY_Init
-;demo.c:178: puts("done.\n\n");
+	pop	bc
+;demo.c:174: puts("done.\n\n");
+	push	bc
 	ld	hl,#__str_2
 	push	hl
 	call	_puts
 	pop	af
-;demo.c:180: if(isvdp2())
+	pop	bc
+;demo.c:176: if(isvdp2())
+	push	bc
 	call	_isvdp2
-	xor	a,a
-	or	a,l
+	ld	a,l
+	pop	bc
+	ld	b,a
+	or	a,a
 	jr	Z,00102$
-;demo.c:182: msx2_sethz(50);
+;demo.c:178: msx2_sethz(50);
+	push	bc
 	ld	a,#0x32
 	push	af
 	inc	sp
 	call	_msx2_sethz
 	inc	sp
+	pop	bc
 00102$:
-;demo.c:187: vdp_set_screen6();
-	call	_vdp_set_screen6
-;demo.c:189: pal_load("MONOLOG PL6", 8);
-	ld	a,#0x08
+;demo.c:182: vdp_set_screen5();
+	push	bc
+	call	_vdp_set_screen5
+	pop	bc
+;demo.c:184: vdp_register(VDP_VOFFSET,0);
+	push	bc
+	ld	hl,#0x0017
+	push	hl
+	call	_vdp_register
+	pop	af
+	pop	bc
+;demo.c:186: pal_load("KETTU16 PL5", 32);
+	push	bc
+	ld	a,#0x20
 	push	af
 	inc	sp
 	ld	hl,#__str_3
@@ -838,13 +863,17 @@ _main:
 	call	_pal_load
 	pop	af
 	inc	sp
-;demo.c:190: vdp_load_palette(cur_palette);
+	pop	bc
+;demo.c:187: vdp_load_palette(cur_palette);
+	push	bc
 	ld	hl,#_cur_palette
 	push	hl
 	call	_vdp_load_palette
 	pop	af
-;demo.c:194: memset((uint8_t *) &packbuffer, 0, 2048);
-	ld	hl,#0x0800
+	pop	bc
+;demo.c:191: memset((uint8_t *) &packbuffer, 0, 3000);
+	push	bc
+	ld	hl,#0x0BB8
 	push	hl
 	ld	a,#0x00
 	push	af
@@ -855,15 +884,26 @@ _main:
 	pop	af
 	pop	af
 	inc	sp
-;demo.c:195: pack_load("MONOLOG PCK", MONOLOG_PACK_SIZE);
-	ld	hl,#0x061D
+	pop	bc
+;demo.c:192: pack_load("KETTU11 PCK", 2867);
+	push	bc
+	ld	hl,#0x0B33
 	push	hl
 	ld	hl,#__str_4
 	push	hl
 	call	_pack_load
 	pop	af
 	pop	af
-;demo.c:197: pletter(packbuffer,0x0000);
+	pop	bc
+;demo.c:193: vdp_register(14,0);
+	push	bc
+	ld	hl,#0x000E
+	push	hl
+	call	_vdp_register
+	pop	af
+	pop	bc
+;demo.c:194: pletter(packbuffer,0);
+	push	bc
 	ld	hl,#0x0000
 	push	hl
 	ld	hl,#_packbuffer
@@ -871,9 +911,104 @@ _main:
 	call	_pletter
 	pop	af
 	pop	af
-;demo.c:199: while (1==1) {
-00104$:
-	jr	00104$
+	pop	bc
+;demo.c:196: memset((uint8_t *) &scratch, 0, 128);
+	push	bc
+	ld	hl,#0x0080
+	push	hl
+	ld	a,#0x00
+	push	af
+	inc	sp
+	ld	hl,#_scratch
+	push	hl
+	call	_memset
+	pop	af
+	pop	af
+	inc	sp
+	pop	bc
+;demo.c:198: memset((uint8_t *) &packbuffer, 0, 3000);
+	push	bc
+	ld	hl,#0x0BB8
+	push	hl
+	ld	a,#0x00
+	push	af
+	inc	sp
+	ld	hl,#_packbuffer
+	push	hl
+	call	_memset
+	pop	af
+	pop	af
+	inc	sp
+	pop	bc
+;demo.c:199: pack_load("KETTU12 PCK", 1481);
+	push	bc
+	ld	hl,#0x05C9
+	push	hl
+	ld	hl,#__str_5
+	push	hl
+	call	_pack_load
+	pop	af
+	pop	af
+	pop	bc
+;demo.c:200: vdp_register(14,1);
+	push	bc
+	ld	hl,#0x010E
+	push	hl
+	call	_vdp_register
+	pop	af
+	pop	bc
+;demo.c:201: pletter(packbuffer,0);
+	push	bc
+	ld	hl,#0x0000
+	push	hl
+	ld	hl,#_packbuffer
+	push	hl
+	call	_pletter
+	pop	af
+	pop	af
+	pop	bc
+;demo.c:209: memset((uint8_t *) &scratch, 0, 128);
+	push	bc
+	ld	hl,#0x0080
+	push	hl
+	ld	a,#0x00
+	push	af
+	inc	sp
+	ld	hl,#_scratch
+	push	hl
+	call	_memset
+	pop	af
+	pop	af
+	inc	sp
+	pop	bc
+;demo.c:211: install_isr(my_isr);
+	push	bc
+	ld	hl,#_my_isr
+	push	hl
+	call	_install_isr
+	pop	af
+	pop	bc
+;demo.c:213: while (!quit) {
+00105$:
+	xor	a,a
+	or	a,c
+	ret	NZ
+;demo.c:214: waitVB();
+		halt 
+;demo.c:217: if(space())
+	push	bc
+	ld	hl,#0x0108
+	push	hl
+	call	_ispressed
+	pop	af
+	ld	a,l
+	pop	bc
+	ld	b,a
+	or	a,a
+	jr	Z,00105$
+;demo.c:218: quit=1;
+	ld	c,#0x01
+	jr	00105$
 _main_end::
 __str_0:
 	.ascii "demo init"
@@ -891,10 +1026,13 @@ __str_2:
 	.db 0x0A
 	.db 0x00
 __str_3:
-	.ascii "MONOLOG PL6"
+	.ascii "KETTU16 PL5"
 	.db 0x00
 __str_4:
-	.ascii "MONOLOG PCK"
+	.ascii "KETTU11 PCK"
+	.db 0x00
+__str_5:
+	.ascii "KETTU12 PCK"
 	.db 0x00
 	.area _CODE
 	.area _CABS

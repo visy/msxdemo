@@ -8,11 +8,9 @@
 #include "msxlib.h"
 #include "ArkosTrackerPlayer_MSX.h"
 
-extern void pletter(void *, unsigned);
+extern void pletter(unsigned char*, uint16_t);
 
-
-#define MONOLOG_PACK_SIZE 1565
-
+uint8_t packbuffer[3000] = {0};
 
 signed char sintab[256]={
 0,3,6,9,12,15,18,21,24,27,30,33,36,39,42,45,48,51,54,57,59,62,65,67,70,73,75,
@@ -31,11 +29,11 @@ signed char sintab[256]={
 -6,-3};
 
 uint8_t scratch[128];
-uint8_t packbuffer[2048];
 uint8_t cur_palette[32];
 
 volatile int vbicount=0;
 volatile int tick=0;
+
 
 void my_isr(void) interrupt
 {
@@ -78,32 +76,6 @@ uint8_t ge5_load(char *file_name, uint8_t vramh, uint16_t vraml) {
 	return 1;
 }
 
-uint8_t pack_load(char *file_name, uint16_t size) {
-	fcb f;
-	uint8_t i;
-	uint16_t total = 0;
-
-	memset((uint8_t *) &f, 0, sizeof(fcb));
-
-	f.record_size = 128;
-	f.drive = 0;
-
-	memcpy(f.name, file_name, 11);
-
-	if (open(&f) != 0) return 0;
-
-	while (total < size) {
-		if (block_set_data_ptr(packbuffer+total) != 0) return 0;
-		if (block_read(&f) != 0) return 0;
-		total+=128;
-	}
-
-	close(&f);
-
-	return 1;
-}
-
-
 uint8_t pal_load(char *file_name, uint8_t ss) {
 	fcb f;
 
@@ -135,10 +107,34 @@ void pause() {
 	}
 }
 
-void cls(uint8_t vramh, uint16_t vraml) {
-	vdp_set_write_address(vramh, vraml);
-	memset((uint8_t *) &scratch, 0, 128);
-	vdp_load_screen(scratch, 128);
+
+uint8_t pack_load(char *file_name, int size) {
+	fcb f;
+	uint8_t i;
+	int total = 0;
+	int incr = 128;
+
+	memset((uint8_t *) &f, 0, sizeof(fcb));
+
+	f.record_size = 128;
+	f.drive = 0;
+
+	memcpy(f.name, file_name, 11);
+
+	if (open(&f) != 0) return 0;
+
+	while(total < size) {
+		if (block_set_data_ptr(scratch) != 0) return 0;
+		if (block_read(&f) != 0) return 0;
+
+		memcpy(packbuffer+total,scratch,incr);
+
+		total+=incr;
+	}
+
+	close(&f);
+
+	return 1;
 }
 
 void fadein() {
@@ -183,21 +179,50 @@ void main() {
 //		msx2_palette(6,4,0,0); // Bloodier red for VDP2
 	}
 
+	vdp_set_screen5();
 
-	vdp_set_screen6();
+    vdp_register(VDP_VOFFSET,0);
 
-	pal_load("MONOLOG PL6", 8);
+	pal_load("KETTU16 PL5", 32);
 	vdp_load_palette(cur_palette);
 
-//	ge5_load("MONOLOG SC6", 0, 0x0000);
+//	ge5_load("KETTU16 SC5", 0, 0x0000);
 
-	memset((uint8_t *) &packbuffer, 0, 2048);
-	pack_load("MONOLOG PCK", MONOLOG_PACK_SIZE);
+	memset((uint8_t *) &packbuffer, 0, 3000);
+	pack_load("KETTU11 PCK", 2867);
+    vdp_register(14,0);
+	pletter(packbuffer,0);
 
-	pletter(packbuffer,0x0000);
+	memset((uint8_t *) &scratch, 0, 128);
 
-	while (1==1) {
+	memset((uint8_t *) &packbuffer, 0, 3000);
+	pack_load("KETTU12 PCK", 1481);
+    vdp_register(14,1);
+	pletter(packbuffer,0);
+
+//	memset((uint8_t *) &packbuffer, 0, 3000);
+//	pack_load("KETTU12 PCK", 1481);
+
+
+//    vdp_register(14,2);
+
+	memset((uint8_t *) &scratch, 0, 128);
+
+    install_isr(my_isr);
+
+	while (!quit) {
+		waitVB();
+
+
+		if(space())
+			quit=1;
 	}
+
+//	memset((uint8_t *) &packbuffer, 0, 5000);
+//	pack_load("KETTU16 PCK", PACK_SIZE);
+
+//	pletter(packbuffer,0x0);
+
 /*
 	vdp_set_screen5();
 	pal_load("KETTU16 PL5", 32);
