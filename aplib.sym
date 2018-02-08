@@ -1,0 +1,41 @@
+ASxxxx Assembler V01.75 + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 1.
+
+Symbol Table
+
+  1 _aPLib_LWM                                                     0002 GR
+  1 _aPLib_R0                                                      0003 GR
+  1 _aPLib_bits                                                    0000 GR
+  0 _aPLib_depack                                                  0000 GR
+  0 _aPLib_depack_end                                              00A4 GR
+  0 _aPLib_depack_start                                            0000 GR
+    af                                                             **** GX
+  0 ap_getbit                                                      009B R
+  0 ap_getgamma                                                    008E R
+  0 ap_getgamma2                                                   008D R
+  0 ap_getgammaloop                                                008E R
+  0 ap_r0_gamma                                                    007E R
+  0 apbranch1                                                      0010 R
+  0 apbranch2                                                      0055 R
+  0 apbranch3                                                      003F R
+  0 apbranch4                                                      0034 R
+  0 apget4bits                                                     0024 R
+  0 aploop                                                         0012 R
+  0 aploop2                                                        0012 R
+  0 apskip2                                                        006C R
+  0 apskip3                                                        0072 R
+  0 depack                                                         000E R
+    ixh                                                            **** GX
+    iyh                                                            **** GX
+    iyl                                                            **** GX
+
+ASxxxx Assembler V01.75 + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 2.
+
+Area Table
+
+   0 _CODE                                                          size   A4   flags 0
+   1 _DATA                                                          size    5   flags 0
+   2 _OVERLAY                                                       size    0   flags 0
+   3 _HOME                                                          size    0   flags 0
+   4 _GSINIT                                                        size    0   flags 0
+   5 _GSFINAL                                                       size    0   flags 0
+   6 _CABS                                                          size    0   flags 0

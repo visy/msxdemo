@@ -1,0 +1,208 @@
+ASxxxx Assembler V01.75 + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 1.
+
+
+
+                              1 	.area _DATA
+                              2 
+                              3 
+   0000                       4 modes:
+   0000 99 00                 5 	.dw	offsok
+   0002 89 00                 6 	.dw	mode2
+   0004 83 00                 7 	.dw	mode3
+   0006 7D 00                 8 	.dw	mode4
+   0008 77 00                 9 	.dw	mode5
+   000A 71 00                10 	.dw	mode6
+   000C 6B 00                11 	.dw	mode7
+                             12 
+                             13 	.area _CODE
+                             14 
+                             15 
+                             16 ;-----------------------------------------------------------
+                             17 ; Pletter v0.5b VRAM Depacker v1.1 - 16Kb version
+                             18 ; HL = RAM/ROM source ; DE = VRAM destination
+                             19 ;-----------------------------------------------------------
+   0000 F3                   20 	di
+                             21 
+                             22 ; VRAM address setup
+   0001 7B                   23 	ld	a,e
+   0002 D3 99                24 	out	(#0x99),a
+   0004 7A                   25 	ld	a,d
+   0005 F6 40                26 	or	#0x40
+   0007 D3 99                27 	out	(#0x99),a
+                             28 
+                             29 ; Initialization
+   0009 7E                   30 	ld	a,(hl)
+   000A 23                   31 	inc	hl
+   000B D9                   32 	exx
+   000C 11 00 00             33 	ld	de,#0
+   000F 87                   34 	add	a,a
+   0010 3C                   35 	inc	a
+   0011 CB 13                36 	rl	e
+   0013 87                   37 	add	a,a
+   0014 CB 13                38 	rl	e
+   0016 87                   39 	add	a,a
+   0017 CB 13                40 	rl	e
+   0019 CB 13                41 	rl	e
+   001B 21 00 00             42 	ld 	hl,#modes
+   001E 19                   43 	add	hl,de
+   001F 5E                   44 	ld	e,(hl)
+   0020 DD                   45 .db #0xDD
+   0021 6B                   46 .db #0x6B  ;	ld	ixl,e
+   0022 23                   47 	inc	hl
+   0023 5E                   48 	ld	e,(hl)
+   0024 DD                   49 .db #0xDD
+   0025 63                   50 .db #0x63  ;	ld	ixh,e
+   0026 1E 01                51 	ld	e,#1
+   0028 D9                   52 	exx
+   0029 FD 21 32 00          53 	ld iy,#loop
+                             54 
+                             55 ; Main depack loop
+   002D 0E 98                56 literal:ld	c,#0x98
+ASxxxx Assembler V01.75 + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 2.
+
+
+
+   002F ED A3                57 	outi
+   0031 13                   58 	inc	de
+   0032 87                   59 loop:	add	a,a
+   0033 CC C6 00             60   	call	z,getbit
+   0036 30 F5                61 	jr	nc,literal
+                             62 
+                             63 ; Compressed data
+   0038 D9                   64 	exx
+   0039 62                   65 	ld	h,d
+   003A 6B                   66 	ld	l,e
+   003B 87                   67 getlen: add	a,a
+   003C CC CA 00             68 	call	z,getbitexx
+   003F 30 1D                69 	jr	nc,lenok
+   0041 87                   70 lus:	add	a,a
+   0042 CC CA 00             71 	call	z,getbitexx
+   0045 ED 6A                72 	adc	hl,hl
+   0047 D8                   73 	ret	c
+   0048 87                   74 	add	a,a
+   0049 CC CA 00             75 	call	z,getbitexx
+   004C 30 10                76 	jr	nc,lenok
+   004E 87                   77 	add	a,a
+   004F CC CA 00             78 	call	z,getbitexx
+   0052 ED 6A                79 	adc	hl,hl
+   0054 DA D0 00             80 	jp	c,Depack_out
+   0057 87                   81 	add	a,a
+   0058 CC CA 00             82 	call	z,getbitexx
+   005B DA 41 00             83 	jp	c,lus
+   005E 23                   84 lenok:  inc	hl
+   005F D9                   85 	exx
+   0060 4E                   86 	ld	c,(hl)
+   0061 23                   87 	inc	hl
+   0062 06 00                88 	ld	b,#0
+   0064 CB 79                89 	bit	#7,c
+   0066 CA 99 00             90 	jp	z,offsok
+   0069 DD E9                91 	jp	(ix)
+                             92 
+   006B 87                   93 mode7:  add	a,a
+   006C CC C6 00             94   	call	z,getbit
+   006F CB 10                95 	rl	b
+   0071 87                   96 mode6:	add	a,a
+   0072 CC C6 00             97   	call	z,getbit
+   0075 CB 10                98 	rl	b
+   0077 87                   99 mode5:  add	a,a
+   0078 CC C6 00            100   	call	z,getbit
+   007B CB 10               101 	rl	b
+   007D 87                  102 mode4:  add	a,a
+   007E CC C6 00            103   	call	z,getbit
+   0081 CB 10               104 	rl	b
+   0083 87                  105 mode3:  add	a,a
+   0084 CC C6 00            106   	call	z,getbit
+   0087 CB 10               107 	rl	b
+   0089 87                  108 mode2:	add	a,a
+   008A CC C6 00            109   	call	z,getbit
+   008D CB 10               110 	rl	b
+   008F 87                  111 	add	a,a
+   0090 CC C6 00            112   	call	z,getbit
+ASxxxx Assembler V01.75 + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 3.
+
+
+
+   0093 30 04               113 	jr	nc,offsok
+   0095 B7                  114 	or	a
+   0096 04                  115 	inc	b
+   0097 CB B9               116 	res	#7,c
+   0099 03                  117 offsok: inc	bc
+   009A E5                  118 	push	hl
+   009B D9                  119 	exx
+   009C E5                  120 	push	hl
+   009D D9                  121 	exx
+   009E 6B                  122 	ld	l,e
+   009F 62                  123 	ld	h,d
+   00A0 ED 42               124 	sbc	hl,bc
+   00A2 C1                  125 	pop	bc
+   00A3 F5                  126 	push	af
+   00A4                     127 loopa:	
+   00A4 7D                  128 	ld a,l
+   00A5 D3 99               129 	out	(#0x99),a
+   00A7 7C                  130 	ld	a,h
+   00A8 00                  131 	nop                     ; VDP timing
+   00A9 D3 99               132 	out	(#0x99),a
+   00AB 00                  133 	nop                     ; VDP timing
+   00AC DB 98               134 	in	a,(#0x98)
+   00AE 08                  135 	ex	af,af'
+   00AF 7B                  136 	ld	a,e
+   00B0 00                  137 	nop			; VDP timing
+   00B1 D3 99               138 	out	(#0x99),a
+   00B3 7A                  139 	ld	a,d
+   00B4 F6 40               140 	or	#0x40
+   00B6 D3 99               141 	out	(#0x99),a
+   00B8 08                  142 	ex	af,af'
+   00B9 00                  143 	nop			; VDP timing
+   00BA D3 98               144 	out	(#0x98),a
+   00BC 13                  145 	inc	de
+   00BD ED A1               146 	cpi
+   00BF EA A4 00            147 	jp	pe,loopa
+   00C2 F1                  148 	pop	af
+   00C3 E1                  149 	pop	hl
+   00C4 FD E9               150 	jp (iy)
+                            151 
+   00C6 7E                  152 getbit: ld	a,(hl)
+   00C7 23                  153 	inc	hl
+   00C8 17                  154 	rla
+   00C9 C9                  155 	ret
+                            156 
+   00CA                     157 getbitexx:
+   00CA D9                  158 	exx
+   00CB 7E                  159 	ld	a,(hl)
+   00CC 23                  160 	inc	hl
+   00CD D9                  161 	exx
+   00CE 17                  162 	rla
+   00CF C9                  163 	ret
+                            164 
+                            165 ; Depacker exit
+   00D0                     166 Depack_out:
+   00D0 FB                  167 	ei
+   00D1 C9                  168 	ret
+ASxxxx Assembler V01.75 + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 4.
+
+Symbol Table
+
+  0 Depack_out                                                     00D0 R
+  0 getbit                                                         00C6 R
+  0 getbitexx                                                      00CA R
+  0 getlen                                                         003B R
+  0 lenok                                                          005E R
+  0 literal                                                        002D R
+  0 loop                                                           0032 R
+  0 loopa                                                          00A4 R
+  0 lus                                                            0041 R
+  0 mode2                                                          0089 R
+  0 mode3                                                          0083 R
+  0 mode4                                                          007D R
+  0 mode5                                                          0077 R
+  0 mode6                                                          0071 R
+  0 mode7                                                          006B R
+  1 modes                                                          0000 R
+  0 offsok                                                         0099 R
+
+ASxxxx Assembler V01.75 + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 5.
+
+Area Table
+
+   0 _CODE                                                          size   D2   flags 0
+   1 _DATA                                                          size    E   flags 0

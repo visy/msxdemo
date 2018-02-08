@@ -1,0 +1,223 @@
+                              1 ;--------------------------------------------------------
+                              2 ; File Created by SDCC : free open source ANSI-C Compiler
+                              3 ; Version 2.9.0 #5416 (Mar 22 2009) (Mac OS X i386)
+                              4 ; This file was generated Thu Feb  8 01:14:22 2018
+                              5 ;--------------------------------------------------------
+                              6 	.module aplib
+                              7 	.optsdcc -mz80
+                              8 	
+                              9 ;--------------------------------------------------------
+                             10 ; Public variables in this module
+                             11 ;--------------------------------------------------------
+                             12 	.globl _aPLib_depack
+                             13 	.globl _aPLib_R0
+                             14 	.globl _aPLib_LWM
+                             15 	.globl _aPLib_bits
+                             16 ;--------------------------------------------------------
+                             17 ; special function registers
+                             18 ;--------------------------------------------------------
+                             19 ;--------------------------------------------------------
+                             20 ;  ram data
+                             21 ;--------------------------------------------------------
+                             22 	.area _DATA
+   0000                      23 _aPLib_bits::
+   0000                      24 	.ds 2
+   0002                      25 _aPLib_LWM::
+   0002                      26 	.ds 1
+   0003                      27 _aPLib_R0::
+   0003                      28 	.ds 2
+                             29 ;--------------------------------------------------------
+                             30 ; overlayable items in  ram 
+                             31 ;--------------------------------------------------------
+                             32 	.area _OVERLAY
+                             33 ;--------------------------------------------------------
+                             34 ; external initialized ram data
+                             35 ;--------------------------------------------------------
+                             36 ;--------------------------------------------------------
+                             37 ; global & static initialisations
+                             38 ;--------------------------------------------------------
+                             39 	.area _HOME
+                             40 	.area _GSINIT
+                             41 	.area _GSFINAL
+                             42 	.area _GSINIT
+                             43 ;--------------------------------------------------------
+                             44 ; Home
+                             45 ;--------------------------------------------------------
+                             46 	.area _HOME
+                             47 	.area _HOME
+                             48 ;--------------------------------------------------------
+                             49 ; code
+                             50 ;--------------------------------------------------------
+                             51 	.area _CODE
+                             52 ;aplib.c:31: void aPLib_depack (void *dest, void *src) {
+                             53 ;	---------------------------------
+                             54 ; Function aPLib_depack
+                             55 ; ---------------------------------
+   0000                      56 _aPLib_depack_start::
+   0000                      57 _aPLib_depack:
+   0000 DD E5                58 	push	ix
+   0002 DD 21 00 00          59 	ld	ix,#0
+   0006 DD 39                60 	add	ix,sp
+                             61 ;aplib.c:175: __endasm;
+                             62 	
+   0008 C1                   63 		 pop bc
+   0009 D1                   64 		 pop de
+   000A E1                   65 		 pop hl
+   000B E5                   66 		 push hl
+   000C D5                   67 		 push de
+   000D C5                   68 		 push bc
+                             69 	
+                             70 ;	aPPack decompressor
+                             71 ;	original source by dwedit
+                             72 ;	very slightly adapted by utopian
+                             73 ;	optimized by Metalbrain
+                             74 	
+                             75 ;hl	= source
+                             76 ;de	= dest
+                             77 	
+   000E                      78 	depack:
+   000E 3E 80                79 	ld	a,#128
+   0010                      80 	apbranch1:
+   0010 ED A0                81 	ldi
+   0012                      82 	aploop2:
+a  0012                      83 	ld	ixh,#1
+   0012                      84 	aploop:
+   0012 CDr9Bs00             85 	call	ap_getbit
+   0015 30 F9                86 		   jr nc,apbranch1
+   0017 CDr9Bs00             87 		   call ap_getbit
+   001A 30 39                88 		   jr nc,apbranch2
+   001C CDr9Bs00             89 		   call ap_getbit
+   001F 30 1E                90 		   jr nc,apbranch3
+                             91 	
+   0021 01 10 00             92 		   ld bc,#16 ;get an offset
+   0024                      93 	apget4bits:
+   0024 CDr9Bs00             94 	call	ap_getbit
+   0027 CB 11                95 		   rl c
+   0029 30 F9                96 		   jr nc,apget4bits
+   002B 20 07                97 		   jr nz,apbranch4
+   002D EB                   98 		   ex de,hl
+   002E 70                   99 		   ld (hl),b ;write a 0
+   002F EB                  100 		   ex de,hl
+   0030 13                  101 		   inc de
+   0031 C3r12s00            102 		   jp aploop2
+   0034                     103 	apbranch4:
+aq 0034                     104 	ex	af,af`
+   0034 EB                  105 		   ex de,hl ;write a previous byte (1-15 away from dest)
+   0035 ED 42               106 		   sbc hl,bc
+   0037 7E                  107 		   ld a,(hl)
+   0038 09                  108 		   add hl,bc
+   0039 77                  109 		   ld (hl),a
+aq 003A                     110 		   ex af,af`
+   003A EB                  111 		   ex de,hl
+   003B 13                  112 		   inc de
+   003C C3r12s00            113 		   jp aploop2
+                            114 	
+   003F                     115 	apbranch3:
+   003F 4E                  116 	ld	c,(hl) ;use 7 bit offset, length = 2 or 3
+   0040 23                  117 		   inc hl
+aq 0041                     118 		   ex af,af`
+   0041 CB 19               119 		   rr c
+   0043 C8                  120 		   ret z ;if a zero is found here, its EOF
+   0044 3E 02               121 		   ld a,#2
+   0046 06 00               122 		   ld b,#0
+   0048 88                  123 		   adc a,b
+   0049 E5                  124 		   push hl
+a  004A                     125 		   ld iyh,b
+a  004A                     126 		   ld iyl,c
+   004A 62                  127 		   ld h,d
+   004B 6B                  128 		   ld l,e
+   004C ED 42               129 		   sbc hl,bc
+   004E 4F                  130 		   ld c,a
+aq 004F                     131 		   ex af,af`
+   004F ED B0               132 		   ldir
+   0051 E1                  133 		   pop hl
+a  0052                     134 		   ld ixh,b
+   0052 C3r12s00            135 		   jp aploop
+   0055                     136 	apbranch2:
+   0055 CDr8Es00            137 	call	ap_getgamma ;use a gamma code * 256 for offset, another gamma code for length
+   0058 0D                  138 		   dec c
+aq 0059                     139 		   ex af,af`
+   0059 79                  140 		   ld a,c
+a  005A                     141 		   sub ixh
+   005A 28 22               142 		   jr z,ap_r0_gamma
+   005C 3D                  143 		   dec a
+                            144 	
+                            145 		   ;do I even need this code?
+                            146 		   ;bc=bc*256+(hl), lazy 16bit way
+   005D 47                  147 		   ld b,a
+   005E 4E                  148 		   ld c,(hl)
+   005F 23                  149 		   inc hl
+a  0060                     150 		   ld iyh,b
+a  0060                     151 		   ld iyl,c
+                            152 	
+   0060 C5                  153 		   push bc
+                            154 	
+   0061 CDr8Ds00            155 		   call ap_getgamma2
+                            156 	
+   0064 E3                  157 		   ex (sp),hl ;bc = len, hl=offs
+   0065 D5                  158 		   push de
+   0066 EB                  159 		   ex de,hl
+                            160 	
+aq 0067                     161 		   ex af,af`
+a  0067                     162 		   ld a,4
+   0067 BA                  163 		   cp d
+   0068 30 02               164 		   jr nc,apskip2
+   006A 03                  165 		   inc bc
+   006B B7                  166 		   or a
+   006C                     167 	apskip2:
+a  006C                     168 	ld	hl,127
+   006C ED 52               169 		   sbc hl,de
+   006E 38 02               170 		   jr c,apskip3
+   0070 03                  171 		   inc bc
+   0071 03                  172 		   inc bc
+   0072                     173 	apskip3:
+   0072 E1                  174 	pop	hl ;bc = len, de = offs, hl=junk
+   0073 E5                  175 		   push hl
+   0074 B7                  176 		   or a
+   0075 ED 52               177 		   sbc hl,de
+aq 0077                     178 		   ex af,af`
+   0077 D1                  179 		   pop de ;hl=dest-offs, bc=len, de = dest
+   0078 ED B0               180 		   ldir
+   007A E1                  181 		   pop hl
+a  007B                     182 		   ld ixh,b
+   007B C3r12s00            183 		   jp aploop
+                            184 	
+   007E                     185 	ap_r0_gamma:
+   007E CDr8Ds00            186 	call	ap_getgamma2 ;and a new gamma code for length
+   0081 E5                  187 		   push hl
+   0082 D5                  188 		   push de
+   0083 EB                  189 		   ex de,hl
+                            190 	
+a  0084                     191 		   ld d,iyh
+a  0084                     192 		   ld e,iyl
+   0084 ED 52               193 		   sbc hl,de
+   0086 D1                  194 		   pop de ;hl=dest-offs, bc=len, de = dest
+   0087 ED B0               195 		   ldir
+   0089 E1                  196 		   pop hl
+a  008A                     197 		   ld ixh,b
+   008A C3r12s00            198 		   jp aploop
+                            199 	
+   008D                     200 	ap_getgamma2:
+   008D 08                  201 	ex	af,af
+   008E                     202 	ap_getgamma:
+a  008E                     203 	ld	bc,1
+   008E CDr9Bs00            204 	ap_getgammaloop:call ap_getbit
+   0091 CB 11               205 		   rl c
+   0093 CB 10               206 		   rl b
+   0095 CDr9Bs00            207 		   call ap_getbit
+   0098 38 F4               208 		   jr c,ap_getgammaloop
+   009A C9                  209 		   ret
+                            210 	
+   009B                     211 	ap_getbit:
+   009B 87                  212 	add	a,a
+   009C C0                  213 		   ret nz
+   009D 7E                  214 		   ld a,(hl)
+   009E 23                  215 		   inc hl
+   009F 17                  216 		   rla
+   00A0 C9                  217 		   ret
+                            218 	
+   00A1 DD E1               219 	pop	ix
+   00A3 C9                  220 	ret
+   00A4                     221 _aPLib_depack_end::
+                            222 	.area _CODE
+                            223 	.area _CABS

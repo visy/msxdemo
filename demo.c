@@ -8,6 +8,12 @@
 #include "msxlib.h"
 #include "ArkosTrackerPlayer_MSX.h"
 
+extern void pletter(void *, unsigned);
+
+
+#define MONOLOG_PACK_SIZE 1565
+
+
 signed char sintab[256]={
 0,3,6,9,12,15,18,21,24,27,30,33,36,39,42,45,48,51,54,57,59,62,65,67,70,73,75,
 78,80,82,85,87,89,91,94,96,98,100,102,103,105,107,108,110,112,113,114,116,117,
@@ -25,6 +31,7 @@ signed char sintab[256]={
 -6,-3};
 
 uint8_t scratch[128];
+uint8_t packbuffer[2048];
 uint8_t cur_palette[32];
 
 volatile int vbicount=0;
@@ -71,6 +78,32 @@ uint8_t ge5_load(char *file_name, uint8_t vramh, uint16_t vraml) {
 	return 1;
 }
 
+uint8_t pack_load(char *file_name, uint16_t size) {
+	fcb f;
+	uint8_t i;
+	uint16_t total = 0;
+
+	memset((uint8_t *) &f, 0, sizeof(fcb));
+
+	f.record_size = 128;
+	f.drive = 0;
+
+	memcpy(f.name, file_name, 11);
+
+	if (open(&f) != 0) return 0;
+
+	while (total < size) {
+		if (block_set_data_ptr(packbuffer+total) != 0) return 0;
+		if (block_read(&f) != 0) return 0;
+		total+=128;
+	}
+
+	close(&f);
+
+	return 1;
+}
+
+
 uint8_t pal_load(char *file_name, uint8_t ss) {
 	fcb f;
 
@@ -91,7 +124,6 @@ uint8_t pal_load(char *file_name, uint8_t ss) {
 	close(&f);
 	return 1;
 }
-
 
 
 void pause() {
@@ -157,11 +189,16 @@ void main() {
 	pal_load("MONOLOG PL6", 8);
 	vdp_load_palette(cur_palette);
 
-	ge5_load("MONOLOG SC6", 0, 0x0000);
+//	ge5_load("MONOLOG SC6", 0, 0x0000);
+
+	memset((uint8_t *) &packbuffer, 0, 2048);
+	pack_load("MONOLOG PCK", MONOLOG_PACK_SIZE);
+
+	pletter(packbuffer,0x0000);
 
 	while (1==1) {
 	}
-
+/*
 	vdp_set_screen5();
 	pal_load("KETTU16 PL5", 32);
 
@@ -200,4 +237,5 @@ void main() {
 	puts("demo exit\r\n\r\n");
 
 	exit(0);
+*/
 }
