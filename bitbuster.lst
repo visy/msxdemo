@@ -1,0 +1,228 @@
+ASxxxx Assembler V01.75 + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 1.
+
+
+
+                              1 ;
+                              2 ; In: HL = source
+                              3 ;     DE = destination
+                              4 ;
+u  0000 CD 00 00              5 unPack12V:	call	vram.init
+                              6 
+   0003 23                    7 		inc	hl		; skip original file length
+   0004 23                    8 		inc	hl
+   0005 23                    9 		inc	hl
+   0006 23                   10 		inc	hl
+                             11 
+a  0007                      12 		ld	a,128
+                             13 
+   0007 D9                   14 		exx
+a  0008                      15 		ld	de,1
+   0008 D9                   16 		exx
+                             17 
+   0009 CD 5B 00             18 .loop:		call	getBit		; get compression type bit
+   000C 38 05                19 		jr	c,.outCompress	; if set, we got lz77 compression
+ua 000E                      20 		ld	c,$98		; copy byte from compressed data to destination
+   000E ED A3                21 		outi
+   0010 13                   22 		inc	de
+                             23 ;unrolled for extra speed
+                             24 ;		call	getBit		; get compression type bit
+                             25 ;		jr	c,.outCompress	; if set, we got lz77 compression
+                             26 ;		ld	c,$98		; copy byte from compressed data to destination
+                             27 ;		outi
+                             28 ;		inc	de
+                             29 ;		call	getBit		; get compression type bit
+                             30 ;		jr	c,.outCompress	; if set, we got lz77 compression
+                             31 ;		ld	c,$98		; copy byte from compressed data to destination
+                             32 ;		outi
+                             33 ;		inc	de
+                             34 
+   0011 18 F6                35 		jr	.loop
+                             36 
+   0013 4E                   37 .outCompress:	ld	c,(hl)		; get lowest 7 bits of offset, plus offset
+                             38 					; extension bit
+   0014 23                   39 		inc	hl
+                             40 
+a  0015                      41 .outMatch:	ld	b,0
+   0015 CB 79                42 		bit	7,c
+   0017 28 16                43 		jr	z,.outMatch1	; no need to get extra bits if carry not set
+                             44 
+   0019 CD 5B 00             45 		call	getBit		; get offset bit 10 
+   001C CB 10                46 		rl	b
+   001E CD 5B 00             47 		call	getBit		; get offset bit 9
+   0021 CB 10                48 		rl	b
+   0023 CD 5B 00             49 		call	getBit		; get offset bit 8
+   0026 CB 10                50 		rl	b
+   0028 CD 5B 00             51 		call	getBit		; get offset bit 7
+                             52 
+   002B 38 02                53 		jr	c,.outMatch1	; since extension mark already makes bit 7 set 
+   002D CB B9                54 		res	7,c		; only clear it if the bit should be cleared
+   002F 03                   55 .outMatch1:	inc	bc
+                             56 ;
+ASxxxx Assembler V01.75 + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 2.
+
+
+
+   0030 D9                   57 GetGammaValue:	exx			; to second register set!
+   0031 62                   58 		ld	h,d
+   0032 6B                   59 		ld	l,e             ; initial length to 1
+   0033 43                   60 		ld	b,e		; bitcount to 1
+                             61 
+   0034 D9                   62 .size:		exx
+   0035 CD 5B 00             63 		call	getBit		; get more bits
+   0038 D9                   64 		exx
+   0039 30 0A                65 		jr	nc,.sizeEnd	; if bit not set, bitlength of remaining is known
+   003B 04                   66 		inc	b		; increase bitcount
+   003C 18 F6                67 		jr	.size
+                             68 
+   003E D9                   69 .bits:		exx
+   003F CD 5B 00             70 		call	getBit		; get next bit of value from bitstream
+   0042 D9                   71 		exx
+   0043 ED 6A                72 		adc	hl,hl		; insert new bit in HL
+   0045 10 F7                73 .sizeEnd: 	djnz	.bits		; repeat if more bits to go
+                             74 
+   0047 23                   75 .end:		inc	hl		; length was stored as length-2 so correct this
+   0048 D9                   76 		exx			; back to normal register set
+   0049 D8                   77 		ret	c
+                             78 
+   004A E5                   79 		push	hl		; address compressed data on stack
+   004B D9                   80 		exx
+   004C E5                   81 		push	hl		; match length on stack
+   004D D9                   82 		exx
+   004E 62                   83 		ld	h,d
+   004F 6B                   84 		ld	l,e		; destination address in HL...
+   0050 ED 42                85 		sbc	hl,bc		; calculate source address
+                             86 
+   0052 C1                   87 		pop	bc		; match length from stack
+                             88 
+   0053 F5                   89 		push	af
+u  0054 CD 00 00             90 		call	vram.ldir	; transfer data
+   0057 F1                   91 		pop	af
+                             92 
+   0058 E1                   93 		pop	hl		; address compressed data back from stack
+                             94 ;unrolled for extra speed
+                             95 ;		call	getBit		; get compression type bit
+                             96 ;		jr	c,unPack12V.outCompress	; if set, we got lz77 compression
+                             97 ;		ld	c,$98		; copy byte from compressed data to destination
+                             98 ;		outi
+                             99 ;		inc	de
+                            100 ;		call	getBit		; get compression type bit
+                            101 ;		jr	c,unPack12V.outCompress	; if set, we got lz77 compression
+                            102 ;		ld	c,$98		; copy byte from compressed data to destination
+                            103 ;		outi
+                            104 ;		inc	de
+                            105 
+u  0059 18 A5               106 		jr	unPack12V.loop
+                            107 ;
+   005B 87                  108 getBit:		add	a,a		; shift out new bit
+   005C C0                  109 		ret	nz		; if remaining value isn't zere, we're done
+                            110 
+   005D 7E                  111 		ld	a,(hl)		; get 8 bits from bitstream
+   005E 23                  112 		inc	hl		; increase source data address
+ASxxxx Assembler V01.75 + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 3.
+
+
+
+                            113 
+   005F 17                  114 		rla			; (bit 0 will be set!!!!)
+   0060 C9                  115 		ret
+                            116 ;
+   0061                     117 vram:
+                            118 ;
+                            119 ; VRAM stuff (init andLDIR replacements)
+                            120 ;
+   0061 7A                  121 .init:		ld	a,d
+   0062 17                  122 		rla
+   0063 17                  123 		rla
+   0064 17                  124 		rla
+a  0065                     125 		and	7
+u  0065 D3 00               126 		out	($99),a
+a  0067                     127 		and	4
+   0067 32 7B 00            128 		ld	(.readPnt+1),a
+   006A 32 8C 00            129 		ld	(.writePnt+1),a
+a  006D                     130 		ld	a,128+ 14
+u  006D D3 00               131 		out	($99),a
+   006F 7B                  132 		ld	a,e
+u  0070 D3 00               133 		out	($99),a
+   0072 7A                  134 		ld	a,d
+a  0073                     135 		and	63
+a  0073                     136 		or	64
+u  0073 D3 00               137 		out	($99),a
+   0075 C9                  138 		ret
+                            139 ;
+   0076 F3                  140 .ldir:		di
+   0077 7C                  141 .ldir.loop:	ld	a,h
+a  0078                     142 		and	192
+   0078 07                  143 		rlca
+   0079 07                  144 		rlca
+a  007A                     145 .readPnt:	or	0
+u  007A D3 00               146 		out	($99),a
+a  007C                     147 		ld	a,128+ 14
+u  007C D3 00               148 		out	($99),a
+   007E 7D                  149 		ld	a,l
+u  007F D3 00               150 		out	($99),a
+   0081 7C                  151 		ld	a,h
+a  0082                     152 		and	63
+u  0082 D3 00               153 		out	($99),a
+   0084 23                  154 		inc	hl
+u  0085 DB 00               155 		in	a,($98)
+   0087 F5                  156 		push	af
+   0088 7A                  157 		ld	a,d
+a  0089                     158 		and	192
+   0089 07                  159 		rlca
+   008A 07                  160 		rlca
+a  008B                     161 .writePnt:	or	0
+u  008B D3 00               162 		out	($99),a
+a  008D                     163 		ld	a,128+ 14
+u  008D D3 00               164 		out	($99),a
+   008F 7B                  165 		ld	a,e
+u  0090 D3 00               166 		out	($99),a
+   0092 7A                  167 		ld	a,d
+a  0093                     168 		and	63
+ASxxxx Assembler V01.75 + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 4.
+
+
+
+a  0093                     169 		or	64
+u  0093 D3 00               170 		out	($99),a
+   0095 13                  171 		inc	de
+   0096 F1                  172 		pop	af
+u  0097 D3 00               173 		out	($98),a
+   0099 0B                  174 		dec	bc
+   009A 79                  175 		ld	a,c
+   009B B0                  176 		or	b
+   009C 20 D9               177 		jr	nz,.ldir.loop
+   009E FB                  178 		ei
+   009F C9                  179 		ret
+                            180 ;
+ASxxxx Assembler V01.75 + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 5.
+
+Symbol Table
+
+    $98                                                            **** X
+    $99                                                            **** X
+  0 .bits                                                          003E R
+  0 .end                                                           0047 R
+  0 .init                                                          0061 R
+  0 .ldir                                                          0076 R
+  0 .ldir.loop                                                     0077 R
+  0 .loop                                                          0009 R
+  0 .outCompress                                                   0013 R
+  0 .outMatch                                                      0015 R
+  0 .outMatch1                                                     002F R
+  0 .readPnt                                                       007A R
+  0 .size                                                          0034 R
+  0 .sizeEnd                                                       0045 R
+  0 .writePnt                                                      008B R
+  0 GetGammaValue                                                  0030 R
+  0 getBit                                                         005B R
+  0 unPack12V                                                      0000 R
+    unPack12V.loop                                                 **** X
+  0 vram                                                           0061 R
+    vram.init                                                      **** X
+    vram.ldir                                                      **** X
+
+ASxxxx Assembler V01.75 + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 6.
+
+Area Table
+
+   0 _CODE                                                          size   A0   flags 0
