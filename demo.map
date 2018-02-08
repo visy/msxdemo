@@ -13,24 +13,24 @@ Area                               Addr   Size   Decimal Bytes (Attributes)
      0000    l__OVERLAY
      0000    s__HEADER
      0001    l__GSFINAL
-     0167    l__GSINIT
+     0187    l__GSINIT
      0C8E    l__HEADER
      0C8E    s__CODE
-     0D72    l__DATA
-     1A96    l__CODE
-     2724    s__DATA
-     3496    s__GSINIT
-     3496    s__HOME
-     3496    s__OVERLAY
-     35FD    s__GSFINAL
-     35FE    s__CABS
-     35FE    s__HEAP
+     1534    l__DATA
+     1A7F    l__CODE
+     270D    s__DATA
+     3C41    s__GSINIT
+     3C41    s__HOME
+     3C41    s__OVERLAY
+     3DC8    s__GSFINAL
+     3DC9    s__CABS
+     3DC9    s__HEAP
 
 Hexadecimal
 
 Area                               Addr   Size   Decimal Bytes (Attributes)
 --------------------------------   ----   ----   ------- ----- ------------
-_CODE                              0C8E   1A96 =   6806. bytes (REL,CON)
+_CODE                              0C8E   1A7F =   6783. bytes (REL,CON)
 
       Value  Global
    --------  --------------------------------
@@ -54,198 +54,198 @@ _CODE                              0C8E   1A96 =   6806. bytes (REL,CON)
      0FE2    _fadein_end
      0FE2    _main
      0FE2    _main_start
-     1113    _main_end
-     1167    _pletter
-     124F    _putchar
-     125A    _getchar
-     1260    _open
-     127A    _creat
-     1294    _close
-     12AE    _block_read
-     12C8    _block_set_data_ptr
-     12E2    _block_write
-     12FC    _exit
-     130F    _vdp_set_screen5
-     1338    _vdp_set_screen6
-     1361    _vdp_set_text
-     1373    _vdp_load_palette
-     1392    _vdp_set_write_address
-     13C1    _vdp_set_read_address
-     13EE    _vdp_load_screen
-     1408    _vdp_copier
-     145D    _aux_vdp_copy
-     14AF    _PLY_Play
-     1726    _PLY_SendRegisters
-     17B1    _PLY_PSGReg8
-     17B3    _PLY_PSGReg9
-     17B5    _PLY_PSGReg10
-     17B9    _PLY_PSGReg7
-     19A1    _PLY_PeriodTable
-     1AC1    _PLY_SongPtr
-     1AC3    _PLY_Init
-     1B32    _PLY_Stop
-     1B44    _puts
-     1B44    _puts_start
-     1B66    _puthex
-     1B66    _puthex_start
-     1B66    _puts_end
-     1BC7    _puthex8
-     1BC7    _puthex8_start
-     1BC7    _puthex_end
-     1BE1    _puthex16
-     1BE1    _puthex16_start
-     1BE1    _puthex8_end
-     1BFC    _putdec
-     1BFC    _putdec_start
-     1BFC    _puthex16_end
-     1C5E    _putdec8
-     1C5E    _putdec8_start
-     1C5E    _putdec_end
-     1C78    _putdec16
-     1C78    _putdec16_start
-     1C78    _putdec8_end
-     1C93    _memcpy
-     1C93    _memcpy_start
-     1C93    _putdec16_end
-     1CD4    _memcpy_end
-     1CD4    _memset
-     1CD4    _memset_start
-     1CF7    _malloc
-     1CF7    _malloc_start
-     1CF7    _memset_end
-     1D1A    _install_isr
-     1D1A    _malloc_end
-     1D36    _uninstall_isr
-     1D3F    _ispressed
-     1D3F    _ispressed_start
-     1D65    _ispressed_end
-     1D65    _screen
-     1D65    _screen_start
-     1D8B    _screen_end
-     1D8B    _vdp_address
-     1D8B    _vdp_address_start
-     1DA6    _vdp_address_end
-     1DA6    _vdp_poke
-     1DA6    _vdp_poke_start
-     1DC6    _vdp_peek
-     1DC6    _vdp_peek_start
-     1DC6    _vdp_poke_end
-     1DE1    _vdp_peek_end
-     1DE1    _vdp_set
-     1DE1    _vdp_set_start
-     1E38    _vdp_set_end
-     1E38    _vdp_slowset
-     1E38    _vdp_slowset_start
-     1EA7    _vdp_copy
-     1EA7    _vdp_copy_start
-     1EA7    _vdp_slowset_end
-     1EF8    _vdp_copy_end
-     1EF8    _vdp_slowcopy
-     1EF8    _vdp_slowcopy_start
-     1F5C    _vdp_bigcopy
-     1F5C    _vdp_bigcopy_start
-     1F5C    _vdp_slowcopy_end
-     1FC1    _vdp_bigcopy_end
-     1FC1    _vdp_register
-     1FC1    _vdp_register_start
-     1FD8    _msx2_sethz
-     1FD8    _msx2_sethz_start
-     1FD8    _vdp_register_end
-     1FFC    _msx2_sethz_end
-     1FFC    _vdp_status
-     1FFC    _vdp_status_start
-     2000    _vdp2_status
-     2000    _vdp2_status_start
-     2000    _vdp_status_end
-     2026    _sprite_col
-     2026    _sprite_col_start
-     2026    _vdp2_status_end
-     2050    _sprite_col_end
-     2050    _sprite_pos
-     2050    _sprite_pos_start
-     208C    _sprite_pat
-     208C    _sprite_pat_start
-     208C    _sprite_pos_end
-     20B6    _msx2_palette
-     20B6    _msx2_palette_start
-     20B6    _sprite_pat_end
-     20DE    _joy_status
-     20DE    _joy_status_start
-     20DE    _msx2_palette_end
-     2112    _joy_status_end
-     211B    _mouse_status
-     211B    _mouse_status_start
-     21ED    _isvdp2
-     21ED    _isvdp2_start
-     21ED    _mouse_status_end
-     220D    _isvdp2_end
-     22AA    _readfile
-     22AA    _readfile_start
-     24A4    _readfile_end
-     24A4    _spindown
-     24A4    _spindown_start
-     24B5    _print
-     24B5    _print_start
-     24B5    _spindown_end
-     24CB    _random
-     24CB    _random_start
-     24E3    _mem_set
-     24E3    _mem_set_start
-     24E3    _random_end
-     2537    _mem_set_end
-     2537    _mem_set_stack
-     2537    _mem_set_stack_start
-     2594    _mem_cpy
-     2594    _mem_cpy_start
-     2594    _mem_set_stack_end
-     25BE    __initrleblock
-     25BE    _mem_cpy_end
-     25E5    __moduchar_rrx_s
-     25EC    __moduchar_rrx_hds
-     25F3    __moduint_rrx_s
-     25FF    __moduint_rrx_hds
-     2607    __moduschar_rrx_s
-     261A    __divschar_rrx_s
-     2621    __divschar_rrx_hds
-     2628    __modschar_rrx_s
-     262F    __modschar_rrx_hds
-     2636    __divsint_rrx_s
-     2642    __divsint_rrx_hds
-     264A    __modsint_rrx_s
-     2656    __modsint_rrx_hds
-     265E    __divuchar_rrx_s
-     2665    __divuchar_rrx_hds
-     266C    __divuint_rrx_s
-     2678    __divuint_rrx_hds
-     2680    __divsuchar_rrx_s
-     268F    __modsuchar_rrx_s
-     269E    __divuschar_rrx_s
-     26B1    .mod8
-     26B1    __div8
-     26B9    .mod16
-     26B9    __div16
-     26EF    .modu8
-     26EF    __divu8
-     26F2    .modu16
-     26F2    __divu16
+     1109    _main_end
+     115F    _bitbuster
+     1238    _putchar
+     1243    _getchar
+     1249    _open
+     1263    _creat
+     127D    _close
+     1297    _block_read
+     12B1    _block_set_data_ptr
+     12CB    _block_write
+     12E5    _exit
+     12F8    _vdp_set_screen5
+     1321    _vdp_set_screen6
+     134A    _vdp_set_text
+     135C    _vdp_load_palette
+     137B    _vdp_set_write_address
+     13AA    _vdp_set_read_address
+     13D7    _vdp_load_screen
+     13F1    _vdp_copier
+     1446    _aux_vdp_copy
+     1498    _PLY_Play
+     170F    _PLY_SendRegisters
+     179A    _PLY_PSGReg8
+     179C    _PLY_PSGReg9
+     179E    _PLY_PSGReg10
+     17A2    _PLY_PSGReg7
+     198A    _PLY_PeriodTable
+     1AAA    _PLY_SongPtr
+     1AAC    _PLY_Init
+     1B1B    _PLY_Stop
+     1B2D    _puts
+     1B2D    _puts_start
+     1B4F    _puthex
+     1B4F    _puthex_start
+     1B4F    _puts_end
+     1BB0    _puthex8
+     1BB0    _puthex8_start
+     1BB0    _puthex_end
+     1BCA    _puthex16
+     1BCA    _puthex16_start
+     1BCA    _puthex8_end
+     1BE5    _putdec
+     1BE5    _putdec_start
+     1BE5    _puthex16_end
+     1C47    _putdec8
+     1C47    _putdec8_start
+     1C47    _putdec_end
+     1C61    _putdec16
+     1C61    _putdec16_start
+     1C61    _putdec8_end
+     1C7C    _memcpy
+     1C7C    _memcpy_start
+     1C7C    _putdec16_end
+     1CBD    _memcpy_end
+     1CBD    _memset
+     1CBD    _memset_start
+     1CE0    _malloc
+     1CE0    _malloc_start
+     1CE0    _memset_end
+     1D03    _install_isr
+     1D03    _malloc_end
+     1D1F    _uninstall_isr
+     1D28    _ispressed
+     1D28    _ispressed_start
+     1D4E    _ispressed_end
+     1D4E    _screen
+     1D4E    _screen_start
+     1D74    _screen_end
+     1D74    _vdp_address
+     1D74    _vdp_address_start
+     1D8F    _vdp_address_end
+     1D8F    _vdp_poke
+     1D8F    _vdp_poke_start
+     1DAF    _vdp_peek
+     1DAF    _vdp_peek_start
+     1DAF    _vdp_poke_end
+     1DCA    _vdp_peek_end
+     1DCA    _vdp_set
+     1DCA    _vdp_set_start
+     1E21    _vdp_set_end
+     1E21    _vdp_slowset
+     1E21    _vdp_slowset_start
+     1E90    _vdp_copy
+     1E90    _vdp_copy_start
+     1E90    _vdp_slowset_end
+     1EE1    _vdp_copy_end
+     1EE1    _vdp_slowcopy
+     1EE1    _vdp_slowcopy_start
+     1F45    _vdp_bigcopy
+     1F45    _vdp_bigcopy_start
+     1F45    _vdp_slowcopy_end
+     1FAA    _vdp_bigcopy_end
+     1FAA    _vdp_register
+     1FAA    _vdp_register_start
+     1FC1    _msx2_sethz
+     1FC1    _msx2_sethz_start
+     1FC1    _vdp_register_end
+     1FE5    _msx2_sethz_end
+     1FE5    _vdp_status
+     1FE5    _vdp_status_start
+     1FE9    _vdp2_status
+     1FE9    _vdp2_status_start
+     1FE9    _vdp_status_end
+     200F    _sprite_col
+     200F    _sprite_col_start
+     200F    _vdp2_status_end
+     2039    _sprite_col_end
+     2039    _sprite_pos
+     2039    _sprite_pos_start
+     2075    _sprite_pat
+     2075    _sprite_pat_start
+     2075    _sprite_pos_end
+     209F    _msx2_palette
+     209F    _msx2_palette_start
+     209F    _sprite_pat_end
+     20C7    _joy_status
+     20C7    _joy_status_start
+     20C7    _msx2_palette_end
+     20FB    _joy_status_end
+     2104    _mouse_status
+     2104    _mouse_status_start
+     21D6    _isvdp2
+     21D6    _isvdp2_start
+     21D6    _mouse_status_end
+     21F6    _isvdp2_end
+     2293    _readfile
+     2293    _readfile_start
+     248D    _readfile_end
+     248D    _spindown
+     248D    _spindown_start
+     249E    _print
+     249E    _print_start
+     249E    _spindown_end
+     24B4    _random
+     24B4    _random_start
+     24CC    _mem_set
+     24CC    _mem_set_start
+     24CC    _random_end
+     2520    _mem_set_end
+     2520    _mem_set_stack
+     2520    _mem_set_stack_start
+     257D    _mem_cpy
+     257D    _mem_cpy_start
+     257D    _mem_set_stack_end
+     25A7    __initrleblock
+     25A7    _mem_cpy_end
+     25CE    __moduchar_rrx_s
+     25D5    __moduchar_rrx_hds
+     25DC    __moduint_rrx_s
+     25E8    __moduint_rrx_hds
+     25F0    __moduschar_rrx_s
+     2603    __divschar_rrx_s
+     260A    __divschar_rrx_hds
+     2611    __modschar_rrx_s
+     2618    __modschar_rrx_hds
+     261F    __divsint_rrx_s
+     262B    __divsint_rrx_hds
+     2633    __modsint_rrx_s
+     263F    __modsint_rrx_hds
+     2647    __divuchar_rrx_s
+     264E    __divuchar_rrx_hds
+     2655    __divuint_rrx_s
+     2661    __divuint_rrx_hds
+     2669    __divsuchar_rrx_s
+     2678    __modsuchar_rrx_s
+     2687    __divuschar_rrx_s
+     269A    .mod8
+     269A    __div8
+     26A2    .mod16
+     26A2    __div16
+     26D8    .modu8
+     26D8    __divu8
+     26DB    .modu16
+     26DB    __divu16
 
 Hexadecimal
 
 Area                               Addr   Size   Decimal Bytes (Attributes)
 --------------------------------   ----   ----   ------- ----- ------------
-_DATA                              2724   0D72 =   3442. bytes (REL,CON)
+_DATA                              270D   1534 =   5428. bytes (REL,CON)
 
       Value  Global
    --------  --------------------------------
-     2724    _packbuffer
-     32DC    _sintab
-     33DC    _scratch
-     345C    _cur_palette
-     347C    _vbicount
-     347E    _tick
-     3480    _heap_top
-     3490    _last_error
-     3491    _old_isr
+     270D    _packbuffer
+     3A95    _sintab
+     3B95    _scratch
+     3C15    _cur_palette
+     3C35    _vbicount
+     3C37    _tick
+     3C39    _heap_top
+     3C3B    _last_error
+     3C3C    _old_isr
 
 
 
@@ -257,16 +257,16 @@ Hexadecimal
 
 Area                               Addr   Size   Decimal Bytes (Attributes)
 --------------------------------   ----   ----   ------- ----- ------------
-_HEAP                              35FE   0000 =      0. bytes (REL,CON)
+_HEAP                              3DC9   0000 =      0. bytes (REL,CON)
 
       Value  Global
    --------  --------------------------------
-     35FE    _HEAP_start
+     3DC9    _HEAP_start
 MODULES
 	FILE demo.o
 		NAME demo
 	FILE crt0msx_msxdos_biisi.o
-	FILE pletter.o
+	FILE bitbuster.o
 	FILE putchar.o
 	FILE getchar.o
 	FILE dos.o

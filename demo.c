@@ -8,9 +8,10 @@
 #include "msxlib.h"
 #include "ArkosTrackerPlayer_MSX.h"
 
-extern void pletter(unsigned char*, uint16_t);
+//extern void pletter(unsigned char*, uint16_t);
+extern void bitbuster(unsigned char*, uint16_t);
 
-uint8_t packbuffer[3000] = {0};
+uint8_t packbuffer[5000] = {0};
 
 signed char sintab[256]={
 0,3,6,9,12,15,18,21,24,27,30,33,36,39,42,45,48,51,54,57,59,62,65,67,70,73,75,
@@ -110,7 +111,6 @@ void pause() {
 
 uint8_t pack_load(char *file_name, int size) {
 	fcb f;
-	uint8_t i;
 	int total = 0;
 	int incr = 128;
 
@@ -184,55 +184,12 @@ void main() {
     vdp_register(VDP_VOFFSET,0);
 
 	pal_load("KETTU16 PL5", 32);
-	vdp_load_palette(cur_palette);
 
-//	ge5_load("KETTU16 SC5", 0, 0x0000);
-
-	memset((uint8_t *) &packbuffer, 0, 3000);
-	pack_load("KETTU11 PCK", 2867);
+	memset((uint8_t *) &packbuffer, 0, 5000);
+	pack_load("KETTU16 PCK", 4501);
     vdp_register(14,0);
-	pletter(packbuffer,0);
 
-	memset((uint8_t *) &scratch, 0, 128);
-
-	memset((uint8_t *) &packbuffer, 0, 3000);
-	pack_load("KETTU12 PCK", 1481);
-    vdp_register(14,1);
-	pletter(packbuffer,0);
-
-//	memset((uint8_t *) &packbuffer, 0, 3000);
-//	pack_load("KETTU12 PCK", 1481);
-
-
-//    vdp_register(14,2);
-
-	memset((uint8_t *) &scratch, 0, 128);
-
-    install_isr(my_isr);
-
-	while (!quit) {
-		waitVB();
-
-
-		if(space())
-			quit=1;
-	}
-
-//	memset((uint8_t *) &packbuffer, 0, 5000);
-//	pack_load("KETTU16 PCK", PACK_SIZE);
-
-//	pletter(packbuffer,0x0);
-
-/*
-	vdp_set_screen5();
-	pal_load("KETTU16 PL5", 32);
-
-	//vdp_load_palette(cur_palette);
-
-	memset((uint8_t *) &scratch, 0, 128);
-	vdp_load_palette(scratch);
-
-	ge5_load("KETTU16 SC5", 0, 0x0000);
+	bitbuster(packbuffer,0);
 
 	memset((uint8_t *) &scratch, 0, 128);
 
@@ -250,8 +207,6 @@ void main() {
 			quit=1;
 	}
 
-	getchar();
-
     waitVB();
     uninstall_isr();
     PLY_Stop();
@@ -262,5 +217,4 @@ void main() {
 	puts("demo exit\r\n\r\n");
 
 	exit(0);
-*/
 }

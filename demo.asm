@@ -1,7 +1,7 @@
 ;--------------------------------------------------------
 ; File Created by SDCC : free open source ANSI-C Compiler
 ; Version 2.9.0 #5416 (Mar 22 2009) (Mac OS X i386)
-; This file was generated Thu Feb  8 15:05:24 2018
+; This file was generated Thu Feb  8 19:39:27 2018
 ;--------------------------------------------------------
 	.module demo
 	.optsdcc -mz80
@@ -30,7 +30,7 @@
 ;--------------------------------------------------------
 	.area _DATA
 _packbuffer::
-	.ds 3000
+	.ds 5000
 _sintab::
 	.ds 256
 _scratch::
@@ -55,7 +55,7 @@ _tick::
 	.area _GSINIT
 	.area _GSFINAL
 	.area _GSINIT
-;demo.c:13: uint8_t packbuffer[3000] = {0};
+;demo.c:14: uint8_t packbuffer[5000] = {0};
 	ld	hl,#_packbuffer
 	call	__initrleblock
 	.db	#-127,#0x00
@@ -81,9 +81,25 @@ _tick::
 	.db	#-127,#0x00
 	.db	#-127,#0x00
 	.db	#-127,#0x00
-	.db	#-79,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-47,#0x00
 	.db	0
-;demo.c:15: signed char sintab[256]={
+;demo.c:16: signed char sintab[256]={
 	ld	hl,#_sintab
 	call	__initrleblock
 	.db	59
@@ -129,12 +145,12 @@ _tick::
 	.db	0xE2, 0xE5, 0xE8, 0xEB, 0xEE, 0xF1, 0xF4, 0xF7
 	.db	0xFA, 0xFD
 	.db	0
-;demo.c:34: volatile int vbicount=0;
+;demo.c:35: volatile int vbicount=0;
 	ld	iy,#_vbicount
 	ld	0 (iy),#0x00
 	ld	iy,#_vbicount
 	ld	1 (iy),#0x00
-;demo.c:35: volatile int tick=0;
+;demo.c:36: volatile int tick=0;
 	ld	iy,#_tick
 	ld	0 (iy),#0x00
 	ld	iy,#_tick
@@ -148,7 +164,7 @@ _tick::
 ; code
 ;--------------------------------------------------------
 	.area _CODE
-;demo.c:38: void my_isr(void) interrupt
+;demo.c:39: void my_isr(void) interrupt
 ;	---------------------------------
 ; Function my_isr
 ; ---------------------------------
@@ -159,29 +175,29 @@ _my_isr:
 	push	de
 	push	hl
 	push	iy
-;demo.c:40: DI;
+;demo.c:41: DI;
 		di 
-;demo.c:41: READ_VDP_STATUS;
+;demo.c:42: READ_VDP_STATUS;
 		in a,(#0x99) 
-;demo.c:43: PLY_Play();
+;demo.c:44: PLY_Play();
 	call	_PLY_Play
-;demo.c:44: PLY_SendRegisters();
+;demo.c:45: PLY_SendRegisters();
 	call	_PLY_SendRegisters
-;demo.c:46: vbicount++;
+;demo.c:47: vbicount++;
 	ld	iy,#_vbicount
 	inc	0 (iy)
 	jr	NZ,00103$
 	ld	iy,#_vbicount
 	inc	1 (iy)
 00103$:
-;demo.c:47: tick++;
+;demo.c:48: tick++;
 	ld	iy,#_tick
 	inc	0 (iy)
 	jr	NZ,00104$
 	ld	iy,#_tick
 	inc	1 (iy)
 00104$:
-;demo.c:49: EI;
+;demo.c:50: EI;
 		ei 
 	pop	iy
 	pop	hl
@@ -190,7 +206,7 @@ _my_isr:
 	pop	af
 	reti
 _my_isr_end::
-;demo.c:52: uint8_t ge5_load(char *file_name, uint8_t vramh, uint16_t vraml) {
+;demo.c:53: uint8_t ge5_load(char *file_name, uint8_t vramh, uint16_t vraml) {
 ;	---------------------------------
 ; Function ge5_load
 ; ---------------------------------
@@ -202,7 +218,7 @@ _ge5_load:
 	ld	hl,#-46
 	add	hl,sp
 	ld	sp,hl
-;demo.c:56: memset((uint8_t *) &f, 0, sizeof(fcb));
+;demo.c:57: memset((uint8_t *) &f, 0, sizeof(fcb));
 	ld	hl,#0x0000
 	add	hl,sp
 	ld	c,l
@@ -217,7 +233,7 @@ _ge5_load:
 	pop	af
 	pop	af
 	inc	sp
-;demo.c:58: f.record_size = 128;
+;demo.c:59: f.record_size = 128;
 	ld	hl,#0x0000
 	add	hl,sp
 	ld	c,l
@@ -227,10 +243,10 @@ _ge5_load:
 	ex	de,hl
 	ld	a,#0x80
 	ld	(de),a
-;demo.c:59: f.drive = 0;
+;demo.c:60: f.drive = 0;
 	ld	a,#0x00
 	ld	(bc),a
-;demo.c:61: memcpy(f.name, file_name, 11);
+;demo.c:62: memcpy(f.name, file_name, 11);
 	ld	e,4 (ix)
 	ld	d,5 (ix)
 	inc	bc
@@ -242,7 +258,7 @@ _ge5_load:
 	pop	af
 	pop	af
 	pop	af
-;demo.c:63: if (open(&f) != 0) return 0;
+;demo.c:64: if (open(&f) != 0) return 0;
 	ld	hl,#0x0000
 	add	hl,sp
 	push	hl
@@ -254,7 +270,7 @@ _ge5_load:
 	ld	l,#0x00
 	jp	00114$
 00102$:
-;demo.c:64: vdp_set_write_address(vramh, vraml);
+;demo.c:65: vdp_set_write_address(vramh, vraml);
 	ld	l,7 (ix)
 	ld	h,8 (ix)
 	push	hl
@@ -264,13 +280,13 @@ _ge5_load:
 	call	_vdp_set_write_address
 	pop	af
 	inc	sp
-;demo.c:66: for (i = 0; i < 213; i++) {
+;demo.c:67: for (i = 0; i < 213; i++) {
 	ld	c,#0x00
 00110$:
 	ld	a,c
 	sub	a,#0xD5
 	jp	NC,00113$
-;demo.c:67: if (block_set_data_ptr(scratch) != 0) return 0;
+;demo.c:68: if (block_set_data_ptr(scratch) != 0) return 0;
 	push	bc
 	ld	hl,#_scratch
 	push	hl
@@ -284,7 +300,7 @@ _ge5_load:
 	ld	l,#0x00
 	jp	00114$
 00104$:
-;demo.c:68: if (block_read(&f) != 0) return 0;
+;demo.c:69: if (block_read(&f) != 0) return 0;
 	ld	hl,#0x0000
 	add	hl,sp
 	push	bc
@@ -299,7 +315,7 @@ _ge5_load:
 	ld	l,#0x00
 	jr	00114$
 00106$:
-;demo.c:70: if (i == 0) vdp_load_screen(scratch + 7, 121);   // to skip GE5 header
+;demo.c:71: if (i == 0) vdp_load_screen(scratch + 7, 121);   // to skip GE5 header
 	xor	a,a
 	or	a,c
 	jr	NZ,00108$
@@ -315,7 +331,7 @@ _ge5_load:
 	pop	bc
 	jr	00112$
 00108$:
-;demo.c:71: else vdp_load_screen(scratch, 128);
+;demo.c:72: else vdp_load_screen(scratch, 128);
 	push	bc
 	ld	a,#0x80
 	push	af
@@ -327,24 +343,24 @@ _ge5_load:
 	inc	sp
 	pop	bc
 00112$:
-;demo.c:66: for (i = 0; i < 213; i++) {
+;demo.c:67: for (i = 0; i < 213; i++) {
 	inc	c
 	jp	00110$
 00113$:
-;demo.c:74: close(&f);
+;demo.c:75: close(&f);
 	ld	hl,#0x0000
 	add	hl,sp
 	push	hl
 	call	_close
 	pop	af
-;demo.c:76: return 1;
+;demo.c:77: return 1;
 	ld	l,#0x01
 00114$:
 	ld	sp,ix
 	pop	ix
 	ret
 _ge5_load_end::
-;demo.c:79: uint8_t pal_load(char *file_name, uint8_t ss) {
+;demo.c:80: uint8_t pal_load(char *file_name, uint8_t ss) {
 ;	---------------------------------
 ; Function pal_load
 ; ---------------------------------
@@ -356,7 +372,7 @@ _pal_load:
 	ld	hl,#-46
 	add	hl,sp
 	ld	sp,hl
-;demo.c:82: memset((uint8_t *) &f, 0, sizeof(fcb));
+;demo.c:83: memset((uint8_t *) &f, 0, sizeof(fcb));
 	ld	hl,#0x0000
 	add	hl,sp
 	ld	c,l
@@ -371,7 +387,7 @@ _pal_load:
 	pop	af
 	pop	af
 	inc	sp
-;demo.c:83: memset((uint8_t *) &scratch, 0, 128);
+;demo.c:84: memset((uint8_t *) &scratch, 0, 128);
 	ld	hl,#0x0080
 	push	hl
 	ld	a,#0x00
@@ -383,7 +399,7 @@ _pal_load:
 	pop	af
 	pop	af
 	inc	sp
-;demo.c:85: f.record_size = ss;
+;demo.c:86: f.record_size = ss;
 	ld	hl,#0x0000
 	add	hl,sp
 	ld	c,l
@@ -393,10 +409,10 @@ _pal_load:
 	ex	de,hl
 	ld	a,6 (ix)
 	ld	(de),a
-;demo.c:86: f.drive = 0;
+;demo.c:87: f.drive = 0;
 	ld	a,#0x00
 	ld	(bc),a
-;demo.c:88: memcpy(f.name, file_name, 11);
+;demo.c:89: memcpy(f.name, file_name, 11);
 	ld	e,4 (ix)
 	ld	d,5 (ix)
 	inc	bc
@@ -408,7 +424,7 @@ _pal_load:
 	pop	af
 	pop	af
 	pop	af
-;demo.c:90: if (open(&f) != 0) return 0;
+;demo.c:91: if (open(&f) != 0) return 0;
 	ld	hl,#0x0000
 	add	hl,sp
 	push	hl
@@ -420,7 +436,7 @@ _pal_load:
 	ld	l,#0x00
 	jr	00107$
 00102$:
-;demo.c:91: if (block_set_data_ptr(scratch) != 0) return 0;
+;demo.c:92: if (block_set_data_ptr(scratch) != 0) return 0;
 	ld	hl,#_scratch
 	push	hl
 	call	_block_set_data_ptr
@@ -431,7 +447,7 @@ _pal_load:
 	ld	l,#0x00
 	jr	00107$
 00104$:
-;demo.c:92: if (block_read(&f) != 0) return 0;
+;demo.c:93: if (block_read(&f) != 0) return 0;
 	ld	hl,#0x0000
 	add	hl,sp
 	push	hl
@@ -443,7 +459,7 @@ _pal_load:
 	ld	l,#0x00
 	jr	00107$
 00106$:
-;demo.c:94: memcpy(cur_palette, scratch+7, ss);
+;demo.c:95: memcpy(cur_palette, scratch+7, ss);
 	ld	c,6 (ix)
 	ld	b,#0x00
 	ld	de,#_scratch + 7
@@ -455,49 +471,49 @@ _pal_load:
 	pop	af
 	pop	af
 	pop	af
-;demo.c:96: close(&f);
+;demo.c:97: close(&f);
 	ld	hl,#0x0000
 	add	hl,sp
 	push	hl
 	call	_close
 	pop	af
-;demo.c:97: return 1;
+;demo.c:98: return 1;
 	ld	l,#0x01
 00107$:
 	ld	sp,ix
 	pop	ix
 	ret
 _pal_load_end::
-;demo.c:101: void pause() {
+;demo.c:102: void pause() {
 ;	---------------------------------
 ; Function pause
 ; ---------------------------------
 _pause_start::
 _pause:
-;demo.c:102: uint8_t i,j,k = 0;
-;demo.c:103: for (i = 0; i < 255; i++) {	
+;demo.c:103: uint8_t i,j,k = 0;
+;demo.c:104: for (i = 0; i < 255; i++) {	
 	ld	bc,#0x0000
 00104$:
 	ld	a,b
 	sub	a,#0xFF
 	ret	NC
-;demo.c:104: for (j = 0; j < 255; j++) {
+;demo.c:105: for (j = 0; j < 255; j++) {
 	ld	e,c
 	ld	d,#0xFF
 00103$:
-;demo.c:105: k++;
+;demo.c:106: k++;
 	inc	e
 	dec	d
-;demo.c:104: for (j = 0; j < 255; j++) {
+;demo.c:105: for (j = 0; j < 255; j++) {
 	xor	a,a
 	or	a,d
 	jr	NZ,00103$
-;demo.c:103: for (i = 0; i < 255; i++) {	
+;demo.c:104: for (i = 0; i < 255; i++) {	
 	ld	c,e
 	inc	b
 	jr	00104$
 _pause_end::
-;demo.c:111: uint8_t pack_load(char *file_name, int size) {
+;demo.c:112: uint8_t pack_load(char *file_name, int size) {
 ;	---------------------------------
 ; Function pack_load
 ; ---------------------------------
@@ -864,16 +880,9 @@ _main:
 	pop	af
 	inc	sp
 	pop	bc
-;demo.c:187: vdp_load_palette(cur_palette);
+;demo.c:188: memset((uint8_t *) &packbuffer, 0, 5000);
 	push	bc
-	ld	hl,#_cur_palette
-	push	hl
-	call	_vdp_load_palette
-	pop	af
-	pop	bc
-;demo.c:191: memset((uint8_t *) &packbuffer, 0, 3000);
-	push	bc
-	ld	hl,#0x0BB8
+	ld	hl,#0x1388
 	push	hl
 	ld	a,#0x00
 	push	af
@@ -885,9 +894,9 @@ _main:
 	pop	af
 	inc	sp
 	pop	bc
-;demo.c:192: pack_load("KETTU11 PCK", 2867);
+;demo.c:189: pack_load("KETTU16 PCK", 4501);
 	push	bc
-	ld	hl,#0x0B33
+	ld	hl,#0x1195
 	push	hl
 	ld	hl,#__str_4
 	push	hl
@@ -895,24 +904,24 @@ _main:
 	pop	af
 	pop	af
 	pop	bc
-;demo.c:193: vdp_register(14,0);
+;demo.c:190: vdp_register(14,0);
 	push	bc
 	ld	hl,#0x000E
 	push	hl
 	call	_vdp_register
 	pop	af
 	pop	bc
-;demo.c:194: pletter(packbuffer,0);
+;demo.c:192: bitbuster(packbuffer,0);
 	push	bc
 	ld	hl,#0x0000
 	push	hl
 	ld	hl,#_packbuffer
 	push	hl
-	call	_pletter
+	call	_bitbuster
 	pop	af
 	pop	af
 	pop	bc
-;demo.c:196: memset((uint8_t *) &scratch, 0, 128);
+;demo.c:194: memset((uint8_t *) &scratch, 0, 128);
 	push	bc
 	ld	hl,#0x0080
 	push	hl
@@ -926,76 +935,50 @@ _main:
 	pop	af
 	inc	sp
 	pop	bc
-;demo.c:198: memset((uint8_t *) &packbuffer, 0, 3000);
-	push	bc
-	ld	hl,#0x0BB8
-	push	hl
-	ld	a,#0x00
-	push	af
-	inc	sp
-	ld	hl,#_packbuffer
-	push	hl
-	call	_memset
-	pop	af
-	pop	af
-	inc	sp
-	pop	bc
-;demo.c:199: pack_load("KETTU12 PCK", 1481);
-	push	bc
-	ld	hl,#0x05C9
-	push	hl
-	ld	hl,#__str_5
-	push	hl
-	call	_pack_load
-	pop	af
-	pop	af
-	pop	bc
-;demo.c:200: vdp_register(14,1);
-	push	bc
-	ld	hl,#0x010E
-	push	hl
-	call	_vdp_register
-	pop	af
-	pop	bc
-;demo.c:201: pletter(packbuffer,0);
-	push	bc
-	ld	hl,#0x0000
-	push	hl
-	ld	hl,#_packbuffer
-	push	hl
-	call	_pletter
-	pop	af
-	pop	af
-	pop	bc
-;demo.c:209: memset((uint8_t *) &scratch, 0, 128);
-	push	bc
-	ld	hl,#0x0080
-	push	hl
-	ld	a,#0x00
-	push	af
-	inc	sp
-	ld	hl,#_scratch
-	push	hl
-	call	_memset
-	pop	af
-	pop	af
-	inc	sp
-	pop	bc
-;demo.c:211: install_isr(my_isr);
+;demo.c:196: install_isr(my_isr);
 	push	bc
 	ld	hl,#_my_isr
 	push	hl
 	call	_install_isr
 	pop	af
 	pop	bc
-;demo.c:213: while (!quit) {
-00105$:
+;demo.c:198: while (!quit) {
+00108$:
 	xor	a,a
 	or	a,c
-	ret	NZ
-;demo.c:214: waitVB();
+	jr	NZ,00110$
+;demo.c:199: waitVB();
 		halt 
-;demo.c:217: if(space())
+;demo.c:201: if (vbicount < 256) fadein();
+	ld	a,(#_vbicount+0)
+	sub	a,#0x00
+	ld	a,(#_vbicount+1)
+	sbc	a,#0x01
+	jp	P,00104$
+	push	bc
+	call	_fadein
+	pop	bc
+	jr	00105$
+00104$:
+;demo.c:203: vdp_register(VDP_VOFFSET,sintab[vbicount & 255]);
+	ld	hl,#_vbicount + 0
+	ld	e,(hl)
+	ld	d,#0x00
+	ld	hl,#_sintab
+	add	hl,de
+	ld	a,(hl)
+	ld	b,a
+	push	bc
+	push	bc
+	inc	sp
+	ld	a,#0x17
+	push	af
+	inc	sp
+	call	_vdp_register
+	pop	af
+	pop	bc
+00105$:
+;demo.c:206: if(space())
 	push	bc
 	ld	hl,#0x0108
 	push	hl
@@ -1005,10 +988,37 @@ _main:
 	pop	bc
 	ld	b,a
 	or	a,a
-	jr	Z,00105$
-;demo.c:218: quit=1;
+	jr	Z,00108$
+;demo.c:207: quit=1;
 	ld	c,#0x01
-	jr	00105$
+	jr	00108$
+00110$:
+;demo.c:210: waitVB();
+		halt 
+;demo.c:211: uninstall_isr();
+	call	_uninstall_isr
+;demo.c:212: PLY_Stop();
+	call	_PLY_Stop
+;demo.c:213: PLY_SendRegisters();
+	call	_PLY_SendRegisters
+;demo.c:215: screen(0);
+	ld	a,#0x00
+	push	af
+	inc	sp
+	call	_screen
+	inc	sp
+;demo.c:217: puts("demo exit\r\n\r\n");
+	ld	hl,#__str_5
+	push	hl
+	call	_puts
+	pop	af
+;demo.c:219: exit(0);
+	ld	a,#0x00
+	push	af
+	inc	sp
+	call	_exit
+	inc	sp
+	ret
 _main_end::
 __str_0:
 	.ascii "demo init"
@@ -1029,10 +1039,14 @@ __str_3:
 	.ascii "KETTU16 PL5"
 	.db 0x00
 __str_4:
-	.ascii "KETTU11 PCK"
+	.ascii "KETTU16 PCK"
 	.db 0x00
 __str_5:
-	.ascii "KETTU12 PCK"
+	.ascii "demo exit"
+	.db 0x0D
+	.db 0x0A
+	.db 0x0D
+	.db 0x0A
 	.db 0x00
 	.area _CODE
 	.area _CABS

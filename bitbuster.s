@@ -2,44 +2,60 @@
 ; In: HL = source
 ;     DE = destination
 ;
-unPack12V:	call	vram.init
+
+_bitbuster::
+
+unPack12V:	
+		push ix
+		ld ix,#0
+		add ix,sp
+
+		; src
+		ld l,4(ix)
+		ld h,5(ix)
+
+		; dest
+		ld e,6(ix)
+		ld d,7(ix)
+
+		call	vram_init
 
 		inc	hl		; skip original file length
 		inc	hl
 		inc	hl
 		inc	hl
 
-		ld	a,128
+		ld	a,#128
 
 		exx
-		ld	de,1
+		ld	de,#1
 		exx
 
-.loop:		call	getBit		; get compression type bit
+unpack_loop:		call	getBit		; get compression type bit
 		jr	c,.outCompress	; if set, we got lz77 compression
-		ld	c,$98		; copy byte from compressed data to destination
+		ld	c,#0x98		; copy byte from compressed data to destination
 		outi
 		inc	de
 ;unrolled for extra speed
 ;		call	getBit		; get compression type bit
 ;		jr	c,.outCompress	; if set, we got lz77 compression
-;		ld	c,$98		; copy byte from compressed data to destination
+;		ld	c,#0x98		; copy byte from compressed data to destination
 ;		outi
 ;		inc	de
 ;		call	getBit		; get compression type bit
 ;		jr	c,.outCompress	; if set, we got lz77 compression
-;		ld	c,$98		; copy byte from compressed data to destination
+;		ld	c,#0x98		; copy byte from compressed data to destination
 ;		outi
 ;		inc	de
 
-		jr	.loop
+		jr	unpack_loop
 
 .outCompress:	ld	c,(hl)		; get lowest 7 bits of offset, plus offset
 					; extension bit
 		inc	hl
 
-.outMatch:	ld	b,0
-		bit	7,c
+.outMatch:	ld	b,#0
+		bit	#7,c
 		jr	z,.outMatch1	; no need to get extra bits if carry not set
 
 		call	getBit		; get offset bit 10 
@@ -51,7 +67,7 @@ unPack12V:	call	vram.init
 		call	getBit		; get offset bit 7
 
 		jr	c,.outMatch1	; since extension mark already makes bit 7 set 
-		res	7,c		; only clear it if the bit should be cleared
+		res	#7,c		; only clear it if the bit should be cleared
 .outMatch1:	inc	bc
 ;
 GetGammaValue:	exx			; to second register set!
@@ -72,7 +88,8 @@ GetGammaValue:	exx			; to second register set!
 		adc	hl,hl		; insert new bit in HL
 .sizeEnd: 	djnz	.bits		; repeat if more bits to go
 
-.end:		inc	hl		; length was stored as length-2 so correct this
+.end:		
+		inc	hl		; length was stored as length-2 so correct this
 		exx			; back to normal register set
 		ret	c
 
@@ -87,7 +104,7 @@ GetGammaValue:	exx			; to second register set!
 		pop	bc		; match length from stack
 
 		push	af
-		call	vram.ldir	; transfer data
+		call	vram_ldir	; transfer data
 		pop	af
 
 		pop	hl		; address compressed data back from stack
@@ -103,7 +120,7 @@ GetGammaValue:	exx			; to second register set!
 ;		outi
 ;		inc	de
 
-		jr	unPack12V.loop
+		jr	unpack_loop
 ;
 getBit:		add	a,a		; shift out new bit
 		ret	nz		; if remaining value isn't zere, we're done
@@ -118,63 +135,65 @@ vram:
 ;
 ; VRAM stuff (init andLDIR replacements)
 ;
-.init:		ld	a,d
+vram_init:		ld	a,d
 		rla
 		rla
 		rla
-		and	7
-		out	($99),a
-		and	4
+		and	#7
+		out	(0x99),a
+		and	#4
 		ld	(.readPnt+1),a
 		ld	(.writePnt+1),a
-		ld	a,128+ 14
-		out	($99),a
+		ld	a,#128+ 14
+		out	(0x99),a
 		ld	a,e
-		out	($99),a
+		out	(0x99),a
 		ld	a,d
-		and	63
-		or	64
-		out	($99),a
+		and	#63
+		or	#64
+		out	(0x99),a
 		ret
 ;
-.ldir:		di
-.ldir.loop:	ld	a,h
-		and	192
+vram_ldir:		di
+.ldir_loop:	ld	a,h
+		and	#192
 		rlca
 		rlca
-.readPnt:	or	0
-		out	($99),a
-		ld	a,128+ 14
-		out	($99),a
+.readPnt:	or	#0
+		out	(0x99),a
+		ld	a,#128+ 14
+		out	(0x99),a
 		ld	a,l
-		out	($99),a
+		out	(0x99),a
 		ld	a,h
-		and	63
-		out	($99),a
+		and	#63
+		out	(0x99),a
 		inc	hl
-		in	a,($98)
+		in	a,(0x98)
 		push	af
 		ld	a,d
-		and	192
+		and	#192
 		rlca
 		rlca
-.writePnt:	or	0
-		out	($99),a
-		ld	a,128+ 14
-		out	($99),a
+.writePnt:	or	#0
+		out	(0x99),a
+		ld	a,#128+ 14
+		out	(0x99),a
 		ld	a,e
-		out	($99),a
+		out	(0x99),a
 		ld	a,d
-		and	63
-		or	64
-		out	($99),a
+		and	#63
+		or	#64
+		out	(0x99),a
 		inc	de
 		pop	af
-		out	($98),a
+		out	(0x98),a
 		dec	bc
 		ld	a,c
 		or	b
-		jr	nz,.ldir.loop
+		jr	nz,.ldir_loop
 		ei
+;		pop ix
+
 		ret
 ;
