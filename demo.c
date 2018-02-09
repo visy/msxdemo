@@ -11,9 +11,11 @@
 extern void bitbuster(unsigned char*, uint16_t);
 
 uint8_t packbuffer[5000] = {0};
+uint8_t packbuffer2[5000] = {0};
 
 uint8_t scratch[128];
 uint8_t cur_palette[32];
+uint8_t block_palette[32];
 
 volatile int vbicount=0;
 volatile int tick=0;
@@ -103,7 +105,7 @@ void pause() {
 }
 
 
-uint8_t pack_load(char *file_name, int size) {
+uint8_t pack_load(char *file_name, int size, char* buffer) {
 	fcb f;
 	int total = 0;
 	int incr = 128;
@@ -122,7 +124,7 @@ uint8_t pack_load(char *file_name, int size) {
 		if (block_set_data_ptr(scratch) != 0) return 0;
 		if (block_read(&f) != 0) return 0;
 
-		memcpy(packbuffer+total,scratch,incr);
+		memcpy(buffer+total,scratch,incr);
 
 		total+=incr;
 	}
@@ -200,6 +202,67 @@ void do_ymmm() {
 
 }
 
+char block_init = 0;
+
+int bsx = 0;
+int bsy = 0;
+int btx = 0;
+int bty = 0;
+
+int btab[16] = {0};
+
+int flof = 0;
+
+void do_blocks() {
+	vdp_copy_command cmd;
+	int i=0;
+	int ys = 0;
+	int ye = 0;
+
+	vdp_register(VDP_VOFFSET,0);
+
+	if (block_init == 0) {
+
+		uninstall_isr();
+		PLY_Stop();
+		PLY_PSGReg8 = 0;
+		PLY_PSGReg9 = 0;
+		PLY_PSGReg10 = 0;
+		for(i=0;i<16;i++) btab[i] = i*16;
+		bitbuster(packbuffer2,0x8000); // to page 2
+		vdp_load_palette(block_palette);
+
+		block_init = 1;
+
+	    install_isr(my_isr);
+	} else {
+		if (flof == 0) { ys = 0; ye = 8; }
+		if (flof == 1) { ys = 8; ye = 16; }
+
+		for(bty=3;bty<11;bty++) {
+			for(btx=ys;btx<ye;btx++) {
+				bsx = (PLY_PSGReg8 & PLY_PSGReg9 | PLY_PSGReg10)>>1;
+				bsy = PLY_PSGReg10;
+				cmd.source_x = btab[bsx];
+				cmd.source_y = 256+btab[bsy];
+				cmd.dest_x = btab[btx];
+				cmd.dest_y = btab[bty];
+				cmd.size_x = 16;
+				cmd.size_y = 16;
+				cmd.data = 0;
+				cmd.argument = 0;
+				cmd.command = 0xD0;
+				vdp_copier(&cmd);
+			}
+		}
+
+		flof++;
+		if (flof == 2) flof = 0;
+	
+	}
+
+}
+
 // main ---------------------------------------------------------------------------------------------------------------------------
 // main ---------------------------------------------------------------------------------------------------------------------------
 // main ---------------------------------------------------------------------------------------------------------------------------
@@ -233,13 +296,17 @@ void main() {
 
     vdp_register(VDP_VOFFSET,0);
 
+	pal_load("STDBLCK PL5", 32);
+	memcpy(block_palette,cur_palette,32);
+
 	pal_load("KETTU16 PL5", 32);
 
 	memset((uint8_t *) &packbuffer, 0, 5000);
-	pack_load("KETTU16 PCK", 4502);
+	pack_load("KETTU16 PCK", 4502, packbuffer);
+	bitbuster(packbuffer,0x8000); // to page 1
 
-
-	bitbuster(packbuffer,0x8000);
+	memset((uint8_t *) &packbuffer2, 0, 5000);
+	pack_load("STDBLCK PCK", 4884, packbuffer2);
 
 	scratch_clear();
 
@@ -261,10 +328,12 @@ void main() {
 	while (!quit) {
 		waitVB();
 
-		if (vbicount < 192) fadein();
-		else {
-//	        vdp_register(VDP_VOFFSET,sintab[vbicount & 255]);
+		if (vbicount < 192) { 
+			fadein(); 
+		} else if (vbicount >= 192 && vbicount < 500) {
 			do_ymmm();
+		} else {
+			do_blocks();
 		}
 
 		if(space())
