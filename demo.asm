@@ -1,7 +1,7 @@
 ;--------------------------------------------------------
 ; File Created by SDCC : free open source ANSI-C Compiler
 ; Version 2.9.0 #5416 (Mar 22 2009) (Mac OS X i386)
-; This file was generated Fri Feb  9 01:36:33 2018
+; This file was generated Fri Feb  9 03:50:08 2018
 ;--------------------------------------------------------
 	.module demo
 	.optsdcc -mz80
@@ -18,6 +18,7 @@
 	.globl _scratch_clear
 	.globl _ge5_load
 	.globl _my_isr
+	.globl _cc
 	.globl _yo
 	.globl _tick
 	.globl _vbicount
@@ -46,7 +47,11 @@ _tick::
 	.ds 2
 _yo::
 	.ds 1
+_cc::
+	.ds 1
 _flipper:
+	.ds 2
+_ymmmf:
 	.ds 2
 ;--------------------------------------------------------
 ; overlayable items in  ram 
@@ -165,10 +170,18 @@ _flipper:
 ;demo.c:162: uint8_t yo = 0;
 	ld	iy,#_yo
 	ld	0 (iy),#0x00
-;demo.c:163: static int flipper = 0;
+;demo.c:163: uint8_t cc = 0;
+	ld	iy,#_cc
+	ld	0 (iy),#0x00
+;demo.c:164: static int flipper = 0;
 	ld	iy,#_flipper
 	ld	0 (iy),#0x00
 	ld	iy,#_flipper
+	ld	1 (iy),#0x00
+;demo.c:165: static int ymmmf = 0;
+	ld	iy,#_ymmmf
+	ld	0 (iy),#0x00
+	ld	iy,#_ymmmf
 	ld	1 (iy),#0x00
 ;--------------------------------------------------------
 ; Home
@@ -826,7 +839,7 @@ _fadein:
 	pop	ix
 	ret
 _fadein_end::
-;demo.c:165: void do_ymmm() {
+;demo.c:167: void do_ymmm() {
 ;	---------------------------------
 ; Function do_ymmm
 ; ---------------------------------
@@ -835,56 +848,59 @@ _do_ymmm:
 	push	ix
 	ld	ix,#0
 	add	ix,sp
-	ld	hl,#-20
+	ld	hl,#-18
 	add	hl,sp
 	ld	sp,hl
-;demo.c:170: vdp_set_write_address(0x1,0x00);
-	ld	hl,#0x0000
-	push	hl
-	ld	a,#0x01
-	push	af
-	inc	sp
-	call	_vdp_set_write_address
-	pop	af
-	inc	sp
-;demo.c:172: for (yo = 0; yo<212-step;yo+=step) {
-	ld	iy,#_yo
-	ld	0 (iy),#0x00
+;demo.c:172: if (tick > 16) { tick = 0; flipper++;}
+	ld	a,#0x10
+	ld	iy,#_tick
+	sub	a,0 (iy)
+	ld	a,#0x00
+	ld	iy,#_tick
+	sbc	a,1 (iy)
+	jp	P,00102$
+	ld	hl,#_tick + 0
+	ld	(hl), #0x00
+	ld	hl,#_tick + 1
+	ld	(hl), #0x00
+	ld	iy,#_flipper
+	inc	0 (iy)
+	jr	NZ,00129$
+	ld	iy,#_flipper
+	inc	1 (iy)
+00129$:
+00102$:
+;demo.c:173: if (flipper > 4) { flipper = 0;}
+	ld	a,#0x04
+	ld	iy,#_flipper
+	sub	a,0 (iy)
+	ld	a,#0x00
+	ld	iy,#_flipper
+	sbc	a,1 (iy)
+	jp	P,00104$
+	ld	hl,#_flipper + 0
+	ld	(hl), #0x00
+	ld	hl,#_flipper + 1
+	ld	(hl), #0x00
 00104$:
-	ld	iy,#_yo
-	ld	c,0 (iy)
+;demo.c:176: for (yo = 0; yo<212-step;yo+=step) {
+	ld	hl,#_yo + 0
+	ld	(hl), #0x00
+00115$:
+	ld	hl,#_yo + 0
+	ld	c,(hl)
 	ld	b,#0x00
 	ld	a,c
-	sub	a,#0xD0
+	sub	a,#0xD1
 	ld	a,b
 	sbc	a,#0x00
-	jp	P,00108$
-;demo.c:174: if (flipper == 0) flipper = 1;
-	ld	a,(#_flipper+0)
-	ld	hl,#_flipper + 1
-	or	a,(hl)
-	jr	NZ,00102$
-	ld	hl,#_flipper + 0
-	ld	(hl), #0x01
-	ld	hl,#_flipper + 1
-	ld	(hl), #0x00
-	jr	00103$
-00102$:
-;demo.c:175: else flipper = 0;
-	ld	hl,#_flipper + 0
-	ld	(hl), #0x00
-	ld	hl,#_flipper + 1
-	ld	(hl), #0x00
-00103$:
-;demo.c:177: xo = (sintab[(vbicount+yo) & 255]+128)>>3;
-	ld	a,(#_yo+0)
-	ld	-20 (ix),a
-	ld	-19 (ix),#0x00
+	jp	P,00118$
+;demo.c:177: xo = ((sintab[(vbicount+yo) & 255]+64)>>3);
 	ld	a,(#_vbicount+0)
-	add	a,-20 (ix)
+	add	a,c
 	ld	e,a
 	ld	a,(#_vbicount+1)
-	adc	a,-19 (ix)
+	adc	a,b
 	ld	d,#0x00
 	ld	hl,#_sintab
 	add	hl,de
@@ -893,9 +909,10 @@ _do_ymmm:
 	rla	
 	sbc	a,a
 	ld	d,a
-	ld	hl,#0x0080
+	ld	hl,#0x0040
 	add	hl,de
-	ex	de,hl
+	ld	e,l
+	ld	d,h
 	sra	d
 	rr	e
 	sra	d
@@ -903,223 +920,327 @@ _do_ymmm:
 	sra	d
 	rr	e
 	ld	-16 (ix),e
-;demo.c:178: cmd.source_x = xo;
-	ld	hl,#0x0005
+;demo.c:179: if (yo < 164) {
+	ld	a,(#_yo+0)
+	sub	a,#0xA4
+	jp	NC,00114$
+;demo.c:180: if (flipper == 3)  vdp_register(VDP_VOFFSET,((sintab[vbicount+yo]&255)*xo)/128);
+	ld	a,(#_flipper+0)
+	sub	a,#0x03
+	jr	NZ,00131$
+	ld	a,(#_flipper+1)
+	or	a,a
+	jr	Z,00132$
+00131$:
+	jr	00111$
+00132$:
+	ld	a,(#_vbicount+0)
+	add	a,c
+	ld	e,a
+	ld	a,(#_vbicount+1)
+	adc	a,b
+	ld	d,a
+	ld	hl,#_sintab
+	add	hl,de
+	ld	e,-16 (ix)
+	ld	h,e
+	ld	l,#0x00
+	ld	d,l
+	ld	b,#0x08
+00133$:
+	add	hl,hl
+	jr	NC,00134$
+	add	hl,de
+00134$:
+	djnz	00133$
+	ex	de,hl
+	ld	hl,#0x0080
+	push	hl
+	push	de
+	call	__divsint_rrx_s
+	pop	af
+	pop	af
+	ld	a,l
+	push	af
+	inc	sp
+	ld	a,#0x17
+	push	af
+	inc	sp
+	call	_vdp_register
+	pop	af
+	jp	00114$
+00111$:
+;demo.c:181: else if (flipper == 1) vdp_register(VDP_VOFFSET,((sintab[((vbicount>>1)+yo>>1)&255])/4));
+	ld	a,(#_flipper+0)
+	sub	a,#0x01
+	jr	NZ,00135$
+	ld	a,(#_flipper+1)
+	or	a,a
+	jr	Z,00136$
+00135$:
+	jr	00108$
+00136$:
+	ld	hl,#_vbicount + 0
+	ld	e,(hl)
+	ld	hl,#_vbicount + 1
+	ld	d,(hl)
+	sra	d
+	rr	e
+	ld	a,e
+	add	a,c
+	ld	e,a
+	ld	a,d
+	adc	a,b
+	ld	d,a
+	sra	d
+	rr	e
+	ld	d,#0x00
+	ld	hl,#_sintab
+	add	hl,de
+	ld	e,(hl)
+	ld	d,#0x04
+	push	de
+	call	__divuschar_rrx_s
+	pop	af
+	ld	a,l
+	push	af
+	inc	sp
+	ld	a,#0x17
+	push	af
+	inc	sp
+	call	_vdp_register
+	pop	af
+	jr	00114$
+00108$:
+;demo.c:182: else if (flipper == 2) vdp_register(VDP_VOFFSET,((sintab[((vbicount)+yo)&255])/3));
+	ld	a,(#_flipper+0)
+	sub	a,#0x02
+	jr	NZ,00139$
+	ld	a,(#_flipper+1)
+	or	a,a
+	jr	Z,00140$
+00139$:
+	jr	00114$
+00140$:
+	ld	a,(#_vbicount+0)
+	add	a,c
+	ld	c,a
+	ld	a,(#_vbicount+1)
+	adc	a,b
+	ld	b,#0x00
+	ld	hl,#_sintab
+	add	hl,bc
+	ld	a,(hl)
+	ld	c,a
+	ld	a,#0x03
+	ld	b,a
+	push	bc
+	call	__divuschar_rrx_s
+	pop	af
+	ld	a,l
+	push	af
+	inc	sp
+	ld	a,#0x17
+	push	af
+	inc	sp
+	call	_vdp_register
+	pop	af
+00114$:
+;demo.c:184: msx2_palette(1,xo>>1,xo>>1,xo>>2);
+	ld	c,-16 (ix)
+	srl	c
+	srl	c
+	ld	b,-16 (ix)
+	srl	b
+	ld	a,c
+	push	af
+	inc	sp
+	push	bc
+	inc	sp
+	push	bc
+	inc	sp
+	ld	a,#0x01
+	push	af
+	inc	sp
+	call	_msx2_palette
+	pop	af
+	pop	af
+;demo.c:185: cmd.source_x = 80;
+	ld	hl,#0x0003
+	add	hl,sp
+	ld	(hl),#0x50
+	inc	hl
+	ld	(hl),#0x00
+;demo.c:186: cmd.source_y = 256+yo;
+	ld	hl,#0x0003
 	add	hl,sp
 	ld	c,l
 	ld	b,h
-	ld	e,-16 (ix)
+	ld	hl,#0x0002
+	add	hl,bc
+	ld	-18 (ix),l
+	ld	-17 (ix),h
+	ld	hl,#_yo + 0
+	ld	e,(hl)
 	ld	d,#0x00
-	ld	l,c
-	ld	h,b
+	ld	hl,#0x0100
+	add	hl,de
+	ex	de,hl
+	ld	l,-18 (ix)
+	ld	h,-17 (ix)
 	ld	(hl),e
 	inc	hl
 	ld	(hl),d
-;demo.c:179: cmd.source_y = yo+flipper;
-	ld	hl,#0x0005
-	add	hl,sp
-	ex	de,hl
-	ld	hl,#0x0002
-	add	hl,de
-	ld	-18 (ix),l
-	ld	-17 (ix),h
-	ld	hl,#_flipper
-	ld	a,-20 (ix)
-	add	a,(hl)
-	ld	c,a
-	ld	a,-19 (ix)
-	inc	hl
-	adc	a,(hl)
-	ld	b,a
-	ld	l,-18 (ix)
-	ld	h,-17 (ix)
-	ld	(hl),c
-	inc	hl
-	ld	(hl),b
-;demo.c:180: cmd.dest_x = xo+1;
+;demo.c:187: cmd.dest_x = 80+xo;
 	ld	hl,#0x0004
-	add	hl,de
+	add	hl,bc
 	ld	-18 (ix),l
 	ld	-17 (ix),h
-	ld	c,-16 (ix)
-	ld	b,#0x00
-	inc	bc
+	ld	e,-16 (ix)
+	ld	d,#0x00
+	ld	hl,#0x0050
+	add	hl,de
+	ex	de,hl
 	ld	l,-18 (ix)
 	ld	h,-17 (ix)
-	ld	(hl),c
+	ld	(hl),e
 	inc	hl
-	ld	(hl),b
-;demo.c:181: cmd.dest_y = yo+4-flipper;
+	ld	(hl),d
+;demo.c:188: cmd.dest_y = yo;
 	ld	hl,#0x0006
-	add	hl,de
+	add	hl,bc
 	ld	-18 (ix),l
 	ld	-17 (ix),h
-	ld	a,-20 (ix)
-	add	a,#0x04
-	ld	c,a
-	ld	a,-19 (ix)
-	adc	a,#0x00
-	ld	b,a
-	ld	hl,#_flipper
-	ld	a,c
-	sub	a,(hl)
-	ld	c,a
-	ld	a,b
-	inc	hl
-	sbc	a,(hl)
-	ld	b,a
+	ld	hl,#_yo + 0
+	ld	e,(hl)
+	ld	d,#0x00
 	ld	l,-18 (ix)
 	ld	h,-17 (ix)
-	ld	(hl),c
+	ld	(hl),e
 	inc	hl
-	ld	(hl),b
-;demo.c:182: cmd.size_x = 255;
+	ld	(hl),d
+;demo.c:189: cmd.size_x = 64+32;
 	ld	hl,#0x0008
-	add	hl,de
-	ld	(hl),#0xFF
+	add	hl,bc
+	ld	(hl),#0x60
 	inc	hl
 	ld	(hl),#0x00
-;demo.c:183: cmd.size_y = 5;
+;demo.c:190: cmd.size_y = 2;
 	ld	hl,#0x000A
-	add	hl,de
-	ld	(hl),#0x05
+	add	hl,bc
+	ld	(hl),#0x02
 	inc	hl
 	ld	(hl),#0x00
-;demo.c:184: cmd.data = 0;
+;demo.c:191: cmd.data = 0;
 	ld	hl,#0x000C
-	add	hl,de
-	ld	c,l
-	ld	b,h
+	add	hl,bc
+	ex	de,hl
 	ld	a,#0x00
-	ld	(bc),a
-;demo.c:185: cmd.argument = 0;
+	ld	(de),a
+;demo.c:192: cmd.argument = 0;
 	ld	hl,#0x000D
-	add	hl,de
-	ld	c,l
-	ld	b,h
+	add	hl,bc
+	ex	de,hl
 	ld	a,#0x00
-	ld	(bc),a
-;demo.c:186: cmd.command = 0xD0;
+	ld	(de),a
+;demo.c:193: cmd.command = 0xD0;
 	ld	hl,#0x000E
-	add	hl,de
-	ld	c,l
-	ld	b,h
+	add	hl,bc
+	ex	de,hl
 	ld	a,#0xD0
-	ld	(bc),a
-;demo.c:189: vdp_copier(&cmd);
-	push	de
+	ld	(de),a
+;demo.c:196: vdp_copier(&cmd);
+	push	bc
 	call	_vdp_copier
 	pop	af
-;demo.c:190: yo+=step;
+;demo.c:176: for (yo = 0; yo<212-step;yo+=step) {
 	ld	hl,#_yo + 0
 	ld	c,(hl)
 	ld	hl,#_yo
 	ld	a,c
-	add	a,#0x04
+	add	a,#0x03
 	ld	(hl),a
-;demo.c:172: for (yo = 0; yo<212-step;yo+=step) {
-	ld	hl,#_yo + 0
-	ld	c,(hl)
-	ld	hl,#_yo
-	ld	a,c
-	add	a,#0x04
-	ld	(hl),a
-	jp	00104$
-00108$:
+	jp	00115$
+00118$:
+;demo.c:199: vdp_register(VDP_VOFFSET,0);
+	ld	hl,#0x0017
+	push	hl
+	call	_vdp_register
+	pop	af
 	ld	sp,ix
 	pop	ix
 	ret
 _do_ymmm_end::
-;demo.c:198: void main() {
+;demo.c:207: void main() {
 ;	---------------------------------
 ; Function main
 ; ---------------------------------
 _main_start::
 _main:
-;demo.c:199: unsigned char quit=0;
-	ld	c,#0x00
-;demo.c:201: spindown();
-	push	bc
+	push	ix
+	ld	ix,#0
+	add	ix,sp
+	ld	hl,#-16
+	add	hl,sp
+	ld	sp,hl
+;demo.c:208: unsigned char quit=0;
+	ld	-1 (ix),#0x00
+;demo.c:211: spindown();
 	call	_spindown
-	pop	bc
-;demo.c:203: puts("demo init\r\n\r\n");
-	push	bc
+;demo.c:213: puts("demo init\r\n\r\n");
 	ld	hl,#__str_0
 	push	hl
 	call	_puts
 	pop	af
-	pop	bc
-;demo.c:205: puts("music init...");
-	push	bc
+;demo.c:215: puts("music init...");
 	ld	hl,#__str_1
 	push	hl
 	call	_puts
 	pop	af
-	pop	bc
-;demo.c:207: PLY_SongPtr = (char *)0x0103;
+;demo.c:217: PLY_SongPtr = (char *)0x0103;
 	ld	hl,#_PLY_SongPtr + 0
 	ld	(hl), #0x03
 	ld	hl,#_PLY_SongPtr + 1
 	ld	(hl), #0x01
-;demo.c:208: PLY_Init();
-	push	bc
+;demo.c:218: PLY_Init();
 	call	_PLY_Init
-	pop	bc
-;demo.c:209: puts("done.\n\n");
-	push	bc
+;demo.c:219: puts("done.\n\n");
 	ld	hl,#__str_2
 	push	hl
 	call	_puts
 	pop	af
-	pop	bc
-;demo.c:211: if(isvdp2())
-	push	bc
+;demo.c:221: if(isvdp2())
 	call	_isvdp2
-	ld	a,l
-	pop	bc
-	ld	b,a
-	or	a,a
+	xor	a,a
+	or	a,l
 	jr	Z,00102$
-;demo.c:213: msx2_sethz(50);
-	push	bc
+;demo.c:223: msx2_sethz(50);
 	ld	a,#0x32
 	push	af
 	inc	sp
 	call	_msx2_sethz
 	inc	sp
-	pop	bc
 00102$:
-;demo.c:217: puts("demo start\r\n");
-	push	bc
+;demo.c:227: puts("demo start\r\n");
 	ld	hl,#__str_3
 	push	hl
 	call	_puts
 	pop	af
-	pop	bc
-;demo.c:219: scratch_clear();
-	push	bc
+;demo.c:229: scratch_clear();
 	call	_scratch_clear
-	pop	bc
-;demo.c:220: vdp_load_palette(scratch);
-	push	bc
+;demo.c:230: vdp_load_palette(scratch);
 	ld	hl,#_scratch
 	push	hl
 	call	_vdp_load_palette
 	pop	af
-	pop	bc
-;demo.c:222: vdp_set_screen5();
-	push	bc
+;demo.c:232: vdp_set_screen5();
 	call	_vdp_set_screen5
-	pop	bc
-;demo.c:224: vdp_register(VDP_VOFFSET,0);
-	push	bc
+;demo.c:234: vdp_register(VDP_VOFFSET,0);
 	ld	hl,#0x0017
 	push	hl
 	call	_vdp_register
 	pop	af
-	pop	bc
-;demo.c:226: pal_load("KETTU16 PL5", 32);
-	push	bc
+;demo.c:236: pal_load("KETTU16 PL5", 32);
 	ld	a,#0x20
 	push	af
 	inc	sp
@@ -1128,9 +1249,7 @@ _main:
 	call	_pal_load
 	pop	af
 	inc	sp
-	pop	bc
-;demo.c:228: memset((uint8_t *) &packbuffer, 0, 5000);
-	push	bc
+;demo.c:238: memset((uint8_t *) &packbuffer, 0, 5000);
 	ld	hl,#0x1388
 	push	hl
 	ld	a,#0x00
@@ -1142,9 +1261,7 @@ _main:
 	pop	af
 	pop	af
 	inc	sp
-	pop	bc
-;demo.c:229: pack_load("KETTU16 PCK", 4502);
-	push	bc
+;demo.c:239: pack_load("KETTU16 PCK", 4502);
 	ld	hl,#0x1196
 	push	hl
 	ld	hl,#__str_5
@@ -1152,98 +1269,148 @@ _main:
 	call	_pack_load
 	pop	af
 	pop	af
-	pop	bc
-;demo.c:230: vdp_register(14,0);
-	push	bc
-	ld	hl,#0x000E
-	push	hl
-	call	_vdp_register
-	pop	af
-	pop	bc
-;demo.c:232: bitbuster(packbuffer,0);
-	push	bc
-	ld	hl,#0x0000
+;demo.c:242: bitbuster(packbuffer,0x8000);
+	ld	hl,#0x8000
 	push	hl
 	ld	hl,#_packbuffer
 	push	hl
 	call	_bitbuster
 	pop	af
 	pop	af
-	pop	bc
-;demo.c:234: scratch_clear();
-	push	bc
+;demo.c:244: scratch_clear();
 	call	_scratch_clear
-	pop	bc
-;demo.c:236: install_isr(my_isr);
-	push	bc
+;demo.c:246: cmd.source_x = 0;
+	ld	hl,#0x0000
+	add	hl,sp
+	ld	(hl),#0x00
+	inc	hl
+	ld	(hl),#0x00
+;demo.c:247: cmd.source_y = 256;
+	ld	hl,#0x0000
+	add	hl,sp
+	ex	de,hl
+	ld	c,e
+	ld	b,d
+	ld	l,c
+	ld	h,b
+	inc	hl
+	inc	hl
+	ld	(hl),#0x00
+	inc	hl
+	ld	(hl),#0x01
+;demo.c:248: cmd.dest_x = 0;
+	ld	hl,#0x0004
+	add	hl,de
+	ld	(hl),#0x00
+	inc	hl
+	ld	(hl),#0x00
+;demo.c:249: cmd.dest_y = 0;
+	ld	hl,#0x0006
+	add	hl,de
+	ld	(hl),#0x00
+	inc	hl
+	ld	(hl),#0x00
+;demo.c:250: cmd.size_x = 256;
+	ld	hl,#0x0008
+	add	hl,de
+	ld	(hl),#0x00
+	inc	hl
+	ld	(hl),#0x01
+;demo.c:251: cmd.size_y = 212;
+	ld	hl,#0x000A
+	add	hl,de
+	ld	(hl),#0xD4
+	inc	hl
+	ld	(hl),#0x00
+;demo.c:252: cmd.data = 0;
+	ld	hl,#0x000C
+	add	hl,de
+	ld	c,l
+	ld	b,h
+	ld	a,#0x00
+	ld	(bc),a
+;demo.c:253: cmd.argument = 0;
+	ld	hl,#0x000D
+	add	hl,de
+	ld	c,l
+	ld	b,h
+	ld	a,#0x00
+	ld	(bc),a
+;demo.c:254: cmd.command = 0xD0;
+	ld	hl,#0x000E
+	add	hl,de
+	ld	c,l
+	ld	b,h
+	ld	a,#0xD0
+	ld	(bc),a
+;demo.c:256: vdp_copier(&cmd);
+	push	de
+	call	_vdp_copier
+	pop	af
+;demo.c:259: install_isr(my_isr);
 	ld	hl,#_my_isr
 	push	hl
 	call	_install_isr
 	pop	af
-	pop	bc
-;demo.c:238: while (!quit) {
+;demo.c:261: while (!quit) {
 00108$:
 	xor	a,a
-	or	a,c
+	or	a,-1 (ix)
 	jr	NZ,00110$
-;demo.c:239: waitVB();
+;demo.c:262: waitVB();
 		halt 
-;demo.c:241: if (vbicount < 192) fadein();
+;demo.c:264: if (vbicount < 192) fadein();
 	ld	a,(#_vbicount+0)
 	sub	a,#0xC0
 	ld	a,(#_vbicount+1)
 	sbc	a,#0x00
 	jp	P,00104$
-	push	bc
 	call	_fadein
-	pop	bc
 	jr	00105$
 00104$:
-;demo.c:244: do_ymmm();
-	push	bc
+;demo.c:267: do_ymmm();
 	call	_do_ymmm
-	pop	bc
 00105$:
-;demo.c:247: if(space())
-	push	bc
+;demo.c:270: if(space())
 	ld	hl,#0x0108
 	push	hl
 	call	_ispressed
 	pop	af
-	ld	a,l
-	pop	bc
-	ld	b,a
-	or	a,a
+	ld	c,l
+	xor	a,a
+	or	a,l
 	jr	Z,00108$
-;demo.c:248: quit=1;
-	ld	c,#0x01
+;demo.c:271: quit=1;
+	ld	-1 (ix),#0x01
 	jr	00108$
 00110$:
-;demo.c:251: waitVB();
+;demo.c:274: waitVB();
 		halt 
-;demo.c:252: uninstall_isr();
+;demo.c:275: uninstall_isr();
 	call	_uninstall_isr
-;demo.c:253: PLY_Stop();
+;demo.c:276: PLY_Stop();
 	call	_PLY_Stop
-;demo.c:254: PLY_SendRegisters();
+;demo.c:277: PLY_SendRegisters();
 	call	_PLY_SendRegisters
-;demo.c:256: screen(0);
+;demo.c:279: screen(0);
 	ld	a,#0x00
 	push	af
 	inc	sp
 	call	_screen
 	inc	sp
-;demo.c:258: puts("demo exit\r\n\r\n");
+;demo.c:281: puts("demo exit\r\n\r\n");
 	ld	hl,#__str_6
 	push	hl
 	call	_puts
 	pop	af
-;demo.c:260: exit(0);
+;demo.c:283: exit(0);
 	ld	a,#0x00
 	push	af
 	inc	sp
 	call	_exit
 	inc	sp
+	ld	sp,ix
+	pop	ix
 	ret
 _main_end::
 __str_0:

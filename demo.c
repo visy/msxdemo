@@ -160,35 +160,44 @@ void fadein() {
 // effut ---------------------------------------------------------------------------------------------------------------------------
 
 uint8_t yo = 0;
+uint8_t cc = 0;
 static int flipper = 0;
+static int ymmmf = 0;
 
 void do_ymmm() {
 	vdp_copy_command cmd;
 	uint8_t xo;
-	const int step = 4;
+	const int step = 3;
 
-	vdp_set_write_address(0x1,0x00);
+	if (tick > 16) { tick = 0; flipper++;}
+	if (flipper > 4) { flipper = 0;}
+
 
 	for (yo = 0; yo<212-step;yo+=step) {
+		xo = ((sintab[(vbicount+yo) & 255]+64)>>3);
 
-		if (flipper == 0) flipper = 1;
-		else flipper = 0;
-
-		xo = (sintab[(vbicount+yo) & 255]+128)>>3;
-		cmd.source_x = xo;
-		cmd.source_y = yo+flipper;
-		cmd.dest_x = xo+1;
-		cmd.dest_y = yo+4-flipper;
-		cmd.size_x = 255;
-		cmd.size_y = 5;
+		if (yo < 164) {
+		if (flipper == 3)  vdp_register(VDP_VOFFSET,((sintab[vbicount+yo]&255)*xo)/128);
+		else if (flipper == 1) vdp_register(VDP_VOFFSET,((sintab[((vbicount>>1)+yo>>1)&255])/4));
+		else if (flipper == 2) vdp_register(VDP_VOFFSET,((sintab[((vbicount)+yo)&255])/3));
+		}
+		msx2_palette(1,xo>>1,xo>>1,xo>>2);
+		cmd.source_x = 80;
+		cmd.source_y = 256+yo;
+		cmd.dest_x = 80+xo;
+		cmd.dest_y = yo;
+		cmd.size_x = 64+32;
+		cmd.size_y = 2;
 		cmd.data = 0;
 		cmd.argument = 0;
 		cmd.command = 0xD0;
 
 
 		vdp_copier(&cmd);
-		yo+=step;
+
 	}
+	vdp_register(VDP_VOFFSET,0);
+
 }
 
 // main ---------------------------------------------------------------------------------------------------------------------------
@@ -197,6 +206,7 @@ void do_ymmm() {
 
 void main() {
 	unsigned char quit=0;
+	vdp_copy_command cmd;
 
 	spindown();
 
@@ -227,11 +237,24 @@ void main() {
 
 	memset((uint8_t *) &packbuffer, 0, 5000);
 	pack_load("KETTU16 PCK", 4502);
-    vdp_register(14,0);
 
-	bitbuster(packbuffer,0);
+
+	bitbuster(packbuffer,0x8000);
 
 	scratch_clear();
+
+	cmd.source_x = 0;
+	cmd.source_y = 256;
+	cmd.dest_x = 0;
+	cmd.dest_y = 0;
+	cmd.size_x = 256;
+	cmd.size_y = 212;
+	cmd.data = 0;
+	cmd.argument = 0;
+	cmd.command = 0xD0;
+
+	vdp_copier(&cmd);
+
 
     install_isr(my_isr);
 
