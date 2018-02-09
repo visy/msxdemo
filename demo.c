@@ -160,21 +160,27 @@ void fadein() {
 // effut ---------------------------------------------------------------------------------------------------------------------------
 
 uint8_t yo = 0;
+static int flipper = 0;
 
 void do_ymmm() {
 	vdp_copy_command cmd;
+	uint8_t xo;
 	const int step = 4;
 
 	vdp_set_write_address(0x1,0x00);
 
-	for (yo = 0; yo<212;yo+=step) {
+	for (yo = 0; yo<212-step;yo+=step) {
 
-		cmd.source_x = 0;
-		cmd.source_y = yo;
-		cmd.dest_x = sintab[(vbicount+yo) & 255]>>2;
-		cmd.dest_y = (yo-1);
+		if (flipper == 0) flipper = 1;
+		else flipper = 0;
+
+		xo = (sintab[(vbicount+yo) & 255]+128)>>3;
+		cmd.source_x = xo;
+		cmd.source_y = yo+flipper;
+		cmd.dest_x = xo+1;
+		cmd.dest_y = yo+4-flipper;
 		cmd.size_x = 255;
-		cmd.size_y = 4;
+		cmd.size_y = 5;
 		cmd.data = 0;
 		cmd.argument = 0;
 		cmd.command = 0xD0;
