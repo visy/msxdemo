@@ -10,6 +10,25 @@
 
 extern void bitbuster(unsigned char*, uint16_t);
 
+const unsigned short sintabx[256] = {
+ 120, 122, 125, 128, 131, 134, 137, 140, 143, 146, 149, 152, 154, 157, 160, 163,
+ 165, 168, 171, 173, 176, 179, 181, 184, 186, 189, 191, 193, 196, 198, 200, 202,
+ 204, 206, 208, 210, 212, 214, 216, 218, 219, 221, 222, 224, 225, 227, 228, 229,
+ 230, 231, 232, 233, 234, 235, 236, 237, 237, 238, 238, 239, 239, 239, 239, 239,
+ 240, 239, 239, 239, 239, 239, 238, 238, 237, 237, 236, 235, 234, 233, 232, 231,
+ 230, 229, 228, 227, 225, 224, 222, 221, 219, 218, 216, 214, 212, 210, 208, 206,
+ 204, 202, 200, 198, 196, 193, 191, 189, 186, 184, 181, 179, 176, 173, 171, 168,
+ 165, 163, 160, 157, 154, 152, 149, 146, 143, 140, 137, 134, 131, 128, 125, 122,
+ 120, 117, 114, 111, 108, 105, 102,  99,  96,  93,  90,  87,  85,  82,  79,  76,
+  74,  71,  68,  66,  63,  60,  58,  55,  53,  50,  48,  46,  43,  41,  39,  37,
+  35,  33,  31,  29,  27,  25,  23,  21,  20,  18,  17,  15,  14,  12,  11,  10,
+   9,   8,   7,   6,   5,   4,   3,   2,   2,   1,   1,   0,   0,   0,   0,   0,
+   0,   0,   0,   0,   0,   0,   1,   1,   2,   2,   3,   4,   5,   6,   7,   8,
+   9,  10,  11,  12,  14,  15,  17,  18,  20,  21,  23,  25,  27,  29,  31,  33,
+  35,  37,  39,  41,  43,  46,  48,  50,  53,  55,  58,  60,  63,  66,  68,  71,
+  74,  76,  79,  82,  85,  87,  90,  93,  96,  99, 102, 105, 108, 111, 114, 117
+};
+
 uint8_t packbuffer[5000] = {0};
 uint8_t packbuffer2[5000] = {0};
 
@@ -168,28 +187,23 @@ static int ymmmf = 0;
 
 void do_ymmm() {
 	vdp_copy_command cmd;
-	uint8_t xo;
-	const int step = 3;
+	int xo;
+	const int step = 2;
 
-	if (tick > 16) { tick = 0; flipper++;}
-	if (flipper > 4) { flipper = 0;}
+	if (tick > 32) { tick = 0; flipper++;}
+	if (flipper > 10) { flipper = 0;}
 
-
+	ymmmf++;
 	for (yo = 0; yo<212-step;yo+=step) {
-		xo = ((sintab[(vbicount+yo) & 255]+64)>>3);
+		xo = (sintabx[(yo+ymmmf) & 255]);
 
-		if (yo < 164) {
-		if (flipper == 3)  vdp_register(VDP_VOFFSET,((sintab[vbicount+yo]&255)*xo)/128);
-		else if (flipper == 1) vdp_register(VDP_VOFFSET,((sintab[((vbicount>>1)+yo>>1)&255])/4));
-		else if (flipper == 2) vdp_register(VDP_VOFFSET,((sintab[((vbicount)+yo)&255])/3));
-		}
-		msx2_palette(1,xo>>1,xo>>1,xo>>2);
-		cmd.source_x = 80;
-		cmd.source_y = 256+yo;
-		cmd.dest_x = 80+xo;
-		cmd.dest_y = yo;
-		cmd.size_x = 64+32;
-		cmd.size_y = 2;
+//		msx2_palette(1,xo>>1,xo>>1,xo>>2);
+		cmd.source_x = 0;
+		cmd.source_y = 0+yo;
+		cmd.dest_x = xo;
+		cmd.dest_y = 3+yo;
+		cmd.size_x = 256;
+		cmd.size_y = 1;
 		cmd.data = 0;
 		cmd.argument = 0;
 		cmd.command = 0xD0;
@@ -198,7 +212,6 @@ void do_ymmm() {
 		vdp_copier(&cmd);
 
 	}
-	vdp_register(VDP_VOFFSET,0);
 
 }
 
@@ -222,19 +235,14 @@ void do_blocks() {
 	vdp_register(VDP_VOFFSET,0);
 
 	if (block_init == 0) {
+		vdp_set_screen5();
+    	vdp_register(VDP_MODE3,2); // interlace off, screen mode pal
 
-		uninstall_isr();
-		PLY_Stop();
-		PLY_PSGReg8 = 0;
-		PLY_PSGReg9 = 0;
-		PLY_PSGReg10 = 0;
 		for(i=0;i<16;i++) btab[i] = i*16;
-		bitbuster(packbuffer2,0x8000); // to page 2
+//		bitbuster(packbuffer2,0x8000); // to page 2
 		vdp_load_palette(block_palette);
 
 		block_init = 1;
-
-	    install_isr(my_isr);
 	} else {
 		if (flof == 0) { ys = 0; ye = 8; }
 		if (flof == 1) { ys = 8; ye = 16; }
@@ -242,7 +250,7 @@ void do_blocks() {
 		for(bty=3;bty<11;bty++) {
 			for(btx=ys;btx<ye;btx++) {
 				bsx = (PLY_PSGReg8 & PLY_PSGReg9 | PLY_PSGReg10)>>1;
-				bsy = PLY_PSGReg10;
+				bsy = PLY_PSGReg10<<1;
 				cmd.source_x = btab[bsx];
 				cmd.source_y = 256+btab[bsy];
 				cmd.dest_x = btab[btx];
@@ -269,6 +277,7 @@ void do_blocks() {
 
 void main() {
 	unsigned char quit=0;
+	int modes = 12; // interlace bit on
 	vdp_copy_command cmd;
 
 	spindown();
@@ -283,45 +292,35 @@ void main() {
 
 	if(isvdp2())
 	{
-		msx2_sethz(50);
+		modes+=2; // pal
 //		msx2_palette(6,4,0,0); // Bloodier red for VDP2
 	}
+
+	vdp_set_screen6();
+
+    vdp_register(VDP_MODE3,modes); // interlace on, screen mode pal or ntsc
 
 	puts("demo start\r\n");
 
 	scratch_clear();
 	vdp_load_palette(scratch);
 
-	vdp_set_screen5();
-
     vdp_register(VDP_VOFFSET,0);
 
 	pal_load("STDBLCK PL5", 32);
 	memcpy(block_palette,cur_palette,32);
 
-	pal_load("KETTU16 PL5", 32);
+	pal_load("MONOLOG PL6", 8);
 
 	memset((uint8_t *) &packbuffer, 0, 5000);
-	pack_load("KETTU16 PCK", 4502, packbuffer);
-	bitbuster(packbuffer,0x8000); // to page 1
+	pack_load("MONOLOG PCK", 2590, packbuffer);
+	bitbuster(packbuffer,0x0000); // to page 1
 
 	memset((uint8_t *) &packbuffer2, 0, 5000);
 	pack_load("STDBLCK PCK", 4884, packbuffer2);
+	bitbuster(packbuffer2,0x8000); // to page 1
 
 	scratch_clear();
-
-	cmd.source_x = 0;
-	cmd.source_y = 256;
-	cmd.dest_x = 0;
-	cmd.dest_y = 0;
-	cmd.size_x = 256;
-	cmd.size_y = 212;
-	cmd.data = 0;
-	cmd.argument = 0;
-	cmd.command = 0xD0;
-
-	vdp_copier(&cmd);
-
 
     install_isr(my_isr);
 
@@ -330,7 +329,7 @@ void main() {
 
 		if (vbicount < 192) { 
 			fadein(); 
-		} else if (vbicount >= 192 && vbicount < 500) {
+		} else if (vbicount >= 192 && vbicount < 800) {
 			do_ymmm();
 		} else {
 			do_blocks();
