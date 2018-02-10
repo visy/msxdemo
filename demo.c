@@ -36,7 +36,7 @@ uint8_t scratch[128];
 uint8_t cur_palette[32];
 uint8_t block_palette[32];
 
-unsigned char* sample_buf;
+uint8_t sample_buf[32000] = {0};
 
 volatile int vbicount=0;
 volatile int tick=0;
@@ -279,7 +279,7 @@ void do_blocks() {
 void main() {
 	unsigned char quit=0;
 	int modes = 8; // interlace bit on
-	int loops = 16;
+	int loops = 4;
 	vdp_copy_command cmd;
 
 	spindown();
@@ -288,17 +288,14 @@ void main() {
 
 	puts("loading sample data\r\n");
 
-	sample_buf = malloc(80224);
-	raw_load("SAMPLE  RAW", 80224, sample_buf);
+	raw_load("SAMPLE  RAW", 32000, sample_buf);
 
 	puts("Your PSG works perfectly!\r\n");
 
 	while (loops > 0) {
-		play_sample(sample_buf+2,80224);
+		play_sample(sample_buf+2,(51872/2)-400);
 		loops--;
 	}
-
-	heap_top -= 80224;
 
 	puts("music init...");
 

@@ -181,6 +181,10 @@ PsgDoneC:
         jr      nz,PsgLoop  ; 8/13   -> 18   Total: 325
         dec     h           ; 5
         jp      nz,PsgLoop  ; 11
+
+        ld ix,(_storage)
+        ld sp,(_storage2)
+
         ret
 
         

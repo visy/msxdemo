@@ -1,7 +1,7 @@
 ;--------------------------------------------------------
 ; File Created by SDCC : free open source ANSI-C Compiler
 ; Version 2.9.0 #5416 (Mar 22 2009) (Mac OS X i386)
-; This file was generated Sat Feb 10 21:34:53 2018
+; This file was generated Sat Feb 10 22:15:48 2018
 ;--------------------------------------------------------
 	.module demo
 	.optsdcc -mz80
@@ -55,7 +55,7 @@ _cur_palette::
 _block_palette::
 	.ds 32
 _sample_buf::
-	.ds 2
+	.ds 32000
 _vbicount::
 	.ds 2
 _tick::
@@ -185,6 +185,262 @@ _flof::
 	.db	#-127,#0x00
 	.db	#-127,#0x00
 	.db	#-47,#0x00
+	.db	0
+;demo.c:39: uint8_t sample_buf[32000] = {0};
+	ld	hl,#_sample_buf
+	call	__initrleblock
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-127,#0x00
+	.db	#-123,#0x00
 	.db	0
 ;demo.c:41: volatile int vbicount=0;
 	ld	iy,#_vbicount
@@ -1680,21 +1936,10 @@ _main:
 	push	hl
 	call	_puts
 	pop	af
-;demo.c:291: sample_buf = malloc(80224);
-	ld	hl,#0x3960
+;demo.c:291: raw_load("SAMPLE  RAW", 32000, sample_buf);
+	ld	hl,#_sample_buf
 	push	hl
-	call	_malloc
-	pop	af
-	ld	e,h
-	ld	b,l
-	ld	iy,#_sample_buf
-	ld	0 (iy),b
-	ld	iy,#_sample_buf
-	ld	1 (iy),e
-;demo.c:292: raw_load("SAMPLE  RAW", 80224, sample_buf);
-	ld	de,(_sample_buf)
-	push	de
-	ld	hl,#0x3960
+	ld	hl,#0x7D00
 	push	hl
 	ld	hl,#__str_2
 	push	hl
@@ -1702,76 +1947,73 @@ _main:
 	pop	af
 	pop	af
 	pop	af
-;demo.c:294: puts("Your PSG works perfectly!\r\n");
+;demo.c:293: puts("Your PSG works perfectly!\r\n");
 	ld	hl,#__str_3
 	push	hl
 	call	_puts
 	pop	af
-;demo.c:296: while (loops > 0) {
-	ld	de,#0x0010
+;demo.c:295: while (loops > 0) {
+	ld	b,#0x04
+	ld	e,#0x00
 00101$:
 	ld	a,#0x00
-	sub	a,e
+	sub	a,b
 	ld	a,#0x00
-	sbc	a,d
+	sbc	a,e
 	jp	P,00103$
-;demo.c:297: play_sample(sample_buf+2,80224);
-	ld	hl,#_sample_buf + 0
-	ld	c,(hl)
-	ld	hl,#_sample_buf + 1
-	ld	b,(hl)
-	inc	bc
-	inc	bc
-	push	de
-	ld	hl,#0x3960
-	push	hl
+;demo.c:296: play_sample(sample_buf+2,(51872/2)-400);
+	ld	hl,#_sample_buf + 2
+	ld	d,l
+	ld	c,h
 	push	bc
+	push	de
+	ld	hl,#0x63C0
+	push	hl
+	ld	l,d
+	ld	h,c
+	push	hl
 	call	_play_sample
 	pop	af
 	pop	af
 	pop	de
-;demo.c:298: loops--;
-	dec	de
+	pop	bc
+;demo.c:297: loops--;
+	ld	l,b
+	ld	h,e
+	dec	hl
+	ld	b,l
+	ld	e,h
 	jr	00101$
 00103$:
-;demo.c:301: heap_top -= 80224;
-	ld	hl,#_heap_top
-	ld	a,(hl)
-	add	a,#0xA0
-	ld	(hl),a
-	inc	hl
-	ld	a,(hl)
-	adc	a,#0xC6
-	ld	(hl),a
-;demo.c:303: puts("music init...");
+;demo.c:300: puts("music init...");
 	ld	hl,#__str_4
 	push	hl
 	call	_puts
 	pop	af
-;demo.c:305: PLY_SongPtr = (char *)0x0103;
+;demo.c:302: PLY_SongPtr = (char *)0x0103;
 	ld	hl,#_PLY_SongPtr + 0
 	ld	(hl), #0x03
 	ld	hl,#_PLY_SongPtr + 1
 	ld	(hl), #0x01
-;demo.c:306: PLY_Init();
+;demo.c:303: PLY_Init();
 	call	_PLY_Init
-;demo.c:307: puts("done.\n\n");
+;demo.c:304: puts("done.\n\n");
 	ld	hl,#__str_5
 	push	hl
 	call	_puts
 	pop	af
-;demo.c:309: if(isvdp2())
+;demo.c:306: if(isvdp2())
 	call	_isvdp2
 	xor	a,a
 	or	a,l
 	jr	Z,00105$
-;demo.c:311: modes+=2; // pal
+;demo.c:308: modes+=2; // pal
 	ld	-3 (ix),#0x0A
 	ld	-2 (ix),#0x00
 00105$:
-;demo.c:315: vdp_set_screen6();
+;demo.c:312: vdp_set_screen6();
 	call	_vdp_set_screen6
-;demo.c:317: vdp_register(VDP_MODE3,modes); // interlace on, screen mode pal or ntsc
+;demo.c:314: vdp_register(VDP_MODE3,modes); // interlace on, screen mode pal or ntsc
 	ld	a,-3 (ix)
 	push	af
 	inc	sp
@@ -1780,24 +2022,24 @@ _main:
 	inc	sp
 	call	_vdp_register
 	pop	af
-;demo.c:319: puts("demo start\r\n");
+;demo.c:316: puts("demo start\r\n");
 	ld	hl,#__str_6
 	push	hl
 	call	_puts
 	pop	af
-;demo.c:321: scratch_clear();
+;demo.c:318: scratch_clear();
 	call	_scratch_clear
-;demo.c:322: vdp_load_palette(scratch);
+;demo.c:319: vdp_load_palette(scratch);
 	ld	hl,#_scratch
 	push	hl
 	call	_vdp_load_palette
 	pop	af
-;demo.c:324: vdp_register(VDP_VOFFSET,0);
+;demo.c:321: vdp_register(VDP_VOFFSET,0);
 	ld	hl,#0x0017
 	push	hl
 	call	_vdp_register
 	pop	af
-;demo.c:326: pal_load("STDBLCK PL5", 32);
+;demo.c:323: pal_load("STDBLCK PL5", 32);
 	ld	a,#0x20
 	push	af
 	inc	sp
@@ -1806,7 +2048,7 @@ _main:
 	call	_pal_load
 	pop	af
 	inc	sp
-;demo.c:327: memcpy(block_palette,cur_palette,32);
+;demo.c:324: memcpy(block_palette,cur_palette,32);
 	ld	hl,#0x0020
 	push	hl
 	ld	hl,#_cur_palette
@@ -1817,7 +2059,7 @@ _main:
 	pop	af
 	pop	af
 	pop	af
-;demo.c:329: pal_load("MONOLOG PI6", 8);
+;demo.c:326: pal_load("MONOLOG PI6", 8);
 	ld	a,#0x08
 	push	af
 	inc	sp
@@ -1826,7 +2068,7 @@ _main:
 	call	_pal_load
 	pop	af
 	inc	sp
-;demo.c:331: memset((uint8_t *) &packbuffer, 0, 5000);
+;demo.c:328: memset((uint8_t *) &packbuffer, 0, 5000);
 	ld	hl,#0x1388
 	push	hl
 	ld	a,#0x00
@@ -1838,7 +2080,7 @@ _main:
 	pop	af
 	pop	af
 	inc	sp
-;demo.c:332: raw_load("MONOLOG PCK", 2042, packbuffer);
+;demo.c:329: raw_load("MONOLOG PCK", 2042, packbuffer);
 	ld	hl,#_packbuffer
 	push	hl
 	ld	hl,#0x07FA
@@ -1849,7 +2091,7 @@ _main:
 	pop	af
 	pop	af
 	pop	af
-;demo.c:333: bitbuster(packbuffer,0x0000); // to page 1
+;demo.c:330: bitbuster(packbuffer,0x0000); // to page 1
 	ld	hl,#0x0000
 	push	hl
 	ld	hl,#_packbuffer
@@ -1857,7 +2099,7 @@ _main:
 	call	_bitbuster
 	pop	af
 	pop	af
-;demo.c:335: memset((uint8_t *) &packbuffer, 0, 5000);
+;demo.c:332: memset((uint8_t *) &packbuffer, 0, 5000);
 	ld	hl,#0x1388
 	push	hl
 	ld	a,#0x00
@@ -1869,7 +2111,7 @@ _main:
 	pop	af
 	pop	af
 	inc	sp
-;demo.c:336: raw_load("STDBLCK PCK", 4884, packbuffer);
+;demo.c:333: raw_load("STDBLCK PCK", 4884, packbuffer);
 	ld	hl,#_packbuffer
 	push	hl
 	ld	hl,#0x1314
@@ -1880,7 +2122,7 @@ _main:
 	pop	af
 	pop	af
 	pop	af
-;demo.c:337: bitbuster(packbuffer,0x8000); // to page 1
+;demo.c:334: bitbuster(packbuffer,0x8000); // to page 1
 	ld	hl,#0x8000
 	push	hl
 	ld	hl,#_packbuffer
@@ -1888,31 +2130,31 @@ _main:
 	call	_bitbuster
 	pop	af
 	pop	af
-;demo.c:339: scratch_clear();
+;demo.c:336: scratch_clear();
 	call	_scratch_clear
-;demo.c:341: install_isr(my_isr);
+;demo.c:338: install_isr(my_isr);
 	ld	hl,#_my_isr
 	push	hl
 	call	_install_isr
 	pop	af
-;demo.c:343: while (!quit) {
+;demo.c:340: while (!quit) {
 00115$:
 	xor	a,a
 	or	a,-1 (ix)
 	jr	NZ,00117$
-;demo.c:344: waitVB();
+;demo.c:341: waitVB();
 		halt 
-;demo.c:346: if (vbicount < 192) { 
+;demo.c:343: if (vbicount < 192) { 
 	ld	a,(#_vbicount+0)
 	sub	a,#0xC0
 	ld	a,(#_vbicount+1)
 	sbc	a,#0x00
 	jp	P,00111$
-;demo.c:347: fadein(); 
+;demo.c:344: fadein(); 
 	call	_fadein
 	jr	00112$
 00111$:
-;demo.c:348: } else if (vbicount >= 192 && vbicount < 800) {
+;demo.c:345: } else if (vbicount >= 192 && vbicount < 800) {
 	ld	a,(#_vbicount+0)
 	sub	a,#0xC0
 	ld	a,(#_vbicount+1)
@@ -1923,14 +2165,14 @@ _main:
 	ld	a,(#_vbicount+1)
 	sbc	a,#0x03
 	jp	P,00107$
-;demo.c:349: do_ymmm();
+;demo.c:346: do_ymmm();
 	call	_do_ymmm
 	jr	00112$
 00107$:
-;demo.c:351: do_blocks();
+;demo.c:348: do_blocks();
 	call	_do_blocks
 00112$:
-;demo.c:354: if(space())
+;demo.c:351: if(space())
 	ld	hl,#0x0108
 	push	hl
 	call	_ispressed
@@ -1939,30 +2181,30 @@ _main:
 	xor	a,a
 	or	a,l
 	jr	Z,00115$
-;demo.c:355: quit=1;
+;demo.c:352: quit=1;
 	ld	-1 (ix),#0x01
 	jr	00115$
 00117$:
-;demo.c:358: waitVB();
+;demo.c:355: waitVB();
 		halt 
-;demo.c:359: uninstall_isr();
+;demo.c:356: uninstall_isr();
 	call	_uninstall_isr
-;demo.c:360: PLY_Stop();
+;demo.c:357: PLY_Stop();
 	call	_PLY_Stop
-;demo.c:361: PLY_SendRegisters();
+;demo.c:358: PLY_SendRegisters();
 	call	_PLY_SendRegisters
-;demo.c:363: screen(0);
+;demo.c:360: screen(0);
 	ld	a,#0x00
 	push	af
 	inc	sp
 	call	_screen
 	inc	sp
-;demo.c:365: puts("demo exit\r\n\r\n");
+;demo.c:362: puts("demo exit\r\n\r\n");
 	ld	hl,#__str_11
 	push	hl
 	call	_puts
 	pop	af
-;demo.c:367: exit(0);
+;demo.c:364: exit(0);
 	ld	a,#0x00
 	push	af
 	inc	sp
