@@ -9,6 +9,7 @@
 #include "ArkosTrackerPlayer_MSX.h"
 
 extern void bitbuster(unsigned char*, uint16_t);
+extern void play_sample(unsigned char*, uint16_t);
 
 const unsigned short sintabx[256] = {
  120, 122, 125, 128, 131, 134, 137, 140, 143, 146, 149, 152, 154, 157, 160, 163,
@@ -30,11 +31,12 @@ const unsigned short sintabx[256] = {
 };
 
 uint8_t packbuffer[5000] = {0};
-uint8_t packbuffer2[5000] = {0};
 
 uint8_t scratch[128];
 uint8_t cur_palette[32];
 uint8_t block_palette[32];
+
+unsigned char* sample_buf;
 
 volatile int vbicount=0;
 volatile int tick=0;
@@ -124,7 +126,7 @@ void pause() {
 }
 
 
-uint8_t pack_load(char *file_name, int size, char* buffer) {
+uint8_t raw_load(char *file_name, int size, char* buffer) {
 	fcb f;
 	int total = 0;
 	int incr = 128;
@@ -235,14 +237,13 @@ void do_blocks() {
 	vdp_register(VDP_VOFFSET,0);
 
 	if (block_init == 0) {
-		vdp_set_screen5();
-    	vdp_register(VDP_MODE3,2); // interlace off, screen mode pal
 
+		vdp_set_screen5();
 		for(i=0;i<16;i++) btab[i] = i*16;
-//		bitbuster(packbuffer2,0x8000); // to page 2
 		vdp_load_palette(block_palette);
 
 		block_init = 1;
+
 	} else {
 		if (flof == 0) { ys = 0; ye = 8; }
 		if (flof == 1) { ys = 8; ye = 16; }
@@ -250,7 +251,7 @@ void do_blocks() {
 		for(bty=3;bty<11;bty++) {
 			for(btx=ys;btx<ye;btx++) {
 				bsx = (PLY_PSGReg8 & PLY_PSGReg9 | PLY_PSGReg10)>>1;
-				bsy = PLY_PSGReg10<<1;
+				bsy = PLY_PSGReg10;
 				cmd.source_x = btab[bsx];
 				cmd.source_y = 256+btab[bsy];
 				cmd.dest_x = btab[btx];
@@ -277,12 +278,27 @@ void do_blocks() {
 
 void main() {
 	unsigned char quit=0;
-	int modes = 12; // interlace bit on
+	int modes = 8; // interlace bit on
+	int loops = 16;
 	vdp_copy_command cmd;
 
 	spindown();
 
 	puts("demo init\r\n\r\n");
+
+	puts("loading sample data\r\n");
+
+	sample_buf = malloc(80224);
+	raw_load("SAMPLE  RAW", 80224, sample_buf);
+
+	puts("Your PSG works perfectly!\r\n");
+
+	while (loops > 0) {
+		play_sample(sample_buf+2,80224);
+		loops--;
+	}
+
+	heap_top -= 80224;
 
 	puts("music init...");
 
@@ -310,15 +326,15 @@ void main() {
 	pal_load("STDBLCK PL5", 32);
 	memcpy(block_palette,cur_palette,32);
 
-	pal_load("MONOLOG PL6", 8);
+	pal_load("MONOLOG PI6", 8);
 
 	memset((uint8_t *) &packbuffer, 0, 5000);
-	pack_load("MONOLOG PCK", 2590, packbuffer);
+	raw_load("MONOLOG PCK", 2042, packbuffer);
 	bitbuster(packbuffer,0x0000); // to page 1
 
-	memset((uint8_t *) &packbuffer2, 0, 5000);
-	pack_load("STDBLCK PCK", 4884, packbuffer2);
-	bitbuster(packbuffer2,0x8000); // to page 1
+	memset((uint8_t *) &packbuffer, 0, 5000);
+	raw_load("STDBLCK PCK", 4884, packbuffer);
+	bitbuster(packbuffer,0x8000); // to page 1
 
 	scratch_clear();
 
