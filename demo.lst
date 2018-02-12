@@ -1,7 +1,7 @@
                               1 ;--------------------------------------------------------
                               2 ; File Created by SDCC : free open source ANSI-C Compiler
                               3 ; Version 2.9.0 #5416 (Mar 22 2009) (Mac OS X i386)
-                              4 ; This file was generated Mon Feb 12 14:42:39 2018
+                              4 ; This file was generated Mon Feb 12 15:36:04 2018
                               5 ;--------------------------------------------------------
                               6 	.module demo
                               7 	.optsdcc -mz80
@@ -1957,18 +1957,18 @@
    08FA F9                 1929 	ld	sp,hl
                            1930 ;demo.c:287: unsigned char quit=0;
    08FB DD 36 FF 00        1931 	ld	-1 (ix),#0x00
-                           1932 ;demo.c:288: int modes = 8; // interlace bit on
-   08FF DD 36 FD 08        1933 	ld	-3 (ix),#0x08
+                           1932 ;demo.c:288: int modes = 128+8; // interlace bit on
+   08FF DD 36 FD 88        1933 	ld	-3 (ix),#0x88
    0903 DD 36 FE 00        1934 	ld	-2 (ix),#0x00
                            1935 ;demo.c:292: spindown();
    0907 CDr00s00           1936 	call	_spindown
                            1937 ;demo.c:294: puts("demo init\r\n\r\n");
-   090A 21rCCs0A           1938 	ld	hl,#__str_0
+   090A 21rD4s0A           1938 	ld	hl,#__str_0
    090D E5                 1939 	push	hl
    090E CDr00s00           1940 	call	_puts
    0911 F1                 1941 	pop	af
                            1942 ;demo.c:296: puts("loading sample data\r\n");
-   0912 21rDAs0A           1943 	ld	hl,#__str_1
+   0912 21rE2s0A           1943 	ld	hl,#__str_1
    0915 E5                 1944 	push	hl
    0916 CDr00s00           1945 	call	_puts
    0919 F1                 1946 	pop	af
@@ -1977,14 +1977,14 @@
    091D E5                 1949 	push	hl
    091E 21 00 7D           1950 	ld	hl,#0x7D00
    0921 E5                 1951 	push	hl
-   0922 21rF0s0A           1952 	ld	hl,#__str_2
+   0922 21rF8s0A           1952 	ld	hl,#__str_2
    0925 E5                 1953 	push	hl
    0926 CDrD0s03           1954 	call	_raw_load
    0929 F1                 1955 	pop	af
    092A F1                 1956 	pop	af
    092B F1                 1957 	pop	af
                            1958 ;demo.c:300: puts("Your PSG works perfectly!\r\n");
-   092C 21rFCs0A           1959 	ld	hl,#__str_3
+   092C 21r04s0B           1959 	ld	hl,#__str_3
    092F E5                 1960 	push	hl
    0930 CDr00s00           1961 	call	_puts
    0933 F1                 1962 	pop	af
@@ -2022,7 +2022,7 @@
    095B 18 DB              1994 	jr	00101$
    095D                    1995 00103$:
                            1996 ;demo.c:307: puts("music init...");
-   095D 21r18s0B           1997 	ld	hl,#__str_4
+   095D 21r20s0B           1997 	ld	hl,#__str_4
    0960 E5                 1998 	push	hl
    0961 CDr00s00           1999 	call	_puts
    0964 F1                 2000 	pop	af
@@ -2034,7 +2034,7 @@
                            2006 ;demo.c:310: PLY_Init();
    096F CDr00s00           2007 	call	_PLY_Init
                            2008 ;demo.c:311: puts("done.\n\n");
-   0972 21r26s0B           2009 	ld	hl,#__str_5
+   0972 21r2Es0B           2009 	ld	hl,#__str_5
    0975 E5                 2010 	push	hl
    0976 CDr00s00           2011 	call	_puts
    0979 F1                 2012 	pop	af
@@ -2044,7 +2044,7 @@
    097E B5                 2016 	or	a,l
    097F 28 08              2017 	jr	Z,00105$
                            2018 ;demo.c:315: modes+=2; // pal
-   0981 DD 36 FD 0A        2019 	ld	-3 (ix),#0x0A
+   0981 DD 36 FD 8A        2019 	ld	-3 (ix),#0x8A
    0985 DD 36 FE 00        2020 	ld	-2 (ix),#0x00
    0989                    2021 00105$:
                            2022 ;demo.c:319: vdp_set_screen6();
@@ -2059,7 +2059,7 @@
    0995 CDr00s00           2031 	call	_vdp_register
    0998 F1                 2032 	pop	af
                            2033 ;demo.c:323: puts("demo start\r\n");
-   0999 21r2Es0B           2034 	ld	hl,#__str_6
+   0999 21r36s0B           2034 	ld	hl,#__str_6
    099C E5                 2035 	push	hl
    099D CDr00s00           2036 	call	_puts
    09A0 F1                 2037 	pop	af
@@ -2079,7 +2079,7 @@
    09B4 3E 20              2051 	ld	a,#0x20
    09B6 F5                 2052 	push	af
    09B7 33                 2053 	inc	sp
-   09B8 21r3Bs0B           2054 	ld	hl,#__str_7
+   09B8 21r43s0B           2054 	ld	hl,#__str_7
    09BB E5                 2055 	push	hl
    09BC CDr1Cs03           2056 	call	_pal_load
    09BF F1                 2057 	pop	af
@@ -2099,7 +2099,7 @@
    09D3 3E 08              2071 	ld	a,#0x08
    09D5 F5                 2072 	push	af
    09D6 33                 2073 	inc	sp
-   09D7 21r47s0B           2074 	ld	hl,#__str_8
+   09D7 21r4Fs0B           2074 	ld	hl,#__str_8
    09DA E5                 2075 	push	hl
    09DB CDr1Cs03           2076 	call	_pal_load
    09DE F1                 2077 	pop	af
@@ -2121,7 +2121,7 @@
    09F5 E5                 2093 	push	hl
    09F6 21 14 13           2094 	ld	hl,#0x1314
    09F9 E5                 2095 	push	hl
-   09FA 21r53s0B           2096 	ld	hl,#__str_9
+   09FA 21r5Bs0B           2096 	ld	hl,#__str_9
    09FD E5                 2097 	push	hl
    09FE CDrD0s03           2098 	call	_raw_load
    0A01 F1                 2099 	pop	af
@@ -2156,7 +2156,7 @@
    0A2B E5                 2128 	push	hl
    0A2C 21 FA 07           2129 	ld	hl,#0x07FA
    0A2F E5                 2130 	push	hl
-   0A30 21r5Fs0B           2131 	ld	hl,#__str_10
+   0A30 21r67s0B           2131 	ld	hl,#__str_10
    0A33 E5                 2132 	push	hl
    0A34 CDrD0s03           2133 	call	_raw_load
    0A37 F1                 2134 	pop	af
@@ -2176,156 +2176,161 @@
    0A4B 33                 2148 	inc	sp
                            2149 ;demo.c:343: scratch_clear();
    0A4C CDr09s03           2150 	call	_scratch_clear
-                           2151 ;demo.c:345: install_isr(my_isr);
-   0A4F 21r00s00           2152 	ld	hl,#_my_isr
+                           2151 ;demo.c:345: vdp_register(8, 0x2); // disable sprites
+   0A4F 21 08 02           2152 	ld	hl,#0x0208
    0A52 E5                 2153 	push	hl
-   0A53 CDr00s00           2154 	call	_install_isr
+   0A53 CDr00s00           2154 	call	_vdp_register
    0A56 F1                 2155 	pop	af
-                           2156 ;demo.c:347: while (!quit) {
-   0A57                    2157 00115$:
-   0A57 AF                 2158 	xor	a,a
-   0A58 DD B6 FF           2159 	or	a,-1 (ix)
-   0A5B 20 48              2160 	jr	NZ,00117$
-                           2161 ;demo.c:348: waitVB();
-   0A5D 76                 2162 		halt 
-                           2163 ;demo.c:350: if (vbicount < 192) { 
-   0A5E 3Ar48s92           2164 	ld	a,(#_vbicount+0)
-   0A61 D6 C0              2165 	sub	a,#0xC0
-   0A63 3Ar49s92           2166 	ld	a,(#_vbicount+1)
-   0A66 DE 00              2167 	sbc	a,#0x00
-   0A68 F2r70s0A           2168 	jp	P,00111$
-                           2169 ;demo.c:351: fadein(); 
-   0A6B CDr94s04           2170 	call	_fadein
-   0A6E 18 22              2171 	jr	00112$
-   0A70                    2172 00111$:
-                           2173 ;demo.c:352: } else if (vbicount >= 192 && vbicount < 800) {
-   0A70 3Ar48s92           2174 	ld	a,(#_vbicount+0)
-   0A73 D6 C0              2175 	sub	a,#0xC0
-   0A75 3Ar49s92           2176 	ld	a,(#_vbicount+1)
-   0A78 DE 00              2177 	sbc	a,#0x00
-   0A7A FAr8Fs0A           2178 	jp	M,00107$
-   0A7D 3Ar48s92           2179 	ld	a,(#_vbicount+0)
-   0A80 D6 20              2180 	sub	a,#0x20
-   0A82 3Ar49s92           2181 	ld	a,(#_vbicount+1)
-   0A85 DE 03              2182 	sbc	a,#0x03
-   0A87 F2r8Fs0A           2183 	jp	P,00107$
-                           2184 ;demo.c:353: do_ymmm();
-   0A8A CDr60s05           2185 	call	_do_ymmm
-   0A8D 18 03              2186 	jr	00112$
-   0A8F                    2187 00107$:
-                           2188 ;demo.c:355: do_blocks();
-   0A8F CDr95s06           2189 	call	_do_blocks
-   0A92                    2190 00112$:
-                           2191 ;demo.c:358: if(space())
-   0A92 21 08 01           2192 	ld	hl,#0x0108
-   0A95 E5                 2193 	push	hl
-   0A96 CDr00s00           2194 	call	_ispressed
-   0A99 F1                 2195 	pop	af
-   0A9A 4D                 2196 	ld	c,l
-   0A9B AF                 2197 	xor	a,a
-   0A9C B5                 2198 	or	a,l
-   0A9D 28 B8              2199 	jr	Z,00115$
-                           2200 ;demo.c:359: quit=1;
-   0A9F DD 36 FF 01        2201 	ld	-1 (ix),#0x01
-   0AA3 18 B2              2202 	jr	00115$
-   0AA5                    2203 00117$:
-                           2204 ;demo.c:362: waitVB();
-   0AA5 76                 2205 		halt 
-                           2206 ;demo.c:363: uninstall_isr();
-   0AA6 CDr00s00           2207 	call	_uninstall_isr
-                           2208 ;demo.c:364: PLY_Stop();
-   0AA9 CDr00s00           2209 	call	_PLY_Stop
-                           2210 ;demo.c:365: PLY_SendRegisters();
-   0AAC CDr00s00           2211 	call	_PLY_SendRegisters
-                           2212 ;demo.c:367: screen(0);
-   0AAF 3E 00              2213 	ld	a,#0x00
-   0AB1 F5                 2214 	push	af
-   0AB2 33                 2215 	inc	sp
-   0AB3 CDr00s00           2216 	call	_screen
-   0AB6 33                 2217 	inc	sp
-                           2218 ;demo.c:369: puts("demo exit\r\n\r\n");
-   0AB7 21r6Bs0B           2219 	ld	hl,#__str_11
-   0ABA E5                 2220 	push	hl
-   0ABB CDr00s00           2221 	call	_puts
-   0ABE F1                 2222 	pop	af
-                           2223 ;demo.c:371: exit(0);
-   0ABF 3E 00              2224 	ld	a,#0x00
-   0AC1 F5                 2225 	push	af
-   0AC2 33                 2226 	inc	sp
-   0AC3 CDr00s00           2227 	call	_exit
-   0AC6 33                 2228 	inc	sp
-   0AC7 DD F9              2229 	ld	sp,ix
-   0AC9 DD E1              2230 	pop	ix
-   0ACB C9                 2231 	ret
-   0ACC                    2232 _main_end::
-   0ACC                    2233 __str_0:
-   0ACC 64 65 6D 6F 20 69  2234 	.ascii "demo init"
+                           2156 ;demo.c:347: install_isr(my_isr);
+   0A57 21r00s00           2157 	ld	hl,#_my_isr
+   0A5A E5                 2158 	push	hl
+   0A5B CDr00s00           2159 	call	_install_isr
+   0A5E F1                 2160 	pop	af
+                           2161 ;demo.c:349: while (!quit) {
+   0A5F                    2162 00115$:
+   0A5F AF                 2163 	xor	a,a
+   0A60 DD B6 FF           2164 	or	a,-1 (ix)
+   0A63 20 48              2165 	jr	NZ,00117$
+                           2166 ;demo.c:350: waitVB();
+   0A65 76                 2167 		halt 
+                           2168 ;demo.c:352: if (vbicount < 192) { 
+   0A66 3Ar48s92           2169 	ld	a,(#_vbicount+0)
+   0A69 D6 C0              2170 	sub	a,#0xC0
+   0A6B 3Ar49s92           2171 	ld	a,(#_vbicount+1)
+   0A6E DE 00              2172 	sbc	a,#0x00
+   0A70 F2r78s0A           2173 	jp	P,00111$
+                           2174 ;demo.c:353: fadein(); 
+   0A73 CDr94s04           2175 	call	_fadein
+   0A76 18 22              2176 	jr	00112$
+   0A78                    2177 00111$:
+                           2178 ;demo.c:354: } else if (vbicount >= 192 && vbicount < 800) {
+   0A78 3Ar48s92           2179 	ld	a,(#_vbicount+0)
+   0A7B D6 C0              2180 	sub	a,#0xC0
+   0A7D 3Ar49s92           2181 	ld	a,(#_vbicount+1)
+   0A80 DE 00              2182 	sbc	a,#0x00
+   0A82 FAr97s0A           2183 	jp	M,00107$
+   0A85 3Ar48s92           2184 	ld	a,(#_vbicount+0)
+   0A88 D6 20              2185 	sub	a,#0x20
+   0A8A 3Ar49s92           2186 	ld	a,(#_vbicount+1)
+   0A8D DE 03              2187 	sbc	a,#0x03
+   0A8F F2r97s0A           2188 	jp	P,00107$
+                           2189 ;demo.c:355: do_ymmm();
+   0A92 CDr60s05           2190 	call	_do_ymmm
+   0A95 18 03              2191 	jr	00112$
+   0A97                    2192 00107$:
+                           2193 ;demo.c:357: do_blocks();
+   0A97 CDr95s06           2194 	call	_do_blocks
+   0A9A                    2195 00112$:
+                           2196 ;demo.c:360: if(space())
+   0A9A 21 08 01           2197 	ld	hl,#0x0108
+   0A9D E5                 2198 	push	hl
+   0A9E CDr00s00           2199 	call	_ispressed
+   0AA1 F1                 2200 	pop	af
+   0AA2 4D                 2201 	ld	c,l
+   0AA3 AF                 2202 	xor	a,a
+   0AA4 B5                 2203 	or	a,l
+   0AA5 28 B8              2204 	jr	Z,00115$
+                           2205 ;demo.c:361: quit=1;
+   0AA7 DD 36 FF 01        2206 	ld	-1 (ix),#0x01
+   0AAB 18 B2              2207 	jr	00115$
+   0AAD                    2208 00117$:
+                           2209 ;demo.c:364: waitVB();
+   0AAD 76                 2210 		halt 
+                           2211 ;demo.c:365: uninstall_isr();
+   0AAE CDr00s00           2212 	call	_uninstall_isr
+                           2213 ;demo.c:366: PLY_Stop();
+   0AB1 CDr00s00           2214 	call	_PLY_Stop
+                           2215 ;demo.c:367: PLY_SendRegisters();
+   0AB4 CDr00s00           2216 	call	_PLY_SendRegisters
+                           2217 ;demo.c:369: screen(0);
+   0AB7 3E 00              2218 	ld	a,#0x00
+   0AB9 F5                 2219 	push	af
+   0ABA 33                 2220 	inc	sp
+   0ABB CDr00s00           2221 	call	_screen
+   0ABE 33                 2222 	inc	sp
+                           2223 ;demo.c:371: puts("demo exit\r\n\r\n");
+   0ABF 21r73s0B           2224 	ld	hl,#__str_11
+   0AC2 E5                 2225 	push	hl
+   0AC3 CDr00s00           2226 	call	_puts
+   0AC6 F1                 2227 	pop	af
+                           2228 ;demo.c:373: exit(0);
+   0AC7 3E 00              2229 	ld	a,#0x00
+   0AC9 F5                 2230 	push	af
+   0ACA 33                 2231 	inc	sp
+   0ACB CDr00s00           2232 	call	_exit
+   0ACE 33                 2233 	inc	sp
+   0ACF DD F9              2234 	ld	sp,ix
+   0AD1 DD E1              2235 	pop	ix
+   0AD3 C9                 2236 	ret
+   0AD4                    2237 _main_end::
+   0AD4                    2238 __str_0:
+   0AD4 64 65 6D 6F 20 69  2239 	.ascii "demo init"
         6E 69 74
-   0AD5 0D                 2235 	.db 0x0D
-   0AD6 0A                 2236 	.db 0x0A
-   0AD7 0D                 2237 	.db 0x0D
-   0AD8 0A                 2238 	.db 0x0A
-   0AD9 00                 2239 	.db 0x00
-   0ADA                    2240 __str_1:
-   0ADA 6C 6F 61 64 69 6E  2241 	.ascii "loading sample data"
+   0ADD 0D                 2240 	.db 0x0D
+   0ADE 0A                 2241 	.db 0x0A
+   0ADF 0D                 2242 	.db 0x0D
+   0AE0 0A                 2243 	.db 0x0A
+   0AE1 00                 2244 	.db 0x00
+   0AE2                    2245 __str_1:
+   0AE2 6C 6F 61 64 69 6E  2246 	.ascii "loading sample data"
         67 20 73 61 6D 70
         6C 65 20 64 61 74
         61
-   0AED 0D                 2242 	.db 0x0D
-   0AEE 0A                 2243 	.db 0x0A
-   0AEF 00                 2244 	.db 0x00
-   0AF0                    2245 __str_2:
-   0AF0 53 41 4D 50 4C 45  2246 	.ascii "SAMPLE  RAW"
+   0AF5 0D                 2247 	.db 0x0D
+   0AF6 0A                 2248 	.db 0x0A
+   0AF7 00                 2249 	.db 0x00
+   0AF8                    2250 __str_2:
+   0AF8 53 41 4D 50 4C 45  2251 	.ascii "SAMPLE  RAW"
         20 20 52 41 57
-   0AFB 00                 2247 	.db 0x00
-   0AFC                    2248 __str_3:
-   0AFC 59 6F 75 72 20 50  2249 	.ascii "Your PSG works perfectly!"
+   0B03 00                 2252 	.db 0x00
+   0B04                    2253 __str_3:
+   0B04 59 6F 75 72 20 50  2254 	.ascii "Your PSG works perfectly!"
         53 47 20 77 6F 72
         6B 73 20 70 65 72
         66 65 63 74 6C 79
         21
-   0B15 0D                 2250 	.db 0x0D
-   0B16 0A                 2251 	.db 0x0A
-   0B17 00                 2252 	.db 0x00
-   0B18                    2253 __str_4:
-   0B18 6D 75 73 69 63 20  2254 	.ascii "music init..."
+   0B1D 0D                 2255 	.db 0x0D
+   0B1E 0A                 2256 	.db 0x0A
+   0B1F 00                 2257 	.db 0x00
+   0B20                    2258 __str_4:
+   0B20 6D 75 73 69 63 20  2259 	.ascii "music init..."
         69 6E 69 74 2E 2E
         2E
-   0B25 00                 2255 	.db 0x00
-   0B26                    2256 __str_5:
-   0B26 64 6F 6E 65 2E     2257 	.ascii "done."
-   0B2B 0A                 2258 	.db 0x0A
-   0B2C 0A                 2259 	.db 0x0A
    0B2D 00                 2260 	.db 0x00
-   0B2E                    2261 __str_6:
-   0B2E 64 65 6D 6F 20 73  2262 	.ascii "demo start"
+   0B2E                    2261 __str_5:
+   0B2E 64 6F 6E 65 2E     2262 	.ascii "done."
+   0B33 0A                 2263 	.db 0x0A
+   0B34 0A                 2264 	.db 0x0A
+   0B35 00                 2265 	.db 0x00
+   0B36                    2266 __str_6:
+   0B36 64 65 6D 6F 20 73  2267 	.ascii "demo start"
         74 61 72 74
-   0B38 0D                 2263 	.db 0x0D
-   0B39 0A                 2264 	.db 0x0A
-   0B3A 00                 2265 	.db 0x00
-   0B3B                    2266 __str_7:
-   0B3B 53 54 44 42 4C 43  2267 	.ascii "STDBLCK PL5"
+   0B40 0D                 2268 	.db 0x0D
+   0B41 0A                 2269 	.db 0x0A
+   0B42 00                 2270 	.db 0x00
+   0B43                    2271 __str_7:
+   0B43 53 54 44 42 4C 43  2272 	.ascii "STDBLCK PL5"
         4B 20 50 4C 35
-   0B46 00                 2268 	.db 0x00
-   0B47                    2269 __str_8:
-   0B47 4D 4F 4E 4F 4C 4F  2270 	.ascii "MONOLOG PI6"
+   0B4E 00                 2273 	.db 0x00
+   0B4F                    2274 __str_8:
+   0B4F 4D 4F 4E 4F 4C 4F  2275 	.ascii "MONOLOG PI6"
         47 20 50 49 36
-   0B52 00                 2271 	.db 0x00
-   0B53                    2272 __str_9:
-   0B53 53 54 44 42 4C 43  2273 	.ascii "STDBLCK PCK"
+   0B5A 00                 2276 	.db 0x00
+   0B5B                    2277 __str_9:
+   0B5B 53 54 44 42 4C 43  2278 	.ascii "STDBLCK PCK"
         4B 20 50 43 4B
-   0B5E 00                 2274 	.db 0x00
-   0B5F                    2275 __str_10:
-   0B5F 4D 4F 4E 4F 4C 4F  2276 	.ascii "MONOLOG PCK"
+   0B66 00                 2279 	.db 0x00
+   0B67                    2280 __str_10:
+   0B67 4D 4F 4E 4F 4C 4F  2281 	.ascii "MONOLOG PCK"
         47 20 50 43 4B
-   0B6A 00                 2277 	.db 0x00
-   0B6B                    2278 __str_11:
-   0B6B 64 65 6D 6F 20 65  2279 	.ascii "demo exit"
+   0B72 00                 2282 	.db 0x00
+   0B73                    2283 __str_11:
+   0B73 64 65 6D 6F 20 65  2284 	.ascii "demo exit"
         78 69 74
-   0B74 0D                 2280 	.db 0x0D
-   0B75 0A                 2281 	.db 0x0A
-   0B76 0D                 2282 	.db 0x0D
-   0B77 0A                 2283 	.db 0x0A
-   0B78 00                 2284 	.db 0x00
-                           2285 	.area _CODE
-                           2286 	.area _CABS
+   0B7C 0D                 2285 	.db 0x0D
+   0B7D 0A                 2286 	.db 0x0A
+   0B7E 0D                 2287 	.db 0x0D
+   0B7F 0A                 2288 	.db 0x0A
+   0B80 00                 2289 	.db 0x00
+                           2290 	.area _CODE
+                           2291 	.area _CABS

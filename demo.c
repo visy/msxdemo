@@ -285,7 +285,7 @@ void do_blocks() {
 
 void main() {
 	unsigned char quit=0;
-	int modes = 8; // interlace bit on
+	int modes = 128+8; // interlace bit on
 	int loops = 4;
 	vdp_copy_command cmd;
 
@@ -341,6 +341,8 @@ void main() {
 	bitbuster(packbuffer,0x0000,VRAM_0); // to page 0 (0x0000)
 
 	scratch_clear();
+
+	vdp_register(8, 0x2); // disable sprites
 
     install_isr(my_isr);
 

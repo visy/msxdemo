@@ -1,7 +1,7 @@
 ;--------------------------------------------------------
 ; File Created by SDCC : free open source ANSI-C Compiler
 ; Version 2.9.0 #5416 (Mar 22 2009) (Mac OS X i386)
-; This file was generated Mon Feb 12 14:42:39 2018
+; This file was generated Mon Feb 12 15:36:04 2018
 ;--------------------------------------------------------
 	.module demo
 	.optsdcc -mz80
@@ -1929,8 +1929,8 @@ _main:
 	ld	sp,hl
 ;demo.c:287: unsigned char quit=0;
 	ld	-1 (ix),#0x00
-;demo.c:288: int modes = 8; // interlace bit on
-	ld	-3 (ix),#0x08
+;demo.c:288: int modes = 128+8; // interlace bit on
+	ld	-3 (ix),#0x88
 	ld	-2 (ix),#0x00
 ;demo.c:292: spindown();
 	call	_spindown
@@ -2016,7 +2016,7 @@ _main:
 	or	a,l
 	jr	Z,00105$
 ;demo.c:315: modes+=2; // pal
-	ld	-3 (ix),#0x0A
+	ld	-3 (ix),#0x8A
 	ld	-2 (ix),#0x00
 00105$:
 ;demo.c:319: vdp_set_screen6();
@@ -2148,29 +2148,34 @@ _main:
 	inc	sp
 ;demo.c:343: scratch_clear();
 	call	_scratch_clear
-;demo.c:345: install_isr(my_isr);
+;demo.c:345: vdp_register(8, 0x2); // disable sprites
+	ld	hl,#0x0208
+	push	hl
+	call	_vdp_register
+	pop	af
+;demo.c:347: install_isr(my_isr);
 	ld	hl,#_my_isr
 	push	hl
 	call	_install_isr
 	pop	af
-;demo.c:347: while (!quit) {
+;demo.c:349: while (!quit) {
 00115$:
 	xor	a,a
 	or	a,-1 (ix)
 	jr	NZ,00117$
-;demo.c:348: waitVB();
+;demo.c:350: waitVB();
 		halt 
-;demo.c:350: if (vbicount < 192) { 
+;demo.c:352: if (vbicount < 192) { 
 	ld	a,(#_vbicount+0)
 	sub	a,#0xC0
 	ld	a,(#_vbicount+1)
 	sbc	a,#0x00
 	jp	P,00111$
-;demo.c:351: fadein(); 
+;demo.c:353: fadein(); 
 	call	_fadein
 	jr	00112$
 00111$:
-;demo.c:352: } else if (vbicount >= 192 && vbicount < 800) {
+;demo.c:354: } else if (vbicount >= 192 && vbicount < 800) {
 	ld	a,(#_vbicount+0)
 	sub	a,#0xC0
 	ld	a,(#_vbicount+1)
@@ -2181,14 +2186,14 @@ _main:
 	ld	a,(#_vbicount+1)
 	sbc	a,#0x03
 	jp	P,00107$
-;demo.c:353: do_ymmm();
+;demo.c:355: do_ymmm();
 	call	_do_ymmm
 	jr	00112$
 00107$:
-;demo.c:355: do_blocks();
+;demo.c:357: do_blocks();
 	call	_do_blocks
 00112$:
-;demo.c:358: if(space())
+;demo.c:360: if(space())
 	ld	hl,#0x0108
 	push	hl
 	call	_ispressed
@@ -2197,30 +2202,30 @@ _main:
 	xor	a,a
 	or	a,l
 	jr	Z,00115$
-;demo.c:359: quit=1;
+;demo.c:361: quit=1;
 	ld	-1 (ix),#0x01
 	jr	00115$
 00117$:
-;demo.c:362: waitVB();
+;demo.c:364: waitVB();
 		halt 
-;demo.c:363: uninstall_isr();
+;demo.c:365: uninstall_isr();
 	call	_uninstall_isr
-;demo.c:364: PLY_Stop();
+;demo.c:366: PLY_Stop();
 	call	_PLY_Stop
-;demo.c:365: PLY_SendRegisters();
+;demo.c:367: PLY_SendRegisters();
 	call	_PLY_SendRegisters
-;demo.c:367: screen(0);
+;demo.c:369: screen(0);
 	ld	a,#0x00
 	push	af
 	inc	sp
 	call	_screen
 	inc	sp
-;demo.c:369: puts("demo exit\r\n\r\n");
+;demo.c:371: puts("demo exit\r\n\r\n");
 	ld	hl,#__str_11
 	push	hl
 	call	_puts
 	pop	af
-;demo.c:371: exit(0);
+;demo.c:373: exit(0);
 	ld	a,#0x00
 	push	af
 	inc	sp
