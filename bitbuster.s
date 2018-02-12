@@ -33,6 +33,11 @@ unPack12V:
 		ld e,6(ix)
 		ld d,7(ix)
 
+		ld b,8(ix)
+
+		ld a, b 
+    	sub #1                  ;;
+
 		call	vram_init
 
 		inc	hl		; skip original file length

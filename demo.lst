@@ -1,7 +1,7 @@
                               1 ;--------------------------------------------------------
                               2 ; File Created by SDCC : free open source ANSI-C Compiler
                               3 ; Version 2.9.0 #5416 (Mar 22 2009) (Mac OS X i386)
-                              4 ; This file was generated Sat Feb 10 22:15:48 2018
+                              4 ; This file was generated Mon Feb 12 14:42:39 2018
                               5 ;--------------------------------------------------------
                               6 	.module demo
                               7 	.optsdcc -mz80
@@ -170,7 +170,7 @@
         F4 F7
    00FD FA FD               143 	.db	0xFA, 0xFD
    00FF 00                  144 	.db	0
-                            145 ;demo.c:33: uint8_t packbuffer[5000] = {0};
+                            145 ;demo.c:36: uint8_t packbuffer[5000] = {0};
    0100 21r00s01            146 	ld	hl,#_packbuffer
    0103 CDr00s00            147 	call	__initrleblock
    0106 81 00               148 	.db	#-127,#0x00
@@ -214,7 +214,7 @@
    0152 81 00               186 	.db	#-127,#0x00
    0154 D1 00               187 	.db	#-47,#0x00
    0156 00                  188 	.db	0
-                            189 ;demo.c:39: uint8_t sample_buf[32000] = {0};
+                            189 ;demo.c:42: uint8_t sample_buf[32000] = {0};
    0157 21r48s15            190 	ld	hl,#_sample_buf
    015A CDr00s00            191 	call	__initrleblock
    015D 81 00               192 	.db	#-127,#0x00
@@ -470,61 +470,61 @@
    0351 81 00               442 	.db	#-127,#0x00
    0353 85 00               443 	.db	#-123,#0x00
    0355 00                  444 	.db	0
-                            445 ;demo.c:41: volatile int vbicount=0;
+                            445 ;demo.c:44: volatile int vbicount=0;
    0356 FD 21r48s92         446 	ld	iy,#_vbicount
    035A FD 36 00 00         447 	ld	0 (iy),#0x00
    035E FD 21r48s92         448 	ld	iy,#_vbicount
    0362 FD 36 01 00         449 	ld	1 (iy),#0x00
-                            450 ;demo.c:42: volatile int tick=0;
+                            450 ;demo.c:45: volatile int tick=0;
    0366 FD 21r4As92         451 	ld	iy,#_tick
    036A FD 36 00 00         452 	ld	0 (iy),#0x00
    036E FD 21r4As92         453 	ld	iy,#_tick
    0372 FD 36 01 00         454 	ld	1 (iy),#0x00
-                            455 ;demo.c:185: uint8_t yo = 0;
+                            455 ;demo.c:188: uint8_t yo = 0;
    0376 FD 21r4Cs92         456 	ld	iy,#_yo
    037A FD 36 00 00         457 	ld	0 (iy),#0x00
-                            458 ;demo.c:186: uint8_t cc = 0;
+                            458 ;demo.c:189: uint8_t cc = 0;
    037E FD 21r4Ds92         459 	ld	iy,#_cc
    0382 FD 36 00 00         460 	ld	0 (iy),#0x00
-                            461 ;demo.c:187: static int flipper = 0;
+                            461 ;demo.c:190: static int flipper = 0;
    0386 FD 21r4Es92         462 	ld	iy,#_flipper
    038A FD 36 00 00         463 	ld	0 (iy),#0x00
    038E FD 21r4Es92         464 	ld	iy,#_flipper
    0392 FD 36 01 00         465 	ld	1 (iy),#0x00
-                            466 ;demo.c:188: static int ymmmf = 0;
+                            466 ;demo.c:191: static int ymmmf = 0;
    0396 FD 21r50s92         467 	ld	iy,#_ymmmf
    039A FD 36 00 00         468 	ld	0 (iy),#0x00
    039E FD 21r50s92         469 	ld	iy,#_ymmmf
    03A2 FD 36 01 00         470 	ld	1 (iy),#0x00
-                            471 ;demo.c:220: char block_init = 0;
+                            471 ;demo.c:223: char block_init = 0;
    03A6 FD 21r52s92         472 	ld	iy,#_block_init
    03AA FD 36 00 00         473 	ld	0 (iy),#0x00
-                            474 ;demo.c:222: int bsx = 0;
+                            474 ;demo.c:225: int bsx = 0;
    03AE FD 21r53s92         475 	ld	iy,#_bsx
    03B2 FD 36 00 00         476 	ld	0 (iy),#0x00
    03B6 FD 21r53s92         477 	ld	iy,#_bsx
    03BA FD 36 01 00         478 	ld	1 (iy),#0x00
-                            479 ;demo.c:223: int bsy = 0;
+                            479 ;demo.c:226: int bsy = 0;
    03BE FD 21r55s92         480 	ld	iy,#_bsy
    03C2 FD 36 00 00         481 	ld	0 (iy),#0x00
    03C6 FD 21r55s92         482 	ld	iy,#_bsy
    03CA FD 36 01 00         483 	ld	1 (iy),#0x00
-                            484 ;demo.c:224: int btx = 0;
+                            484 ;demo.c:227: int btx = 0;
    03CE FD 21r57s92         485 	ld	iy,#_btx
    03D2 FD 36 00 00         486 	ld	0 (iy),#0x00
    03D6 FD 21r57s92         487 	ld	iy,#_btx
    03DA FD 36 01 00         488 	ld	1 (iy),#0x00
-                            489 ;demo.c:225: int bty = 0;
+                            489 ;demo.c:228: int bty = 0;
    03DE FD 21r59s92         490 	ld	iy,#_bty
    03E2 FD 36 00 00         491 	ld	0 (iy),#0x00
    03E6 FD 21r59s92         492 	ld	iy,#_bty
    03EA FD 36 01 00         493 	ld	1 (iy),#0x00
-                            494 ;demo.c:227: int btab[16] = {0};
+                            494 ;demo.c:230: int btab[16] = {0};
    03EE 21r5Bs92            495 	ld	hl,#_btab
    03F1 CDr00s00            496 	call	__initrleblock
    03F4 E0 00               497 	.db	#-32,#0x00
    03F6 00                  498 	.db	0
-                            499 ;demo.c:229: int flof = 0;
+                            499 ;demo.c:232: int flof = 0;
    03F7 FD 21r7Bs92         500 	ld	iy,#_flof
    03FB FD 36 00 00         501 	ld	0 (iy),#0x00
    03FF FD 21r7Bs92         502 	ld	iy,#_flof
@@ -538,7 +538,7 @@
                             510 ; code
                             511 ;--------------------------------------------------------
                             512 	.area _CODE
-                            513 ;demo.c:48: void my_isr(void) interrupt
+                            513 ;demo.c:51: void my_isr(void) interrupt
                             514 ;	---------------------------------
                             515 ; Function my_isr
                             516 ; ---------------------------------
@@ -549,29 +549,29 @@
    0002 D5                  521 	push	de
    0003 E5                  522 	push	hl
    0004 FD E5               523 	push	iy
-                            524 ;demo.c:50: DI;
+                            524 ;demo.c:53: DI;
    0006 F3                  525 		di 
-                            526 ;demo.c:51: READ_VDP_STATUS;
+                            526 ;demo.c:54: READ_VDP_STATUS;
    0007 DB 99               527 		in a,(#0x99) 
-                            528 ;demo.c:53: PLY_Play();
+                            528 ;demo.c:56: PLY_Play();
    0009 CDr00s00            529 	call	_PLY_Play
-                            530 ;demo.c:54: PLY_SendRegisters();
+                            530 ;demo.c:57: PLY_SendRegisters();
    000C CDr00s00            531 	call	_PLY_SendRegisters
-                            532 ;demo.c:56: vbicount++;
+                            532 ;demo.c:59: vbicount++;
    000F FD 21r48s92         533 	ld	iy,#_vbicount
    0013 FD 34 00            534 	inc	0 (iy)
    0016 20 07               535 	jr	NZ,00103$
    0018 FD 21r48s92         536 	ld	iy,#_vbicount
    001C FD 34 01            537 	inc	1 (iy)
    001F                     538 00103$:
-                            539 ;demo.c:57: tick++;
+                            539 ;demo.c:60: tick++;
    001F FD 21r4As92         540 	ld	iy,#_tick
    0023 FD 34 00            541 	inc	0 (iy)
    0026 20 07               542 	jr	NZ,00104$
    0028 FD 21r4As92         543 	ld	iy,#_tick
    002C FD 34 01            544 	inc	1 (iy)
    002F                     545 00104$:
-                            546 ;demo.c:59: EI;
+                            546 ;demo.c:62: EI;
    002F FB                  547 		ei 
    0030 FD E1               548 	pop	iy
    0032 E1                  549 	pop	hl
@@ -837,7 +837,7 @@
    0232 6F 00               809 	.dw #0x006F
    0234 72 00               810 	.dw #0x0072
    0236 75 00               811 	.dw #0x0075
-                            812 ;demo.c:66: uint8_t ge5_load(char *file_name, uint8_t vramh, uint16_t vraml) {
+                            812 ;demo.c:69: uint8_t ge5_load(char *file_name, uint8_t vramh, uint16_t vraml) {
                             813 ;	---------------------------------
                             814 ; Function ge5_load
                             815 ; ---------------------------------
@@ -849,7 +849,7 @@
    0240 21 D2 FF            821 	ld	hl,#-46
    0243 39                  822 	add	hl,sp
    0244 F9                  823 	ld	sp,hl
-                            824 ;demo.c:70: memset((uint8_t *) &f, 0, sizeof(fcb));
+                            824 ;demo.c:73: memset((uint8_t *) &f, 0, sizeof(fcb));
    0245 21 00 00            825 	ld	hl,#0x0000
    0248 39                  826 	add	hl,sp
    0249 4D                  827 	ld	c,l
@@ -864,7 +864,7 @@
    0257 F1                  836 	pop	af
    0258 F1                  837 	pop	af
    0259 33                  838 	inc	sp
-                            839 ;demo.c:72: f.record_size = 128;
+                            839 ;demo.c:75: f.record_size = 128;
    025A 21 00 00            840 	ld	hl,#0x0000
    025D 39                  841 	add	hl,sp
    025E 4D                  842 	ld	c,l
@@ -874,10 +874,10 @@
    0264 EB                  846 	ex	de,hl
    0265 3E 80               847 	ld	a,#0x80
    0267 12                  848 	ld	(de),a
-                            849 ;demo.c:73: f.drive = 0;
+                            849 ;demo.c:76: f.drive = 0;
    0268 3E 00               850 	ld	a,#0x00
    026A 02                  851 	ld	(bc),a
-                            852 ;demo.c:75: memcpy(f.name, file_name, 11);
+                            852 ;demo.c:78: memcpy(f.name, file_name, 11);
    026B DD 5E 04            853 	ld	e,4 (ix)
    026E DD 56 05            854 	ld	d,5 (ix)
    0271 03                  855 	inc	bc
@@ -889,7 +889,7 @@
    027B F1                  861 	pop	af
    027C F1                  862 	pop	af
    027D F1                  863 	pop	af
-                            864 ;demo.c:77: if (open(&f) != 0) return 0;
+                            864 ;demo.c:80: if (open(&f) != 0) return 0;
    027E 21 00 00            865 	ld	hl,#0x0000
    0281 39                  866 	add	hl,sp
    0282 E5                  867 	push	hl
@@ -901,7 +901,7 @@
    028B 2E 00               873 	ld	l,#0x00
    028D C3r04s03            874 	jp	00114$
    0290                     875 00102$:
-                            876 ;demo.c:78: vdp_set_write_address(vramh, vraml);
+                            876 ;demo.c:81: vdp_set_write_address(vramh, vraml);
    0290 DD 6E 07            877 	ld	l,7 (ix)
    0293 DD 66 08            878 	ld	h,8 (ix)
    0296 E5                  879 	push	hl
@@ -911,13 +911,13 @@
    029C CDr00s00            883 	call	_vdp_set_write_address
    029F F1                  884 	pop	af
    02A0 33                  885 	inc	sp
-                            886 ;demo.c:80: for (i = 0; i < 213; i++) {
+                            886 ;demo.c:83: for (i = 0; i < 213; i++) {
    02A1 0E 00               887 	ld	c,#0x00
    02A3                     888 00110$:
    02A3 79                  889 	ld	a,c
    02A4 D6 D5               890 	sub	a,#0xD5
    02A6 D2rF9s02            891 	jp	NC,00113$
-                            892 ;demo.c:81: if (block_set_data_ptr(scratch) != 0) return 0;
+                            892 ;demo.c:84: if (block_set_data_ptr(scratch) != 0) return 0;
    02A9 C5                  893 	push	bc
    02AA 21r88s14            894 	ld	hl,#_scratch
    02AD E5                  895 	push	hl
@@ -931,7 +931,7 @@
    02B8 2E 00               903 	ld	l,#0x00
    02BA C3r04s03            904 	jp	00114$
    02BD                     905 00104$:
-                            906 ;demo.c:82: if (block_read(&f) != 0) return 0;
+                            906 ;demo.c:85: if (block_read(&f) != 0) return 0;
    02BD 21 00 00            907 	ld	hl,#0x0000
    02C0 39                  908 	add	hl,sp
    02C1 C5                  909 	push	bc
@@ -946,7 +946,7 @@
    02CD 2E 00               918 	ld	l,#0x00
    02CF 18 33               919 	jr	00114$
    02D1                     920 00106$:
-                            921 ;demo.c:84: if (i == 0) vdp_load_screen(scratch + 7, 121);   // to skip GE5 header
+                            921 ;demo.c:87: if (i == 0) vdp_load_screen(scratch + 7, 121);   // to skip GE5 header
    02D1 AF                  922 	xor	a,a
    02D2 B1                  923 	or	a,c
    02D3 20 11               924 	jr	NZ,00108$
@@ -962,7 +962,7 @@
    02E3 C1                  934 	pop	bc
    02E4 18 0F               935 	jr	00112$
    02E6                     936 00108$:
-                            937 ;demo.c:85: else vdp_load_screen(scratch, 128);
+                            937 ;demo.c:88: else vdp_load_screen(scratch, 128);
    02E6 C5                  938 	push	bc
    02E7 3E 80               939 	ld	a,#0x80
    02E9 F5                  940 	push	af
@@ -974,30 +974,30 @@
    02F3 33                  946 	inc	sp
    02F4 C1                  947 	pop	bc
    02F5                     948 00112$:
-                            949 ;demo.c:80: for (i = 0; i < 213; i++) {
+                            949 ;demo.c:83: for (i = 0; i < 213; i++) {
    02F5 0C                  950 	inc	c
    02F6 C3rA3s02            951 	jp	00110$
    02F9                     952 00113$:
-                            953 ;demo.c:88: close(&f);
+                            953 ;demo.c:91: close(&f);
    02F9 21 00 00            954 	ld	hl,#0x0000
    02FC 39                  955 	add	hl,sp
    02FD E5                  956 	push	hl
    02FE CDr00s00            957 	call	_close
    0301 F1                  958 	pop	af
-                            959 ;demo.c:90: return 1;
+                            959 ;demo.c:93: return 1;
    0302 2E 01               960 	ld	l,#0x01
    0304                     961 00114$:
    0304 DD F9               962 	ld	sp,ix
    0306 DD E1               963 	pop	ix
    0308 C9                  964 	ret
    0309                     965 _ge5_load_end::
-                            966 ;demo.c:93: void scratch_clear() {
+                            966 ;demo.c:96: void scratch_clear() {
                             967 ;	---------------------------------
                             968 ; Function scratch_clear
                             969 ; ---------------------------------
    0309                     970 _scratch_clear_start::
    0309                     971 _scratch_clear:
-                            972 ;demo.c:94: memset((uint8_t *) &scratch, 0, 128);
+                            972 ;demo.c:97: memset((uint8_t *) &scratch, 0, 128);
    0309 21 80 00            973 	ld	hl,#0x0080
    030C E5                  974 	push	hl
    030D 3E 00               975 	ld	a,#0x00
@@ -1011,7 +1011,7 @@
    031A 33                  983 	inc	sp
    031B C9                  984 	ret
    031C                     985 _scratch_clear_end::
-                            986 ;demo.c:97: uint8_t pal_load(char *file_name, uint8_t ss) {
+                            986 ;demo.c:100: uint8_t pal_load(char *file_name, uint8_t ss) {
                             987 ;	---------------------------------
                             988 ; Function pal_load
                             989 ; ---------------------------------
@@ -1023,7 +1023,7 @@
    0324 21 D2 FF            995 	ld	hl,#-46
    0327 39                  996 	add	hl,sp
    0328 F9                  997 	ld	sp,hl
-                            998 ;demo.c:100: memset((uint8_t *) &f, 0, sizeof(fcb));
+                            998 ;demo.c:103: memset((uint8_t *) &f, 0, sizeof(fcb));
    0329 21 00 00            999 	ld	hl,#0x0000
    032C 39                 1000 	add	hl,sp
    032D 4D                 1001 	ld	c,l
@@ -1038,9 +1038,9 @@
    033B F1                 1010 	pop	af
    033C F1                 1011 	pop	af
    033D 33                 1012 	inc	sp
-                           1013 ;demo.c:101: scratch_clear();
+                           1013 ;demo.c:104: scratch_clear();
    033E CDr09s03           1014 	call	_scratch_clear
-                           1015 ;demo.c:103: f.record_size = ss;
+                           1015 ;demo.c:106: f.record_size = ss;
    0341 21 00 00           1016 	ld	hl,#0x0000
    0344 39                 1017 	add	hl,sp
    0345 4D                 1018 	ld	c,l
@@ -1050,10 +1050,10 @@
    034B EB                 1022 	ex	de,hl
    034C DD 7E 06           1023 	ld	a,6 (ix)
    034F 12                 1024 	ld	(de),a
-                           1025 ;demo.c:104: f.drive = 0;
+                           1025 ;demo.c:107: f.drive = 0;
    0350 3E 00              1026 	ld	a,#0x00
    0352 02                 1027 	ld	(bc),a
-                           1028 ;demo.c:106: memcpy(f.name, file_name, 11);
+                           1028 ;demo.c:109: memcpy(f.name, file_name, 11);
    0353 DD 5E 04           1029 	ld	e,4 (ix)
    0356 DD 56 05           1030 	ld	d,5 (ix)
    0359 03                 1031 	inc	bc
@@ -1065,7 +1065,7 @@
    0363 F1                 1037 	pop	af
    0364 F1                 1038 	pop	af
    0365 F1                 1039 	pop	af
-                           1040 ;demo.c:108: if (open(&f) != 0) return 0;
+                           1040 ;demo.c:111: if (open(&f) != 0) return 0;
    0366 21 00 00           1041 	ld	hl,#0x0000
    0369 39                 1042 	add	hl,sp
    036A E5                 1043 	push	hl
@@ -1077,7 +1077,7 @@
    0373 2E 00              1049 	ld	l,#0x00
    0375 18 40              1050 	jr	00107$
    0377                    1051 00102$:
-                           1052 ;demo.c:109: if (block_set_data_ptr(scratch) != 0) return 0;
+                           1052 ;demo.c:112: if (block_set_data_ptr(scratch) != 0) return 0;
    0377 21r88s14           1053 	ld	hl,#_scratch
    037A E5                 1054 	push	hl
    037B CDr00s00           1055 	call	_block_set_data_ptr
@@ -1088,7 +1088,7 @@
    0383 2E 00              1060 	ld	l,#0x00
    0385 18 30              1061 	jr	00107$
    0387                    1062 00104$:
-                           1063 ;demo.c:110: if (block_read(&f) != 0) return 0;
+                           1063 ;demo.c:113: if (block_read(&f) != 0) return 0;
    0387 21 00 00           1064 	ld	hl,#0x0000
    038A 39                 1065 	add	hl,sp
    038B E5                 1066 	push	hl
@@ -1100,7 +1100,7 @@
    0394 2E 00              1072 	ld	l,#0x00
    0396 18 1F              1073 	jr	00107$
    0398                    1074 00106$:
-                           1075 ;demo.c:112: memcpy(cur_palette, scratch+7, ss);
+                           1075 ;demo.c:115: memcpy(cur_palette, scratch+7, ss);
    0398 DD 4E 06           1076 	ld	c,6 (ix)
    039B 06 00              1077 	ld	b,#0x00
    039D 11r8Fs14           1078 	ld	de,#_scratch + 7
@@ -1112,49 +1112,49 @@
    03A9 F1                 1084 	pop	af
    03AA F1                 1085 	pop	af
    03AB F1                 1086 	pop	af
-                           1087 ;demo.c:114: close(&f);
+                           1087 ;demo.c:117: close(&f);
    03AC 21 00 00           1088 	ld	hl,#0x0000
    03AF 39                 1089 	add	hl,sp
    03B0 E5                 1090 	push	hl
    03B1 CDr00s00           1091 	call	_close
    03B4 F1                 1092 	pop	af
-                           1093 ;demo.c:115: return 1;
+                           1093 ;demo.c:118: return 1;
    03B5 2E 01              1094 	ld	l,#0x01
    03B7                    1095 00107$:
    03B7 DD F9              1096 	ld	sp,ix
    03B9 DD E1              1097 	pop	ix
    03BB C9                 1098 	ret
    03BC                    1099 _pal_load_end::
-                           1100 ;demo.c:119: void pause() {
+                           1100 ;demo.c:122: void pause() {
                            1101 ;	---------------------------------
                            1102 ; Function pause
                            1103 ; ---------------------------------
    03BC                    1104 _pause_start::
    03BC                    1105 _pause:
-                           1106 ;demo.c:120: uint8_t i,j,k = 0;
-                           1107 ;demo.c:121: for (i = 0; i < 255; i++) {	
+                           1106 ;demo.c:123: uint8_t i,j,k = 0;
+                           1107 ;demo.c:124: for (i = 0; i < 255; i++) {	
    03BC 01 00 00           1108 	ld	bc,#0x0000
    03BF                    1109 00104$:
    03BF 78                 1110 	ld	a,b
    03C0 D6 FF              1111 	sub	a,#0xFF
    03C2 D0                 1112 	ret	NC
-                           1113 ;demo.c:122: for (j = 0; j < 255; j++) {
+                           1113 ;demo.c:125: for (j = 0; j < 255; j++) {
    03C3 59                 1114 	ld	e,c
    03C4 16 FF              1115 	ld	d,#0xFF
    03C6                    1116 00103$:
-                           1117 ;demo.c:123: k++;
+                           1117 ;demo.c:126: k++;
    03C6 1C                 1118 	inc	e
    03C7 15                 1119 	dec	d
-                           1120 ;demo.c:122: for (j = 0; j < 255; j++) {
+                           1120 ;demo.c:125: for (j = 0; j < 255; j++) {
    03C8 AF                 1121 	xor	a,a
    03C9 B2                 1122 	or	a,d
    03CA 20 FA              1123 	jr	NZ,00103$
-                           1124 ;demo.c:121: for (i = 0; i < 255; i++) {	
+                           1124 ;demo.c:124: for (i = 0; i < 255; i++) {	
    03CC 4B                 1125 	ld	c,e
    03CD 04                 1126 	inc	b
    03CE 18 EF              1127 	jr	00104$
    03D0                    1128 _pause_end::
-                           1129 ;demo.c:129: uint8_t raw_load(char *file_name, int size, char* buffer) {
+                           1129 ;demo.c:132: uint8_t raw_load(char *file_name, int size, char* buffer) {
                            1130 ;	---------------------------------
                            1131 ; Function raw_load
                            1132 ; ---------------------------------
@@ -1166,7 +1166,7 @@
    03D8 21 D2 FF           1138 	ld	hl,#-46
    03DB 39                 1139 	add	hl,sp
    03DC F9                 1140 	ld	sp,hl
-                           1141 ;demo.c:134: memset((uint8_t *) &f, 0, sizeof(fcb));
+                           1141 ;demo.c:137: memset((uint8_t *) &f, 0, sizeof(fcb));
    03DD 21 00 00           1142 	ld	hl,#0x0000
    03E0 39                 1143 	add	hl,sp
    03E1 4D                 1144 	ld	c,l
@@ -1181,9 +1181,9 @@
    03EF F1                 1153 	pop	af
    03F0 F1                 1154 	pop	af
    03F1 33                 1155 	inc	sp
-                           1156 ;demo.c:135: scratch_clear();
+                           1156 ;demo.c:138: scratch_clear();
    03F2 CDr09s03           1157 	call	_scratch_clear
-                           1158 ;demo.c:137: f.record_size = 128;
+                           1158 ;demo.c:140: f.record_size = 128;
    03F5 21 00 00           1159 	ld	hl,#0x0000
    03F8 39                 1160 	add	hl,sp
    03F9 4D                 1161 	ld	c,l
@@ -1193,10 +1193,10 @@
    03FF EB                 1165 	ex	de,hl
    0400 3E 80              1166 	ld	a,#0x80
    0402 12                 1167 	ld	(de),a
-                           1168 ;demo.c:138: f.drive = 0;
+                           1168 ;demo.c:141: f.drive = 0;
    0403 3E 00              1169 	ld	a,#0x00
    0405 02                 1170 	ld	(bc),a
-                           1171 ;demo.c:140: memcpy(f.name, file_name, 11);
+                           1171 ;demo.c:143: memcpy(f.name, file_name, 11);
    0406 DD 5E 04           1172 	ld	e,4 (ix)
    0409 DD 56 05           1173 	ld	d,5 (ix)
    040C 03                 1174 	inc	bc
@@ -1208,7 +1208,7 @@
    0416 F1                 1180 	pop	af
    0417 F1                 1181 	pop	af
    0418 F1                 1182 	pop	af
-                           1183 ;demo.c:142: if (open(&f) != 0) return 0;
+                           1183 ;demo.c:145: if (open(&f) != 0) return 0;
    0419 21 00 00           1184 	ld	hl,#0x0000
    041C 39                 1185 	add	hl,sp
    041D E5                 1186 	push	hl
@@ -1219,7 +1219,7 @@
    0424 28 05              1191 	jr	Z,00116$
    0426 2E 00              1192 	ld	l,#0x00
    0428 C3r8Fs04           1193 	jp	00110$
-                           1194 ;demo.c:144: while(total < size) {
+                           1194 ;demo.c:147: while(total < size) {
    042B                    1195 00116$:
    042B 01 00 00           1196 	ld	bc,#0x0000
    042E                    1197 00107$:
@@ -1228,7 +1228,7 @@
    0432 78                 1200 	ld	a,b
    0433 DD 9E 07           1201 	sbc	a,7 (ix)
    0436 F2r84s04           1202 	jp	P,00109$
-                           1203 ;demo.c:145: if (block_set_data_ptr(scratch) != 0) return 0;
+                           1203 ;demo.c:148: if (block_set_data_ptr(scratch) != 0) return 0;
    0439 C5                 1204 	push	bc
    043A 21r88s14           1205 	ld	hl,#_scratch
    043D E5                 1206 	push	hl
@@ -1242,7 +1242,7 @@
    0448 2E 00              1214 	ld	l,#0x00
    044A 18 43              1215 	jr	00110$
    044C                    1216 00104$:
-                           1217 ;demo.c:146: if (block_read(&f) != 0) return 0;
+                           1217 ;demo.c:149: if (block_read(&f) != 0) return 0;
    044C 21 00 00           1218 	ld	hl,#0x0000
    044F 39                 1219 	add	hl,sp
    0450 C5                 1220 	push	bc
@@ -1257,7 +1257,7 @@
    045C 2E 00              1229 	ld	l,#0x00
    045E 18 2F              1230 	jr	00110$
    0460                    1231 00106$:
-                           1232 ;demo.c:148: memcpy(buffer+total,scratch,incr);
+                           1232 ;demo.c:151: memcpy(buffer+total,scratch,incr);
    0460 DD 7E 08           1233 	ld	a,8 (ix)
    0463 81                 1234 	add	a,c
    0464 5F                 1235 	ld	e,a
@@ -1275,27 +1275,27 @@
    0478 F1                 1247 	pop	af
    0479 F1                 1248 	pop	af
    047A C1                 1249 	pop	bc
-                           1250 ;demo.c:150: total+=incr;
+                           1250 ;demo.c:153: total+=incr;
    047B 21 80 00           1251 	ld	hl,#0x0080
    047E 09                 1252 	add	hl,bc
    047F 4D                 1253 	ld	c,l
    0480 44                 1254 	ld	b,h
    0481 C3r2Es04           1255 	jp	00107$
    0484                    1256 00109$:
-                           1257 ;demo.c:153: close(&f);
+                           1257 ;demo.c:156: close(&f);
    0484 21 00 00           1258 	ld	hl,#0x0000
    0487 39                 1259 	add	hl,sp
    0488 E5                 1260 	push	hl
    0489 CDr00s00           1261 	call	_close
    048C F1                 1262 	pop	af
-                           1263 ;demo.c:155: return 1;
+                           1263 ;demo.c:158: return 1;
    048D 2E 01              1264 	ld	l,#0x01
    048F                    1265 00110$:
    048F DD F9              1266 	ld	sp,ix
    0491 DD E1              1267 	pop	ix
    0493 C9                 1268 	ret
    0494                    1269 _raw_load_end::
-                           1270 ;demo.c:158: void fadein() {
+                           1270 ;demo.c:161: void fadein() {
                            1271 ;	---------------------------------
                            1272 ; Function fadein
                            1273 ; ---------------------------------
@@ -1305,7 +1305,7 @@
    0496 DD 21 00 00        1277 	ld	ix,#0
    049A DD 39              1278 	add	ix,sp
    049C F5                 1279 	push	af
-                           1280 ;demo.c:161: if (tick < 4) return;
+                           1280 ;demo.c:164: if (tick < 4) return;
    049D 3Ar4As92           1281 	ld	a,(#_tick+0)
    04A0 D6 04              1282 	sub	a,#0x04
    04A2 3Ar4Bs92           1283 	ld	a,(#_tick+1)
@@ -1313,18 +1313,18 @@
    04A7 F2rADs04           1285 	jp	P,00102$
    04AA C3r5Bs05           1286 	jp	00113$
    04AD                    1287 00102$:
-                           1288 ;demo.c:163: tick = 0;
+                           1288 ;demo.c:166: tick = 0;
    04AD 21r4As92           1289 	ld	hl,#_tick + 0
    04B0 36 00              1290 	ld	(hl), #0x00
    04B2 21r4Bs92           1291 	ld	hl,#_tick + 1
    04B5 36 00              1292 	ld	(hl), #0x00
-                           1293 ;demo.c:165: for(i = 0; i < 32; i+=2) {
+                           1293 ;demo.c:168: for(i = 0; i < 32; i+=2) {
    04B7 0E 00              1294 	ld	c,#0x00
    04B9                    1295 00109$:
    04B9 79                 1296 	ld	a,c
    04BA D6 20              1297 	sub	a,#0x20
    04BC D2r53s05           1298 	jp	NC,00112$
-                           1299 ;demo.c:166: uint8_t r = scratch[i] >> 4;
+                           1299 ;demo.c:169: uint8_t r = scratch[i] >> 4;
    04BF 3Er88              1300 	ld	a,#<_scratch
    04C1 81                 1301 	add	a,c
    04C2 5F                 1302 	ld	e,a
@@ -1338,11 +1338,11 @@
    04CD CB 3B              1310 	srl	e
    04CF CB 3B              1311 	srl	e
    04D1 CB 3B              1312 	srl	e
-                           1313 ;demo.c:167: uint8_t b = scratch[i] & 0xf;
+                           1313 ;demo.c:170: uint8_t b = scratch[i] & 0xf;
    04D3 78                 1314 	ld	a,b
    04D4 E6 0F              1315 	and	a,#0x0F
    04D6 DD 77 FF           1316 	ld	-1 (ix),a
-                           1317 ;demo.c:168: uint8_t g = scratch[i+1];
+                           1317 ;demo.c:171: uint8_t g = scratch[i+1];
    04D9 51                 1318 	ld	d,c
    04DA 14                 1319 	inc	d
    04DB 3Er88              1320 	ld	a,#<_scratch
@@ -1353,7 +1353,7 @@
    04E3 67                 1325 	ld	h,a
    04E4 56                 1326 	ld	d,(hl)
    04E5 DD 72 FE           1327 	ld	-2 (ix),d
-                           1328 ;demo.c:170: if (r < (cur_palette[i] >> 4)) r++;
+                           1328 ;demo.c:173: if (r < (cur_palette[i] >> 4)) r++;
    04E8 3Er08              1329 	ld	a,#<_cur_palette
    04EA 81                 1330 	add	a,c
    04EB 6F                 1331 	ld	l,a
@@ -1370,7 +1370,7 @@
    04FC 30 01              1342 	jr	NC,00104$
    04FE 1C                 1343 	inc	e
    04FF                    1344 00104$:
-                           1345 ;demo.c:171: if (b < (cur_palette[i] & 0xf)) b++;
+                           1345 ;demo.c:174: if (b < (cur_palette[i] & 0xf)) b++;
    04FF 3Er08              1346 	ld	a,#<_cur_palette
    0501 81                 1347 	add	a,c
    0502 6F                 1348 	ld	l,a
@@ -1385,7 +1385,7 @@
    0510 30 03              1357 	jr	NC,00106$
    0512 DD 34 FF           1358 	inc	-1 (ix)
    0515                    1359 00106$:
-                           1360 ;demo.c:173: scratch[i] = (r << 4) | b;
+                           1360 ;demo.c:176: scratch[i] = (r << 4) | b;
    0515 3Er88              1361 	ld	a,#<_scratch
    0517 81                 1362 	add	a,c
    0518 47                 1363 	ld	b,a
@@ -1402,7 +1402,7 @@
    0528 68                 1374 	ld	l,b
    0529 62                 1375 	ld	h,d
    052A 77                 1376 	ld	(hl),a
-                           1377 ;demo.c:174: if (g < cur_palette[i+1]) scratch[i+1]++;
+                           1377 ;demo.c:177: if (g < cur_palette[i+1]) scratch[i+1]++;
    052B 41                 1378 	ld	b,c
    052C 04                 1379 	inc	b
    052D 3Er08              1380 	ld	a,#<_cur_palette
@@ -1430,12 +1430,12 @@
    054C 63                 1402 	ld	h,e
    054D 77                 1403 	ld	(hl),a
    054E                    1404 00111$:
-                           1405 ;demo.c:165: for(i = 0; i < 32; i+=2) {
+                           1405 ;demo.c:168: for(i = 0; i < 32; i+=2) {
    054E 0C                 1406 	inc	c
    054F 0C                 1407 	inc	c
    0550 C3rB9s04           1408 	jp	00109$
    0553                    1409 00112$:
-                           1410 ;demo.c:178: vdp_load_palette(scratch);
+                           1410 ;demo.c:181: vdp_load_palette(scratch);
    0553 21r88s14           1411 	ld	hl,#_scratch
    0556 E5                 1412 	push	hl
    0557 CDr00s00           1413 	call	_vdp_load_palette
@@ -1445,7 +1445,7 @@
    055D DD E1              1417 	pop	ix
    055F C9                 1418 	ret
    0560                    1419 _fadein_end::
-                           1420 ;demo.c:190: void do_ymmm() {
+                           1420 ;demo.c:193: void do_ymmm() {
                            1421 ;	---------------------------------
                            1422 ; Function do_ymmm
                            1423 ; ---------------------------------
@@ -1457,7 +1457,7 @@
    0568 21 EB FF           1429 	ld	hl,#-21
    056B 39                 1430 	add	hl,sp
    056C F9                 1431 	ld	sp,hl
-                           1432 ;demo.c:195: if (tick > 32) { tick = 0; flipper++;}
+                           1432 ;demo.c:198: if (tick > 32) { tick = 0; flipper++;}
    056D 3E 20              1433 	ld	a,#0x20
    056F FD 21r4As92        1434 	ld	iy,#_tick
    0573 FD 96 00           1435 	sub	a,0 (iy)
@@ -1476,7 +1476,7 @@
    0599 FD 34 01           1448 	inc	1 (iy)
    059C                    1449 00115$:
    059C                    1450 00102$:
-                           1451 ;demo.c:196: if (flipper > 10) { flipper = 0;}
+                           1451 ;demo.c:199: if (flipper > 10) { flipper = 0;}
    059C 3E 0A              1452 	ld	a,#0x0A
    059E FD 21r4Es92        1453 	ld	iy,#_flipper
    05A2 FD 96 00           1454 	sub	a,0 (iy)
@@ -1489,14 +1489,14 @@
    05B6 21r4Fs92           1461 	ld	hl,#_flipper + 1
    05B9 36 00              1462 	ld	(hl), #0x00
    05BB                    1463 00104$:
-                           1464 ;demo.c:198: ymmmf++;
+                           1464 ;demo.c:201: ymmmf++;
    05BB FD 21r50s92        1465 	ld	iy,#_ymmmf
    05BF FD 34 00           1466 	inc	0 (iy)
    05C2 20 07              1467 	jr	NZ,00116$
    05C4 FD 21r50s92        1468 	ld	iy,#_ymmmf
    05C8 FD 34 01           1469 	inc	1 (iy)
    05CB                    1470 00116$:
-                           1471 ;demo.c:199: for (yo = 0; yo<212-step;yo+=step) {
+                           1471 ;demo.c:202: for (yo = 0; yo<212-step;yo+=step) {
    05CB 21r4Cs92           1472 	ld	hl,#_yo + 0
    05CE 36 00              1473 	ld	(hl), #0x00
    05D0                    1474 00105$:
@@ -1508,7 +1508,7 @@
    05DF DD 7E EE           1480 	ld	a,-18 (ix)
    05E2 DE 00              1481 	sbc	a,#0x00
    05E4 F2r90s06           1482 	jp	P,00109$
-                           1483 ;demo.c:200: xo = (sintabx[(yo+ymmmf) & 255]);
+                           1483 ;demo.c:203: xo = (sintabx[(yo+ymmmf) & 255]);
    05E7 21r50s92           1484 	ld	hl,#_ymmmf
    05EA DD 7E ED           1485 	ld	a,-19 (ix)
    05ED 86                 1486 	add	a,(hl)
@@ -1526,13 +1526,13 @@
    0600 56                 1498 	ld	d,(hl)
    0601 DD 73 EF           1499 	ld	-17 (ix),e
    0604 DD 72 F0           1500 	ld	-16 (ix),d
-                           1501 ;demo.c:203: cmd.source_x = 0;
+                           1501 ;demo.c:206: cmd.source_x = 0;
    0607 21 06 00           1502 	ld	hl,#0x0006
    060A 39                 1503 	add	hl,sp
    060B 36 00              1504 	ld	(hl),#0x00
    060D 23                 1505 	inc	hl
    060E 36 00              1506 	ld	(hl),#0x00
-                           1507 ;demo.c:204: cmd.source_y = 0+yo;
+                           1507 ;demo.c:207: cmd.source_y = 0+yo;
    0610 21 06 00           1508 	ld	hl,#0x0006
    0613 39                 1509 	add	hl,sp
    0614 EB                 1510 	ex	de,hl
@@ -1547,7 +1547,7 @@
    061F 23                 1519 	inc	hl
    0620 DD 7E EE           1520 	ld	a,-18 (ix)
    0623 77                 1521 	ld	(hl),a
-                           1522 ;demo.c:205: cmd.dest_x = xo;
+                           1522 ;demo.c:208: cmd.dest_x = xo;
    0624 21 04 00           1523 	ld	hl,#0x0004
    0627 19                 1524 	add	hl,de
    0628 DD 7E EF           1525 	ld	a,-17 (ix)
@@ -1555,7 +1555,7 @@
    062C 23                 1527 	inc	hl
    062D DD 7E F0           1528 	ld	a,-16 (ix)
    0630 77                 1529 	ld	(hl),a
-                           1530 ;demo.c:206: cmd.dest_y = 3+yo;
+                           1530 ;demo.c:209: cmd.dest_y = 3+yo;
    0631 21 06 00           1531 	ld	hl,#0x0006
    0634 19                 1532 	add	hl,de
    0635 DD 75 EB           1533 	ld	-21 (ix),l
@@ -1571,44 +1571,44 @@
    064D 71                 1543 	ld	(hl),c
    064E 23                 1544 	inc	hl
    064F 70                 1545 	ld	(hl),b
-                           1546 ;demo.c:207: cmd.size_x = 256;
+                           1546 ;demo.c:210: cmd.size_x = 256;
    0650 21 08 00           1547 	ld	hl,#0x0008
    0653 19                 1548 	add	hl,de
    0654 36 00              1549 	ld	(hl),#0x00
    0656 23                 1550 	inc	hl
    0657 36 01              1551 	ld	(hl),#0x01
-                           1552 ;demo.c:208: cmd.size_y = 1;
+                           1552 ;demo.c:211: cmd.size_y = 1;
    0659 21 0A 00           1553 	ld	hl,#0x000A
    065C 19                 1554 	add	hl,de
    065D 36 01              1555 	ld	(hl),#0x01
    065F 23                 1556 	inc	hl
    0660 36 00              1557 	ld	(hl),#0x00
-                           1558 ;demo.c:209: cmd.data = 0;
+                           1558 ;demo.c:212: cmd.data = 0;
    0662 21 0C 00           1559 	ld	hl,#0x000C
    0665 19                 1560 	add	hl,de
    0666 4D                 1561 	ld	c,l
    0667 44                 1562 	ld	b,h
    0668 3E 00              1563 	ld	a,#0x00
    066A 02                 1564 	ld	(bc),a
-                           1565 ;demo.c:210: cmd.argument = 0;
+                           1565 ;demo.c:213: cmd.argument = 0;
    066B 21 0D 00           1566 	ld	hl,#0x000D
    066E 19                 1567 	add	hl,de
    066F 4D                 1568 	ld	c,l
    0670 44                 1569 	ld	b,h
    0671 3E 00              1570 	ld	a,#0x00
    0673 02                 1571 	ld	(bc),a
-                           1572 ;demo.c:211: cmd.command = 0xD0;
+                           1572 ;demo.c:214: cmd.command = 0xD0;
    0674 21 0E 00           1573 	ld	hl,#0x000E
    0677 19                 1574 	add	hl,de
    0678 4D                 1575 	ld	c,l
    0679 44                 1576 	ld	b,h
    067A 3E D0              1577 	ld	a,#0xD0
    067C 02                 1578 	ld	(bc),a
-                           1579 ;demo.c:214: vdp_copier(&cmd);
+                           1579 ;demo.c:217: vdp_copier(&cmd);
    067D D5                 1580 	push	de
    067E CDr00s00           1581 	call	_vdp_copier
    0681 F1                 1582 	pop	af
-                           1583 ;demo.c:199: for (yo = 0; yo<212-step;yo+=step) {
+                           1583 ;demo.c:202: for (yo = 0; yo<212-step;yo+=step) {
    0682 21r4Cs92           1584 	ld	hl,#_yo + 0
    0685 4E                 1585 	ld	c,(hl)
    0686 21r4Cs92           1586 	ld	hl,#_yo
@@ -1621,7 +1621,7 @@
    0692 DD E1              1593 	pop	ix
    0694 C9                 1594 	ret
    0695                    1595 _do_ymmm_end::
-                           1596 ;demo.c:231: void do_blocks() {
+                           1596 ;demo.c:234: void do_blocks() {
                            1597 ;	---------------------------------
                            1598 ; Function do_blocks
                            1599 ; ---------------------------------
@@ -1633,683 +1633,699 @@
    069D 21 E9 FF           1605 	ld	hl,#-23
    06A0 39                 1606 	add	hl,sp
    06A1 F9                 1607 	ld	sp,hl
-                           1608 ;demo.c:234: int ys = 0;
+                           1608 ;demo.c:237: int ys = 0;
    06A2 DD 36 ED 00        1609 	ld	-19 (ix),#0x00
    06A6 DD 36 EE 00        1610 	ld	-18 (ix),#0x00
-                           1611 ;demo.c:235: int ye = 0;
+                           1611 ;demo.c:238: int ye = 0;
    06AA DD 36 EB 00        1612 	ld	-21 (ix),#0x00
    06AE DD 36 EC 00        1613 	ld	-20 (ix),#0x00
-                           1614 ;demo.c:237: vdp_register(VDP_VOFFSET,0);
+                           1614 ;demo.c:240: vdp_register(VDP_VOFFSET,0);
    06B2 21 17 00           1615 	ld	hl,#0x0017
    06B5 E5                 1616 	push	hl
    06B6 CDr00s00           1617 	call	_vdp_register
    06B9 F1                 1618 	pop	af
-                           1619 ;demo.c:239: if (block_init == 0) {
+                           1619 ;demo.c:242: if (block_init == 0) {
    06BA AF                 1620 	xor	a,a
    06BB FD 21r52s92        1621 	ld	iy,#_block_init
    06BF FD B6 00           1622 	or	a,0 (iy)
-   06C2 C2r22s07           1623 	jp	NZ,00108$
-                           1624 ;demo.c:241: vdp_set_screen5();
+   06C2 C2r2As07           1623 	jp	NZ,00108$
+                           1624 ;demo.c:244: vdp_set_screen5();
    06C5 CDr00s00           1625 	call	_vdp_set_screen5
-                           1626 ;demo.c:242: for(i=0;i<16;i++) btab[i] = i*16;
-   06C8 DD 36 EF 00        1627 	ld	-17 (ix),#0x00
-   06CC DD 36 F0 00        1628 	ld	-16 (ix),#0x00
-   06D0                    1629 00110$:
-   06D0 DD 7E EF           1630 	ld	a,-17 (ix)
-   06D3 D6 10              1631 	sub	a,#0x10
-   06D5 DD 7E F0           1632 	ld	a,-16 (ix)
-   06D8 DE 00              1633 	sbc	a,#0x00
-   06DA F2r12s07           1634 	jp	P,00113$
-   06DD DD 4E EF           1635 	ld	c,-17 (ix)
-   06E0 DD 46 F0           1636 	ld	b,-16 (ix)
-   06E3 CB 21              1637 	sla	c
-   06E5 CB 10              1638 	rl	b
-   06E7 21r5Bs92           1639 	ld	hl,#_btab
-   06EA 09                 1640 	add	hl,bc
-   06EB 4D                 1641 	ld	c,l
-   06EC 44                 1642 	ld	b,h
-   06ED DD 5E EF           1643 	ld	e,-17 (ix)
-   06F0 DD 56 F0           1644 	ld	d,-16 (ix)
-   06F3 CB 23              1645 	sla	e
-   06F5 CB 12              1646 	rl	d
-   06F7 CB 23              1647 	sla	e
-   06F9 CB 12              1648 	rl	d
-   06FB CB 23              1649 	sla	e
-   06FD CB 12              1650 	rl	d
-   06FF CB 23              1651 	sla	e
-   0701 CB 12              1652 	rl	d
-   0703 69                 1653 	ld	l,c
-   0704 60                 1654 	ld	h,b
-   0705 73                 1655 	ld	(hl),e
-   0706 23                 1656 	inc	hl
-   0707 72                 1657 	ld	(hl),d
-   0708 DD 34 EF           1658 	inc	-17 (ix)
-   070B 20 03              1659 	jr	NZ,00139$
-   070D DD 34 F0           1660 	inc	-16 (ix)
-   0710                    1661 00139$:
-   0710 18 BE              1662 	jr	00110$
-   0712                    1663 00113$:
-                           1664 ;demo.c:243: vdp_load_palette(block_palette);
-   0712 21r28s15           1665 	ld	hl,#_block_palette
-   0715 E5                 1666 	push	hl
-   0716 CDr00s00           1667 	call	_vdp_load_palette
-   0719 F1                 1668 	pop	af
-                           1669 ;demo.c:245: block_init = 1;
-   071A 21r52s92           1670 	ld	hl,#_block_init + 0
-   071D 36 01              1671 	ld	(hl), #0x01
-   071F C3rDCs08           1672 	jp	00122$
-   0722                    1673 00108$:
-                           1674 ;demo.c:248: if (flof == 0) { ys = 0; ye = 8; }
-   0722 3Ar7Bs92           1675 	ld	a,(#_flof+0)
-   0725 FD 21r7Bs92        1676 	ld	iy,#_flof
-   0729 FD B6 01           1677 	or	a,1 (iy)
-   072C 20 10              1678 	jr	NZ,00102$
-   072E DD 36 ED 00        1679 	ld	-19 (ix),#0x00
-   0732 DD 36 EE 00        1680 	ld	-18 (ix),#0x00
-   0736 DD 36 EB 08        1681 	ld	-21 (ix),#0x08
-   073A DD 36 EC 00        1682 	ld	-20 (ix),#0x00
-   073E                    1683 00102$:
-                           1684 ;demo.c:249: if (flof == 1) { ys = 8; ye = 16; }
-   073E 3Ar7Bs92           1685 	ld	a,(#_flof+0)
-   0741 D6 01              1686 	sub	a,#0x01
-   0743 20 06              1687 	jr	NZ,00140$
-   0745 3Ar7Cs92           1688 	ld	a,(#_flof+1)
-   0748 B7                 1689 	or	a,a
-   0749 28 02              1690 	jr	Z,00141$
-   074B                    1691 00140$:
-   074B 18 10              1692 	jr	00104$
-   074D                    1693 00141$:
-   074D DD 36 ED 08        1694 	ld	-19 (ix),#0x08
-   0751 DD 36 EE 00        1695 	ld	-18 (ix),#0x00
-   0755 DD 36 EB 10        1696 	ld	-21 (ix),#0x10
-   0759 DD 36 EC 00        1697 	ld	-20 (ix),#0x00
-   075D                    1698 00104$:
-                           1699 ;demo.c:251: for(bty=3;bty<11;bty++) {
-   075D FD 21r59s92        1700 	ld	iy,#_bty
-   0761 FD 36 00 03        1701 	ld	0 (iy),#0x03
-   0765 FD 21r59s92        1702 	ld	iy,#_bty
-   0769 FD 36 01 00        1703 	ld	1 (iy),#0x00
-   076D                    1704 00118$:
-   076D 3Ar59s92           1705 	ld	a,(#_bty+0)
-   0770 D6 0B              1706 	sub	a,#0x0B
-   0772 3Ar5As92           1707 	ld	a,(#_bty+1)
-   0775 DE 00              1708 	sbc	a,#0x00
-   0777 F2rB3s08           1709 	jp	P,00121$
-                           1710 ;demo.c:252: for(btx=ys;btx<ye;btx++) {
-   077A DD 7E ED           1711 	ld	a,-19 (ix)
-   077D FD 21r57s92        1712 	ld	iy,#_btx
-   0781 FD 77 00           1713 	ld	0 (iy),a
-   0784 DD 7E EE           1714 	ld	a,-18 (ix)
-   0787 FD 21r57s92        1715 	ld	iy,#_btx
-   078B FD 77 01           1716 	ld	1 (iy),a
-   078E                    1717 00114$:
-   078E 3Ar57s92           1718 	ld	a,(#_btx+0)
-   0791 DD 96 EB           1719 	sub	a,-21 (ix)
-   0794 3Ar58s92           1720 	ld	a,(#_btx+1)
-   0797 DD 9E EC           1721 	sbc	a,-20 (ix)
-   079A F2rA0s08           1722 	jp	P,00120$
-                           1723 ;demo.c:253: bsx = (PLY_PSGReg8 & PLY_PSGReg9 | PLY_PSGReg10)>>1;
-   079D 3Ar00s00           1724 	ld	a,(#_PLY_PSGReg8+0)
-   07A0 FD 21r00s00        1725 	ld	iy,#_PLY_PSGReg9
-   07A4 FD A6 00           1726 	and	a,0 (iy)
-   07A7 21r00s00           1727 	ld	hl,#_PLY_PSGReg10 + 0
-   07AA B6                 1728 	or	a,(hl)
-   07AB 4F                 1729 	ld	c,a
-   07AC CB 39              1730 	srl	c
-   07AE 21r53s92           1731 	ld	hl,#_bsx + 0
-   07B1 71                 1732 	ld	(hl), c
-   07B2 21r54s92           1733 	ld	hl,#_bsx + 1
-   07B5 36 00              1734 	ld	(hl), #0x00
-                           1735 ;demo.c:254: bsy = PLY_PSGReg10;
-   07B7 3Ar00s00           1736 	ld	a,(#_PLY_PSGReg10+0)
-   07BA 21r55s92           1737 	ld	hl,#_bsy + 0
-   07BD 77                 1738 	ld	(hl), a
-   07BE 21r56s92           1739 	ld	hl,#_bsy + 1
-   07C1 36 00              1740 	ld	(hl), #0x00
-                           1741 ;demo.c:255: cmd.source_x = btab[bsx];
-   07C3 21 08 00           1742 	ld	hl,#0x0008
-   07C6 39                 1743 	add	hl,sp
-   07C7 4D                 1744 	ld	c,l
-   07C8 44                 1745 	ld	b,h
-   07C9 21r53s92           1746 	ld	hl,#_bsx + 0
-   07CC 5E                 1747 	ld	e,(hl)
-   07CD 21r54s92           1748 	ld	hl,#_bsx + 1
-   07D0 56                 1749 	ld	d,(hl)
-   07D1 CB 23              1750 	sla	e
-   07D3 CB 12              1751 	rl	d
-   07D5 21r5Bs92           1752 	ld	hl,#_btab
-   07D8 19                 1753 	add	hl,de
-   07D9 5E                 1754 	ld	e,(hl)
-   07DA 23                 1755 	inc	hl
-   07DB 56                 1756 	ld	d,(hl)
-   07DC 69                 1757 	ld	l,c
-   07DD 60                 1758 	ld	h,b
-   07DE 73                 1759 	ld	(hl),e
-   07DF 23                 1760 	inc	hl
-   07E0 72                 1761 	ld	(hl),d
-                           1762 ;demo.c:256: cmd.source_y = 256+btab[bsy];
-   07E1 21 08 00           1763 	ld	hl,#0x0008
-   07E4 39                 1764 	add	hl,sp
-   07E5 4D                 1765 	ld	c,l
-   07E6 44                 1766 	ld	b,h
-   07E7 21 02 00           1767 	ld	hl,#0x0002
-   07EA 09                 1768 	add	hl,bc
-   07EB DD 75 E9           1769 	ld	-23 (ix),l
-   07EE DD 74 EA           1770 	ld	-22 (ix),h
-   07F1 21r55s92           1771 	ld	hl,#_bsy + 0
-   07F4 5E                 1772 	ld	e,(hl)
-   07F5 21r56s92           1773 	ld	hl,#_bsy + 1
-   07F8 56                 1774 	ld	d,(hl)
-   07F9 CB 23              1775 	sla	e
-   07FB CB 12              1776 	rl	d
-   07FD 21r5Bs92           1777 	ld	hl,#_btab
-   0800 19                 1778 	add	hl,de
-   0801 5E                 1779 	ld	e,(hl)
-   0802 23                 1780 	inc	hl
-   0803 56                 1781 	ld	d,(hl)
-   0804 21 00 01           1782 	ld	hl,#0x0100
-   0807 19                 1783 	add	hl,de
-   0808 EB                 1784 	ex	de,hl
-   0809 DD 6E E9           1785 	ld	l,-23 (ix)
-   080C DD 66 EA           1786 	ld	h,-22 (ix)
-   080F 73                 1787 	ld	(hl),e
-   0810 23                 1788 	inc	hl
-   0811 72                 1789 	ld	(hl),d
-                           1790 ;demo.c:257: cmd.dest_x = btab[btx];
-   0812 21 04 00           1791 	ld	hl,#0x0004
-   0815 09                 1792 	add	hl,bc
-   0816 DD 75 E9           1793 	ld	-23 (ix),l
-   0819 DD 74 EA           1794 	ld	-22 (ix),h
-   081C 21r57s92           1795 	ld	hl,#_btx + 0
-   081F 5E                 1796 	ld	e,(hl)
-   0820 21r58s92           1797 	ld	hl,#_btx + 1
-   0823 56                 1798 	ld	d,(hl)
-   0824 CB 23              1799 	sla	e
-   0826 CB 12              1800 	rl	d
-   0828 21r5Bs92           1801 	ld	hl,#_btab
-   082B 19                 1802 	add	hl,de
-   082C 5E                 1803 	ld	e,(hl)
-   082D 23                 1804 	inc	hl
-   082E 56                 1805 	ld	d,(hl)
-   082F DD 6E E9           1806 	ld	l,-23 (ix)
-   0832 DD 66 EA           1807 	ld	h,-22 (ix)
-   0835 73                 1808 	ld	(hl),e
-   0836 23                 1809 	inc	hl
-   0837 72                 1810 	ld	(hl),d
-                           1811 ;demo.c:258: cmd.dest_y = btab[bty];
-   0838 21 06 00           1812 	ld	hl,#0x0006
-   083B 09                 1813 	add	hl,bc
-   083C DD 75 E9           1814 	ld	-23 (ix),l
-   083F DD 74 EA           1815 	ld	-22 (ix),h
-   0842 21r59s92           1816 	ld	hl,#_bty + 0
-   0845 5E                 1817 	ld	e,(hl)
-   0846 21r5As92           1818 	ld	hl,#_bty + 1
-   0849 56                 1819 	ld	d,(hl)
-   084A CB 23              1820 	sla	e
-   084C CB 12              1821 	rl	d
-   084E 21r5Bs92           1822 	ld	hl,#_btab
-   0851 19                 1823 	add	hl,de
-   0852 5E                 1824 	ld	e,(hl)
-   0853 23                 1825 	inc	hl
-   0854 56                 1826 	ld	d,(hl)
-   0855 DD 6E E9           1827 	ld	l,-23 (ix)
-   0858 DD 66 EA           1828 	ld	h,-22 (ix)
-   085B 73                 1829 	ld	(hl),e
-   085C 23                 1830 	inc	hl
-   085D 72                 1831 	ld	(hl),d
-                           1832 ;demo.c:259: cmd.size_x = 16;
-   085E 21 08 00           1833 	ld	hl,#0x0008
-   0861 09                 1834 	add	hl,bc
-   0862 36 10              1835 	ld	(hl),#0x10
-   0864 23                 1836 	inc	hl
-   0865 36 00              1837 	ld	(hl),#0x00
-                           1838 ;demo.c:260: cmd.size_y = 16;
-   0867 21 0A 00           1839 	ld	hl,#0x000A
-   086A 09                 1840 	add	hl,bc
-   086B 36 10              1841 	ld	(hl),#0x10
-   086D 23                 1842 	inc	hl
-   086E 36 00              1843 	ld	(hl),#0x00
-                           1844 ;demo.c:261: cmd.data = 0;
-   0870 21 0C 00           1845 	ld	hl,#0x000C
-   0873 09                 1846 	add	hl,bc
-   0874 EB                 1847 	ex	de,hl
-   0875 3E 00              1848 	ld	a,#0x00
-   0877 12                 1849 	ld	(de),a
-                           1850 ;demo.c:262: cmd.argument = 0;
-   0878 21 0D 00           1851 	ld	hl,#0x000D
-   087B 09                 1852 	add	hl,bc
-   087C EB                 1853 	ex	de,hl
-   087D 3E 00              1854 	ld	a,#0x00
-   087F 12                 1855 	ld	(de),a
-                           1856 ;demo.c:263: cmd.command = 0xD0;
-   0880 21 0E 00           1857 	ld	hl,#0x000E
-   0883 09                 1858 	add	hl,bc
-   0884 EB                 1859 	ex	de,hl
-   0885 3E D0              1860 	ld	a,#0xD0
-   0887 12                 1861 	ld	(de),a
-                           1862 ;demo.c:264: vdp_copier(&cmd);
-   0888 C5                 1863 	push	bc
-   0889 CDr00s00           1864 	call	_vdp_copier
-   088C F1                 1865 	pop	af
-                           1866 ;demo.c:252: for(btx=ys;btx<ye;btx++) {
-   088D FD 21r57s92        1867 	ld	iy,#_btx
-   0891 FD 34 00           1868 	inc	0 (iy)
-   0894 20 07              1869 	jr	NZ,00150$
-   0896 FD 21r57s92        1870 	ld	iy,#_btx
-   089A FD 34 01           1871 	inc	1 (iy)
-   089D                    1872 00150$:
-   089D C3r8Es07           1873 	jp	00114$
-   08A0                    1874 00120$:
-                           1875 ;demo.c:251: for(bty=3;bty<11;bty++) {
-   08A0 FD 21r59s92        1876 	ld	iy,#_bty
-   08A4 FD 34 00           1877 	inc	0 (iy)
-   08A7 20 07              1878 	jr	NZ,00151$
-   08A9 FD 21r59s92        1879 	ld	iy,#_bty
-   08AD FD 34 01           1880 	inc	1 (iy)
-   08B0                    1881 00151$:
-   08B0 C3r6Ds07           1882 	jp	00118$
-   08B3                    1883 00121$:
-                           1884 ;demo.c:268: flof++;
-   08B3 FD 21r7Bs92        1885 	ld	iy,#_flof
-   08B7 FD 34 00           1886 	inc	0 (iy)
-   08BA 20 07              1887 	jr	NZ,00152$
-   08BC FD 21r7Bs92        1888 	ld	iy,#_flof
-   08C0 FD 34 01           1889 	inc	1 (iy)
-   08C3                    1890 00152$:
-                           1891 ;demo.c:269: if (flof == 2) flof = 0;
-   08C3 3Ar7Bs92           1892 	ld	a,(#_flof+0)
-   08C6 D6 02              1893 	sub	a,#0x02
-   08C8 20 06              1894 	jr	NZ,00153$
-   08CA 3Ar7Cs92           1895 	ld	a,(#_flof+1)
-   08CD B7                 1896 	or	a,a
-   08CE 28 02              1897 	jr	Z,00154$
-   08D0                    1898 00153$:
-   08D0 18 0A              1899 	jr	00122$
-   08D2                    1900 00154$:
-   08D2 21r7Bs92           1901 	ld	hl,#_flof + 0
-   08D5 36 00              1902 	ld	(hl), #0x00
-   08D7 21r7Cs92           1903 	ld	hl,#_flof + 1
-   08DA 36 00              1904 	ld	(hl), #0x00
-   08DC                    1905 00122$:
-   08DC DD F9              1906 	ld	sp,ix
-   08DE DD E1              1907 	pop	ix
-   08E0 C9                 1908 	ret
-   08E1                    1909 _do_blocks_end::
-                           1910 ;demo.c:279: void main() {
-                           1911 ;	---------------------------------
-                           1912 ; Function main
-                           1913 ; ---------------------------------
-   08E1                    1914 _main_start::
-   08E1                    1915 _main:
-   08E1 DD E5              1916 	push	ix
-   08E3 DD 21 00 00        1917 	ld	ix,#0
-   08E7 DD 39              1918 	add	ix,sp
-   08E9 21 EE FF           1919 	ld	hl,#-18
-   08EC 39                 1920 	add	hl,sp
-   08ED F9                 1921 	ld	sp,hl
-                           1922 ;demo.c:280: unsigned char quit=0;
-   08EE DD 36 FF 00        1923 	ld	-1 (ix),#0x00
-                           1924 ;demo.c:281: int modes = 8; // interlace bit on
-   08F2 DD 36 FD 08        1925 	ld	-3 (ix),#0x08
-   08F6 DD 36 FE 00        1926 	ld	-2 (ix),#0x00
-                           1927 ;demo.c:285: spindown();
-   08FA CDr00s00           1928 	call	_spindown
-                           1929 ;demo.c:287: puts("demo init\r\n\r\n");
-   08FD 21rB5s0A           1930 	ld	hl,#__str_0
-   0900 E5                 1931 	push	hl
-   0901 CDr00s00           1932 	call	_puts
-   0904 F1                 1933 	pop	af
-                           1934 ;demo.c:289: puts("loading sample data\r\n");
-   0905 21rC3s0A           1935 	ld	hl,#__str_1
-   0908 E5                 1936 	push	hl
-   0909 CDr00s00           1937 	call	_puts
-   090C F1                 1938 	pop	af
-                           1939 ;demo.c:291: raw_load("SAMPLE  RAW", 32000, sample_buf);
-   090D 21r48s15           1940 	ld	hl,#_sample_buf
-   0910 E5                 1941 	push	hl
-   0911 21 00 7D           1942 	ld	hl,#0x7D00
-   0914 E5                 1943 	push	hl
-   0915 21rD9s0A           1944 	ld	hl,#__str_2
-   0918 E5                 1945 	push	hl
-   0919 CDrD0s03           1946 	call	_raw_load
-   091C F1                 1947 	pop	af
-   091D F1                 1948 	pop	af
-   091E F1                 1949 	pop	af
-                           1950 ;demo.c:293: puts("Your PSG works perfectly!\r\n");
-   091F 21rE5s0A           1951 	ld	hl,#__str_3
-   0922 E5                 1952 	push	hl
-   0923 CDr00s00           1953 	call	_puts
-   0926 F1                 1954 	pop	af
-                           1955 ;demo.c:295: while (loops > 0) {
-   0927 06 04              1956 	ld	b,#0x04
-   0929 1E 00              1957 	ld	e,#0x00
-   092B                    1958 00101$:
-   092B 3E 00              1959 	ld	a,#0x00
-   092D 90                 1960 	sub	a,b
-   092E 3E 00              1961 	ld	a,#0x00
-   0930 9B                 1962 	sbc	a,e
-   0931 F2r50s09           1963 	jp	P,00103$
-                           1964 ;demo.c:296: play_sample(sample_buf+2,(51872/2)-400);
-   0934 21r4As15           1965 	ld	hl,#_sample_buf + 2
-   0937 55                 1966 	ld	d,l
-   0938 4C                 1967 	ld	c,h
-   0939 C5                 1968 	push	bc
-   093A D5                 1969 	push	de
-   093B 21 C0 63           1970 	ld	hl,#0x63C0
-   093E E5                 1971 	push	hl
-   093F 6A                 1972 	ld	l,d
-   0940 61                 1973 	ld	h,c
-   0941 E5                 1974 	push	hl
-   0942 CDr00s00           1975 	call	_play_sample
-   0945 F1                 1976 	pop	af
-   0946 F1                 1977 	pop	af
-   0947 D1                 1978 	pop	de
-   0948 C1                 1979 	pop	bc
-                           1980 ;demo.c:297: loops--;
-   0949 68                 1981 	ld	l,b
-   094A 63                 1982 	ld	h,e
-   094B 2B                 1983 	dec	hl
-   094C 45                 1984 	ld	b,l
-   094D 5C                 1985 	ld	e,h
-   094E 18 DB              1986 	jr	00101$
-   0950                    1987 00103$:
-                           1988 ;demo.c:300: puts("music init...");
-   0950 21r01s0B           1989 	ld	hl,#__str_4
-   0953 E5                 1990 	push	hl
-   0954 CDr00s00           1991 	call	_puts
-   0957 F1                 1992 	pop	af
-                           1993 ;demo.c:302: PLY_SongPtr = (char *)0x0103;
-   0958 21r00s00           1994 	ld	hl,#_PLY_SongPtr + 0
-   095B 36 03              1995 	ld	(hl), #0x03
-   095D 21r01s00           1996 	ld	hl,#_PLY_SongPtr + 1
-   0960 36 01              1997 	ld	(hl), #0x01
-                           1998 ;demo.c:303: PLY_Init();
-   0962 CDr00s00           1999 	call	_PLY_Init
-                           2000 ;demo.c:304: puts("done.\n\n");
-   0965 21r0Fs0B           2001 	ld	hl,#__str_5
-   0968 E5                 2002 	push	hl
-   0969 CDr00s00           2003 	call	_puts
-   096C F1                 2004 	pop	af
-                           2005 ;demo.c:306: if(isvdp2())
-   096D CDr00s00           2006 	call	_isvdp2
-   0970 AF                 2007 	xor	a,a
-   0971 B5                 2008 	or	a,l
-   0972 28 08              2009 	jr	Z,00105$
-                           2010 ;demo.c:308: modes+=2; // pal
-   0974 DD 36 FD 0A        2011 	ld	-3 (ix),#0x0A
-   0978 DD 36 FE 00        2012 	ld	-2 (ix),#0x00
-   097C                    2013 00105$:
-                           2014 ;demo.c:312: vdp_set_screen6();
-   097C CDr00s00           2015 	call	_vdp_set_screen6
-                           2016 ;demo.c:314: vdp_register(VDP_MODE3,modes); // interlace on, screen mode pal or ntsc
-   097F DD 7E FD           2017 	ld	a,-3 (ix)
-   0982 F5                 2018 	push	af
-   0983 33                 2019 	inc	sp
-   0984 3E 09              2020 	ld	a,#0x09
-   0986 F5                 2021 	push	af
-   0987 33                 2022 	inc	sp
-   0988 CDr00s00           2023 	call	_vdp_register
-   098B F1                 2024 	pop	af
-                           2025 ;demo.c:316: puts("demo start\r\n");
-   098C 21r17s0B           2026 	ld	hl,#__str_6
-   098F E5                 2027 	push	hl
-   0990 CDr00s00           2028 	call	_puts
-   0993 F1                 2029 	pop	af
-                           2030 ;demo.c:318: scratch_clear();
-   0994 CDr09s03           2031 	call	_scratch_clear
-                           2032 ;demo.c:319: vdp_load_palette(scratch);
-   0997 21r88s14           2033 	ld	hl,#_scratch
-   099A E5                 2034 	push	hl
-   099B CDr00s00           2035 	call	_vdp_load_palette
-   099E F1                 2036 	pop	af
-                           2037 ;demo.c:321: vdp_register(VDP_VOFFSET,0);
-   099F 21 17 00           2038 	ld	hl,#0x0017
-   09A2 E5                 2039 	push	hl
-   09A3 CDr00s00           2040 	call	_vdp_register
-   09A6 F1                 2041 	pop	af
-                           2042 ;demo.c:323: pal_load("STDBLCK PL5", 32);
-   09A7 3E 20              2043 	ld	a,#0x20
-   09A9 F5                 2044 	push	af
-   09AA 33                 2045 	inc	sp
-   09AB 21r24s0B           2046 	ld	hl,#__str_7
-   09AE E5                 2047 	push	hl
-   09AF CDr1Cs03           2048 	call	_pal_load
-   09B2 F1                 2049 	pop	af
-   09B3 33                 2050 	inc	sp
-                           2051 ;demo.c:324: memcpy(block_palette,cur_palette,32);
-   09B4 21 20 00           2052 	ld	hl,#0x0020
-   09B7 E5                 2053 	push	hl
-   09B8 21r08s15           2054 	ld	hl,#_cur_palette
+                           1626 ;demo.c:246: vdp_register(2, 0x5F);
+   06C8 21 02 5F           1627 	ld	hl,#0x5F02
+   06CB E5                 1628 	push	hl
+   06CC CDr00s00           1629 	call	_vdp_register
+   06CF F1                 1630 	pop	af
+                           1631 ;demo.c:248: for(i=0;i<16;i++) btab[i] = i*16;
+   06D0 DD 36 EF 00        1632 	ld	-17 (ix),#0x00
+   06D4 DD 36 F0 00        1633 	ld	-16 (ix),#0x00
+   06D8                    1634 00110$:
+   06D8 DD 7E EF           1635 	ld	a,-17 (ix)
+   06DB D6 10              1636 	sub	a,#0x10
+   06DD DD 7E F0           1637 	ld	a,-16 (ix)
+   06E0 DE 00              1638 	sbc	a,#0x00
+   06E2 F2r1As07           1639 	jp	P,00113$
+   06E5 DD 4E EF           1640 	ld	c,-17 (ix)
+   06E8 DD 46 F0           1641 	ld	b,-16 (ix)
+   06EB CB 21              1642 	sla	c
+   06ED CB 10              1643 	rl	b
+   06EF 21r5Bs92           1644 	ld	hl,#_btab
+   06F2 09                 1645 	add	hl,bc
+   06F3 4D                 1646 	ld	c,l
+   06F4 44                 1647 	ld	b,h
+   06F5 DD 5E EF           1648 	ld	e,-17 (ix)
+   06F8 DD 56 F0           1649 	ld	d,-16 (ix)
+   06FB CB 23              1650 	sla	e
+   06FD CB 12              1651 	rl	d
+   06FF CB 23              1652 	sla	e
+   0701 CB 12              1653 	rl	d
+   0703 CB 23              1654 	sla	e
+   0705 CB 12              1655 	rl	d
+   0707 CB 23              1656 	sla	e
+   0709 CB 12              1657 	rl	d
+   070B 69                 1658 	ld	l,c
+   070C 60                 1659 	ld	h,b
+   070D 73                 1660 	ld	(hl),e
+   070E 23                 1661 	inc	hl
+   070F 72                 1662 	ld	(hl),d
+   0710 DD 34 EF           1663 	inc	-17 (ix)
+   0713 20 03              1664 	jr	NZ,00139$
+   0715 DD 34 F0           1665 	inc	-16 (ix)
+   0718                    1666 00139$:
+   0718 18 BE              1667 	jr	00110$
+   071A                    1668 00113$:
+                           1669 ;demo.c:249: vdp_load_palette(block_palette);
+   071A 21r28s15           1670 	ld	hl,#_block_palette
+   071D E5                 1671 	push	hl
+   071E CDr00s00           1672 	call	_vdp_load_palette
+   0721 F1                 1673 	pop	af
+                           1674 ;demo.c:251: block_init = 1;
+   0722 21r52s92           1675 	ld	hl,#_block_init + 0
+   0725 36 01              1676 	ld	(hl), #0x01
+   0727 C3rE9s08           1677 	jp	00122$
+   072A                    1678 00108$:
+                           1679 ;demo.c:255: if (flof == 0) { ys = 0; ye = 8; }
+   072A 3Ar7Bs92           1680 	ld	a,(#_flof+0)
+   072D FD 21r7Bs92        1681 	ld	iy,#_flof
+   0731 FD B6 01           1682 	or	a,1 (iy)
+   0734 20 10              1683 	jr	NZ,00102$
+   0736 DD 36 ED 00        1684 	ld	-19 (ix),#0x00
+   073A DD 36 EE 00        1685 	ld	-18 (ix),#0x00
+   073E DD 36 EB 08        1686 	ld	-21 (ix),#0x08
+   0742 DD 36 EC 00        1687 	ld	-20 (ix),#0x00
+   0746                    1688 00102$:
+                           1689 ;demo.c:256: if (flof == 1) { ys = 8; ye = 16; }
+   0746 3Ar7Bs92           1690 	ld	a,(#_flof+0)
+   0749 D6 01              1691 	sub	a,#0x01
+   074B 20 06              1692 	jr	NZ,00140$
+   074D 3Ar7Cs92           1693 	ld	a,(#_flof+1)
+   0750 B7                 1694 	or	a,a
+   0751 28 02              1695 	jr	Z,00141$
+   0753                    1696 00140$:
+   0753 18 10              1697 	jr	00104$
+   0755                    1698 00141$:
+   0755 DD 36 ED 08        1699 	ld	-19 (ix),#0x08
+   0759 DD 36 EE 00        1700 	ld	-18 (ix),#0x00
+   075D DD 36 EB 10        1701 	ld	-21 (ix),#0x10
+   0761 DD 36 EC 00        1702 	ld	-20 (ix),#0x00
+   0765                    1703 00104$:
+                           1704 ;demo.c:258: for(bty=3;bty<11;bty++) {
+   0765 FD 21r59s92        1705 	ld	iy,#_bty
+   0769 FD 36 00 03        1706 	ld	0 (iy),#0x03
+   076D FD 21r59s92        1707 	ld	iy,#_bty
+   0771 FD 36 01 00        1708 	ld	1 (iy),#0x00
+   0775                    1709 00118$:
+   0775 3Ar59s92           1710 	ld	a,(#_bty+0)
+   0778 D6 0B              1711 	sub	a,#0x0B
+   077A 3Ar5As92           1712 	ld	a,(#_bty+1)
+   077D DE 00              1713 	sbc	a,#0x00
+   077F F2rC0s08           1714 	jp	P,00121$
+                           1715 ;demo.c:259: for(btx=ys;btx<ye;btx++) {
+   0782 DD 7E ED           1716 	ld	a,-19 (ix)
+   0785 FD 21r57s92        1717 	ld	iy,#_btx
+   0789 FD 77 00           1718 	ld	0 (iy),a
+   078C DD 7E EE           1719 	ld	a,-18 (ix)
+   078F FD 21r57s92        1720 	ld	iy,#_btx
+   0793 FD 77 01           1721 	ld	1 (iy),a
+   0796                    1722 00114$:
+   0796 3Ar57s92           1723 	ld	a,(#_btx+0)
+   0799 DD 96 EB           1724 	sub	a,-21 (ix)
+   079C 3Ar58s92           1725 	ld	a,(#_btx+1)
+   079F DD 9E EC           1726 	sbc	a,-20 (ix)
+   07A2 F2rADs08           1727 	jp	P,00120$
+                           1728 ;demo.c:260: bsx = (PLY_PSGReg8 & PLY_PSGReg9 | PLY_PSGReg10)>>1;
+   07A5 3Ar00s00           1729 	ld	a,(#_PLY_PSGReg8+0)
+   07A8 FD 21r00s00        1730 	ld	iy,#_PLY_PSGReg9
+   07AC FD A6 00           1731 	and	a,0 (iy)
+   07AF 21r00s00           1732 	ld	hl,#_PLY_PSGReg10 + 0
+   07B2 B6                 1733 	or	a,(hl)
+   07B3 4F                 1734 	ld	c,a
+   07B4 CB 39              1735 	srl	c
+   07B6 21r53s92           1736 	ld	hl,#_bsx + 0
+   07B9 71                 1737 	ld	(hl), c
+   07BA 21r54s92           1738 	ld	hl,#_bsx + 1
+   07BD 36 00              1739 	ld	(hl), #0x00
+                           1740 ;demo.c:261: bsy = PLY_PSGReg10;
+   07BF 3Ar00s00           1741 	ld	a,(#_PLY_PSGReg10+0)
+   07C2 21r55s92           1742 	ld	hl,#_bsy + 0
+   07C5 77                 1743 	ld	(hl), a
+   07C6 21r56s92           1744 	ld	hl,#_bsy + 1
+   07C9 36 00              1745 	ld	(hl), #0x00
+                           1746 ;demo.c:262: cmd.source_x = btab[bsx];
+   07CB 21 08 00           1747 	ld	hl,#0x0008
+   07CE 39                 1748 	add	hl,sp
+   07CF 4D                 1749 	ld	c,l
+   07D0 44                 1750 	ld	b,h
+   07D1 21r53s92           1751 	ld	hl,#_bsx + 0
+   07D4 5E                 1752 	ld	e,(hl)
+   07D5 21r54s92           1753 	ld	hl,#_bsx + 1
+   07D8 56                 1754 	ld	d,(hl)
+   07D9 CB 23              1755 	sla	e
+   07DB CB 12              1756 	rl	d
+   07DD 21r5Bs92           1757 	ld	hl,#_btab
+   07E0 19                 1758 	add	hl,de
+   07E1 5E                 1759 	ld	e,(hl)
+   07E2 23                 1760 	inc	hl
+   07E3 56                 1761 	ld	d,(hl)
+   07E4 69                 1762 	ld	l,c
+   07E5 60                 1763 	ld	h,b
+   07E6 73                 1764 	ld	(hl),e
+   07E7 23                 1765 	inc	hl
+   07E8 72                 1766 	ld	(hl),d
+                           1767 ;demo.c:263: cmd.source_y = 768+btab[bsy];
+   07E9 21 08 00           1768 	ld	hl,#0x0008
+   07EC 39                 1769 	add	hl,sp
+   07ED 4D                 1770 	ld	c,l
+   07EE 44                 1771 	ld	b,h
+   07EF 21 02 00           1772 	ld	hl,#0x0002
+   07F2 09                 1773 	add	hl,bc
+   07F3 DD 75 E9           1774 	ld	-23 (ix),l
+   07F6 DD 74 EA           1775 	ld	-22 (ix),h
+   07F9 21r55s92           1776 	ld	hl,#_bsy + 0
+   07FC 5E                 1777 	ld	e,(hl)
+   07FD 21r56s92           1778 	ld	hl,#_bsy + 1
+   0800 56                 1779 	ld	d,(hl)
+   0801 CB 23              1780 	sla	e
+   0803 CB 12              1781 	rl	d
+   0805 21r5Bs92           1782 	ld	hl,#_btab
+   0808 19                 1783 	add	hl,de
+   0809 5E                 1784 	ld	e,(hl)
+   080A 23                 1785 	inc	hl
+   080B 56                 1786 	ld	d,(hl)
+   080C 21 00 03           1787 	ld	hl,#0x0300
+   080F 19                 1788 	add	hl,de
+   0810 EB                 1789 	ex	de,hl
+   0811 DD 6E E9           1790 	ld	l,-23 (ix)
+   0814 DD 66 EA           1791 	ld	h,-22 (ix)
+   0817 73                 1792 	ld	(hl),e
+   0818 23                 1793 	inc	hl
+   0819 72                 1794 	ld	(hl),d
+                           1795 ;demo.c:264: cmd.dest_x = btab[btx];
+   081A 21 04 00           1796 	ld	hl,#0x0004
+   081D 09                 1797 	add	hl,bc
+   081E DD 75 E9           1798 	ld	-23 (ix),l
+   0821 DD 74 EA           1799 	ld	-22 (ix),h
+   0824 21r57s92           1800 	ld	hl,#_btx + 0
+   0827 5E                 1801 	ld	e,(hl)
+   0828 21r58s92           1802 	ld	hl,#_btx + 1
+   082B 56                 1803 	ld	d,(hl)
+   082C CB 23              1804 	sla	e
+   082E CB 12              1805 	rl	d
+   0830 21r5Bs92           1806 	ld	hl,#_btab
+   0833 19                 1807 	add	hl,de
+   0834 5E                 1808 	ld	e,(hl)
+   0835 23                 1809 	inc	hl
+   0836 56                 1810 	ld	d,(hl)
+   0837 DD 6E E9           1811 	ld	l,-23 (ix)
+   083A DD 66 EA           1812 	ld	h,-22 (ix)
+   083D 73                 1813 	ld	(hl),e
+   083E 23                 1814 	inc	hl
+   083F 72                 1815 	ld	(hl),d
+                           1816 ;demo.c:265: cmd.dest_y = 512+btab[bty];
+   0840 21 06 00           1817 	ld	hl,#0x0006
+   0843 09                 1818 	add	hl,bc
+   0844 DD 75 E9           1819 	ld	-23 (ix),l
+   0847 DD 74 EA           1820 	ld	-22 (ix),h
+   084A 21r59s92           1821 	ld	hl,#_bty + 0
+   084D 5E                 1822 	ld	e,(hl)
+   084E 21r5As92           1823 	ld	hl,#_bty + 1
+   0851 56                 1824 	ld	d,(hl)
+   0852 CB 23              1825 	sla	e
+   0854 CB 12              1826 	rl	d
+   0856 21r5Bs92           1827 	ld	hl,#_btab
+   0859 19                 1828 	add	hl,de
+   085A 5E                 1829 	ld	e,(hl)
+   085B 23                 1830 	inc	hl
+   085C 56                 1831 	ld	d,(hl)
+   085D 21 00 02           1832 	ld	hl,#0x0200
+   0860 19                 1833 	add	hl,de
+   0861 EB                 1834 	ex	de,hl
+   0862 DD 6E E9           1835 	ld	l,-23 (ix)
+   0865 DD 66 EA           1836 	ld	h,-22 (ix)
+   0868 73                 1837 	ld	(hl),e
+   0869 23                 1838 	inc	hl
+   086A 72                 1839 	ld	(hl),d
+                           1840 ;demo.c:266: cmd.size_x = 16;
+   086B 21 08 00           1841 	ld	hl,#0x0008
+   086E 09                 1842 	add	hl,bc
+   086F 36 10              1843 	ld	(hl),#0x10
+   0871 23                 1844 	inc	hl
+   0872 36 00              1845 	ld	(hl),#0x00
+                           1846 ;demo.c:267: cmd.size_y = 16;
+   0874 21 0A 00           1847 	ld	hl,#0x000A
+   0877 09                 1848 	add	hl,bc
+   0878 36 10              1849 	ld	(hl),#0x10
+   087A 23                 1850 	inc	hl
+   087B 36 00              1851 	ld	(hl),#0x00
+                           1852 ;demo.c:268: cmd.data = 0;
+   087D 21 0C 00           1853 	ld	hl,#0x000C
+   0880 09                 1854 	add	hl,bc
+   0881 EB                 1855 	ex	de,hl
+   0882 3E 00              1856 	ld	a,#0x00
+   0884 12                 1857 	ld	(de),a
+                           1858 ;demo.c:269: cmd.argument = 0x00;
+   0885 21 0D 00           1859 	ld	hl,#0x000D
+   0888 09                 1860 	add	hl,bc
+   0889 EB                 1861 	ex	de,hl
+   088A 3E 00              1862 	ld	a,#0x00
+   088C 12                 1863 	ld	(de),a
+                           1864 ;demo.c:270: cmd.command = 0xD0;
+   088D 21 0E 00           1865 	ld	hl,#0x000E
+   0890 09                 1866 	add	hl,bc
+   0891 EB                 1867 	ex	de,hl
+   0892 3E D0              1868 	ld	a,#0xD0
+   0894 12                 1869 	ld	(de),a
+                           1870 ;demo.c:271: vdp_copier(&cmd);
+   0895 C5                 1871 	push	bc
+   0896 CDr00s00           1872 	call	_vdp_copier
+   0899 F1                 1873 	pop	af
+                           1874 ;demo.c:259: for(btx=ys;btx<ye;btx++) {
+   089A FD 21r57s92        1875 	ld	iy,#_btx
+   089E FD 34 00           1876 	inc	0 (iy)
+   08A1 20 07              1877 	jr	NZ,00150$
+   08A3 FD 21r57s92        1878 	ld	iy,#_btx
+   08A7 FD 34 01           1879 	inc	1 (iy)
+   08AA                    1880 00150$:
+   08AA C3r96s07           1881 	jp	00114$
+   08AD                    1882 00120$:
+                           1883 ;demo.c:258: for(bty=3;bty<11;bty++) {
+   08AD FD 21r59s92        1884 	ld	iy,#_bty
+   08B1 FD 34 00           1885 	inc	0 (iy)
+   08B4 20 07              1886 	jr	NZ,00151$
+   08B6 FD 21r59s92        1887 	ld	iy,#_bty
+   08BA FD 34 01           1888 	inc	1 (iy)
+   08BD                    1889 00151$:
+   08BD C3r75s07           1890 	jp	00118$
+   08C0                    1891 00121$:
+                           1892 ;demo.c:275: flof++;
+   08C0 FD 21r7Bs92        1893 	ld	iy,#_flof
+   08C4 FD 34 00           1894 	inc	0 (iy)
+   08C7 20 07              1895 	jr	NZ,00152$
+   08C9 FD 21r7Bs92        1896 	ld	iy,#_flof
+   08CD FD 34 01           1897 	inc	1 (iy)
+   08D0                    1898 00152$:
+                           1899 ;demo.c:276: if (flof == 2) flof = 0;
+   08D0 3Ar7Bs92           1900 	ld	a,(#_flof+0)
+   08D3 D6 02              1901 	sub	a,#0x02
+   08D5 20 06              1902 	jr	NZ,00153$
+   08D7 3Ar7Cs92           1903 	ld	a,(#_flof+1)
+   08DA B7                 1904 	or	a,a
+   08DB 28 02              1905 	jr	Z,00154$
+   08DD                    1906 00153$:
+   08DD 18 0A              1907 	jr	00122$
+   08DF                    1908 00154$:
+   08DF 21r7Bs92           1909 	ld	hl,#_flof + 0
+   08E2 36 00              1910 	ld	(hl), #0x00
+   08E4 21r7Cs92           1911 	ld	hl,#_flof + 1
+   08E7 36 00              1912 	ld	(hl), #0x00
+   08E9                    1913 00122$:
+   08E9 DD F9              1914 	ld	sp,ix
+   08EB DD E1              1915 	pop	ix
+   08ED C9                 1916 	ret
+   08EE                    1917 _do_blocks_end::
+                           1918 ;demo.c:286: void main() {
+                           1919 ;	---------------------------------
+                           1920 ; Function main
+                           1921 ; ---------------------------------
+   08EE                    1922 _main_start::
+   08EE                    1923 _main:
+   08EE DD E5              1924 	push	ix
+   08F0 DD 21 00 00        1925 	ld	ix,#0
+   08F4 DD 39              1926 	add	ix,sp
+   08F6 21 EE FF           1927 	ld	hl,#-18
+   08F9 39                 1928 	add	hl,sp
+   08FA F9                 1929 	ld	sp,hl
+                           1930 ;demo.c:287: unsigned char quit=0;
+   08FB DD 36 FF 00        1931 	ld	-1 (ix),#0x00
+                           1932 ;demo.c:288: int modes = 8; // interlace bit on
+   08FF DD 36 FD 08        1933 	ld	-3 (ix),#0x08
+   0903 DD 36 FE 00        1934 	ld	-2 (ix),#0x00
+                           1935 ;demo.c:292: spindown();
+   0907 CDr00s00           1936 	call	_spindown
+                           1937 ;demo.c:294: puts("demo init\r\n\r\n");
+   090A 21rCCs0A           1938 	ld	hl,#__str_0
+   090D E5                 1939 	push	hl
+   090E CDr00s00           1940 	call	_puts
+   0911 F1                 1941 	pop	af
+                           1942 ;demo.c:296: puts("loading sample data\r\n");
+   0912 21rDAs0A           1943 	ld	hl,#__str_1
+   0915 E5                 1944 	push	hl
+   0916 CDr00s00           1945 	call	_puts
+   0919 F1                 1946 	pop	af
+                           1947 ;demo.c:298: raw_load("SAMPLE  RAW", 32000, sample_buf);
+   091A 21r48s15           1948 	ld	hl,#_sample_buf
+   091D E5                 1949 	push	hl
+   091E 21 00 7D           1950 	ld	hl,#0x7D00
+   0921 E5                 1951 	push	hl
+   0922 21rF0s0A           1952 	ld	hl,#__str_2
+   0925 E5                 1953 	push	hl
+   0926 CDrD0s03           1954 	call	_raw_load
+   0929 F1                 1955 	pop	af
+   092A F1                 1956 	pop	af
+   092B F1                 1957 	pop	af
+                           1958 ;demo.c:300: puts("Your PSG works perfectly!\r\n");
+   092C 21rFCs0A           1959 	ld	hl,#__str_3
+   092F E5                 1960 	push	hl
+   0930 CDr00s00           1961 	call	_puts
+   0933 F1                 1962 	pop	af
+                           1963 ;demo.c:302: while (loops > 0) {
+   0934 06 04              1964 	ld	b,#0x04
+   0936 1E 00              1965 	ld	e,#0x00
+   0938                    1966 00101$:
+   0938 3E 00              1967 	ld	a,#0x00
+   093A 90                 1968 	sub	a,b
+   093B 3E 00              1969 	ld	a,#0x00
+   093D 9B                 1970 	sbc	a,e
+   093E F2r5Ds09           1971 	jp	P,00103$
+                           1972 ;demo.c:303: play_sample(sample_buf+2,(51872/2)-400);
+   0941 21r4As15           1973 	ld	hl,#_sample_buf + 2
+   0944 55                 1974 	ld	d,l
+   0945 4C                 1975 	ld	c,h
+   0946 C5                 1976 	push	bc
+   0947 D5                 1977 	push	de
+   0948 21 C0 63           1978 	ld	hl,#0x63C0
+   094B E5                 1979 	push	hl
+   094C 6A                 1980 	ld	l,d
+   094D 61                 1981 	ld	h,c
+   094E E5                 1982 	push	hl
+   094F CDr00s00           1983 	call	_play_sample
+   0952 F1                 1984 	pop	af
+   0953 F1                 1985 	pop	af
+   0954 D1                 1986 	pop	de
+   0955 C1                 1987 	pop	bc
+                           1988 ;demo.c:304: loops--;
+   0956 68                 1989 	ld	l,b
+   0957 63                 1990 	ld	h,e
+   0958 2B                 1991 	dec	hl
+   0959 45                 1992 	ld	b,l
+   095A 5C                 1993 	ld	e,h
+   095B 18 DB              1994 	jr	00101$
+   095D                    1995 00103$:
+                           1996 ;demo.c:307: puts("music init...");
+   095D 21r18s0B           1997 	ld	hl,#__str_4
+   0960 E5                 1998 	push	hl
+   0961 CDr00s00           1999 	call	_puts
+   0964 F1                 2000 	pop	af
+                           2001 ;demo.c:309: PLY_SongPtr = (char *)0x0103;
+   0965 21r00s00           2002 	ld	hl,#_PLY_SongPtr + 0
+   0968 36 03              2003 	ld	(hl), #0x03
+   096A 21r01s00           2004 	ld	hl,#_PLY_SongPtr + 1
+   096D 36 01              2005 	ld	(hl), #0x01
+                           2006 ;demo.c:310: PLY_Init();
+   096F CDr00s00           2007 	call	_PLY_Init
+                           2008 ;demo.c:311: puts("done.\n\n");
+   0972 21r26s0B           2009 	ld	hl,#__str_5
+   0975 E5                 2010 	push	hl
+   0976 CDr00s00           2011 	call	_puts
+   0979 F1                 2012 	pop	af
+                           2013 ;demo.c:313: if(isvdp2())
+   097A CDr00s00           2014 	call	_isvdp2
+   097D AF                 2015 	xor	a,a
+   097E B5                 2016 	or	a,l
+   097F 28 08              2017 	jr	Z,00105$
+                           2018 ;demo.c:315: modes+=2; // pal
+   0981 DD 36 FD 0A        2019 	ld	-3 (ix),#0x0A
+   0985 DD 36 FE 00        2020 	ld	-2 (ix),#0x00
+   0989                    2021 00105$:
+                           2022 ;demo.c:319: vdp_set_screen6();
+   0989 CDr00s00           2023 	call	_vdp_set_screen6
+                           2024 ;demo.c:321: vdp_register(VDP_MODE3,modes); // interlace on, screen mode pal or ntsc
+   098C DD 7E FD           2025 	ld	a,-3 (ix)
+   098F F5                 2026 	push	af
+   0990 33                 2027 	inc	sp
+   0991 3E 09              2028 	ld	a,#0x09
+   0993 F5                 2029 	push	af
+   0994 33                 2030 	inc	sp
+   0995 CDr00s00           2031 	call	_vdp_register
+   0998 F1                 2032 	pop	af
+                           2033 ;demo.c:323: puts("demo start\r\n");
+   0999 21r2Es0B           2034 	ld	hl,#__str_6
+   099C E5                 2035 	push	hl
+   099D CDr00s00           2036 	call	_puts
+   09A0 F1                 2037 	pop	af
+                           2038 ;demo.c:325: scratch_clear();
+   09A1 CDr09s03           2039 	call	_scratch_clear
+                           2040 ;demo.c:326: vdp_load_palette(scratch);
+   09A4 21r88s14           2041 	ld	hl,#_scratch
+   09A7 E5                 2042 	push	hl
+   09A8 CDr00s00           2043 	call	_vdp_load_palette
+   09AB F1                 2044 	pop	af
+                           2045 ;demo.c:328: vdp_register(VDP_VOFFSET,0);
+   09AC 21 17 00           2046 	ld	hl,#0x0017
+   09AF E5                 2047 	push	hl
+   09B0 CDr00s00           2048 	call	_vdp_register
+   09B3 F1                 2049 	pop	af
+                           2050 ;demo.c:330: pal_load("STDBLCK PL5", 32);
+   09B4 3E 20              2051 	ld	a,#0x20
+   09B6 F5                 2052 	push	af
+   09B7 33                 2053 	inc	sp
+   09B8 21r3Bs0B           2054 	ld	hl,#__str_7
    09BB E5                 2055 	push	hl
-   09BC 21r28s15           2056 	ld	hl,#_block_palette
-   09BF E5                 2057 	push	hl
-   09C0 CDr00s00           2058 	call	_memcpy
-   09C3 F1                 2059 	pop	af
-   09C4 F1                 2060 	pop	af
-   09C5 F1                 2061 	pop	af
-                           2062 ;demo.c:326: pal_load("MONOLOG PI6", 8);
-   09C6 3E 08              2063 	ld	a,#0x08
-   09C8 F5                 2064 	push	af
-   09C9 33                 2065 	inc	sp
-   09CA 21r30s0B           2066 	ld	hl,#__str_8
-   09CD E5                 2067 	push	hl
-   09CE CDr1Cs03           2068 	call	_pal_load
-   09D1 F1                 2069 	pop	af
-   09D2 33                 2070 	inc	sp
-                           2071 ;demo.c:328: memset((uint8_t *) &packbuffer, 0, 5000);
-   09D3 21 88 13           2072 	ld	hl,#0x1388
-   09D6 E5                 2073 	push	hl
-   09D7 3E 00              2074 	ld	a,#0x00
-   09D9 F5                 2075 	push	af
-   09DA 33                 2076 	inc	sp
-   09DB 21r00s01           2077 	ld	hl,#_packbuffer
-   09DE E5                 2078 	push	hl
-   09DF CDr00s00           2079 	call	_memset
-   09E2 F1                 2080 	pop	af
-   09E3 F1                 2081 	pop	af
-   09E4 33                 2082 	inc	sp
-                           2083 ;demo.c:329: raw_load("MONOLOG PCK", 2042, packbuffer);
-   09E5 21r00s01           2084 	ld	hl,#_packbuffer
-   09E8 E5                 2085 	push	hl
-   09E9 21 FA 07           2086 	ld	hl,#0x07FA
-   09EC E5                 2087 	push	hl
-   09ED 21r3Cs0B           2088 	ld	hl,#__str_9
-   09F0 E5                 2089 	push	hl
-   09F1 CDrD0s03           2090 	call	_raw_load
-   09F4 F1                 2091 	pop	af
-   09F5 F1                 2092 	pop	af
-   09F6 F1                 2093 	pop	af
-                           2094 ;demo.c:330: bitbuster(packbuffer,0x0000); // to page 1
-   09F7 21 00 00           2095 	ld	hl,#0x0000
-   09FA E5                 2096 	push	hl
-   09FB 21r00s01           2097 	ld	hl,#_packbuffer
-   09FE E5                 2098 	push	hl
-   09FF CDr00s00           2099 	call	_bitbuster
+   09BC CDr1Cs03           2056 	call	_pal_load
+   09BF F1                 2057 	pop	af
+   09C0 33                 2058 	inc	sp
+                           2059 ;demo.c:331: memcpy(block_palette,cur_palette,32);
+   09C1 21 20 00           2060 	ld	hl,#0x0020
+   09C4 E5                 2061 	push	hl
+   09C5 21r08s15           2062 	ld	hl,#_cur_palette
+   09C8 E5                 2063 	push	hl
+   09C9 21r28s15           2064 	ld	hl,#_block_palette
+   09CC E5                 2065 	push	hl
+   09CD CDr00s00           2066 	call	_memcpy
+   09D0 F1                 2067 	pop	af
+   09D1 F1                 2068 	pop	af
+   09D2 F1                 2069 	pop	af
+                           2070 ;demo.c:333: pal_load("MONOLOG PI6", 8);
+   09D3 3E 08              2071 	ld	a,#0x08
+   09D5 F5                 2072 	push	af
+   09D6 33                 2073 	inc	sp
+   09D7 21r47s0B           2074 	ld	hl,#__str_8
+   09DA E5                 2075 	push	hl
+   09DB CDr1Cs03           2076 	call	_pal_load
+   09DE F1                 2077 	pop	af
+   09DF 33                 2078 	inc	sp
+                           2079 ;demo.c:335: memset((uint8_t *) &packbuffer, 0, 5000);
+   09E0 21 88 13           2080 	ld	hl,#0x1388
+   09E3 E5                 2081 	push	hl
+   09E4 3E 00              2082 	ld	a,#0x00
+   09E6 F5                 2083 	push	af
+   09E7 33                 2084 	inc	sp
+   09E8 21r00s01           2085 	ld	hl,#_packbuffer
+   09EB E5                 2086 	push	hl
+   09EC CDr00s00           2087 	call	_memset
+   09EF F1                 2088 	pop	af
+   09F0 F1                 2089 	pop	af
+   09F1 33                 2090 	inc	sp
+                           2091 ;demo.c:336: raw_load("STDBLCK PCK", 4884, packbuffer);
+   09F2 21r00s01           2092 	ld	hl,#_packbuffer
+   09F5 E5                 2093 	push	hl
+   09F6 21 14 13           2094 	ld	hl,#0x1314
+   09F9 E5                 2095 	push	hl
+   09FA 21r53s0B           2096 	ld	hl,#__str_9
+   09FD E5                 2097 	push	hl
+   09FE CDrD0s03           2098 	call	_raw_load
+   0A01 F1                 2099 	pop	af
    0A02 F1                 2100 	pop	af
    0A03 F1                 2101 	pop	af
-                           2102 ;demo.c:332: memset((uint8_t *) &packbuffer, 0, 5000);
-   0A04 21 88 13           2103 	ld	hl,#0x1388
-   0A07 E5                 2104 	push	hl
-   0A08 3E 00              2105 	ld	a,#0x00
-   0A0A F5                 2106 	push	af
-   0A0B 33                 2107 	inc	sp
+                           2102 ;demo.c:337: bitbuster(packbuffer,0x8000,VRAM_1); // to page 2 (0x10000)
+   0A04 3E 00              2103 	ld	a,#0x00
+   0A06 F5                 2104 	push	af
+   0A07 33                 2105 	inc	sp
+   0A08 21 00 80           2106 	ld	hl,#0x8000
+   0A0B E5                 2107 	push	hl
    0A0C 21r00s01           2108 	ld	hl,#_packbuffer
    0A0F E5                 2109 	push	hl
-   0A10 CDr00s00           2110 	call	_memset
+   0A10 CDr00s00           2110 	call	_bitbuster
    0A13 F1                 2111 	pop	af
    0A14 F1                 2112 	pop	af
    0A15 33                 2113 	inc	sp
-                           2114 ;demo.c:333: raw_load("STDBLCK PCK", 4884, packbuffer);
-   0A16 21r00s01           2115 	ld	hl,#_packbuffer
+                           2114 ;demo.c:339: memset((uint8_t *) &packbuffer, 0, 5000);
+   0A16 21 88 13           2115 	ld	hl,#0x1388
    0A19 E5                 2116 	push	hl
-   0A1A 21 14 13           2117 	ld	hl,#0x1314
-   0A1D E5                 2118 	push	hl
-   0A1E 21r48s0B           2119 	ld	hl,#__str_10
-   0A21 E5                 2120 	push	hl
-   0A22 CDrD0s03           2121 	call	_raw_load
-   0A25 F1                 2122 	pop	af
-   0A26 F1                 2123 	pop	af
-   0A27 F1                 2124 	pop	af
-                           2125 ;demo.c:334: bitbuster(packbuffer,0x8000); // to page 1
-   0A28 21 00 80           2126 	ld	hl,#0x8000
-   0A2B E5                 2127 	push	hl
-   0A2C 21r00s01           2128 	ld	hl,#_packbuffer
-   0A2F E5                 2129 	push	hl
-   0A30 CDr00s00           2130 	call	_bitbuster
-   0A33 F1                 2131 	pop	af
-   0A34 F1                 2132 	pop	af
-                           2133 ;demo.c:336: scratch_clear();
-   0A35 CDr09s03           2134 	call	_scratch_clear
-                           2135 ;demo.c:338: install_isr(my_isr);
-   0A38 21r00s00           2136 	ld	hl,#_my_isr
-   0A3B E5                 2137 	push	hl
-   0A3C CDr00s00           2138 	call	_install_isr
-   0A3F F1                 2139 	pop	af
-                           2140 ;demo.c:340: while (!quit) {
-   0A40                    2141 00115$:
-   0A40 AF                 2142 	xor	a,a
-   0A41 DD B6 FF           2143 	or	a,-1 (ix)
-   0A44 20 48              2144 	jr	NZ,00117$
-                           2145 ;demo.c:341: waitVB();
-   0A46 76                 2146 		halt 
-                           2147 ;demo.c:343: if (vbicount < 192) { 
-   0A47 3Ar48s92           2148 	ld	a,(#_vbicount+0)
-   0A4A D6 C0              2149 	sub	a,#0xC0
-   0A4C 3Ar49s92           2150 	ld	a,(#_vbicount+1)
-   0A4F DE 00              2151 	sbc	a,#0x00
-   0A51 F2r59s0A           2152 	jp	P,00111$
-                           2153 ;demo.c:344: fadein(); 
-   0A54 CDr94s04           2154 	call	_fadein
-   0A57 18 22              2155 	jr	00112$
-   0A59                    2156 00111$:
-                           2157 ;demo.c:345: } else if (vbicount >= 192 && vbicount < 800) {
-   0A59 3Ar48s92           2158 	ld	a,(#_vbicount+0)
-   0A5C D6 C0              2159 	sub	a,#0xC0
-   0A5E 3Ar49s92           2160 	ld	a,(#_vbicount+1)
-   0A61 DE 00              2161 	sbc	a,#0x00
-   0A63 FAr78s0A           2162 	jp	M,00107$
-   0A66 3Ar48s92           2163 	ld	a,(#_vbicount+0)
-   0A69 D6 20              2164 	sub	a,#0x20
-   0A6B 3Ar49s92           2165 	ld	a,(#_vbicount+1)
-   0A6E DE 03              2166 	sbc	a,#0x03
-   0A70 F2r78s0A           2167 	jp	P,00107$
-                           2168 ;demo.c:346: do_ymmm();
-   0A73 CDr60s05           2169 	call	_do_ymmm
-   0A76 18 03              2170 	jr	00112$
-   0A78                    2171 00107$:
-                           2172 ;demo.c:348: do_blocks();
-   0A78 CDr95s06           2173 	call	_do_blocks
-   0A7B                    2174 00112$:
-                           2175 ;demo.c:351: if(space())
-   0A7B 21 08 01           2176 	ld	hl,#0x0108
-   0A7E E5                 2177 	push	hl
-   0A7F CDr00s00           2178 	call	_ispressed
-   0A82 F1                 2179 	pop	af
-   0A83 4D                 2180 	ld	c,l
-   0A84 AF                 2181 	xor	a,a
-   0A85 B5                 2182 	or	a,l
-   0A86 28 B8              2183 	jr	Z,00115$
-                           2184 ;demo.c:352: quit=1;
-   0A88 DD 36 FF 01        2185 	ld	-1 (ix),#0x01
-   0A8C 18 B2              2186 	jr	00115$
-   0A8E                    2187 00117$:
-                           2188 ;demo.c:355: waitVB();
-   0A8E 76                 2189 		halt 
-                           2190 ;demo.c:356: uninstall_isr();
-   0A8F CDr00s00           2191 	call	_uninstall_isr
-                           2192 ;demo.c:357: PLY_Stop();
-   0A92 CDr00s00           2193 	call	_PLY_Stop
-                           2194 ;demo.c:358: PLY_SendRegisters();
-   0A95 CDr00s00           2195 	call	_PLY_SendRegisters
-                           2196 ;demo.c:360: screen(0);
-   0A98 3E 00              2197 	ld	a,#0x00
-   0A9A F5                 2198 	push	af
-   0A9B 33                 2199 	inc	sp
-   0A9C CDr00s00           2200 	call	_screen
-   0A9F 33                 2201 	inc	sp
-                           2202 ;demo.c:362: puts("demo exit\r\n\r\n");
-   0AA0 21r54s0B           2203 	ld	hl,#__str_11
-   0AA3 E5                 2204 	push	hl
-   0AA4 CDr00s00           2205 	call	_puts
-   0AA7 F1                 2206 	pop	af
-                           2207 ;demo.c:364: exit(0);
-   0AA8 3E 00              2208 	ld	a,#0x00
-   0AAA F5                 2209 	push	af
-   0AAB 33                 2210 	inc	sp
-   0AAC CDr00s00           2211 	call	_exit
-   0AAF 33                 2212 	inc	sp
-   0AB0 DD F9              2213 	ld	sp,ix
-   0AB2 DD E1              2214 	pop	ix
-   0AB4 C9                 2215 	ret
-   0AB5                    2216 _main_end::
-   0AB5                    2217 __str_0:
-   0AB5 64 65 6D 6F 20 69  2218 	.ascii "demo init"
+   0A1A 3E 00              2117 	ld	a,#0x00
+   0A1C F5                 2118 	push	af
+   0A1D 33                 2119 	inc	sp
+   0A1E 21r00s01           2120 	ld	hl,#_packbuffer
+   0A21 E5                 2121 	push	hl
+   0A22 CDr00s00           2122 	call	_memset
+   0A25 F1                 2123 	pop	af
+   0A26 F1                 2124 	pop	af
+   0A27 33                 2125 	inc	sp
+                           2126 ;demo.c:340: raw_load("MONOLOG PCK", 2042, packbuffer);
+   0A28 21r00s01           2127 	ld	hl,#_packbuffer
+   0A2B E5                 2128 	push	hl
+   0A2C 21 FA 07           2129 	ld	hl,#0x07FA
+   0A2F E5                 2130 	push	hl
+   0A30 21r5Fs0B           2131 	ld	hl,#__str_10
+   0A33 E5                 2132 	push	hl
+   0A34 CDrD0s03           2133 	call	_raw_load
+   0A37 F1                 2134 	pop	af
+   0A38 F1                 2135 	pop	af
+   0A39 F1                 2136 	pop	af
+                           2137 ;demo.c:341: bitbuster(packbuffer,0x0000,VRAM_0); // to page 0 (0x0000)
+   0A3A 3E 01              2138 	ld	a,#0x01
+   0A3C F5                 2139 	push	af
+   0A3D 33                 2140 	inc	sp
+   0A3E 21 00 00           2141 	ld	hl,#0x0000
+   0A41 E5                 2142 	push	hl
+   0A42 21r00s01           2143 	ld	hl,#_packbuffer
+   0A45 E5                 2144 	push	hl
+   0A46 CDr00s00           2145 	call	_bitbuster
+   0A49 F1                 2146 	pop	af
+   0A4A F1                 2147 	pop	af
+   0A4B 33                 2148 	inc	sp
+                           2149 ;demo.c:343: scratch_clear();
+   0A4C CDr09s03           2150 	call	_scratch_clear
+                           2151 ;demo.c:345: install_isr(my_isr);
+   0A4F 21r00s00           2152 	ld	hl,#_my_isr
+   0A52 E5                 2153 	push	hl
+   0A53 CDr00s00           2154 	call	_install_isr
+   0A56 F1                 2155 	pop	af
+                           2156 ;demo.c:347: while (!quit) {
+   0A57                    2157 00115$:
+   0A57 AF                 2158 	xor	a,a
+   0A58 DD B6 FF           2159 	or	a,-1 (ix)
+   0A5B 20 48              2160 	jr	NZ,00117$
+                           2161 ;demo.c:348: waitVB();
+   0A5D 76                 2162 		halt 
+                           2163 ;demo.c:350: if (vbicount < 192) { 
+   0A5E 3Ar48s92           2164 	ld	a,(#_vbicount+0)
+   0A61 D6 C0              2165 	sub	a,#0xC0
+   0A63 3Ar49s92           2166 	ld	a,(#_vbicount+1)
+   0A66 DE 00              2167 	sbc	a,#0x00
+   0A68 F2r70s0A           2168 	jp	P,00111$
+                           2169 ;demo.c:351: fadein(); 
+   0A6B CDr94s04           2170 	call	_fadein
+   0A6E 18 22              2171 	jr	00112$
+   0A70                    2172 00111$:
+                           2173 ;demo.c:352: } else if (vbicount >= 192 && vbicount < 800) {
+   0A70 3Ar48s92           2174 	ld	a,(#_vbicount+0)
+   0A73 D6 C0              2175 	sub	a,#0xC0
+   0A75 3Ar49s92           2176 	ld	a,(#_vbicount+1)
+   0A78 DE 00              2177 	sbc	a,#0x00
+   0A7A FAr8Fs0A           2178 	jp	M,00107$
+   0A7D 3Ar48s92           2179 	ld	a,(#_vbicount+0)
+   0A80 D6 20              2180 	sub	a,#0x20
+   0A82 3Ar49s92           2181 	ld	a,(#_vbicount+1)
+   0A85 DE 03              2182 	sbc	a,#0x03
+   0A87 F2r8Fs0A           2183 	jp	P,00107$
+                           2184 ;demo.c:353: do_ymmm();
+   0A8A CDr60s05           2185 	call	_do_ymmm
+   0A8D 18 03              2186 	jr	00112$
+   0A8F                    2187 00107$:
+                           2188 ;demo.c:355: do_blocks();
+   0A8F CDr95s06           2189 	call	_do_blocks
+   0A92                    2190 00112$:
+                           2191 ;demo.c:358: if(space())
+   0A92 21 08 01           2192 	ld	hl,#0x0108
+   0A95 E5                 2193 	push	hl
+   0A96 CDr00s00           2194 	call	_ispressed
+   0A99 F1                 2195 	pop	af
+   0A9A 4D                 2196 	ld	c,l
+   0A9B AF                 2197 	xor	a,a
+   0A9C B5                 2198 	or	a,l
+   0A9D 28 B8              2199 	jr	Z,00115$
+                           2200 ;demo.c:359: quit=1;
+   0A9F DD 36 FF 01        2201 	ld	-1 (ix),#0x01
+   0AA3 18 B2              2202 	jr	00115$
+   0AA5                    2203 00117$:
+                           2204 ;demo.c:362: waitVB();
+   0AA5 76                 2205 		halt 
+                           2206 ;demo.c:363: uninstall_isr();
+   0AA6 CDr00s00           2207 	call	_uninstall_isr
+                           2208 ;demo.c:364: PLY_Stop();
+   0AA9 CDr00s00           2209 	call	_PLY_Stop
+                           2210 ;demo.c:365: PLY_SendRegisters();
+   0AAC CDr00s00           2211 	call	_PLY_SendRegisters
+                           2212 ;demo.c:367: screen(0);
+   0AAF 3E 00              2213 	ld	a,#0x00
+   0AB1 F5                 2214 	push	af
+   0AB2 33                 2215 	inc	sp
+   0AB3 CDr00s00           2216 	call	_screen
+   0AB6 33                 2217 	inc	sp
+                           2218 ;demo.c:369: puts("demo exit\r\n\r\n");
+   0AB7 21r6Bs0B           2219 	ld	hl,#__str_11
+   0ABA E5                 2220 	push	hl
+   0ABB CDr00s00           2221 	call	_puts
+   0ABE F1                 2222 	pop	af
+                           2223 ;demo.c:371: exit(0);
+   0ABF 3E 00              2224 	ld	a,#0x00
+   0AC1 F5                 2225 	push	af
+   0AC2 33                 2226 	inc	sp
+   0AC3 CDr00s00           2227 	call	_exit
+   0AC6 33                 2228 	inc	sp
+   0AC7 DD F9              2229 	ld	sp,ix
+   0AC9 DD E1              2230 	pop	ix
+   0ACB C9                 2231 	ret
+   0ACC                    2232 _main_end::
+   0ACC                    2233 __str_0:
+   0ACC 64 65 6D 6F 20 69  2234 	.ascii "demo init"
         6E 69 74
-   0ABE 0D                 2219 	.db 0x0D
-   0ABF 0A                 2220 	.db 0x0A
-   0AC0 0D                 2221 	.db 0x0D
-   0AC1 0A                 2222 	.db 0x0A
-   0AC2 00                 2223 	.db 0x00
-   0AC3                    2224 __str_1:
-   0AC3 6C 6F 61 64 69 6E  2225 	.ascii "loading sample data"
+   0AD5 0D                 2235 	.db 0x0D
+   0AD6 0A                 2236 	.db 0x0A
+   0AD7 0D                 2237 	.db 0x0D
+   0AD8 0A                 2238 	.db 0x0A
+   0AD9 00                 2239 	.db 0x00
+   0ADA                    2240 __str_1:
+   0ADA 6C 6F 61 64 69 6E  2241 	.ascii "loading sample data"
         67 20 73 61 6D 70
         6C 65 20 64 61 74
         61
-   0AD6 0D                 2226 	.db 0x0D
-   0AD7 0A                 2227 	.db 0x0A
-   0AD8 00                 2228 	.db 0x00
-   0AD9                    2229 __str_2:
-   0AD9 53 41 4D 50 4C 45  2230 	.ascii "SAMPLE  RAW"
+   0AED 0D                 2242 	.db 0x0D
+   0AEE 0A                 2243 	.db 0x0A
+   0AEF 00                 2244 	.db 0x00
+   0AF0                    2245 __str_2:
+   0AF0 53 41 4D 50 4C 45  2246 	.ascii "SAMPLE  RAW"
         20 20 52 41 57
-   0AE4 00                 2231 	.db 0x00
-   0AE5                    2232 __str_3:
-   0AE5 59 6F 75 72 20 50  2233 	.ascii "Your PSG works perfectly!"
+   0AFB 00                 2247 	.db 0x00
+   0AFC                    2248 __str_3:
+   0AFC 59 6F 75 72 20 50  2249 	.ascii "Your PSG works perfectly!"
         53 47 20 77 6F 72
         6B 73 20 70 65 72
         66 65 63 74 6C 79
         21
-   0AFE 0D                 2234 	.db 0x0D
-   0AFF 0A                 2235 	.db 0x0A
-   0B00 00                 2236 	.db 0x00
-   0B01                    2237 __str_4:
-   0B01 6D 75 73 69 63 20  2238 	.ascii "music init..."
+   0B15 0D                 2250 	.db 0x0D
+   0B16 0A                 2251 	.db 0x0A
+   0B17 00                 2252 	.db 0x00
+   0B18                    2253 __str_4:
+   0B18 6D 75 73 69 63 20  2254 	.ascii "music init..."
         69 6E 69 74 2E 2E
         2E
-   0B0E 00                 2239 	.db 0x00
-   0B0F                    2240 __str_5:
-   0B0F 64 6F 6E 65 2E     2241 	.ascii "done."
-   0B14 0A                 2242 	.db 0x0A
-   0B15 0A                 2243 	.db 0x0A
-   0B16 00                 2244 	.db 0x00
-   0B17                    2245 __str_6:
-   0B17 64 65 6D 6F 20 73  2246 	.ascii "demo start"
+   0B25 00                 2255 	.db 0x00
+   0B26                    2256 __str_5:
+   0B26 64 6F 6E 65 2E     2257 	.ascii "done."
+   0B2B 0A                 2258 	.db 0x0A
+   0B2C 0A                 2259 	.db 0x0A
+   0B2D 00                 2260 	.db 0x00
+   0B2E                    2261 __str_6:
+   0B2E 64 65 6D 6F 20 73  2262 	.ascii "demo start"
         74 61 72 74
-   0B21 0D                 2247 	.db 0x0D
-   0B22 0A                 2248 	.db 0x0A
-   0B23 00                 2249 	.db 0x00
-   0B24                    2250 __str_7:
-   0B24 53 54 44 42 4C 43  2251 	.ascii "STDBLCK PL5"
+   0B38 0D                 2263 	.db 0x0D
+   0B39 0A                 2264 	.db 0x0A
+   0B3A 00                 2265 	.db 0x00
+   0B3B                    2266 __str_7:
+   0B3B 53 54 44 42 4C 43  2267 	.ascii "STDBLCK PL5"
         4B 20 50 4C 35
-   0B2F 00                 2252 	.db 0x00
-   0B30                    2253 __str_8:
-   0B30 4D 4F 4E 4F 4C 4F  2254 	.ascii "MONOLOG PI6"
+   0B46 00                 2268 	.db 0x00
+   0B47                    2269 __str_8:
+   0B47 4D 4F 4E 4F 4C 4F  2270 	.ascii "MONOLOG PI6"
         47 20 50 49 36
-   0B3B 00                 2255 	.db 0x00
-   0B3C                    2256 __str_9:
-   0B3C 4D 4F 4E 4F 4C 4F  2257 	.ascii "MONOLOG PCK"
-        47 20 50 43 4B
-   0B47 00                 2258 	.db 0x00
-   0B48                    2259 __str_10:
-   0B48 53 54 44 42 4C 43  2260 	.ascii "STDBLCK PCK"
+   0B52 00                 2271 	.db 0x00
+   0B53                    2272 __str_9:
+   0B53 53 54 44 42 4C 43  2273 	.ascii "STDBLCK PCK"
         4B 20 50 43 4B
-   0B53 00                 2261 	.db 0x00
-   0B54                    2262 __str_11:
-   0B54 64 65 6D 6F 20 65  2263 	.ascii "demo exit"
+   0B5E 00                 2274 	.db 0x00
+   0B5F                    2275 __str_10:
+   0B5F 4D 4F 4E 4F 4C 4F  2276 	.ascii "MONOLOG PCK"
+        47 20 50 43 4B
+   0B6A 00                 2277 	.db 0x00
+   0B6B                    2278 __str_11:
+   0B6B 64 65 6D 6F 20 65  2279 	.ascii "demo exit"
         78 69 74
-   0B5D 0D                 2264 	.db 0x0D
-   0B5E 0A                 2265 	.db 0x0A
-   0B5F 0D                 2266 	.db 0x0D
-   0B60 0A                 2267 	.db 0x0A
-   0B61 00                 2268 	.db 0x00
-                           2269 	.area _CODE
-                           2270 	.area _CABS
+   0B74 0D                 2280 	.db 0x0D
+   0B75 0A                 2281 	.db 0x0A
+   0B76 0D                 2282 	.db 0x0D
+   0B77 0A                 2283 	.db 0x0A
+   0B78 00                 2284 	.db 0x00
+                           2285 	.area _CODE
+                           2286 	.area _CABS

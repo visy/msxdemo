@@ -8,7 +8,10 @@
 #include "msxlib.h"
 #include "ArkosTrackerPlayer_MSX.h"
 
-extern void bitbuster(unsigned char*, uint16_t);
+#define VRAM_0 1
+#define VRAM_1 0
+
+extern void bitbuster(unsigned char*, uint16_t, unsigned char);
 extern void play_sample(unsigned char*, uint16_t);
 
 const unsigned short sintabx[256] = {
@@ -239,12 +242,16 @@ void do_blocks() {
 	if (block_init == 0) {
 
 		vdp_set_screen5();
+
+		vdp_register(2, 0x5F);
+
 		for(i=0;i<16;i++) btab[i] = i*16;
 		vdp_load_palette(block_palette);
 
 		block_init = 1;
 
 	} else {
+
 		if (flof == 0) { ys = 0; ye = 8; }
 		if (flof == 1) { ys = 8; ye = 16; }
 
@@ -253,13 +260,13 @@ void do_blocks() {
 				bsx = (PLY_PSGReg8 & PLY_PSGReg9 | PLY_PSGReg10)>>1;
 				bsy = PLY_PSGReg10;
 				cmd.source_x = btab[bsx];
-				cmd.source_y = 256+btab[bsy];
+				cmd.source_y = 768+btab[bsy];
 				cmd.dest_x = btab[btx];
-				cmd.dest_y = btab[bty];
+				cmd.dest_y = 512+btab[bty];
 				cmd.size_x = 16;
 				cmd.size_y = 16;
 				cmd.data = 0;
-				cmd.argument = 0;
+				cmd.argument = 0x00;
 				cmd.command = 0xD0;
 				vdp_copier(&cmd);
 			}
@@ -326,12 +333,12 @@ void main() {
 	pal_load("MONOLOG PI6", 8);
 
 	memset((uint8_t *) &packbuffer, 0, 5000);
-	raw_load("MONOLOG PCK", 2042, packbuffer);
-	bitbuster(packbuffer,0x0000); // to page 1
+	raw_load("STDBLCK PCK", 4884, packbuffer);
+	bitbuster(packbuffer,0x8000,VRAM_1); // to page 2 (0x10000)
 
 	memset((uint8_t *) &packbuffer, 0, 5000);
-	raw_load("STDBLCK PCK", 4884, packbuffer);
-	bitbuster(packbuffer,0x8000); // to page 1
+	raw_load("MONOLOG PCK", 2042, packbuffer);
+	bitbuster(packbuffer,0x0000,VRAM_0); // to page 0 (0x0000)
 
 	scratch_clear();
 
