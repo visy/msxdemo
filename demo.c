@@ -33,13 +33,11 @@ const unsigned short sintabx[256] = {
   74,  76,  79,  82,  85,  87,  90,  93,  96,  99, 102, 105, 108, 111, 114, 117
 };
 
-uint8_t packbuffer[5000] = {0};
+uint8_t packbuffer[16000] = {0};
 
 uint8_t scratch[128];
 uint8_t cur_palette[32];
 uint8_t block_palette[32];
-
-uint8_t sample_buf[32000] = {0};
 
 volatile int vbicount=0;
 volatile int tick=0;
@@ -285,14 +283,17 @@ void do_blocks() {
 
 void main() {
 	unsigned char quit=0;
-	int modes = 128+8; // interlace bit on
-	int loops = 4;
+	int modes = 128; // interlace bit on
+	int loops = 0;
+	int frames = 0;
+	int po = 0;
+	uint8_t y = 0;
 	vdp_copy_command cmd;
 
 	spindown();
 
 	puts("demo init\r\n\r\n");
-
+/*
 	puts("loading sample data\r\n");
 
 	raw_load("SAMPLE  RAW", 32000, sample_buf);
@@ -303,7 +304,7 @@ void main() {
 		play_sample(sample_buf+2,(51872/2)-400);
 		loops--;
 	}
-
+*/
 	puts("music init...");
 
 	PLY_SongPtr = (char *)0x0103;
@@ -316,7 +317,7 @@ void main() {
 //		msx2_palette(6,4,0,0); // Bloodier red for VDP2
 	}
 
-	vdp_set_screen6();
+	vdp_set_screen5();
 
     vdp_register(VDP_MODE3,modes); // interlace on, screen mode pal or ntsc
 
@@ -327,6 +328,51 @@ void main() {
 
     vdp_register(VDP_VOFFSET,0);
 
+    pal_load("LF      PL5",32);
+    vdp_load_palette(cur_palette);
+
+	memset((uint8_t *) &packbuffer, 0, 14100);
+	raw_load("LF1     PCK", 14089, packbuffer);
+	bitbuster(packbuffer,0x8000,VRAM_0); // to page 1
+
+	memset((uint8_t *) &packbuffer, 0, 15990);
+	raw_load("LF2     PCK", 15990, packbuffer);
+	bitbuster(packbuffer,0x0000,VRAM_1); // to page 2
+
+	memset((uint8_t *) &packbuffer, 0, 15006);
+	raw_load("LF3     PCK", 15006, packbuffer);
+	bitbuster(packbuffer,0x8000,VRAM_1); // to page 3
+
+    install_isr(my_isr);
+
+	while (!quit) {
+		//waitVB();
+
+		for (y = 0; y < 106; y+=1) {
+			cmd.source_x = 0;
+			cmd.source_y = 256+po+frames+(y>>1);
+			cmd.dest_x = 0;
+			cmd.dest_y = (y<<1);
+			cmd.size_x = 256;
+			cmd.size_y = 1;
+			cmd.data = 0;
+			cmd.argument = 0x00;
+			cmd.command = 0xD0;
+			vdp_copier(&cmd);
+		}
+
+		frames+=53;
+		if (frames >= 212) { frames = 0; po+=256; }
+		if (po >= 768) {
+			po = 0;
+		}
+
+		if(space())
+			quit=1;
+	}
+
+
+/*
 	pal_load("STDBLCK PL5", 32);
 	memcpy(block_palette,cur_palette,32);
 
@@ -360,7 +406,7 @@ void main() {
 		if(space())
 			quit=1;
 	}
-
+*/
     waitVB();
     uninstall_isr();
     PLY_Stop();
