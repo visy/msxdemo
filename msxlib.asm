@@ -1,7 +1,7 @@
 ;--------------------------------------------------------
 ; File Created by SDCC : free open source ANSI-C Compiler
 ; Version 2.9.0 #5416 (Mar 22 2009) (Mac OS X i386)
-; This file was generated Tue Feb 13 03:31:19 2018
+; This file was generated Tue Feb 13 15:01:03 2018
 ;--------------------------------------------------------
 	.module msxlib
 	.optsdcc -mz80
@@ -30,13 +30,8 @@
 	.globl _joy_status
 	.globl _mouse_status
 	.globl _isvdp2
-	.globl _readfile
 	.globl _spindown
-	.globl _print
 	.globl _random
-	.globl _mem_set
-	.globl _mem_set_stack
-	.globl _mem_cpy
 ;--------------------------------------------------------
 ; special function registers
 ;--------------------------------------------------------
@@ -70,7 +65,7 @@ _randomseed:
 	.area _GSINIT
 	.area _GSFINAL
 	.area _GSINIT
-;msxlib.c:713: static unsigned randomseed=0x83cd;
+;msxlib.c:576: static unsigned randomseed=0x83cd;
 	ld	iy,#_randomseed
 	ld	0 (iy),#0xCD
 	ld	iy,#_randomseed
@@ -1093,424 +1088,33 @@ _isvdp2:
 	ld	l,#0x01
 	ret
 _isvdp2_end::
-;msxlib.c:567: static void asm_readfile(char *name,unsigned char *dest)
-;	---------------------------------
-; Function asm_readfile
-; ---------------------------------
-_asm_readfile:
-	push	ix
-	ld	ix,#0
-	add	ix,sp
-;msxlib.c:636: __endasm;
-	
-		   push ix
-		   ld ix,#0
-		   add ix,sp
-		   push de
-		   push hl
-		   push bc
-	
-		   ld de,#$21
-		   ld b,#40 ; Clear FCB
-		   xor a
-	$25:
-		   ld (de),a
-		   inc de
-		   djnz $25
-	
-		   ld de,#$21+1 ; Copy name
-		   ld l,6(ix)
-		   ld h,7(ix)
-		   ld bc,#11
-		   ldir
-	
-		   ld de,#$21
-		   ld c,#0xf ; Open file
-		   push ix
-		   call 5
-		   pop ix
-		   ld (_retvalli),a
-	
-		   xor a
-		   ld ($21+12),a
-		   ld ($21+13),a
-		   ld ($21+32),a
-	
-		   ld e,8(ix)
-		   ld d,9(ix)
-	
-	$23:
-		   push de
-		   ld de,#$21
-		   ld c,#0x14
-		   call 5
-		   pop de
-		   or a
-		   jr nz,$24
-		   ld hl,#0x80
-		   ld bc,#128
-		   ldir
-		   jp $23
-	
-	$24:
-		   ld de,#$21
-		   ld c,#0x10
-		   call 5
-		   jp $22
-	
-	$21:
-		   .db 0,0,0,0,0, 0,0,0,0,0
-		   .db 0,0,0,0,0, 0,0,0,0,0
-		   .db 0,0,0,0,0, 0,0,0,0,0
-		   .db 0,0,0,0,0, 0,0,0,0,0
-	$22:
-		   pop bc
-		   pop hl
-		   pop de
-		   pop ix
-		   
-	pop	ix
-	ret
-;msxlib.c:639: int readfile(char *name,unsigned char *dest)
-;	---------------------------------
-; Function readfile
-; ---------------------------------
-_readfile_start::
-_readfile:
-	push	ix
-	ld	ix,#0
-	add	ix,sp
-	ld	hl,#-22
-	add	hl,sp
-	ld	sp,hl
-;msxlib.c:641: char namn[]="             ";
-	ld	hl,#0x0008
-	add	hl,sp
-	ld	-22 (ix),l
-	ld	-21 (ix),h
-	ld	(hl),#0x20
-	ld	e,-22 (ix)
-	ld	d,-21 (ix)
-	inc	de
-	ld	a,#0x20
-	ld	(de),a
-	ld	e,-22 (ix)
-	ld	d,-21 (ix)
-	inc	de
-	inc	de
-	ld	a,#0x20
-	ld	(de),a
-	ld	a,-22 (ix)
-	add	a,#0x03
-	ld	e,a
-	ld	a,-21 (ix)
-	adc	a,#0x00
-	ld	d,a
-	ld	a,#0x20
-	ld	(de),a
-	ld	a,-22 (ix)
-	add	a,#0x04
-	ld	e,a
-	ld	a,-21 (ix)
-	adc	a,#0x00
-	ld	d,a
-	ld	a,#0x20
-	ld	(de),a
-	ld	a,-22 (ix)
-	add	a,#0x05
-	ld	e,a
-	ld	a,-21 (ix)
-	adc	a,#0x00
-	ld	d,a
-	ld	a,#0x20
-	ld	(de),a
-	ld	a,-22 (ix)
-	add	a,#0x06
-	ld	e,a
-	ld	a,-21 (ix)
-	adc	a,#0x00
-	ld	d,a
-	ld	a,#0x20
-	ld	(de),a
-	ld	a,-22 (ix)
-	add	a,#0x07
-	ld	e,a
-	ld	a,-21 (ix)
-	adc	a,#0x00
-	ld	d,a
-	ld	a,#0x20
-	ld	(de),a
-	ld	a,-22 (ix)
-	add	a,#0x08
-	ld	e,a
-	ld	a,-21 (ix)
-	adc	a,#0x00
-	ld	d,a
-	ld	a,#0x20
-	ld	(de),a
-	ld	a,-22 (ix)
-	add	a,#0x09
-	ld	e,a
-	ld	a,-21 (ix)
-	adc	a,#0x00
-	ld	d,a
-	ld	a,#0x20
-	ld	(de),a
-	ld	a,-22 (ix)
-	add	a,#0x0A
-	ld	e,a
-	ld	a,-21 (ix)
-	adc	a,#0x00
-	ld	d,a
-	ld	a,#0x20
-	ld	(de),a
-	ld	a,-22 (ix)
-	add	a,#0x0B
-	ld	c,a
-	ld	a,-21 (ix)
-	adc	a,#0x00
-	ld	b,a
-	ld	a,#0x20
-	ld	(bc),a
-	ld	a,-22 (ix)
-	add	a,#0x0C
-	ld	e,a
-	ld	a,-21 (ix)
-	adc	a,#0x00
-	ld	d,a
-	ld	a,#0x20
-	ld	(de),a
-	ld	a,-22 (ix)
-	add	a,#0x0D
-	ld	e,a
-	ld	a,-21 (ix)
-	adc	a,#0x00
-	ld	d,a
-	ld	a,#0x00
-	ld	(de),a
-;msxlib.c:644: for(n=0;n<11;n++)
-	ld	-16 (ix),#0x00
-	ld	-15 (ix),#0x00
-00127$:
-	ld	a,-16 (ix)
-	sub	a,#0x0B
-	ld	a,-15 (ix)
-	sbc	a,#0x00
-	jp	P,00130$
-;msxlib.c:645: namn[n]=' ';
-	ld	a,-22 (ix)
-	add	a,-16 (ix)
-	ld	e,a
-	ld	a,-21 (ix)
-	adc	a,-15 (ix)
-	ld	d,a
-	ld	a,#0x20
-	ld	(de),a
-;msxlib.c:644: for(n=0;n<11;n++)
-	inc	-16 (ix)
-	jr	NZ,00149$
-	inc	-15 (ix)
-00149$:
-	jr	00127$
-00130$:
-;msxlib.c:646: namn[11]=0;
-	ld	a,#0x00
-	ld	(bc),a
-;msxlib.c:649: for(n=0;n<8;n++)
-	ld	-16 (ix),#0x00
-	ld	-15 (ix),#0x00
-00105$:
-	ld	a,-16 (ix)
-	sub	a,#0x08
-	ld	a,-15 (ix)
-	sbc	a,#0x00
-	jp	P,00108$
-;msxlib.c:650: if(name[n]=='.' || name[n]==0)
-	ld	a,4 (ix)
-	add	a,-16 (ix)
-	ld	e,a
-	ld	a,5 (ix)
-	adc	a,-15 (ix)
-	ld	d,a
-	ld	a,(de)
-	ld	c,a
-	sub	a,#0x2E
-	jr	Z,00108$
-	xor	a,a
-	or	a,c
-	jr	Z,00108$
-;msxlib.c:653: namn[n]=name[n];
-	ld	a,-22 (ix)
-	add	a,-16 (ix)
-	ld	e,a
-	ld	a,-21 (ix)
-	adc	a,-15 (ix)
-	ld	d,a
-	ld	a,c
-	ld	(de),a
-;msxlib.c:649: for(n=0;n<8;n++)
-	inc	-16 (ix)
-	jr	NZ,00151$
-	inc	-15 (ix)
-00151$:
-	jr	00105$
-00108$:
-;msxlib.c:655: for(n=0;;n++)
-	ld	bc,#0x0000
-	ld	-16 (ix),#0x00
-	ld	-15 (ix),#0x00
-00121$:
-;msxlib.c:657: if(name[n]=='.')
-	ld	a,4 (ix)
-	add	a,-16 (ix)
-	ld	e,a
-	ld	a,5 (ix)
-	adc	a,-15 (ix)
-	ld	d,a
-	ld	a,(de)
-	ld	e,a
-	sub	a,#0x2E
-	jr	NZ,00117$
-;msxlib.c:659: n++;
-	inc	bc
-;msxlib.c:660: m=8;
-	ld	-20 (ix),c
-	ld	-19 (ix),b
-	ld	-18 (ix),#0x08
-	ld	-17 (ix),#0x00
-00112$:
-;msxlib.c:661: for(;m<11;n++,m++)
-	ld	a,-18 (ix)
-	sub	a,#0x0B
-	ld	a,-17 (ix)
-	sbc	a,#0x00
-	jp	P,00123$
-;msxlib.c:662: if(name[n]==0)
-	ld	a,4 (ix)
-	add	a,-20 (ix)
-	ld	d,a
-	ld	a,5 (ix)
-	adc	a,-19 (ix)
-	ld	l,d
-	ld	h,a
-	ld	c,(hl)
-	xor	a,a
-	or	a,c
-	jr	Z,00123$
-;msxlib.c:665: namn[m]=name[n];
-	ld	a,-22 (ix)
-	add	a,-18 (ix)
-	ld	b,a
-	ld	a,-21 (ix)
-	adc	a,-17 (ix)
-	ld	l,b
-	ld	h,a
-	ld	(hl),c
-;msxlib.c:661: for(;m<11;n++,m++)
-	inc	-20 (ix)
-	jr	NZ,00154$
-	inc	-19 (ix)
-00154$:
-	inc	-18 (ix)
-	jr	NZ,00155$
-	inc	-17 (ix)
-00155$:
-	jr	00112$
-;msxlib.c:666: break;
-00117$:
-;msxlib.c:668: if(name[n]==0)
-	xor	a,a
-	or	a,e
-	jr	Z,00123$
-;msxlib.c:655: for(n=0;;n++)
-	inc	-16 (ix)
-	jr	NZ,00156$
-	inc	-15 (ix)
-00156$:
-	ld	c,-16 (ix)
-	ld	b,-15 (ix)
-	jp	00121$
-00123$:
-;msxlib.c:672: asm_readfile(namn,dest);
-	ld	l,6 (ix)
-	ld	h,7 (ix)
-	push	hl
-	ld	l,-22 (ix)
-	ld	h,-21 (ix)
-	push	hl
-	call	_asm_readfile
-	pop	af
-	pop	af
-;msxlib.c:674: if(retvalli)
-	xor	a,a
-	ld	hl,#_retvalli + 0
-	or	a,(hl)
-	jr	Z,00125$
-;msxlib.c:675: return(-1);
-	ld	hl,#0xFFFFFFFF
-	jr	00131$
-00125$:
-;msxlib.c:677: return(0);
-	ld	hl,#0x0000
-00131$:
-	ld	sp,ix
-	pop	ix
-	ret
-_readfile_end::
-;msxlib.c:680: void spindown(void)
+;msxlib.c:567: void spindown(void)
 ;	---------------------------------
 ; Function spindown
 ; ---------------------------------
 _spindown_start::
 _spindown:
-;msxlib.c:682: DI;
+;msxlib.c:569: DI;
 		di 
-;msxlib.c:683: *(unsigned *)0xf1c1=1;
+;msxlib.c:570: *(unsigned *)0xf1c1=1;
 	ld	iy,#0xF1C1
 	ld	0 (iy),#0x01
 	ld	1 (iy),#0x00
-;msxlib.c:684: EI;
+;msxlib.c:571: EI;
 		ei 
-;msxlib.c:685: waitVB();
+;msxlib.c:572: waitVB();
 		halt 
-;msxlib.c:686: waitVB();
+;msxlib.c:573: waitVB();
 		halt 
 	ret
 _spindown_end::
-;msxlib.c:689: void print(char* str) __naked
-;	---------------------------------
-; Function print
-; ---------------------------------
-_print_start::
-_print:
-;msxlib.c:710: __endasm; 
-	
-		       ld hl,#2
-		       add hl,sp
-		       ld a,(hl)
-		       inc hl
-		       ld h,(hl)
-		       ld l,a
-	
-	PRLOOP:
-	ld	a,(hl)
-		       or a
-		       ret z
-		       ld e,a
-		       ld c,#2
-		       push hl
-		       call #5
-		       pop hl
-		       inc hl
-		       jr PRLOOP
-		       
-;msxlib.c:715: unsigned random(void)
+;msxlib.c:578: unsigned random(void)
 ;	---------------------------------
 ; Function random
 ; ---------------------------------
 _random_start::
 _random:
-;msxlib.c:731: __endasm;
+;msxlib.c:594: __endasm;
 	
 		push de
 	
@@ -1526,198 +1130,9 @@ _random:
 	
 		pop de
 		
-;msxlib.c:733: return(randomseed);
+;msxlib.c:596: return(randomseed);
 	ld	hl,(_randomseed)
 	ret
 _random_end::
-;msxlib.c:736: void mem_set(void *dest,unsigned char c,unsigned len)
-;	---------------------------------
-; Function mem_set
-; ---------------------------------
-_mem_set_start::
-_mem_set:
-	push	ix
-	ld	ix,#0
-	add	ix,sp
-;msxlib.c:800: __endasm;
-	
-		    push de
-		    push hl
-		    push bc
-	
-		    ld l,4(ix) ; Parametrit
-		    ld h,5(ix)
-		    ld c,6(ix)
-		    ld e,7(ix)
-		    ld d,8(ix)
-		    push de
-	
-		    srl d ; DE/8
-		    rr e
-		    srl d
-		   rr e
-		    srl d
-		    rr e
-		    ld a,d
-		    or e
-		    jp z,2$
-	
-	1$:
-		   ld (hl),c
-		inc hl
-		   ld (hl),c
-		inc hl
-		   ld (hl),c
-		inc hl
-		   ld (hl),c
-		inc hl
-		   ld (hl),c
-		inc hl
-		   ld (hl),c
-		inc hl
-		   ld (hl),c
-		inc hl
-		   ld (hl),c
-		inc hl
-	
-		dec de
-		    ld a,d
-		    or e
-		    jp nz,1$
-	
-	2$:
-		    pop de ; The modulo part
-		    ld a,e
-		    and #7
-		    jp z,4$
-	
-		ld b,a
-	3$:
-		    ld (hl),c
-		inc hl
-		    djnz 3$
-	
-	4$:
-		    pop bc
-		    pop hl
-		    pop de
-		    
-	pop	ix
-	ret
-_mem_set_end::
-;msxlib.c:803: void mem_set_stack(void *dest,unsigned char c,unsigned len)
-;	---------------------------------
-; Function mem_set_stack
-; ---------------------------------
-_mem_set_stack_start::
-_mem_set_stack:
-	push	ix
-	ld	ix,#0
-	add	ix,sp
-;msxlib.c:871: __endasm;
-	
-		    push de
-		    push hl
-		    push bc
-	
-		    ld l,4(ix) ; Parametrit
-		    ld h,5(ix)
-		    ld c,6(ix)
-		ld b,c
-		    ld e,7(ix)
-		    ld d,8(ix)
-		push hl
-		    push de
-		add hl,de
-	
-		    srl d ; DE/16
-		    rr e
-		    srl d
-		   rr e
-		    srl d
-		    rr e
-		    srl d
-		    rr e
-		    ld a,d
-		    or e
-		    jp z,2$
-	
-		ld ix,#0
-		add ix,sp
-		ld sp,hl
-	
-	1$:
-		push bc
-		push bc
-		push bc
-		push bc
-		push bc
-		push bc
-		push bc
-		push bc
-	
-		dec de
-		    ld a,d
-		    or e
-		    jp nz,1$
-	
-		ld sp,ix
-	
-	2$:
-		pop de
-		    pop hl ; The modulo part
-		    ld a,e
-		    and #15
-		    jp z,4$
-	
-		ld b,a
-	3$:
-		    ld (hl),c
-		inc hl
-		    djnz 3$
-	
-	4$:
-		    pop bc
-		    pop hl
-		    pop de
-		    
-	pop	ix
-	ret
-_mem_set_stack_end::
-;msxlib.c:874: void mem_cpy(void *dest,void *src,unsigned len)
-;	---------------------------------
-; Function mem_cpy
-; ---------------------------------
-_mem_cpy_start::
-_mem_cpy:
-	push	ix
-	ld	ix,#0
-	add	ix,sp
-;msxlib.c:898: __endasm;
-	
-		    push de
-		    push hl
-		    push bc
-	
-		    ld e,4(ix) ; Parametrit
-		    ld d,5(ix)
-		    ld l,6(ix)
-		    ld h,7(ix)
-		    ld c,8(ix)
-		    ld b,9(ix)
-	
-		ld a,c
-		or b
-		jp z,$1
-		ldir
-	
-	$1:
-		   pop bc
-		    pop hl
-		    pop de
-		    
-	pop	ix
-	ret
-_mem_cpy_end::
 	.area _CODE
 	.area _CABS

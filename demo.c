@@ -42,6 +42,12 @@ uint8_t block_palette[32];
 volatile int vbicount=0;
 volatile int tick=0;
 
+
+int isNthBitSet (unsigned char c, int n) {
+    static unsigned char mask[] = {1, 2, 4, 8, 16, 32, 64, 128};
+    return ((c & mask[n]) != 0);
+}
+
 // irq ---------------------------------------------------------------------------------------------------------------------------
 // irq ---------------------------------------------------------------------------------------------------------------------------
 // irq ---------------------------------------------------------------------------------------------------------------------------
@@ -49,6 +55,7 @@ volatile int tick=0;
 void my_isr(void) interrupt
 {
         DI;
+
         READ_VDP_STATUS;
 
         PLY_Play();
@@ -56,6 +63,25 @@ void my_isr(void) interrupt
 
         vbicount++;
         tick++;
+
+        EI;
+}
+
+void color_isr(void) interrupt
+{
+        DI;
+
+		if(isNthBitSet(vdp2_status(1),0)) {
+	        READ_VDP_STATUS;
+	        msx2_palette(0,4,5,6);
+		} else {
+	        READ_VDP_STATUS;
+	        msx2_palette(0,0,0,0);
+
+	        PLY_Play();
+	        PLY_SendRegisters();
+	        vbicount++;
+		}
 
         EI;
 }
@@ -277,6 +303,42 @@ void do_blocks() {
 
 }
 
+volatile int linenum = 10;
+
+void raster_effu() {
+	vbicount = 0;
+
+	waitVB();
+
+	vdp_register(1,0x40); // disable vblank
+
+	vdp_register(19,linenum); // interrupt on line
+	vdp_register(0,0x16); // mode SC5, IE1 interrupts on
+
+	waitVB();
+
+/*
+
+	vdp_register(19,linenum+30); // interrupt on line
+
+	while(CHECK_BIT(vdp2_status(1),0) == 0) {}
+
+	vdp_load_palette(cur_palette);
+
+	vdp_register(0,0x6); // mode SC5, IE1 interrupts on
+
+*/
+
+	linenum++;
+	if (linenum >= 212-60) linenum = 10;
+
+	vdp_register(0,0x6); // mode SC5, IE1 interrupts off
+	vdp_register(1,0x60); // enable vblank
+
+}
+
+
+
 // main ---------------------------------------------------------------------------------------------------------------------------
 // main ---------------------------------------------------------------------------------------------------------------------------
 // main ---------------------------------------------------------------------------------------------------------------------------
@@ -328,6 +390,8 @@ void main() {
 
     vdp_register(VDP_VOFFSET,0);
 
+/*
+
     pal_load("LF      PL5",32);
     vdp_load_palette(cur_palette);
 
@@ -342,9 +406,27 @@ void main() {
 	memset((uint8_t *) &packbuffer, 0, 15006);
 	raw_load("LF3     PCK", 15006, packbuffer);
 	bitbuster(packbuffer,0x8000,VRAM_1); // to page 3
+*/
 
-    install_isr(my_isr);
+    pal_load("KETTU16 PL5",32);
+    vdp_load_palette(cur_palette);
 
+	memset((uint8_t *) &packbuffer, 0, 4501);
+	raw_load("KETTU16 PCK", 4501, packbuffer);
+	bitbuster(packbuffer,0x0000,VRAM_0); // to page 1
+
+
+
+
+	install_isr(color_isr);
+//	uninstall_isr();
+
+    while(!quit) {
+    	raster_effu();
+    	if (space()) quit=1;
+    }
+
+/*
 	while (!quit) {
 		//waitVB();
 
@@ -371,7 +453,7 @@ void main() {
 			quit=1;
 	}
 
-
+*/
 /*
 	pal_load("STDBLCK PL5", 32);
 	memcpy(block_palette,cur_palette,32);

@@ -171,7 +171,7 @@ vram_ldir:		di
 		out	(0x99),a
 		inc	hl
 		in	a,(0x98)
-		push	af
+		ex af, af'
 		ld	a,d
 		and	#192
 		rlca
@@ -190,13 +190,13 @@ vram_ldir:		di
 		or	#64
 		out	(0x99),a
 		inc	de
-		pop	af
+		ex af, af'
 		out	(0x98),a
+		ei
 		dec	bc
 		ld	a,c
 		or	b
-		jr	nz,.ldir_loop
-		ei
+		jr	nz,vram_ldir
 
 		ret
 ;

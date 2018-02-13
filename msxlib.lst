@@ -1,7 +1,7 @@
                               1 ;--------------------------------------------------------
                               2 ; File Created by SDCC : free open source ANSI-C Compiler
                               3 ; Version 2.9.0 #5416 (Mar 22 2009) (Mac OS X i386)
-                              4 ; This file was generated Tue Feb 13 03:31:19 2018
+                              4 ; This file was generated Tue Feb 13 15:01:03 2018
                               5 ;--------------------------------------------------------
                               6 	.module msxlib
                               7 	.optsdcc -mz80
@@ -30,1698 +30,1109 @@
                              30 	.globl _joy_status
                              31 	.globl _mouse_status
                              32 	.globl _isvdp2
-                             33 	.globl _readfile
-                             34 	.globl _spindown
-                             35 	.globl _print
-                             36 	.globl _random
-                             37 	.globl _mem_set
-                             38 	.globl _mem_set_stack
-                             39 	.globl _mem_cpy
-                             40 ;--------------------------------------------------------
-                             41 ; special function registers
-                             42 ;--------------------------------------------------------
-                    0098     43 _vdp1	=	0x0098
-                    0099     44 _vdp2	=	0x0099
-                    009A     45 _vdp3	=	0x009a
-                    00A9     46 _kbd1	=	0x00a9
-                    00AA     47 _kbd2	=	0x00aa
-                    00A0     48 _psgsel	=	0x00a0
-                    00A1     49 _psgw	=	0x00a1
-                    00A2     50 _psgr	=	0x00a2
-                             51 ;--------------------------------------------------------
-                             52 ;  ram data
-                             53 ;--------------------------------------------------------
-                             54 	.area _DATA
-   0000                      55 _retvalli:
-   0000                      56 	.ds 1
-   0001                      57 _randomseed:
-   0001                      58 	.ds 2
-                             59 ;--------------------------------------------------------
-                             60 ; overlayable items in  ram 
+                             33 	.globl _spindown
+                             34 	.globl _random
+                             35 ;--------------------------------------------------------
+                             36 ; special function registers
+                             37 ;--------------------------------------------------------
+                    0098     38 _vdp1	=	0x0098
+                    0099     39 _vdp2	=	0x0099
+                    009A     40 _vdp3	=	0x009a
+                    00A9     41 _kbd1	=	0x00a9
+                    00AA     42 _kbd2	=	0x00aa
+                    00A0     43 _psgsel	=	0x00a0
+                    00A1     44 _psgw	=	0x00a1
+                    00A2     45 _psgr	=	0x00a2
+                             46 ;--------------------------------------------------------
+                             47 ;  ram data
+                             48 ;--------------------------------------------------------
+                             49 	.area _DATA
+   0000                      50 _retvalli:
+   0000                      51 	.ds 1
+   0001                      52 _randomseed:
+   0001                      53 	.ds 2
+                             54 ;--------------------------------------------------------
+                             55 ; overlayable items in  ram 
+                             56 ;--------------------------------------------------------
+                             57 	.area _OVERLAY
+                             58 ;--------------------------------------------------------
+                             59 ; external initialized ram data
+                             60 ;--------------------------------------------------------
                              61 ;--------------------------------------------------------
-                             62 	.area _OVERLAY
+                             62 ; global & static initialisations
                              63 ;--------------------------------------------------------
-                             64 ; external initialized ram data
-                             65 ;--------------------------------------------------------
-                             66 ;--------------------------------------------------------
-                             67 ; global & static initialisations
-                             68 ;--------------------------------------------------------
-                             69 	.area _HOME
-                             70 	.area _GSINIT
-                             71 	.area _GSFINAL
-                             72 	.area _GSINIT
-                             73 ;msxlib.c:713: static unsigned randomseed=0x83cd;
-   0000 FD 21r01s00          74 	ld	iy,#_randomseed
-   0004 FD 36 00 CD          75 	ld	0 (iy),#0xCD
-   0008 FD 21r01s00          76 	ld	iy,#_randomseed
-   000C FD 36 01 83          77 	ld	1 (iy),#0x83
+                             64 	.area _HOME
+                             65 	.area _GSINIT
+                             66 	.area _GSFINAL
+                             67 	.area _GSINIT
+                             68 ;msxlib.c:576: static unsigned randomseed=0x83cd;
+   0000 FD 21r01s00          69 	ld	iy,#_randomseed
+   0004 FD 36 00 CD          70 	ld	0 (iy),#0xCD
+   0008 FD 21r01s00          71 	ld	iy,#_randomseed
+   000C FD 36 01 83          72 	ld	1 (iy),#0x83
+                             73 ;--------------------------------------------------------
+                             74 ; Home
+                             75 ;--------------------------------------------------------
+                             76 	.area _HOME
+                             77 	.area _HOME
                              78 ;--------------------------------------------------------
-                             79 ; Home
+                             79 ; code
                              80 ;--------------------------------------------------------
-                             81 	.area _HOME
-                             82 	.area _HOME
-                             83 ;--------------------------------------------------------
-                             84 ; code
-                             85 ;--------------------------------------------------------
-                             86 	.area _CODE
-                             87 ;msxlib.c:17: char ispressed(unsigned char line,unsigned char bitti)
-                             88 ;	---------------------------------
-                             89 ; Function ispressed
-                             90 ; ---------------------------------
-   0000                      91 _ispressed_start::
-   0000                      92 _ispressed:
-   0000 DD E5                93 	push	ix
-   0002 DD 21 00 00          94 	ld	ix,#0
-   0006 DD 39                95 	add	ix,sp
-                             96 ;msxlib.c:20: c=(kbd2&0xf0)|line;
-   0008 DB AA                97 	in	a,(_kbd2)
-   000A E6 F0                98 	and	a,#0xF0
-   000C DD B6 04             99 	or	a,4 (ix)
-                            100 ;msxlib.c:21: kbd2=c;
-   000F 4F                  101 	ld	c,a
-   0010 D3 AA               102 	out	(_kbd2),a
-                            103 ;msxlib.c:22: c=kbd1&bitti;
-   0012 DB A9               104 	in	a,(_kbd1)
-   0014 DD A6 05            105 	and	a,5 (ix)
-   0017 47                  106 	ld	b,a
-   0018 48                  107 	ld	c,b
-                            108 ;msxlib.c:24: if(c==0)
-   0019 AF                  109 	xor	a,a
-   001A B1                  110 	or	a,c
-   001B 20 04               111 	jr	NZ,00102$
-                            112 ;msxlib.c:25: return(1);
-   001D 2E 01               113 	ld	l,#0x01
-   001F 18 02               114 	jr	00104$
-   0021                     115 00102$:
-                            116 ;msxlib.c:27: return(0);
-   0021 2E 00               117 	ld	l,#0x00
-   0023                     118 00104$:
-   0023 DD E1               119 	pop	ix
-   0025 C9                  120 	ret
-   0026                     121 _ispressed_end::
-                            122 ;msxlib.c:30: void screen(char mode)
-                            123 ;	---------------------------------
-                            124 ; Function screen
-                            125 ; ---------------------------------
-   0026                     126 _screen_start::
-   0026                     127 _screen:
-   0026 DD E5               128 	push	ix
-   0028 DD 21 00 00         129 	ld	ix,#0
-   002C DD 39               130 	add	ix,sp
-                            131 ;msxlib.c:49: __endasm;
+                             81 	.area _CODE
+                             82 ;msxlib.c:17: char ispressed(unsigned char line,unsigned char bitti)
+                             83 ;	---------------------------------
+                             84 ; Function ispressed
+                             85 ; ---------------------------------
+   0000                      86 _ispressed_start::
+   0000                      87 _ispressed:
+   0000 DD E5                88 	push	ix
+   0002 DD 21 00 00          89 	ld	ix,#0
+   0006 DD 39                90 	add	ix,sp
+                             91 ;msxlib.c:20: c=(kbd2&0xf0)|line;
+   0008 DB AA                92 	in	a,(_kbd2)
+   000A E6 F0                93 	and	a,#0xF0
+   000C DD B6 04             94 	or	a,4 (ix)
+                             95 ;msxlib.c:21: kbd2=c;
+   000F 4F                   96 	ld	c,a
+   0010 D3 AA                97 	out	(_kbd2),a
+                             98 ;msxlib.c:22: c=kbd1&bitti;
+   0012 DB A9                99 	in	a,(_kbd1)
+   0014 DD A6 05            100 	and	a,5 (ix)
+   0017 47                  101 	ld	b,a
+   0018 48                  102 	ld	c,b
+                            103 ;msxlib.c:24: if(c==0)
+   0019 AF                  104 	xor	a,a
+   001A B1                  105 	or	a,c
+   001B 20 04               106 	jr	NZ,00102$
+                            107 ;msxlib.c:25: return(1);
+   001D 2E 01               108 	ld	l,#0x01
+   001F 18 02               109 	jr	00104$
+   0021                     110 00102$:
+                            111 ;msxlib.c:27: return(0);
+   0021 2E 00               112 	ld	l,#0x00
+   0023                     113 00104$:
+   0023 DD E1               114 	pop	ix
+   0025 C9                  115 	ret
+   0026                     116 _ispressed_end::
+                            117 ;msxlib.c:30: void screen(char mode)
+                            118 ;	---------------------------------
+                            119 ; Function screen
+                            120 ; ---------------------------------
+   0026                     121 _screen_start::
+   0026                     122 _screen:
+   0026 DD E5               123 	push	ix
+   0028 DD 21 00 00         124 	ld	ix,#0
+   002C DD 39               125 	add	ix,sp
+                            126 ;msxlib.c:49: __endasm;
+                            127 	
+   002E FD E5               128 		   push iy
+   0030 C5                  129 		   push bc
+   0031 D5                  130 		   push de
+   0032 E5                  131 		   push hl
                             132 	
-   002E FD E5               133 		   push iy
-   0030 C5                  134 		   push bc
-   0031 D5                  135 		   push de
-   0032 E5                  136 		   push hl
-                            137 	
-   0033 DD 7E 04            138 		   ld a,4(ix)
-   0036 32 AF FC            139 		   ld (0xfcaf),a
-   0039 DD 21 5F 00         140 		   ld ix,#0x5f
-   003D FD 2A C0 FC         141 		   ld iy,(0xfcc0)
-   0041 CD 1C 00            142 		   call 0x1c
-                            143 	
-   0044 E1                  144 		   pop hl
-   0045 D1                  145 		   pop de
-   0046 C1                  146 		   pop bc
-   0047 FD E1               147 		   pop iy
-                            148 		   
-   0049 DD E1               149 	pop	ix
-   004B C9                  150 	ret
-   004C                     151 _screen_end::
-                            152 ;msxlib.c:52: void vdp_address(unsigned addr)
-                            153 ;	---------------------------------
-                            154 ; Function vdp_address
-                            155 ; ---------------------------------
-   004C                     156 _vdp_address_start::
-   004C                     157 _vdp_address:
-   004C DD E5               158 	push	ix
-   004E DD 21 00 00         159 	ld	ix,#0
-   0052 DD 39               160 	add	ix,sp
-                            161 ;msxlib.c:54: vdp2=addr;
-   0054 DD 7E 04            162 	ld	a,4 (ix)
-   0057 D3 99               163 	out	(_vdp2),a
-                            164 ;msxlib.c:55: vdp2=(addr>>8)|0x40;
-   0059 DD 4E 05            165 	ld	c,5 (ix)
-   005C 06 00               166 	ld	b,#0x00
-   005E 79                  167 	ld	a,c
-   005F F6 40               168 	or	a,#0x40
-   0061 4F                  169 	ld	c,a
-   0062 D3 99               170 	out	(_vdp2),a
-   0064 DD E1               171 	pop	ix
-   0066 C9                  172 	ret
-   0067                     173 _vdp_address_end::
-                            174 ;msxlib.c:58: void vdp_poke(unsigned addr,unsigned char c)
-                            175 ;	---------------------------------
-                            176 ; Function vdp_poke
-                            177 ; ---------------------------------
-   0067                     178 _vdp_poke_start::
-   0067                     179 _vdp_poke:
-   0067 DD E5               180 	push	ix
-   0069 DD 21 00 00         181 	ld	ix,#0
-   006D DD 39               182 	add	ix,sp
-                            183 ;msxlib.c:60: vdp2=addr;
-   006F DD 7E 04            184 	ld	a,4 (ix)
-   0072 D3 99               185 	out	(_vdp2),a
-                            186 ;msxlib.c:61: vdp2=(addr>>8)|0x40;
-   0074 DD 4E 05            187 	ld	c,5 (ix)
-   0077 06 00               188 	ld	b,#0x00
-   0079 79                  189 	ld	a,c
-   007A F6 40               190 	or	a,#0x40
-   007C 4F                  191 	ld	c,a
-   007D D3 99               192 	out	(_vdp2),a
-                            193 ;msxlib.c:62: vdp1=c;
-   007F DD 7E 06            194 	ld	a,6 (ix)
-   0082 D3 98               195 	out	(_vdp1),a
-   0084 DD E1               196 	pop	ix
-   0086 C9                  197 	ret
-   0087                     198 _vdp_poke_end::
-                            199 ;msxlib.c:65: unsigned char vdp_peek(unsigned addr)
-                            200 ;	---------------------------------
-                            201 ; Function vdp_peek
-                            202 ; ---------------------------------
-   0087                     203 _vdp_peek_start::
-   0087                     204 _vdp_peek:
-   0087 DD E5               205 	push	ix
-   0089 DD 21 00 00         206 	ld	ix,#0
-   008D DD 39               207 	add	ix,sp
-                            208 ;msxlib.c:67: vdp2=addr;
-   008F DD 7E 04            209 	ld	a,4 (ix)
-   0092 D3 99               210 	out	(_vdp2),a
-                            211 ;msxlib.c:68: vdp2=addr>>8;
-   0094 DD 4E 05            212 	ld	c,5 (ix)
-   0097 06 00               213 	ld	b,#0x00
-   0099 79                  214 	ld	a,c
-   009A D3 99               215 	out	(_vdp2),a
-                            216 ;msxlib.c:69: return(vdp1);
-   009C DB 98               217 	in	a,(_vdp1)
-   009E 6F                  218 	ld	l,a
-   009F DD E1               219 	pop	ix
-   00A1 C9                  220 	ret
-   00A2                     221 _vdp_peek_end::
-                            222 ;msxlib.c:72: void vdp_set(unsigned char c,unsigned bytes)
-                            223 ;	---------------------------------
-                            224 ; Function vdp_set
-                            225 ; ---------------------------------
-   00A2                     226 _vdp_set_start::
-   00A2                     227 _vdp_set:
-   00A2 DD E5               228 	push	ix
-   00A4 DD 21 00 00         229 	ld	ix,#0
-   00A8 DD 39               230 	add	ix,sp
-                            231 ;msxlib.c:133: __endasm;
-                            232 	
-   00AA D5                  233 		   push de
-   00AB C5                  234 		   push bc
+   0033 DD 7E 04            133 		   ld a,4(ix)
+   0036 32 AF FC            134 		   ld (0xfcaf),a
+   0039 DD 21 5F 00         135 		   ld ix,#0x5f
+   003D FD 2A C0 FC         136 		   ld iy,(0xfcc0)
+   0041 CD 1C 00            137 		   call 0x1c
+                            138 	
+   0044 E1                  139 		   pop hl
+   0045 D1                  140 		   pop de
+   0046 C1                  141 		   pop bc
+   0047 FD E1               142 		   pop iy
+                            143 		   
+   0049 DD E1               144 	pop	ix
+   004B C9                  145 	ret
+   004C                     146 _screen_end::
+                            147 ;msxlib.c:52: void vdp_address(unsigned addr)
+                            148 ;	---------------------------------
+                            149 ; Function vdp_address
+                            150 ; ---------------------------------
+   004C                     151 _vdp_address_start::
+   004C                     152 _vdp_address:
+   004C DD E5               153 	push	ix
+   004E DD 21 00 00         154 	ld	ix,#0
+   0052 DD 39               155 	add	ix,sp
+                            156 ;msxlib.c:54: vdp2=addr;
+   0054 DD 7E 04            157 	ld	a,4 (ix)
+   0057 D3 99               158 	out	(_vdp2),a
+                            159 ;msxlib.c:55: vdp2=(addr>>8)|0x40;
+   0059 DD 4E 05            160 	ld	c,5 (ix)
+   005C 06 00               161 	ld	b,#0x00
+   005E 79                  162 	ld	a,c
+   005F F6 40               163 	or	a,#0x40
+   0061 4F                  164 	ld	c,a
+   0062 D3 99               165 	out	(_vdp2),a
+   0064 DD E1               166 	pop	ix
+   0066 C9                  167 	ret
+   0067                     168 _vdp_address_end::
+                            169 ;msxlib.c:58: void vdp_poke(unsigned addr,unsigned char c)
+                            170 ;	---------------------------------
+                            171 ; Function vdp_poke
+                            172 ; ---------------------------------
+   0067                     173 _vdp_poke_start::
+   0067                     174 _vdp_poke:
+   0067 DD E5               175 	push	ix
+   0069 DD 21 00 00         176 	ld	ix,#0
+   006D DD 39               177 	add	ix,sp
+                            178 ;msxlib.c:60: vdp2=addr;
+   006F DD 7E 04            179 	ld	a,4 (ix)
+   0072 D3 99               180 	out	(_vdp2),a
+                            181 ;msxlib.c:61: vdp2=(addr>>8)|0x40;
+   0074 DD 4E 05            182 	ld	c,5 (ix)
+   0077 06 00               183 	ld	b,#0x00
+   0079 79                  184 	ld	a,c
+   007A F6 40               185 	or	a,#0x40
+   007C 4F                  186 	ld	c,a
+   007D D3 99               187 	out	(_vdp2),a
+                            188 ;msxlib.c:62: vdp1=c;
+   007F DD 7E 06            189 	ld	a,6 (ix)
+   0082 D3 98               190 	out	(_vdp1),a
+   0084 DD E1               191 	pop	ix
+   0086 C9                  192 	ret
+   0087                     193 _vdp_poke_end::
+                            194 ;msxlib.c:65: unsigned char vdp_peek(unsigned addr)
+                            195 ;	---------------------------------
+                            196 ; Function vdp_peek
+                            197 ; ---------------------------------
+   0087                     198 _vdp_peek_start::
+   0087                     199 _vdp_peek:
+   0087 DD E5               200 	push	ix
+   0089 DD 21 00 00         201 	ld	ix,#0
+   008D DD 39               202 	add	ix,sp
+                            203 ;msxlib.c:67: vdp2=addr;
+   008F DD 7E 04            204 	ld	a,4 (ix)
+   0092 D3 99               205 	out	(_vdp2),a
+                            206 ;msxlib.c:68: vdp2=addr>>8;
+   0094 DD 4E 05            207 	ld	c,5 (ix)
+   0097 06 00               208 	ld	b,#0x00
+   0099 79                  209 	ld	a,c
+   009A D3 99               210 	out	(_vdp2),a
+                            211 ;msxlib.c:69: return(vdp1);
+   009C DB 98               212 	in	a,(_vdp1)
+   009E 6F                  213 	ld	l,a
+   009F DD E1               214 	pop	ix
+   00A1 C9                  215 	ret
+   00A2                     216 _vdp_peek_end::
+                            217 ;msxlib.c:72: void vdp_set(unsigned char c,unsigned bytes)
+                            218 ;	---------------------------------
+                            219 ; Function vdp_set
+                            220 ; ---------------------------------
+   00A2                     221 _vdp_set_start::
+   00A2                     222 _vdp_set:
+   00A2 DD E5               223 	push	ix
+   00A4 DD 21 00 00         224 	ld	ix,#0
+   00A8 DD 39               225 	add	ix,sp
+                            226 ;msxlib.c:133: __endasm;
+                            227 	
+   00AA D5                  228 		   push de
+   00AB C5                  229 		   push bc
+                            230 	
+   00AC DD 56 04            231 		   ld d,4(ix) ; Parametrit
+   00AF DD 4E 05            232 		   ld c,5(ix)
+   00B2 DD 46 06            233 		   ld b,6(ix)
+   00B5 C5                  234 		   push bc
                             235 	
-   00AC DD 56 04            236 		   ld d,4(ix) ; Parametrit
-   00AF DD 4E 05            237 		   ld c,5(ix)
-   00B2 DD 46 06            238 		   ld b,6(ix)
-   00B5 C5                  239 		   push bc
-                            240 	
-   00B6 CB 38               241 		   srl b ; BC/8
-   00B8 CB 19               242 		   rr c
-   00BA CB 38               243 		   srl b
-   00BC CB 19               244 		   rr c
-   00BE CB 38               245 		   srl b
-   00C0 CB 19               246 		   rr c
-   00C2 78                  247 		   ld a,b
-   00C3 B1                  248 		   or c
-   00C4 CArE5s00            249 		   jp z,1$
-                            250 	
-                            251 ; NOPs needed due to MSX2 :(((
-   00C7                     252 	0$:
-   00C7 7A                  253 		   ld a,d
-   00C8 D3 98               254 		   out (0x98),a
-   00CA 00                  255 		   nop
-   00CB D3 98               256 		   out (0x98),a
-   00CD 00                  257 		   nop
-   00CE D3 98               258 		   out (0x98),a
-   00D0 00                  259 		   nop
-   00D1 D3 98               260 		   out (0x98),a
-   00D3 00                  261 		   nop
-   00D4 D3 98               262 		   out (0x98),a
-   00D6 00                  263 		   nop
-   00D7 D3 98               264 		   out (0x98),a
-   00D9 00                  265 		   nop
-   00DA D3 98               266 		   out (0x98),a
-   00DC 00                  267 		   nop
-   00DD D3 98               268 		   out (0x98),a
-   00DF 0B                  269 		   dec bc
-   00E0 78                  270 		   ld a,b
-   00E1 B1                  271 		   or c
-   00E2 C2rC7s00            272 		   jp nz,0$
-                            273 	
-   00E5                     274 	1$:
-   00E5 C1                  275 		   pop bc ; The modulo part
-   00E6 79                  276 		   ld a,c
-   00E7 E6 07               277 		   and #7
-   00E9 CArF4s00            278 		   jp z,2$
-                            279 	
-   00EC 4F                  280 		   ld c,a
-   00ED 7A                  281 		   ld a,d
-   00EE                     282 	3$:
-   00EE D3 98               283 		   out (0x98),a
-   00F0 0D                  284 		   dec c
-   00F1 C2rEEs00            285 		   jp nz,3$
-                            286 	
-   00F4                     287 	2$:
-   00F4 C1                  288 		   pop bc
-   00F5 D1                  289 		   pop de
-                            290 		   
-   00F6 DD E1               291 	pop	ix
-   00F8 C9                  292 	ret
-   00F9                     293 _vdp_set_end::
-                            294 ;msxlib.c:136: void vdp_slowset(unsigned char c,unsigned bytes)
-                            295 ;	---------------------------------
-                            296 ; Function vdp_slowset
-                            297 ; ---------------------------------
-   00F9                     298 _vdp_slowset_start::
-   00F9                     299 _vdp_slowset:
-   00F9 DD E5               300 	push	ix
-   00FB DD 21 00 00         301 	ld	ix,#0
-   00FF DD 39               302 	add	ix,sp
-                            303 ;msxlib.c:220: __endasm;
-                            304 	
-   0101 D5                  305 		   push de
-   0102 C5                  306 		   push bc
+   00B6 CB 38               236 		   srl b ; BC/8
+   00B8 CB 19               237 		   rr c
+   00BA CB 38               238 		   srl b
+   00BC CB 19               239 		   rr c
+   00BE CB 38               240 		   srl b
+   00C0 CB 19               241 		   rr c
+   00C2 78                  242 		   ld a,b
+   00C3 B1                  243 		   or c
+   00C4 CArE5s00            244 		   jp z,1$
+                            245 	
+                            246 ; NOPs needed due to MSX2 :(((
+   00C7                     247 	0$:
+   00C7 7A                  248 		   ld a,d
+   00C8 D3 98               249 		   out (0x98),a
+   00CA 00                  250 		   nop
+   00CB D3 98               251 		   out (0x98),a
+   00CD 00                  252 		   nop
+   00CE D3 98               253 		   out (0x98),a
+   00D0 00                  254 		   nop
+   00D1 D3 98               255 		   out (0x98),a
+   00D3 00                  256 		   nop
+   00D4 D3 98               257 		   out (0x98),a
+   00D6 00                  258 		   nop
+   00D7 D3 98               259 		   out (0x98),a
+   00D9 00                  260 		   nop
+   00DA D3 98               261 		   out (0x98),a
+   00DC 00                  262 		   nop
+   00DD D3 98               263 		   out (0x98),a
+   00DF 0B                  264 		   dec bc
+   00E0 78                  265 		   ld a,b
+   00E1 B1                  266 		   or c
+   00E2 C2rC7s00            267 		   jp nz,0$
+                            268 	
+   00E5                     269 	1$:
+   00E5 C1                  270 		   pop bc ; The modulo part
+   00E6 79                  271 		   ld a,c
+   00E7 E6 07               272 		   and #7
+   00E9 CArF4s00            273 		   jp z,2$
+                            274 	
+   00EC 4F                  275 		   ld c,a
+   00ED 7A                  276 		   ld a,d
+   00EE                     277 	3$:
+   00EE D3 98               278 		   out (0x98),a
+   00F0 0D                  279 		   dec c
+   00F1 C2rEEs00            280 		   jp nz,3$
+                            281 	
+   00F4                     282 	2$:
+   00F4 C1                  283 		   pop bc
+   00F5 D1                  284 		   pop de
+                            285 		   
+   00F6 DD E1               286 	pop	ix
+   00F8 C9                  287 	ret
+   00F9                     288 _vdp_set_end::
+                            289 ;msxlib.c:136: void vdp_slowset(unsigned char c,unsigned bytes)
+                            290 ;	---------------------------------
+                            291 ; Function vdp_slowset
+                            292 ; ---------------------------------
+   00F9                     293 _vdp_slowset_start::
+   00F9                     294 _vdp_slowset:
+   00F9 DD E5               295 	push	ix
+   00FB DD 21 00 00         296 	ld	ix,#0
+   00FF DD 39               297 	add	ix,sp
+                            298 ;msxlib.c:220: __endasm;
+                            299 	
+   0101 D5                  300 		   push de
+   0102 C5                  301 		   push bc
+                            302 	
+   0103 DD 56 04            303 		   ld d,4(ix) ; Parametrit
+   0106 DD 4E 05            304 		   ld c,5(ix)
+   0109 DD 46 06            305 		   ld b,6(ix)
+   010C C5                  306 		   push bc
                             307 	
-   0103 DD 56 04            308 		   ld d,4(ix) ; Parametrit
-   0106 DD 4E 05            309 		   ld c,5(ix)
-   0109 DD 46 06            310 		   ld b,6(ix)
-   010C C5                  311 		   push bc
-                            312 	
-   010D CB 38               313 		   srl b ; BC/8
-   010F CB 19               314 		   rr c
-   0111 CB 38               315 		   srl b
-   0113 CB 19               316 		   rr c
-   0115 CB 38               317 		   srl b
-   0117 CB 19               318 		   rr c
-   0119 78                  319 		   ld a,b
-   011A B1                  320 		   or c
-   011B CAr51s01            321 		   jp z,1$
-                            322 	
-   011E                     323 	0$:
-   011E 7A                  324 		   ld a,d
-   011F D3 98               325 		   out (0x98),a
-   0121 00                  326 		   nop
-   0122 00                  327 		   nop
-   0123 00                  328 		   nop
-   0124 00                  329 		   nop
-   0125 D3 98               330 		   out (0x98),a
-   0127 00                  331 		   nop
-   0128 00                  332 		   nop
-   0129 00                  333 		   nop
-   012A 00                  334 		   nop
-   012B D3 98               335 		   out (0x98),a
-   012D 00                  336 		   nop
-   012E 00                  337 		   nop
-   012F 00                  338 		   nop
-   0130 00                  339 		   nop
-   0131 D3 98               340 		   out (0x98),a
-   0133 00                  341 		   nop
-   0134 00                  342 		   nop
-   0135 00                  343 		   nop
-   0136 00                  344 		   nop
-   0137 D3 98               345 		   out (0x98),a
-   0139 00                  346 		   nop
-   013A 00                  347 		   nop
-   013B 00                  348 		   nop
-   013C 00                  349 		   nop
-   013D D3 98               350 		   out (0x98),a
-   013F 00                  351 		   nop
-   0140 00                  352 		   nop
-   0141 00                  353 		   nop
-   0142 00                  354 		   nop
-   0143 D3 98               355 		   out (0x98),a
-   0145 00                  356 		   nop
-   0146 00                  357 		   nop
-   0147 00                  358 		   nop
-   0148 00                  359 		   nop
-   0149 D3 98               360 		   out (0x98),a
-   014B 0B                  361 		   dec bc
-   014C 78                  362 		   ld a,b
-   014D B1                  363 		   or c
-   014E C2r1Es01            364 		   jp nz,0$
-                            365 	
-   0151                     366 	1$:
-   0151 C1                  367 		   pop bc ; The modulo part
-   0152 79                  368 		   ld a,c
-   0153 E6 07               369 		   and #7
-   0155 CAr63s01            370 		   jp z,2$
-                            371 	
-   0158 4F                  372 		   ld c,a
-   0159 7A                  373 		   ld a,d
-   015A                     374 	3$:
-   015A D3 98               375 		   out (0x98),a
-   015C 00                  376 		   nop
-   015D 00                  377 		   nop
-   015E 00                  378 		   nop
-   015F 0D                  379 		   dec c
-   0160 C2r5As01            380 		   jp nz,3$
-                            381 	
-   0163                     382 	2$:
-   0163 C1                  383 		   pop bc
-   0164 D1                  384 		   pop de
-                            385 		   
-   0165 DD E1               386 	pop	ix
-   0167 C9                  387 	ret
-   0168                     388 _vdp_slowset_end::
-                            389 ;msxlib.c:223: void vdp_copy(unsigned char *src,unsigned bytes)
-                            390 ;	---------------------------------
-                            391 ; Function vdp_copy
-                            392 ; ---------------------------------
-   0168                     393 _vdp_copy_start::
-   0168                     394 _vdp_copy:
-   0168 DD E5               395 	push	ix
-   016A DD 21 00 00         396 	ld	ix,#0
-   016E DD 39               397 	add	ix,sp
-                            398 ;msxlib.c:275: __endasm;
-                            399 	
-   0170 D5                  400 		   push de
-   0171 E5                  401 		   push hl
-   0172 C5                  402 		   push bc
-                            403 	
-   0173 DD 6E 04            404 		   ld l,4(ix) ; Parametrit
-   0176 DD 66 05            405 		   ld h,5(ix)
-   0179 DD 5E 06            406 		   ld e,6(ix)
-   017C DD 56 07            407 		   ld d,7(ix)
-   017F D5                  408 		   push de
-   0180 0E 98               409 		   ld c,#0x98
-                            410 	
-   0182 CB 3A               411 		   srl d ; DE/8
-   0184 CB 1B               412 		   rr e
-   0186 CB 3A               413 		   srl d
-   0188 CB 1B               414 		   rr e
-   018A CB 3A               415 		   srl d
-   018C CB 1B               416 		   rr e
-   018E 7A                  417 		   ld a,d
-   018F B3                  418 		   or e
-   0190 CArA9s01            419 		   jp z,1$
-                            420 	
-   0193                     421 	0$:
-   0193 ED A3               422 		   outi
-   0195 ED A3               423 		   outi
-   0197 ED A3               424 		   outi
-   0199 ED A3               425 		   outi
-   019B ED A3               426 		   outi
-   019D ED A3               427 		   outi
-   019F ED A3               428 		   outi
-   01A1 ED A3               429 		   outi
-   01A3 1B                  430 		   dec de
-   01A4 7A                  431 		   ld a,d
-   01A5 B3                  432 		   or e
-   01A6 C2r93s01            433 		   jp nz,0$
-                            434 	
-   01A9                     435 	1$:
-   01A9 D1                  436 		   pop de ; The modulo part
-   01AA 7B                  437 		   ld a,e
-   01AB E6 07               438 		   and #7
-   01AD CArB3s01            439 		   jp z,2$
-                            440 	
-   01B0 47                  441 		   ld b,a
-   01B1 ED B3               442 		   otir
-                            443 	
-   01B3                     444 	2$:
-   01B3 C1                  445 		   pop bc
-   01B4 E1                  446 		   pop hl
-   01B5 D1                  447 		   pop de
-                            448 		   
-   01B6 DD E1               449 	pop	ix
-   01B8 C9                  450 	ret
-   01B9                     451 _vdp_copy_end::
-                            452 ;msxlib.c:278: void vdp_slowcopy(unsigned char *src,unsigned bytes)
-                            453 ;	---------------------------------
-                            454 ; Function vdp_slowcopy
-                            455 ; ---------------------------------
-   01B9                     456 _vdp_slowcopy_start::
-   01B9                     457 _vdp_slowcopy:
-   01B9 DD E5               458 	push	ix
-   01BB DD 21 00 00         459 	ld	ix,#0
-   01BF DD 39               460 	add	ix,sp
-                            461 ;msxlib.c:347: __endasm;
-                            462 	
-   01C1 D5                  463 		   push de
-   01C2 E5                  464 		   push hl
-   01C3 C5                  465 		   push bc
-                            466 	
-   01C4 DD 6E 04            467 		   ld l,4(ix) ; Parametrit
-   01C7 DD 66 05            468 		   ld h,5(ix)
-   01CA DD 5E 06            469 		   ld e,6(ix)
-   01CD DD 56 07            470 		   ld d,7(ix)
-   01D0 D5                  471 		   push de
-   01D1 0E 98               472 		   ld c,#0x98
-                            473 	
-   01D3 CB 3A               474 		   srl d ; DE/8
-   01D5 CB 1B               475 		   rr e
-   01D7 CB 3A               476 		   srl d
-   01D9 CB 1B               477 		   rr e
-   01DB CB 3A               478 		   srl d
-   01DD CB 1B               479 		   rr e
-   01DF 7A                  480 		   ld a,d
-   01E0 B3                  481 		   or e
-   01E1 CAr08s02            482 		   jp z,1$
-                            483 	
-   01E4                     484 	0$:
-   01E4 ED A3               485 		   outi
-   01E6 00                  486 		   nop
-   01E7 00                  487 		   nop
-   01E8 ED A3               488 		   outi
-   01EA 00                  489 		   nop
-   01EB 00                  490 		   nop
-   01EC ED A3               491 		   outi
-   01EE 00                  492 		   nop
-   01EF 00                  493 		   nop
-   01F0 ED A3               494 		   outi
-   01F2 00                  495 		   nop
-   01F3 00                  496 		   nop
-   01F4 ED A3               497 		   outi
-   01F6 00                  498 		   nop
-   01F7 00                  499 		   nop
-   01F8 ED A3               500 		   outi
-   01FA 00                  501 		   nop
-   01FB 00                  502 		   nop
-   01FC ED A3               503 		   outi
-   01FE 00                  504 		   nop
-   01FF 00                  505 		   nop
-   0200 ED A3               506 		   outi
-   0202 1B                  507 		   dec de
-   0203 7A                  508 		   ld a,d
-   0204 B3                  509 		   or e
-   0205 C2rE4s01            510 		   jp nz,0$
-                            511 	
-   0208                     512 	1$:
-   0208 D1                  513 		   pop de ; The modulo part
-   0209 7B                  514 		   ld a,e
-   020A E6 07               515 		   and #7
-   020C CAr17s02            516 		   jp z,2$
-                            517 	
-   020F 47                  518 		   ld b,a
-   0210                     519 	3$:
-   0210 ED A3               520 	outi
-   0212 78                  521 		   ld a,b
-   0213 B7                  522 		   or a
-   0214 C2r10s02            523 		   jp nz,3$
-                            524 	
-   0217                     525 	2$:
-   0217 C1                  526 		   pop bc
-   0218 E1                  527 		   pop hl
-   0219 D1                  528 		   pop de
-                            529 		   
-   021A DD E1               530 	pop	ix
-   021C C9                  531 	ret
-   021D                     532 _vdp_slowcopy_end::
-                            533 ;msxlib.c:350: void vdp_bigcopy(unsigned char *src,unsigned block32)
-                            534 ;	---------------------------------
-                            535 ; Function vdp_bigcopy
-                            536 ; ---------------------------------
-   021D                     537 _vdp_bigcopy_start::
-   021D                     538 _vdp_bigcopy:
-   021D DD E5               539 	push	ix
-   021F DD 21 00 00         540 	ld	ix,#0
-   0223 DD 39               541 	add	ix,sp
-                            542 ;msxlib.c:408: __endasm;
-                            543 	
-   0225 D5                  544 		   push de
-   0226 E5                  545 		   push hl
-   0227 C5                  546 		   push bc
-                            547 	
-   0228 DD 6E 04            548 		   ld l,4(ix) ; Parametrit
-   022B DD 66 05            549 		   ld h,5(ix)
-   022E DD 5E 06            550 		   ld e,6(ix)
-   0231 DD 56 07            551 		   ld d,7(ix)
-   0234 0E 98               552 		   ld c,#0x98
-                            553 	
-   0236                     554 	0$:
-   0236 ED A3               555 		   outi
-   0238 ED A3               556 		   outi
-   023A ED A3               557 		   outi
-   023C ED A3               558 		   outi
-   023E ED A3               559 		   outi
-   0240 ED A3               560 		   outi
-   0242 ED A3               561 		   outi
-   0244 ED A3               562 		   outi
-                            563 	
-   0246 ED A3               564 		   outi
-   0248 ED A3               565 		   outi
-   024A ED A3               566 		   outi
-   024C ED A3               567 		   outi
-   024E ED A3               568 		   outi
-   0250 ED A3               569 		   outi
-   0252 ED A3               570 		   outi
-   0254 ED A3               571 		   outi
-                            572 	
-   0256 ED A3               573 		   outi
-   0258 ED A3               574 		   outi
-   025A ED A3               575 		   outi
-   025C ED A3               576 		   outi
-   025E ED A3               577 		   outi
-   0260 ED A3               578 		   outi
-   0262 ED A3               579 		   outi
-   0264 ED A3               580 		   outi
-                            581 	
-   0266 ED A3               582 		   outi
-   0268 ED A3               583 		   outi
-   026A ED A3               584 		   outi
-   026C ED A3               585 		   outi
-   026E ED A3               586 		   outi
-   0270 ED A3               587 		   outi
-   0272 ED A3               588 		   outi
-   0274 ED A3               589 		   outi
-   0276 1B                  590 		   dec de
-   0277 7A                  591 		   ld a,d
-   0278 B3                  592 		   or e
-   0279 C2r36s02            593 		   jp nz,0$
-                            594 	
-   027C C1                  595 		   pop bc
-   027D E1                  596 		   pop hl
-   027E D1                  597 		   pop de
-                            598 		   
-   027F DD E1               599 	pop	ix
-   0281 C9                  600 	ret
-   0282                     601 _vdp_bigcopy_end::
-                            602 ;msxlib.c:411: void vdp_register(unsigned char reg,unsigned char c)
-                            603 ;	---------------------------------
-                            604 ; Function vdp_register
-                            605 ; ---------------------------------
-   0282                     606 _vdp_register_start::
-   0282                     607 _vdp_register:
-   0282 DD E5               608 	push	ix
-   0284 DD 21 00 00         609 	ld	ix,#0
-   0288 DD 39               610 	add	ix,sp
-                            611 ;msxlib.c:413: vdp2=c;
-   028A DD 7E 05            612 	ld	a,5 (ix)
-   028D D3 99               613 	out	(_vdp2),a
-                            614 ;msxlib.c:414: vdp2=reg|0x80;
-   028F DD 7E 04            615 	ld	a,4 (ix)
-   0292 F6 80               616 	or	a,#0x80
-   0294 D3 99               617 	out	(_vdp2),a
-   0296 DD E1               618 	pop	ix
-   0298 C9                  619 	ret
-   0299                     620 _vdp_register_end::
-                            621 ;msxlib.c:417: void msx2_sethz(char hz)
-                            622 ;	---------------------------------
-                            623 ; Function msx2_sethz
-                            624 ; ---------------------------------
-   0299                     625 _msx2_sethz_start::
-   0299                     626 _msx2_sethz:
-   0299 DD E5               627 	push	ix
-   029B DD 21 00 00         628 	ld	ix,#0
-   029F DD 39               629 	add	ix,sp
-                            630 ;msxlib.c:419: if(hz==50)
-   02A1 DD 7E 04            631 	ld	a,4 (ix)
-   02A4 D6 32               632 	sub	a,#0x32
-   02A6 20 0A               633 	jr	NZ,00102$
-                            634 ;msxlib.c:420: vdp_register(VDP_MODE3,2);
-   02A8 21 09 02            635 	ld	hl,#0x0209
-   02AB E5                  636 	push	hl
-   02AC CDr82s02            637 	call	_vdp_register
-   02AF F1                  638 	pop	af
-   02B0 18 08               639 	jr	00104$
-   02B2                     640 00102$:
-                            641 ;msxlib.c:422: vdp_register(VDP_MODE3,0);
-   02B2 21 09 00            642 	ld	hl,#0x0009
-   02B5 E5                  643 	push	hl
-   02B6 CDr82s02            644 	call	_vdp_register
-   02B9 F1                  645 	pop	af
-   02BA                     646 00104$:
-   02BA DD E1               647 	pop	ix
-   02BC C9                  648 	ret
-   02BD                     649 _msx2_sethz_end::
-                            650 ;msxlib.c:425: unsigned char vdp_status()
-                            651 ;	---------------------------------
-                            652 ; Function vdp_status
-                            653 ; ---------------------------------
-   02BD                     654 _vdp_status_start::
-   02BD                     655 _vdp_status:
-                            656 ;msxlib.c:427: return vdp2;
-   02BD DB 99               657 	in	a,(_vdp2)
-   02BF 6F                  658 	ld	l,a
-   02C0 C9                  659 	ret
-   02C1                     660 _vdp_status_end::
-                            661 ;msxlib.c:430: unsigned char vdp2_status(unsigned char reg)
-                            662 ;	---------------------------------
-                            663 ; Function vdp2_status
-                            664 ; ---------------------------------
-   02C1                     665 _vdp2_status_start::
-   02C1                     666 _vdp2_status:
-   02C1 DD E5               667 	push	ix
-   02C3 DD 21 00 00         668 	ld	ix,#0
-   02C7 DD 39               669 	add	ix,sp
-                            670 ;msxlib.c:434: vdp_register(15,reg);
-   02C9 DD 7E 04            671 	ld	a,4 (ix)
-   02CC F5                  672 	push	af
-   02CD 33                  673 	inc	sp
-   02CE 3E 0F               674 	ld	a,#0x0F
-   02D0 F5                  675 	push	af
-   02D1 33                  676 	inc	sp
-   02D2 CDr82s02            677 	call	_vdp_register
-   02D5 F1                  678 	pop	af
-                            679 ;msxlib.c:435: c=vdp2;
-   02D6 DB 99               680 	in	a,(_vdp2)
-   02D8 4F                  681 	ld	c,a
-                            682 ;msxlib.c:436: vdp_register(15,0);
-   02D9 C5                  683 	push	bc
-   02DA 21 0F 00            684 	ld	hl,#0x000F
-   02DD E5                  685 	push	hl
-   02DE CDr82s02            686 	call	_vdp_register
-   02E1 F1                  687 	pop	af
-   02E2 C1                  688 	pop	bc
-                            689 ;msxlib.c:438: return c;
-   02E3 69                  690 	ld	l,c
-   02E4 DD E1               691 	pop	ix
-   02E6 C9                  692 	ret
-   02E7                     693 _vdp2_status_end::
-                            694 ;msxlib.c:441: void sprite_col(int num,char col)
-                            695 ;	---------------------------------
-                            696 ; Function sprite_col
-                            697 ; ---------------------------------
-   02E7                     698 _sprite_col_start::
-   02E7                     699 _sprite_col:
-   02E7 DD E5               700 	push	ix
-   02E9 DD 21 00 00         701 	ld	ix,#0
-   02ED DD 39               702 	add	ix,sp
-                            703 ;msxlib.c:443: vdp_poke(0x1b00+(num<<2)+3,col);
-   02EF DD 4E 06            704 	ld	c,6 (ix)
-   02F2 DD 5E 04            705 	ld	e,4 (ix)
-   02F5 DD 56 05            706 	ld	d,5 (ix)
-   02F8 CB 23               707 	sla	e
-   02FA CB 12               708 	rl	d
-   02FC CB 23               709 	sla	e
-   02FE CB 12               710 	rl	d
-   0300 21 03 1B            711 	ld	hl,#0x1B03
-   0303 19                  712 	add	hl,de
-   0304 EB                  713 	ex	de,hl
-   0305 79                  714 	ld	a,c
-   0306 F5                  715 	push	af
-   0307 33                  716 	inc	sp
-   0308 D5                  717 	push	de
-   0309 CDr67s00            718 	call	_vdp_poke
-   030C F1                  719 	pop	af
-   030D 33                  720 	inc	sp
-   030E DD E1               721 	pop	ix
-   0310 C9                  722 	ret
-   0311                     723 _sprite_col_end::
-                            724 ;msxlib.c:446: void sprite_pos(int num,unsigned char x,unsigned char y)
-                            725 ;	---------------------------------
-                            726 ; Function sprite_pos
-                            727 ; ---------------------------------
-   0311                     728 _sprite_pos_start::
-   0311                     729 _sprite_pos:
-   0311 DD E5               730 	push	ix
-   0313 DD 21 00 00         731 	ld	ix,#0
-   0317 DD 39               732 	add	ix,sp
-                            733 ;msxlib.c:448: vdp_poke(0x1b00+(num<<2),y);
-   0319 DD 4E 04            734 	ld	c,4 (ix)
-   031C DD 46 05            735 	ld	b,5 (ix)
-   031F CB 21               736 	sla	c
-   0321 CB 10               737 	rl	b
-   0323 CB 21               738 	sla	c
-   0325 CB 10               739 	rl	b
-   0327 21 00 1B            740 	ld	hl,#0x1B00
-   032A 09                  741 	add	hl,bc
-   032B EB                  742 	ex	de,hl
-   032C C5                  743 	push	bc
-   032D DD 7E 07            744 	ld	a,7 (ix)
-   0330 F5                  745 	push	af
-   0331 33                  746 	inc	sp
-   0332 D5                  747 	push	de
-   0333 CDr67s00            748 	call	_vdp_poke
-   0336 F1                  749 	pop	af
-   0337 33                  750 	inc	sp
-   0338 C1                  751 	pop	bc
-                            752 ;msxlib.c:449: vdp_poke(0x1b00+(num<<2)+1,x);
-   0339 21 01 1B            753 	ld	hl,#0x1B01
-   033C 09                  754 	add	hl,bc
-   033D 4D                  755 	ld	c,l
-   033E 44                  756 	ld	b,h
-   033F DD 7E 06            757 	ld	a,6 (ix)
-   0342 F5                  758 	push	af
-   0343 33                  759 	inc	sp
-   0344 C5                  760 	push	bc
-   0345 CDr67s00            761 	call	_vdp_poke
-   0348 F1                  762 	pop	af
-   0349 33                  763 	inc	sp
-   034A DD E1               764 	pop	ix
-   034C C9                  765 	ret
-   034D                     766 _sprite_pos_end::
-                            767 ;msxlib.c:452: void sprite_pat(int num,unsigned char pat)
-                            768 ;	---------------------------------
-                            769 ; Function sprite_pat
-                            770 ; ---------------------------------
-   034D                     771 _sprite_pat_start::
-   034D                     772 _sprite_pat:
-   034D DD E5               773 	push	ix
-   034F DD 21 00 00         774 	ld	ix,#0
-   0353 DD 39               775 	add	ix,sp
-                            776 ;msxlib.c:454: vdp_poke(0x1b00+(num<<2)+2,pat);
-   0355 DD 4E 04            777 	ld	c,4 (ix)
-   0358 DD 46 05            778 	ld	b,5 (ix)
-   035B CB 21               779 	sla	c
-   035D CB 10               780 	rl	b
-   035F CB 21               781 	sla	c
-   0361 CB 10               782 	rl	b
-   0363 21 02 1B            783 	ld	hl,#0x1B02
-   0366 09                  784 	add	hl,bc
-   0367 4D                  785 	ld	c,l
-   0368 44                  786 	ld	b,h
-   0369 DD 7E 06            787 	ld	a,6 (ix)
-   036C F5                  788 	push	af
-   036D 33                  789 	inc	sp
-   036E C5                  790 	push	bc
-   036F CDr67s00            791 	call	_vdp_poke
-   0372 F1                  792 	pop	af
-   0373 33                  793 	inc	sp
-   0374 DD E1               794 	pop	ix
-   0376 C9                  795 	ret
-   0377                     796 _sprite_pat_end::
-                            797 ;msxlib.c:457: void msx2_palette(char col,char r,char g,char b)
-                            798 ;	---------------------------------
-                            799 ; Function msx2_palette
-                            800 ; ---------------------------------
-   0377                     801 _msx2_palette_start::
-   0377                     802 _msx2_palette:
-   0377 DD E5               803 	push	ix
-   0379 DD 21 00 00         804 	ld	ix,#0
-   037D DD 39               805 	add	ix,sp
-                            806 ;msxlib.c:459: vdp2=col;
-   037F DD 7E 04            807 	ld	a,4 (ix)
-   0382 D3 99               808 	out	(_vdp2),a
-                            809 ;msxlib.c:460: vdp2=0x90;
-   0384 3E 90               810 	ld	a,#0x90
-   0386 D3 99               811 	out	(_vdp2),a
-                            812 ;msxlib.c:461: vdp3=(r<<4)+b;
-   0388 DD 7E 05            813 	ld	a,5 (ix)
-   038B 07                  814 	rlca
-   038C 07                  815 	rlca
-   038D 07                  816 	rlca
-   038E 07                  817 	rlca
-   038F E6 F0               818 	and	a,#0xF0
-   0391 4F                  819 	ld	c,a
-   0392 DD 86 07            820 	add	a,7 (ix)
-   0395 D3 9A               821 	out	(_vdp3),a
-                            822 ;msxlib.c:462: vdp3=g;
-   0397 DD 7E 06            823 	ld	a,6 (ix)
-   039A D3 9A               824 	out	(_vdp3),a
-   039C DD E1               825 	pop	ix
-   039E C9                  826 	ret
-   039F                     827 _msx2_palette_end::
-                            828 ;msxlib.c:465: char joy_status(char num)
-                            829 ;	---------------------------------
-                            830 ; Function joy_status
-                            831 ; ---------------------------------
-   039F                     832 _joy_status_start::
-   039F                     833 _joy_status:
-   039F DD E5               834 	push	ix
-   03A1 DD 21 00 00         835 	ld	ix,#0
-   03A5 DD 39               836 	add	ix,sp
-                            837 ;msxlib.c:469: psgsel=0xf;
-   03A7 3E 0F               838 	ld	a,#0x0F
-   03A9 D3 A0               839 	out	(_psgsel),a
-                            840 ;msxlib.c:470: c=psgr;
-   03AB DB A2               841 	in	a,(_psgr)
-   03AD 4F                  842 	ld	c,a
-                            843 ;msxlib.c:472: if(num==1)
-   03AE DD 7E 04            844 	ld	a,4 (ix)
-   03B1 D6 01               845 	sub	a,#0x01
-   03B3 20 0A               846 	jr	NZ,00102$
-                            847 ;msxlib.c:473: psgw=c&0x80|0x03;
-   03B5 79                  848 	ld	a,c
-   03B6 E6 80               849 	and	a,#0x80
-   03B8 47                  850 	ld	b,a
-   03B9 F6 03               851 	or	a,#0x03
-   03BB D3 A1               852 	out	(_psgw),a
-   03BD 18 08               853 	jr	00103$
-   03BF                     854 00102$:
-                            855 ;msxlib.c:475: psgw=c&0x80|0x4c;
-   03BF 79                  856 	ld	a,c
-   03C0 E6 80               857 	and	a,#0x80
-   03C2 4F                  858 	ld	c,a
-   03C3 F6 4C               859 	or	a,#0x4C
-   03C5 D3 A1               860 	out	(_psgw),a
-   03C7                     861 00103$:
-                            862 ;msxlib.c:477: psgsel=0xe;
-   03C7 3E 0E               863 	ld	a,#0x0E
-   03C9 D3 A0               864 	out	(_psgsel),a
-                            865 ;msxlib.c:478: return(psgr^0xff);
-   03CB DB A2               866 	in	a,(_psgr)
-   03CD EE FF               867 	xor	a,#0xFF
-   03CF 6F                  868 	ld	l,a
-   03D0 DD E1               869 	pop	ix
-   03D2 C9                  870 	ret
-   03D3                     871 _joy_status_end::
-                            872 ;msxlib.c:481: static void waitmouse(void)
-                            873 ;	---------------------------------
-                            874 ; Function waitmouse
-                            875 ; ---------------------------------
-   03D3                     876 _waitmouse:
-                            877 ;msxlib.c:484: for(n=0;n<8;n++)
-   03D3 0E 08               878 	ld	c,#0x08
-   03D5                     879 00103$:
-                            880 ;msxlib.c:488: __endasm;
-                            881 	
-   03D5 00                  882 		 nop
-                            883 		 
-   03D6 0D                  884 	dec	c
-                            885 ;msxlib.c:484: for(n=0;n<8;n++)
-   03D7 AF                  886 	xor	a,a
-   03D8 B1                  887 	or	a,c
-   03D9 20 FA               888 	jr	NZ,00103$
-   03DB C9                  889 	ret
-                            890 ;msxlib.c:493: char mouse_status(char num,signed char *x,signed char *y)
-                            891 ;	---------------------------------
-                            892 ; Function mouse_status
-                            893 ; ---------------------------------
-   03DC                     894 _mouse_status_start::
-   03DC                     895 _mouse_status:
-   03DC DD E5               896 	push	ix
-   03DE DD 21 00 00         897 	ld	ix,#0
-   03E2 DD 39               898 	add	ix,sp
-   03E4 F5                  899 	push	af
-                            900 ;msxlib.c:498: if(num==1)
-   03E5 DD 7E 04            901 	ld	a,4 (ix)
-   03E8 D6 01               902 	sub	a,#0x01
-   03EA 20 05               903 	jr	NZ,00102$
-                            904 ;msxlib.c:500: outval=0x93;
-                            905 ;msxlib.c:501: xorval=0x10;
-   03EC 01 93 10            906 	ld	bc,#0x1093
-   03EF 18 03               907 	jr	00103$
-   03F1                     908 00102$:
-                            909 ;msxlib.c:505: outval=0xec;
-                            910 ;msxlib.c:506: xorval=0x20;
-   03F1 01 EC 20            911 	ld	bc,#0x20EC
-   03F4                     912 00103$:
-                            913 ;msxlib.c:509: waitmouse();
-   03F4 C5                  914 	push	bc
-   03F5 CDrD3s03            915 	call	_waitmouse
-   03F8 C1                  916 	pop	bc
-                            917 ;msxlib.c:510: waitmouse();
-   03F9 C5                  918 	push	bc
-   03FA CDrD3s03            919 	call	_waitmouse
-   03FD C1                  920 	pop	bc
-                            921 ;msxlib.c:511: psgsel=15;
-   03FE 3E 0F               922 	ld	a,#0x0F
-   0400 D3 A0               923 	out	(_psgsel),a
-                            924 ;msxlib.c:512: psgw=outval;
-   0402 79                  925 	ld	a,c
-   0403 D3 A1               926 	out	(_psgw),a
-                            927 ;msxlib.c:513: outval^=xorval;
-   0405 79                  928 	ld	a,c
-   0406 A8                  929 	xor	a,b
-   0407 4F                  930 	ld	c,a
-                            931 ;msxlib.c:514: waitmouse();
-   0408 C5                  932 	push	bc
-   0409 CDrD3s03            933 	call	_waitmouse
-   040C C1                  934 	pop	bc
-                            935 ;msxlib.c:515: psgsel=14;
-   040D 3E 0E               936 	ld	a,#0x0E
-   040F D3 A0               937 	out	(_psgsel),a
-                            938 ;msxlib.c:516: c=butt=psgr;
-   0411 DB A2               939 	in	a,(_psgr)
-                            940 ;msxlib.c:517: ex=(c&0xf)<<4;
-   0413 57                  941 	ld	d,a
-   0414 E6 0F               942 	and	a,#0x0F
-   0416 5F                  943 	ld	e,a
-   0417 07                  944 	rlca
-   0418 07                  945 	rlca
-   0419 07                  946 	rlca
-   041A 07                  947 	rlca
-   041B E6 F0               948 	and	a,#0xF0
-   041D DD 77 FE            949 	ld	-2 (ix),a
-                            950 ;msxlib.c:519: psgsel=15;
-   0420 3E 0F               951 	ld	a,#0x0F
-   0422 D3 A0               952 	out	(_psgsel),a
-                            953 ;msxlib.c:520: psgw=outval;
-   0424 79                  954 	ld	a,c
-   0425 D3 A1               955 	out	(_psgw),a
-                            956 ;msxlib.c:521: outval^=xorval;
-   0427 79                  957 	ld	a,c
-   0428 A8                  958 	xor	a,b
-   0429 4F                  959 	ld	c,a
-                            960 ;msxlib.c:522: waitmouse();
-   042A C5                  961 	push	bc
-   042B D5                  962 	push	de
-   042C CDrD3s03            963 	call	_waitmouse
-   042F D1                  964 	pop	de
-   0430 C1                  965 	pop	bc
-                            966 ;msxlib.c:523: psgsel=14;
-   0431 3E 0E               967 	ld	a,#0x0E
-   0433 D3 A0               968 	out	(_psgsel),a
-                            969 ;msxlib.c:524: c=psgr;
-   0435 DB A2               970 	in	a,(_psgr)
-                            971 ;msxlib.c:525: ex|=c&0xf;
-   0437 DD 77 FF            972 	ld	-1 (ix),a
-   043A E6 0F               973 	and	a,#0x0F
-   043C 5F                  974 	ld	e,a
-   043D DD B6 FE            975 	or	a,-2 (ix)
-   0440 DD 77 FE            976 	ld	-2 (ix),a
-                            977 ;msxlib.c:527: psgsel=15;
-   0443 3E 0F               978 	ld	a,#0x0F
-   0445 D3 A0               979 	out	(_psgsel),a
-                            980 ;msxlib.c:528: psgw=outval;
-   0447 79                  981 	ld	a,c
-   0448 D3 A1               982 	out	(_psgw),a
-                            983 ;msxlib.c:529: outval^=xorval;
-   044A 79                  984 	ld	a,c
-   044B A8                  985 	xor	a,b
-   044C 4F                  986 	ld	c,a
-                            987 ;msxlib.c:530: waitmouse();
-   044D C5                  988 	push	bc
-   044E D5                  989 	push	de
-   044F CDrD3s03            990 	call	_waitmouse
-   0452 D1                  991 	pop	de
-   0453 C1                  992 	pop	bc
-                            993 ;msxlib.c:531: psgsel=14;
-   0454 3E 0E               994 	ld	a,#0x0E
-   0456 D3 A0               995 	out	(_psgsel),a
-                            996 ;msxlib.c:532: c=psgr;
-   0458 DB A2               997 	in	a,(_psgr)
-                            998 ;msxlib.c:533: ey=(c&0xf)<<4;
-   045A DD 77 FF            999 	ld	-1 (ix),a
-   045D E6 0F              1000 	and	a,#0x0F
-   045F 07                 1001 	rlca
-   0460 07                 1002 	rlca
-   0461 07                 1003 	rlca
-   0462 07                 1004 	rlca
-   0463 E6 F0              1005 	and	a,#0xF0
-   0465 47                 1006 	ld	b,a
-                           1007 ;msxlib.c:535: psgsel=15;
-   0466 3E 0F              1008 	ld	a,#0x0F
-   0468 D3 A0              1009 	out	(_psgsel),a
-                           1010 ;msxlib.c:536: psgw=outval;
-   046A 79                 1011 	ld	a,c
-   046B D3 A1              1012 	out	(_psgw),a
-                           1013 ;msxlib.c:538: waitmouse();
-   046D C5                 1014 	push	bc
-   046E D5                 1015 	push	de
-   046F CDrD3s03           1016 	call	_waitmouse
-   0472 D1                 1017 	pop	de
-   0473 C1                 1018 	pop	bc
-                           1019 ;msxlib.c:539: psgsel=14;
-   0474 3E 0E              1020 	ld	a,#0x0E
-   0476 D3 A0              1021 	out	(_psgsel),a
-                           1022 ;msxlib.c:540: c=psgr;
-   0478 DB A2              1023 	in	a,(_psgr)
-                           1024 ;msxlib.c:541: ey|=c&0xf;
-   047A DD 77 FF           1025 	ld	-1 (ix),a
-   047D E6 0F              1026 	and	a,#0x0F
-   047F B0                 1027 	or	a,b
-   0480 47                 1028 	ld	b,a
-                           1029 ;msxlib.c:543: *x=-ex;
-   0481 E5                 1030 	push	hl
-   0482 DD 6E 05           1031 	ld	l,5 (ix)
-   0485 DD 66 06           1032 	ld	h,6 (ix)
-   0488 E5                 1033 	push	hl
-   0489 FD E1              1034 	pop	iy
-   048B E1                 1035 	pop	hl
-   048C AF                 1036 	xor	a,a
-   048D DD 9E FE           1037 	sbc	a,-2 (ix)
-   0490 4F                 1038 	ld	c,a
-   0491 FD 71 00           1039 	ld	(iy),c
-                           1040 ;msxlib.c:544: *y=-ey;
-   0494 E5                 1041 	push	hl
-   0495 DD 6E 07           1042 	ld	l,7 (ix)
-   0498 DD 66 08           1043 	ld	h,8 (ix)
-   049B E5                 1044 	push	hl
-   049C FD E1              1045 	pop	iy
-   049E E1                 1046 	pop	hl
-   049F AF                 1047 	xor	a,a
-   04A0 98                 1048 	sbc	a,b
-   04A1 47                 1049 	ld	b,a
-   04A2 FD 70 00           1050 	ld	(iy),b
-                           1051 ;msxlib.c:545: return(butt^0xff);
-   04A5 7A                 1052 	ld	a,d
-   04A6 EE FF              1053 	xor	a,#0xFF
-   04A8 6F                 1054 	ld	l,a
-   04A9 DD F9              1055 	ld	sp,ix
-   04AB DD E1              1056 	pop	ix
-   04AD C9                 1057 	ret
-   04AE                    1058 _mouse_status_end::
-                           1059 ;msxlib.c:548: char isvdp2(void) // Thanks to Nyyrikki
-                           1060 ;	---------------------------------
-                           1061 ; Function isvdp2
-                           1062 ; ---------------------------------
-   04AE                    1063 _isvdp2_start::
-   04AE                    1064 _isvdp2:
-                           1065 ;msxlib.c:552: DI;
-   04AE F3                 1066 		di 
-                           1067 ;msxlib.c:553: vdp2=1;
-   04AF 3E 01              1068 	ld	a,#0x01
-   04B1 D3 99              1069 	out	(_vdp2),a
-                           1070 ;msxlib.c:554: vdp2=0x8f;
-   04B3 3E 8F              1071 	ld	a,#0x8F
-   04B5 D3 99              1072 	out	(_vdp2),a
-                           1073 ;msxlib.c:555: c=vdp2;
-   04B7 DB 99              1074 	in	a,(_vdp2)
-   04B9 4F                 1075 	ld	c,a
-                           1076 ;msxlib.c:556: vdp2=0;
-   04BA 3E 00              1077 	ld	a,#0x00
-   04BC D3 99              1078 	out	(_vdp2),a
-                           1079 ;msxlib.c:557: vdp2=0x8f;
-   04BE 3E 8F              1080 	ld	a,#0x8F
-   04C0 D3 99              1081 	out	(_vdp2),a
-                           1082 ;msxlib.c:558: EI;
-   04C2 FB                 1083 		ei 
-                           1084 ;msxlib.c:560: if(c&2==2)
-   04C3 79                 1085 	ld	a,c
-   04C4 E6 01              1086 	and	a,#0x01
-   04C6 28 03              1087 	jr	Z,00102$
-                           1088 ;msxlib.c:561: return(0);
-   04C8 2E 00              1089 	ld	l,#0x00
-   04CA C9                 1090 	ret
-   04CB                    1091 00102$:
-                           1092 ;msxlib.c:562: return(1);
-   04CB 2E 01              1093 	ld	l,#0x01
-   04CD C9                 1094 	ret
-   04CE                    1095 _isvdp2_end::
-                           1096 ;msxlib.c:567: static void asm_readfile(char *name,unsigned char *dest)
-                           1097 ;	---------------------------------
-                           1098 ; Function asm_readfile
-                           1099 ; ---------------------------------
-   04CE                    1100 _asm_readfile:
-   04CE DD E5              1101 	push	ix
-   04D0 DD 21 00 00        1102 	ld	ix,#0
-   04D4 DD 39              1103 	add	ix,sp
-                           1104 ;msxlib.c:636: __endasm;
-                           1105 	
-   04D6 DD E5              1106 		   push ix
-   04D8 DD 21 00 00        1107 		   ld ix,#0
-   04DC DD 39              1108 		   add ix,sp
-   04DE D5                 1109 		   push de
-   04DF E5                 1110 		   push hl
-   04E0 C5                 1111 		   push bc
-                           1112 	
-   04E1 11r3Bs05           1113 		   ld de,#$21
-   04E4 06 28              1114 		   ld b,#40 ; Clear FCB
-   04E6 AF                 1115 		   xor a
-   04E7                    1116 	$25:
-   04E7 12                 1117 		   ld (de),a
-   04E8 13                 1118 		   inc de
-   04E9 10 FC              1119 		   djnz $25
+   010D CB 38               308 		   srl b ; BC/8
+   010F CB 19               309 		   rr c
+   0111 CB 38               310 		   srl b
+   0113 CB 19               311 		   rr c
+   0115 CB 38               312 		   srl b
+   0117 CB 19               313 		   rr c
+   0119 78                  314 		   ld a,b
+   011A B1                  315 		   or c
+   011B CAr51s01            316 		   jp z,1$
+                            317 	
+   011E                     318 	0$:
+   011E 7A                  319 		   ld a,d
+   011F D3 98               320 		   out (0x98),a
+   0121 00                  321 		   nop
+   0122 00                  322 		   nop
+   0123 00                  323 		   nop
+   0124 00                  324 		   nop
+   0125 D3 98               325 		   out (0x98),a
+   0127 00                  326 		   nop
+   0128 00                  327 		   nop
+   0129 00                  328 		   nop
+   012A 00                  329 		   nop
+   012B D3 98               330 		   out (0x98),a
+   012D 00                  331 		   nop
+   012E 00                  332 		   nop
+   012F 00                  333 		   nop
+   0130 00                  334 		   nop
+   0131 D3 98               335 		   out (0x98),a
+   0133 00                  336 		   nop
+   0134 00                  337 		   nop
+   0135 00                  338 		   nop
+   0136 00                  339 		   nop
+   0137 D3 98               340 		   out (0x98),a
+   0139 00                  341 		   nop
+   013A 00                  342 		   nop
+   013B 00                  343 		   nop
+   013C 00                  344 		   nop
+   013D D3 98               345 		   out (0x98),a
+   013F 00                  346 		   nop
+   0140 00                  347 		   nop
+   0141 00                  348 		   nop
+   0142 00                  349 		   nop
+   0143 D3 98               350 		   out (0x98),a
+   0145 00                  351 		   nop
+   0146 00                  352 		   nop
+   0147 00                  353 		   nop
+   0148 00                  354 		   nop
+   0149 D3 98               355 		   out (0x98),a
+   014B 0B                  356 		   dec bc
+   014C 78                  357 		   ld a,b
+   014D B1                  358 		   or c
+   014E C2r1Es01            359 		   jp nz,0$
+                            360 	
+   0151                     361 	1$:
+   0151 C1                  362 		   pop bc ; The modulo part
+   0152 79                  363 		   ld a,c
+   0153 E6 07               364 		   and #7
+   0155 CAr63s01            365 		   jp z,2$
+                            366 	
+   0158 4F                  367 		   ld c,a
+   0159 7A                  368 		   ld a,d
+   015A                     369 	3$:
+   015A D3 98               370 		   out (0x98),a
+   015C 00                  371 		   nop
+   015D 00                  372 		   nop
+   015E 00                  373 		   nop
+   015F 0D                  374 		   dec c
+   0160 C2r5As01            375 		   jp nz,3$
+                            376 	
+   0163                     377 	2$:
+   0163 C1                  378 		   pop bc
+   0164 D1                  379 		   pop de
+                            380 		   
+   0165 DD E1               381 	pop	ix
+   0167 C9                  382 	ret
+   0168                     383 _vdp_slowset_end::
+                            384 ;msxlib.c:223: void vdp_copy(unsigned char *src,unsigned bytes)
+                            385 ;	---------------------------------
+                            386 ; Function vdp_copy
+                            387 ; ---------------------------------
+   0168                     388 _vdp_copy_start::
+   0168                     389 _vdp_copy:
+   0168 DD E5               390 	push	ix
+   016A DD 21 00 00         391 	ld	ix,#0
+   016E DD 39               392 	add	ix,sp
+                            393 ;msxlib.c:275: __endasm;
+                            394 	
+   0170 D5                  395 		   push de
+   0171 E5                  396 		   push hl
+   0172 C5                  397 		   push bc
+                            398 	
+   0173 DD 6E 04            399 		   ld l,4(ix) ; Parametrit
+   0176 DD 66 05            400 		   ld h,5(ix)
+   0179 DD 5E 06            401 		   ld e,6(ix)
+   017C DD 56 07            402 		   ld d,7(ix)
+   017F D5                  403 		   push de
+   0180 0E 98               404 		   ld c,#0x98
+                            405 	
+   0182 CB 3A               406 		   srl d ; DE/8
+   0184 CB 1B               407 		   rr e
+   0186 CB 3A               408 		   srl d
+   0188 CB 1B               409 		   rr e
+   018A CB 3A               410 		   srl d
+   018C CB 1B               411 		   rr e
+   018E 7A                  412 		   ld a,d
+   018F B3                  413 		   or e
+   0190 CArA9s01            414 		   jp z,1$
+                            415 	
+   0193                     416 	0$:
+   0193 ED A3               417 		   outi
+   0195 ED A3               418 		   outi
+   0197 ED A3               419 		   outi
+   0199 ED A3               420 		   outi
+   019B ED A3               421 		   outi
+   019D ED A3               422 		   outi
+   019F ED A3               423 		   outi
+   01A1 ED A3               424 		   outi
+   01A3 1B                  425 		   dec de
+   01A4 7A                  426 		   ld a,d
+   01A5 B3                  427 		   or e
+   01A6 C2r93s01            428 		   jp nz,0$
+                            429 	
+   01A9                     430 	1$:
+   01A9 D1                  431 		   pop de ; The modulo part
+   01AA 7B                  432 		   ld a,e
+   01AB E6 07               433 		   and #7
+   01AD CArB3s01            434 		   jp z,2$
+                            435 	
+   01B0 47                  436 		   ld b,a
+   01B1 ED B3               437 		   otir
+                            438 	
+   01B3                     439 	2$:
+   01B3 C1                  440 		   pop bc
+   01B4 E1                  441 		   pop hl
+   01B5 D1                  442 		   pop de
+                            443 		   
+   01B6 DD E1               444 	pop	ix
+   01B8 C9                  445 	ret
+   01B9                     446 _vdp_copy_end::
+                            447 ;msxlib.c:278: void vdp_slowcopy(unsigned char *src,unsigned bytes)
+                            448 ;	---------------------------------
+                            449 ; Function vdp_slowcopy
+                            450 ; ---------------------------------
+   01B9                     451 _vdp_slowcopy_start::
+   01B9                     452 _vdp_slowcopy:
+   01B9 DD E5               453 	push	ix
+   01BB DD 21 00 00         454 	ld	ix,#0
+   01BF DD 39               455 	add	ix,sp
+                            456 ;msxlib.c:347: __endasm;
+                            457 	
+   01C1 D5                  458 		   push de
+   01C2 E5                  459 		   push hl
+   01C3 C5                  460 		   push bc
+                            461 	
+   01C4 DD 6E 04            462 		   ld l,4(ix) ; Parametrit
+   01C7 DD 66 05            463 		   ld h,5(ix)
+   01CA DD 5E 06            464 		   ld e,6(ix)
+   01CD DD 56 07            465 		   ld d,7(ix)
+   01D0 D5                  466 		   push de
+   01D1 0E 98               467 		   ld c,#0x98
+                            468 	
+   01D3 CB 3A               469 		   srl d ; DE/8
+   01D5 CB 1B               470 		   rr e
+   01D7 CB 3A               471 		   srl d
+   01D9 CB 1B               472 		   rr e
+   01DB CB 3A               473 		   srl d
+   01DD CB 1B               474 		   rr e
+   01DF 7A                  475 		   ld a,d
+   01E0 B3                  476 		   or e
+   01E1 CAr08s02            477 		   jp z,1$
+                            478 	
+   01E4                     479 	0$:
+   01E4 ED A3               480 		   outi
+   01E6 00                  481 		   nop
+   01E7 00                  482 		   nop
+   01E8 ED A3               483 		   outi
+   01EA 00                  484 		   nop
+   01EB 00                  485 		   nop
+   01EC ED A3               486 		   outi
+   01EE 00                  487 		   nop
+   01EF 00                  488 		   nop
+   01F0 ED A3               489 		   outi
+   01F2 00                  490 		   nop
+   01F3 00                  491 		   nop
+   01F4 ED A3               492 		   outi
+   01F6 00                  493 		   nop
+   01F7 00                  494 		   nop
+   01F8 ED A3               495 		   outi
+   01FA 00                  496 		   nop
+   01FB 00                  497 		   nop
+   01FC ED A3               498 		   outi
+   01FE 00                  499 		   nop
+   01FF 00                  500 		   nop
+   0200 ED A3               501 		   outi
+   0202 1B                  502 		   dec de
+   0203 7A                  503 		   ld a,d
+   0204 B3                  504 		   or e
+   0205 C2rE4s01            505 		   jp nz,0$
+                            506 	
+   0208                     507 	1$:
+   0208 D1                  508 		   pop de ; The modulo part
+   0209 7B                  509 		   ld a,e
+   020A E6 07               510 		   and #7
+   020C CAr17s02            511 		   jp z,2$
+                            512 	
+   020F 47                  513 		   ld b,a
+   0210                     514 	3$:
+   0210 ED A3               515 	outi
+   0212 78                  516 		   ld a,b
+   0213 B7                  517 		   or a
+   0214 C2r10s02            518 		   jp nz,3$
+                            519 	
+   0217                     520 	2$:
+   0217 C1                  521 		   pop bc
+   0218 E1                  522 		   pop hl
+   0219 D1                  523 		   pop de
+                            524 		   
+   021A DD E1               525 	pop	ix
+   021C C9                  526 	ret
+   021D                     527 _vdp_slowcopy_end::
+                            528 ;msxlib.c:350: void vdp_bigcopy(unsigned char *src,unsigned block32)
+                            529 ;	---------------------------------
+                            530 ; Function vdp_bigcopy
+                            531 ; ---------------------------------
+   021D                     532 _vdp_bigcopy_start::
+   021D                     533 _vdp_bigcopy:
+   021D DD E5               534 	push	ix
+   021F DD 21 00 00         535 	ld	ix,#0
+   0223 DD 39               536 	add	ix,sp
+                            537 ;msxlib.c:408: __endasm;
+                            538 	
+   0225 D5                  539 		   push de
+   0226 E5                  540 		   push hl
+   0227 C5                  541 		   push bc
+                            542 	
+   0228 DD 6E 04            543 		   ld l,4(ix) ; Parametrit
+   022B DD 66 05            544 		   ld h,5(ix)
+   022E DD 5E 06            545 		   ld e,6(ix)
+   0231 DD 56 07            546 		   ld d,7(ix)
+   0234 0E 98               547 		   ld c,#0x98
+                            548 	
+   0236                     549 	0$:
+   0236 ED A3               550 		   outi
+   0238 ED A3               551 		   outi
+   023A ED A3               552 		   outi
+   023C ED A3               553 		   outi
+   023E ED A3               554 		   outi
+   0240 ED A3               555 		   outi
+   0242 ED A3               556 		   outi
+   0244 ED A3               557 		   outi
+                            558 	
+   0246 ED A3               559 		   outi
+   0248 ED A3               560 		   outi
+   024A ED A3               561 		   outi
+   024C ED A3               562 		   outi
+   024E ED A3               563 		   outi
+   0250 ED A3               564 		   outi
+   0252 ED A3               565 		   outi
+   0254 ED A3               566 		   outi
+                            567 	
+   0256 ED A3               568 		   outi
+   0258 ED A3               569 		   outi
+   025A ED A3               570 		   outi
+   025C ED A3               571 		   outi
+   025E ED A3               572 		   outi
+   0260 ED A3               573 		   outi
+   0262 ED A3               574 		   outi
+   0264 ED A3               575 		   outi
+                            576 	
+   0266 ED A3               577 		   outi
+   0268 ED A3               578 		   outi
+   026A ED A3               579 		   outi
+   026C ED A3               580 		   outi
+   026E ED A3               581 		   outi
+   0270 ED A3               582 		   outi
+   0272 ED A3               583 		   outi
+   0274 ED A3               584 		   outi
+   0276 1B                  585 		   dec de
+   0277 7A                  586 		   ld a,d
+   0278 B3                  587 		   or e
+   0279 C2r36s02            588 		   jp nz,0$
+                            589 	
+   027C C1                  590 		   pop bc
+   027D E1                  591 		   pop hl
+   027E D1                  592 		   pop de
+                            593 		   
+   027F DD E1               594 	pop	ix
+   0281 C9                  595 	ret
+   0282                     596 _vdp_bigcopy_end::
+                            597 ;msxlib.c:411: void vdp_register(unsigned char reg,unsigned char c)
+                            598 ;	---------------------------------
+                            599 ; Function vdp_register
+                            600 ; ---------------------------------
+   0282                     601 _vdp_register_start::
+   0282                     602 _vdp_register:
+   0282 DD E5               603 	push	ix
+   0284 DD 21 00 00         604 	ld	ix,#0
+   0288 DD 39               605 	add	ix,sp
+                            606 ;msxlib.c:413: vdp2=c;
+   028A DD 7E 05            607 	ld	a,5 (ix)
+   028D D3 99               608 	out	(_vdp2),a
+                            609 ;msxlib.c:414: vdp2=reg|0x80;
+   028F DD 7E 04            610 	ld	a,4 (ix)
+   0292 F6 80               611 	or	a,#0x80
+   0294 D3 99               612 	out	(_vdp2),a
+   0296 DD E1               613 	pop	ix
+   0298 C9                  614 	ret
+   0299                     615 _vdp_register_end::
+                            616 ;msxlib.c:417: void msx2_sethz(char hz)
+                            617 ;	---------------------------------
+                            618 ; Function msx2_sethz
+                            619 ; ---------------------------------
+   0299                     620 _msx2_sethz_start::
+   0299                     621 _msx2_sethz:
+   0299 DD E5               622 	push	ix
+   029B DD 21 00 00         623 	ld	ix,#0
+   029F DD 39               624 	add	ix,sp
+                            625 ;msxlib.c:419: if(hz==50)
+   02A1 DD 7E 04            626 	ld	a,4 (ix)
+   02A4 D6 32               627 	sub	a,#0x32
+   02A6 20 0A               628 	jr	NZ,00102$
+                            629 ;msxlib.c:420: vdp_register(VDP_MODE3,2);
+   02A8 21 09 02            630 	ld	hl,#0x0209
+   02AB E5                  631 	push	hl
+   02AC CDr82s02            632 	call	_vdp_register
+   02AF F1                  633 	pop	af
+   02B0 18 08               634 	jr	00104$
+   02B2                     635 00102$:
+                            636 ;msxlib.c:422: vdp_register(VDP_MODE3,0);
+   02B2 21 09 00            637 	ld	hl,#0x0009
+   02B5 E5                  638 	push	hl
+   02B6 CDr82s02            639 	call	_vdp_register
+   02B9 F1                  640 	pop	af
+   02BA                     641 00104$:
+   02BA DD E1               642 	pop	ix
+   02BC C9                  643 	ret
+   02BD                     644 _msx2_sethz_end::
+                            645 ;msxlib.c:425: unsigned char vdp_status()
+                            646 ;	---------------------------------
+                            647 ; Function vdp_status
+                            648 ; ---------------------------------
+   02BD                     649 _vdp_status_start::
+   02BD                     650 _vdp_status:
+                            651 ;msxlib.c:427: return vdp2;
+   02BD DB 99               652 	in	a,(_vdp2)
+   02BF 6F                  653 	ld	l,a
+   02C0 C9                  654 	ret
+   02C1                     655 _vdp_status_end::
+                            656 ;msxlib.c:430: unsigned char vdp2_status(unsigned char reg)
+                            657 ;	---------------------------------
+                            658 ; Function vdp2_status
+                            659 ; ---------------------------------
+   02C1                     660 _vdp2_status_start::
+   02C1                     661 _vdp2_status:
+   02C1 DD E5               662 	push	ix
+   02C3 DD 21 00 00         663 	ld	ix,#0
+   02C7 DD 39               664 	add	ix,sp
+                            665 ;msxlib.c:434: vdp_register(15,reg);
+   02C9 DD 7E 04            666 	ld	a,4 (ix)
+   02CC F5                  667 	push	af
+   02CD 33                  668 	inc	sp
+   02CE 3E 0F               669 	ld	a,#0x0F
+   02D0 F5                  670 	push	af
+   02D1 33                  671 	inc	sp
+   02D2 CDr82s02            672 	call	_vdp_register
+   02D5 F1                  673 	pop	af
+                            674 ;msxlib.c:435: c=vdp2;
+   02D6 DB 99               675 	in	a,(_vdp2)
+   02D8 4F                  676 	ld	c,a
+                            677 ;msxlib.c:436: vdp_register(15,0);
+   02D9 C5                  678 	push	bc
+   02DA 21 0F 00            679 	ld	hl,#0x000F
+   02DD E5                  680 	push	hl
+   02DE CDr82s02            681 	call	_vdp_register
+   02E1 F1                  682 	pop	af
+   02E2 C1                  683 	pop	bc
+                            684 ;msxlib.c:438: return c;
+   02E3 69                  685 	ld	l,c
+   02E4 DD E1               686 	pop	ix
+   02E6 C9                  687 	ret
+   02E7                     688 _vdp2_status_end::
+                            689 ;msxlib.c:441: void sprite_col(int num,char col)
+                            690 ;	---------------------------------
+                            691 ; Function sprite_col
+                            692 ; ---------------------------------
+   02E7                     693 _sprite_col_start::
+   02E7                     694 _sprite_col:
+   02E7 DD E5               695 	push	ix
+   02E9 DD 21 00 00         696 	ld	ix,#0
+   02ED DD 39               697 	add	ix,sp
+                            698 ;msxlib.c:443: vdp_poke(0x1b00+(num<<2)+3,col);
+   02EF DD 4E 06            699 	ld	c,6 (ix)
+   02F2 DD 5E 04            700 	ld	e,4 (ix)
+   02F5 DD 56 05            701 	ld	d,5 (ix)
+   02F8 CB 23               702 	sla	e
+   02FA CB 12               703 	rl	d
+   02FC CB 23               704 	sla	e
+   02FE CB 12               705 	rl	d
+   0300 21 03 1B            706 	ld	hl,#0x1B03
+   0303 19                  707 	add	hl,de
+   0304 EB                  708 	ex	de,hl
+   0305 79                  709 	ld	a,c
+   0306 F5                  710 	push	af
+   0307 33                  711 	inc	sp
+   0308 D5                  712 	push	de
+   0309 CDr67s00            713 	call	_vdp_poke
+   030C F1                  714 	pop	af
+   030D 33                  715 	inc	sp
+   030E DD E1               716 	pop	ix
+   0310 C9                  717 	ret
+   0311                     718 _sprite_col_end::
+                            719 ;msxlib.c:446: void sprite_pos(int num,unsigned char x,unsigned char y)
+                            720 ;	---------------------------------
+                            721 ; Function sprite_pos
+                            722 ; ---------------------------------
+   0311                     723 _sprite_pos_start::
+   0311                     724 _sprite_pos:
+   0311 DD E5               725 	push	ix
+   0313 DD 21 00 00         726 	ld	ix,#0
+   0317 DD 39               727 	add	ix,sp
+                            728 ;msxlib.c:448: vdp_poke(0x1b00+(num<<2),y);
+   0319 DD 4E 04            729 	ld	c,4 (ix)
+   031C DD 46 05            730 	ld	b,5 (ix)
+   031F CB 21               731 	sla	c
+   0321 CB 10               732 	rl	b
+   0323 CB 21               733 	sla	c
+   0325 CB 10               734 	rl	b
+   0327 21 00 1B            735 	ld	hl,#0x1B00
+   032A 09                  736 	add	hl,bc
+   032B EB                  737 	ex	de,hl
+   032C C5                  738 	push	bc
+   032D DD 7E 07            739 	ld	a,7 (ix)
+   0330 F5                  740 	push	af
+   0331 33                  741 	inc	sp
+   0332 D5                  742 	push	de
+   0333 CDr67s00            743 	call	_vdp_poke
+   0336 F1                  744 	pop	af
+   0337 33                  745 	inc	sp
+   0338 C1                  746 	pop	bc
+                            747 ;msxlib.c:449: vdp_poke(0x1b00+(num<<2)+1,x);
+   0339 21 01 1B            748 	ld	hl,#0x1B01
+   033C 09                  749 	add	hl,bc
+   033D 4D                  750 	ld	c,l
+   033E 44                  751 	ld	b,h
+   033F DD 7E 06            752 	ld	a,6 (ix)
+   0342 F5                  753 	push	af
+   0343 33                  754 	inc	sp
+   0344 C5                  755 	push	bc
+   0345 CDr67s00            756 	call	_vdp_poke
+   0348 F1                  757 	pop	af
+   0349 33                  758 	inc	sp
+   034A DD E1               759 	pop	ix
+   034C C9                  760 	ret
+   034D                     761 _sprite_pos_end::
+                            762 ;msxlib.c:452: void sprite_pat(int num,unsigned char pat)
+                            763 ;	---------------------------------
+                            764 ; Function sprite_pat
+                            765 ; ---------------------------------
+   034D                     766 _sprite_pat_start::
+   034D                     767 _sprite_pat:
+   034D DD E5               768 	push	ix
+   034F DD 21 00 00         769 	ld	ix,#0
+   0353 DD 39               770 	add	ix,sp
+                            771 ;msxlib.c:454: vdp_poke(0x1b00+(num<<2)+2,pat);
+   0355 DD 4E 04            772 	ld	c,4 (ix)
+   0358 DD 46 05            773 	ld	b,5 (ix)
+   035B CB 21               774 	sla	c
+   035D CB 10               775 	rl	b
+   035F CB 21               776 	sla	c
+   0361 CB 10               777 	rl	b
+   0363 21 02 1B            778 	ld	hl,#0x1B02
+   0366 09                  779 	add	hl,bc
+   0367 4D                  780 	ld	c,l
+   0368 44                  781 	ld	b,h
+   0369 DD 7E 06            782 	ld	a,6 (ix)
+   036C F5                  783 	push	af
+   036D 33                  784 	inc	sp
+   036E C5                  785 	push	bc
+   036F CDr67s00            786 	call	_vdp_poke
+   0372 F1                  787 	pop	af
+   0373 33                  788 	inc	sp
+   0374 DD E1               789 	pop	ix
+   0376 C9                  790 	ret
+   0377                     791 _sprite_pat_end::
+                            792 ;msxlib.c:457: void msx2_palette(char col,char r,char g,char b)
+                            793 ;	---------------------------------
+                            794 ; Function msx2_palette
+                            795 ; ---------------------------------
+   0377                     796 _msx2_palette_start::
+   0377                     797 _msx2_palette:
+   0377 DD E5               798 	push	ix
+   0379 DD 21 00 00         799 	ld	ix,#0
+   037D DD 39               800 	add	ix,sp
+                            801 ;msxlib.c:459: vdp2=col;
+   037F DD 7E 04            802 	ld	a,4 (ix)
+   0382 D3 99               803 	out	(_vdp2),a
+                            804 ;msxlib.c:460: vdp2=0x90;
+   0384 3E 90               805 	ld	a,#0x90
+   0386 D3 99               806 	out	(_vdp2),a
+                            807 ;msxlib.c:461: vdp3=(r<<4)+b;
+   0388 DD 7E 05            808 	ld	a,5 (ix)
+   038B 07                  809 	rlca
+   038C 07                  810 	rlca
+   038D 07                  811 	rlca
+   038E 07                  812 	rlca
+   038F E6 F0               813 	and	a,#0xF0
+   0391 4F                  814 	ld	c,a
+   0392 DD 86 07            815 	add	a,7 (ix)
+   0395 D3 9A               816 	out	(_vdp3),a
+                            817 ;msxlib.c:462: vdp3=g;
+   0397 DD 7E 06            818 	ld	a,6 (ix)
+   039A D3 9A               819 	out	(_vdp3),a
+   039C DD E1               820 	pop	ix
+   039E C9                  821 	ret
+   039F                     822 _msx2_palette_end::
+                            823 ;msxlib.c:465: char joy_status(char num)
+                            824 ;	---------------------------------
+                            825 ; Function joy_status
+                            826 ; ---------------------------------
+   039F                     827 _joy_status_start::
+   039F                     828 _joy_status:
+   039F DD E5               829 	push	ix
+   03A1 DD 21 00 00         830 	ld	ix,#0
+   03A5 DD 39               831 	add	ix,sp
+                            832 ;msxlib.c:469: psgsel=0xf;
+   03A7 3E 0F               833 	ld	a,#0x0F
+   03A9 D3 A0               834 	out	(_psgsel),a
+                            835 ;msxlib.c:470: c=psgr;
+   03AB DB A2               836 	in	a,(_psgr)
+   03AD 4F                  837 	ld	c,a
+                            838 ;msxlib.c:472: if(num==1)
+   03AE DD 7E 04            839 	ld	a,4 (ix)
+   03B1 D6 01               840 	sub	a,#0x01
+   03B3 20 0A               841 	jr	NZ,00102$
+                            842 ;msxlib.c:473: psgw=c&0x80|0x03;
+   03B5 79                  843 	ld	a,c
+   03B6 E6 80               844 	and	a,#0x80
+   03B8 47                  845 	ld	b,a
+   03B9 F6 03               846 	or	a,#0x03
+   03BB D3 A1               847 	out	(_psgw),a
+   03BD 18 08               848 	jr	00103$
+   03BF                     849 00102$:
+                            850 ;msxlib.c:475: psgw=c&0x80|0x4c;
+   03BF 79                  851 	ld	a,c
+   03C0 E6 80               852 	and	a,#0x80
+   03C2 4F                  853 	ld	c,a
+   03C3 F6 4C               854 	or	a,#0x4C
+   03C5 D3 A1               855 	out	(_psgw),a
+   03C7                     856 00103$:
+                            857 ;msxlib.c:477: psgsel=0xe;
+   03C7 3E 0E               858 	ld	a,#0x0E
+   03C9 D3 A0               859 	out	(_psgsel),a
+                            860 ;msxlib.c:478: return(psgr^0xff);
+   03CB DB A2               861 	in	a,(_psgr)
+   03CD EE FF               862 	xor	a,#0xFF
+   03CF 6F                  863 	ld	l,a
+   03D0 DD E1               864 	pop	ix
+   03D2 C9                  865 	ret
+   03D3                     866 _joy_status_end::
+                            867 ;msxlib.c:481: static void waitmouse(void)
+                            868 ;	---------------------------------
+                            869 ; Function waitmouse
+                            870 ; ---------------------------------
+   03D3                     871 _waitmouse:
+                            872 ;msxlib.c:484: for(n=0;n<8;n++)
+   03D3 0E 08               873 	ld	c,#0x08
+   03D5                     874 00103$:
+                            875 ;msxlib.c:488: __endasm;
+                            876 	
+   03D5 00                  877 		 nop
+                            878 		 
+   03D6 0D                  879 	dec	c
+                            880 ;msxlib.c:484: for(n=0;n<8;n++)
+   03D7 AF                  881 	xor	a,a
+   03D8 B1                  882 	or	a,c
+   03D9 20 FA               883 	jr	NZ,00103$
+   03DB C9                  884 	ret
+                            885 ;msxlib.c:493: char mouse_status(char num,signed char *x,signed char *y)
+                            886 ;	---------------------------------
+                            887 ; Function mouse_status
+                            888 ; ---------------------------------
+   03DC                     889 _mouse_status_start::
+   03DC                     890 _mouse_status:
+   03DC DD E5               891 	push	ix
+   03DE DD 21 00 00         892 	ld	ix,#0
+   03E2 DD 39               893 	add	ix,sp
+   03E4 F5                  894 	push	af
+                            895 ;msxlib.c:498: if(num==1)
+   03E5 DD 7E 04            896 	ld	a,4 (ix)
+   03E8 D6 01               897 	sub	a,#0x01
+   03EA 20 05               898 	jr	NZ,00102$
+                            899 ;msxlib.c:500: outval=0x93;
+                            900 ;msxlib.c:501: xorval=0x10;
+   03EC 01 93 10            901 	ld	bc,#0x1093
+   03EF 18 03               902 	jr	00103$
+   03F1                     903 00102$:
+                            904 ;msxlib.c:505: outval=0xec;
+                            905 ;msxlib.c:506: xorval=0x20;
+   03F1 01 EC 20            906 	ld	bc,#0x20EC
+   03F4                     907 00103$:
+                            908 ;msxlib.c:509: waitmouse();
+   03F4 C5                  909 	push	bc
+   03F5 CDrD3s03            910 	call	_waitmouse
+   03F8 C1                  911 	pop	bc
+                            912 ;msxlib.c:510: waitmouse();
+   03F9 C5                  913 	push	bc
+   03FA CDrD3s03            914 	call	_waitmouse
+   03FD C1                  915 	pop	bc
+                            916 ;msxlib.c:511: psgsel=15;
+   03FE 3E 0F               917 	ld	a,#0x0F
+   0400 D3 A0               918 	out	(_psgsel),a
+                            919 ;msxlib.c:512: psgw=outval;
+   0402 79                  920 	ld	a,c
+   0403 D3 A1               921 	out	(_psgw),a
+                            922 ;msxlib.c:513: outval^=xorval;
+   0405 79                  923 	ld	a,c
+   0406 A8                  924 	xor	a,b
+   0407 4F                  925 	ld	c,a
+                            926 ;msxlib.c:514: waitmouse();
+   0408 C5                  927 	push	bc
+   0409 CDrD3s03            928 	call	_waitmouse
+   040C C1                  929 	pop	bc
+                            930 ;msxlib.c:515: psgsel=14;
+   040D 3E 0E               931 	ld	a,#0x0E
+   040F D3 A0               932 	out	(_psgsel),a
+                            933 ;msxlib.c:516: c=butt=psgr;
+   0411 DB A2               934 	in	a,(_psgr)
+                            935 ;msxlib.c:517: ex=(c&0xf)<<4;
+   0413 57                  936 	ld	d,a
+   0414 E6 0F               937 	and	a,#0x0F
+   0416 5F                  938 	ld	e,a
+   0417 07                  939 	rlca
+   0418 07                  940 	rlca
+   0419 07                  941 	rlca
+   041A 07                  942 	rlca
+   041B E6 F0               943 	and	a,#0xF0
+   041D DD 77 FE            944 	ld	-2 (ix),a
+                            945 ;msxlib.c:519: psgsel=15;
+   0420 3E 0F               946 	ld	a,#0x0F
+   0422 D3 A0               947 	out	(_psgsel),a
+                            948 ;msxlib.c:520: psgw=outval;
+   0424 79                  949 	ld	a,c
+   0425 D3 A1               950 	out	(_psgw),a
+                            951 ;msxlib.c:521: outval^=xorval;
+   0427 79                  952 	ld	a,c
+   0428 A8                  953 	xor	a,b
+   0429 4F                  954 	ld	c,a
+                            955 ;msxlib.c:522: waitmouse();
+   042A C5                  956 	push	bc
+   042B D5                  957 	push	de
+   042C CDrD3s03            958 	call	_waitmouse
+   042F D1                  959 	pop	de
+   0430 C1                  960 	pop	bc
+                            961 ;msxlib.c:523: psgsel=14;
+   0431 3E 0E               962 	ld	a,#0x0E
+   0433 D3 A0               963 	out	(_psgsel),a
+                            964 ;msxlib.c:524: c=psgr;
+   0435 DB A2               965 	in	a,(_psgr)
+                            966 ;msxlib.c:525: ex|=c&0xf;
+   0437 DD 77 FF            967 	ld	-1 (ix),a
+   043A E6 0F               968 	and	a,#0x0F
+   043C 5F                  969 	ld	e,a
+   043D DD B6 FE            970 	or	a,-2 (ix)
+   0440 DD 77 FE            971 	ld	-2 (ix),a
+                            972 ;msxlib.c:527: psgsel=15;
+   0443 3E 0F               973 	ld	a,#0x0F
+   0445 D3 A0               974 	out	(_psgsel),a
+                            975 ;msxlib.c:528: psgw=outval;
+   0447 79                  976 	ld	a,c
+   0448 D3 A1               977 	out	(_psgw),a
+                            978 ;msxlib.c:529: outval^=xorval;
+   044A 79                  979 	ld	a,c
+   044B A8                  980 	xor	a,b
+   044C 4F                  981 	ld	c,a
+                            982 ;msxlib.c:530: waitmouse();
+   044D C5                  983 	push	bc
+   044E D5                  984 	push	de
+   044F CDrD3s03            985 	call	_waitmouse
+   0452 D1                  986 	pop	de
+   0453 C1                  987 	pop	bc
+                            988 ;msxlib.c:531: psgsel=14;
+   0454 3E 0E               989 	ld	a,#0x0E
+   0456 D3 A0               990 	out	(_psgsel),a
+                            991 ;msxlib.c:532: c=psgr;
+   0458 DB A2               992 	in	a,(_psgr)
+                            993 ;msxlib.c:533: ey=(c&0xf)<<4;
+   045A DD 77 FF            994 	ld	-1 (ix),a
+   045D E6 0F               995 	and	a,#0x0F
+   045F 07                  996 	rlca
+   0460 07                  997 	rlca
+   0461 07                  998 	rlca
+   0462 07                  999 	rlca
+   0463 E6 F0              1000 	and	a,#0xF0
+   0465 47                 1001 	ld	b,a
+                           1002 ;msxlib.c:535: psgsel=15;
+   0466 3E 0F              1003 	ld	a,#0x0F
+   0468 D3 A0              1004 	out	(_psgsel),a
+                           1005 ;msxlib.c:536: psgw=outval;
+   046A 79                 1006 	ld	a,c
+   046B D3 A1              1007 	out	(_psgw),a
+                           1008 ;msxlib.c:538: waitmouse();
+   046D C5                 1009 	push	bc
+   046E D5                 1010 	push	de
+   046F CDrD3s03           1011 	call	_waitmouse
+   0472 D1                 1012 	pop	de
+   0473 C1                 1013 	pop	bc
+                           1014 ;msxlib.c:539: psgsel=14;
+   0474 3E 0E              1015 	ld	a,#0x0E
+   0476 D3 A0              1016 	out	(_psgsel),a
+                           1017 ;msxlib.c:540: c=psgr;
+   0478 DB A2              1018 	in	a,(_psgr)
+                           1019 ;msxlib.c:541: ey|=c&0xf;
+   047A DD 77 FF           1020 	ld	-1 (ix),a
+   047D E6 0F              1021 	and	a,#0x0F
+   047F B0                 1022 	or	a,b
+   0480 47                 1023 	ld	b,a
+                           1024 ;msxlib.c:543: *x=-ex;
+   0481 E5                 1025 	push	hl
+   0482 DD 6E 05           1026 	ld	l,5 (ix)
+   0485 DD 66 06           1027 	ld	h,6 (ix)
+   0488 E5                 1028 	push	hl
+   0489 FD E1              1029 	pop	iy
+   048B E1                 1030 	pop	hl
+   048C AF                 1031 	xor	a,a
+   048D DD 9E FE           1032 	sbc	a,-2 (ix)
+   0490 4F                 1033 	ld	c,a
+   0491 FD 71 00           1034 	ld	(iy),c
+                           1035 ;msxlib.c:544: *y=-ey;
+   0494 E5                 1036 	push	hl
+   0495 DD 6E 07           1037 	ld	l,7 (ix)
+   0498 DD 66 08           1038 	ld	h,8 (ix)
+   049B E5                 1039 	push	hl
+   049C FD E1              1040 	pop	iy
+   049E E1                 1041 	pop	hl
+   049F AF                 1042 	xor	a,a
+   04A0 98                 1043 	sbc	a,b
+   04A1 47                 1044 	ld	b,a
+   04A2 FD 70 00           1045 	ld	(iy),b
+                           1046 ;msxlib.c:545: return(butt^0xff);
+   04A5 7A                 1047 	ld	a,d
+   04A6 EE FF              1048 	xor	a,#0xFF
+   04A8 6F                 1049 	ld	l,a
+   04A9 DD F9              1050 	ld	sp,ix
+   04AB DD E1              1051 	pop	ix
+   04AD C9                 1052 	ret
+   04AE                    1053 _mouse_status_end::
+                           1054 ;msxlib.c:548: char isvdp2(void) // Thanks to Nyyrikki
+                           1055 ;	---------------------------------
+                           1056 ; Function isvdp2
+                           1057 ; ---------------------------------
+   04AE                    1058 _isvdp2_start::
+   04AE                    1059 _isvdp2:
+                           1060 ;msxlib.c:552: DI;
+   04AE F3                 1061 		di 
+                           1062 ;msxlib.c:553: vdp2=1;
+   04AF 3E 01              1063 	ld	a,#0x01
+   04B1 D3 99              1064 	out	(_vdp2),a
+                           1065 ;msxlib.c:554: vdp2=0x8f;
+   04B3 3E 8F              1066 	ld	a,#0x8F
+   04B5 D3 99              1067 	out	(_vdp2),a
+                           1068 ;msxlib.c:555: c=vdp2;
+   04B7 DB 99              1069 	in	a,(_vdp2)
+   04B9 4F                 1070 	ld	c,a
+                           1071 ;msxlib.c:556: vdp2=0;
+   04BA 3E 00              1072 	ld	a,#0x00
+   04BC D3 99              1073 	out	(_vdp2),a
+                           1074 ;msxlib.c:557: vdp2=0x8f;
+   04BE 3E 8F              1075 	ld	a,#0x8F
+   04C0 D3 99              1076 	out	(_vdp2),a
+                           1077 ;msxlib.c:558: EI;
+   04C2 FB                 1078 		ei 
+                           1079 ;msxlib.c:560: if(c&2==2)
+   04C3 79                 1080 	ld	a,c
+   04C4 E6 01              1081 	and	a,#0x01
+   04C6 28 03              1082 	jr	Z,00102$
+                           1083 ;msxlib.c:561: return(0);
+   04C8 2E 00              1084 	ld	l,#0x00
+   04CA C9                 1085 	ret
+   04CB                    1086 00102$:
+                           1087 ;msxlib.c:562: return(1);
+   04CB 2E 01              1088 	ld	l,#0x01
+   04CD C9                 1089 	ret
+   04CE                    1090 _isvdp2_end::
+                           1091 ;msxlib.c:567: void spindown(void)
+                           1092 ;	---------------------------------
+                           1093 ; Function spindown
+                           1094 ; ---------------------------------
+   04CE                    1095 _spindown_start::
+   04CE                    1096 _spindown:
+                           1097 ;msxlib.c:569: DI;
+   04CE F3                 1098 		di 
+                           1099 ;msxlib.c:570: *(unsigned *)0xf1c1=1;
+   04CF FD 21 C1 F1        1100 	ld	iy,#0xF1C1
+   04D3 FD 36 00 01        1101 	ld	0 (iy),#0x01
+   04D7 FD 36 01 00        1102 	ld	1 (iy),#0x00
+                           1103 ;msxlib.c:571: EI;
+   04DB FB                 1104 		ei 
+                           1105 ;msxlib.c:572: waitVB();
+   04DC 76                 1106 		halt 
+                           1107 ;msxlib.c:573: waitVB();
+   04DD 76                 1108 		halt 
+   04DE C9                 1109 	ret
+   04DF                    1110 _spindown_end::
+                           1111 ;msxlib.c:578: unsigned random(void)
+                           1112 ;	---------------------------------
+                           1113 ; Function random
+                           1114 ; ---------------------------------
+   04DF                    1115 _random_start::
+   04DF                    1116 _random:
+                           1117 ;msxlib.c:594: __endasm;
+                           1118 	
+   04DF D5                 1119 		push de
                            1120 	
-   04EB 11r3Cs05           1121 		   ld de,#$21+1 ; Copy name
-   04EE DD 6E 06           1122 		   ld l,6(ix)
-   04F1 DD 66 07           1123 		   ld h,7(ix)
-   04F4 01 0B 00           1124 		   ld bc,#11
-   04F7 ED B0              1125 		   ldir
-                           1126 	
-   04F9 11r3Bs05           1127 		   ld de,#$21
-   04FC 0E 0F              1128 		   ld c,#0xf ; Open file
-   04FE DD E5              1129 		   push ix
-   0500 CD 05 00           1130 		   call 5
-   0503 DD E1              1131 		   pop ix
-   0505 32r00s00           1132 		   ld (_retvalli),a
-                           1133 	
-   0508 AF                 1134 		   xor a
-   0509 32r47s05           1135 		   ld ($21+12),a
-   050C 32r48s05           1136 		   ld ($21+13),a
-   050F 32r5Bs05           1137 		   ld ($21+32),a
-                           1138 	
-   0512 DD 5E 08           1139 		   ld e,8(ix)
-   0515 DD 56 09           1140 		   ld d,9(ix)
-                           1141 	
-   0518                    1142 	$23:
-   0518 D5                 1143 		   push de
-   0519 11r3Bs05           1144 		   ld de,#$21
-   051C 0E 14              1145 		   ld c,#0x14
-   051E CD 05 00           1146 		   call 5
-   0521 D1                 1147 		   pop de
-   0522 B7                 1148 		   or a
-   0523 20 0B              1149 		   jr nz,$24
-   0525 21 80 00           1150 		   ld hl,#0x80
-   0528 01 80 00           1151 		   ld bc,#128
-   052B ED B0              1152 		   ldir
-   052D C3r18s05           1153 		   jp $23
-                           1154 	
-   0530                    1155 	$24:
-   0530 11r3Bs05           1156 		   ld de,#$21
-   0533 0E 10              1157 		   ld c,#0x10
-   0535 CD 05 00           1158 		   call 5
-   0538 C3r63s05           1159 		   jp $22
-                           1160 	
-   053B                    1161 	$21:
-   053B 00 00 00 00 00 00  1162 		   .db 0,0,0,0,0, 0,0,0,0,0
-        00 00 00 00
-   0545 00 00 00 00 00 00  1163 		   .db 0,0,0,0,0, 0,0,0,0,0
-        00 00 00 00
-   054F 00 00 00 00 00 00  1164 		   .db 0,0,0,0,0, 0,0,0,0,0
-        00 00 00 00
-   0559 00 00 00 00 00 00  1165 		   .db 0,0,0,0,0, 0,0,0,0,0
-        00 00 00 00
-   0563                    1166 	$22:
-   0563 C1                 1167 		   pop bc
-   0564 E1                 1168 		   pop hl
-   0565 D1                 1169 		   pop de
-   0566 DD E1              1170 		   pop ix
-                           1171 		   
-   0568 DD E1              1172 	pop	ix
-   056A C9                 1173 	ret
-                           1174 ;msxlib.c:639: int readfile(char *name,unsigned char *dest)
-                           1175 ;	---------------------------------
-                           1176 ; Function readfile
-                           1177 ; ---------------------------------
-   056B                    1178 _readfile_start::
-   056B                    1179 _readfile:
-   056B DD E5              1180 	push	ix
-   056D DD 21 00 00        1181 	ld	ix,#0
-   0571 DD 39              1182 	add	ix,sp
-   0573 21 EA FF           1183 	ld	hl,#-22
-   0576 39                 1184 	add	hl,sp
-   0577 F9                 1185 	ld	sp,hl
-                           1186 ;msxlib.c:641: char namn[]="             ";
-   0578 21 08 00           1187 	ld	hl,#0x0008
-   057B 39                 1188 	add	hl,sp
-   057C DD 75 EA           1189 	ld	-22 (ix),l
-   057F DD 74 EB           1190 	ld	-21 (ix),h
-   0582 36 20              1191 	ld	(hl),#0x20
-   0584 DD 5E EA           1192 	ld	e,-22 (ix)
-   0587 DD 56 EB           1193 	ld	d,-21 (ix)
-   058A 13                 1194 	inc	de
-   058B 3E 20              1195 	ld	a,#0x20
-   058D 12                 1196 	ld	(de),a
-   058E DD 5E EA           1197 	ld	e,-22 (ix)
-   0591 DD 56 EB           1198 	ld	d,-21 (ix)
-   0594 13                 1199 	inc	de
-   0595 13                 1200 	inc	de
-   0596 3E 20              1201 	ld	a,#0x20
-   0598 12                 1202 	ld	(de),a
-   0599 DD 7E EA           1203 	ld	a,-22 (ix)
-   059C C6 03              1204 	add	a,#0x03
-   059E 5F                 1205 	ld	e,a
-   059F DD 7E EB           1206 	ld	a,-21 (ix)
-   05A2 CE 00              1207 	adc	a,#0x00
-   05A4 57                 1208 	ld	d,a
-   05A5 3E 20              1209 	ld	a,#0x20
-   05A7 12                 1210 	ld	(de),a
-   05A8 DD 7E EA           1211 	ld	a,-22 (ix)
-   05AB C6 04              1212 	add	a,#0x04
-   05AD 5F                 1213 	ld	e,a
-   05AE DD 7E EB           1214 	ld	a,-21 (ix)
-   05B1 CE 00              1215 	adc	a,#0x00
-   05B3 57                 1216 	ld	d,a
-   05B4 3E 20              1217 	ld	a,#0x20
-   05B6 12                 1218 	ld	(de),a
-   05B7 DD 7E EA           1219 	ld	a,-22 (ix)
-   05BA C6 05              1220 	add	a,#0x05
-   05BC 5F                 1221 	ld	e,a
-   05BD DD 7E EB           1222 	ld	a,-21 (ix)
-   05C0 CE 00              1223 	adc	a,#0x00
-   05C2 57                 1224 	ld	d,a
-   05C3 3E 20              1225 	ld	a,#0x20
-   05C5 12                 1226 	ld	(de),a
-   05C6 DD 7E EA           1227 	ld	a,-22 (ix)
-   05C9 C6 06              1228 	add	a,#0x06
-   05CB 5F                 1229 	ld	e,a
-   05CC DD 7E EB           1230 	ld	a,-21 (ix)
-   05CF CE 00              1231 	adc	a,#0x00
-   05D1 57                 1232 	ld	d,a
-   05D2 3E 20              1233 	ld	a,#0x20
-   05D4 12                 1234 	ld	(de),a
-   05D5 DD 7E EA           1235 	ld	a,-22 (ix)
-   05D8 C6 07              1236 	add	a,#0x07
-   05DA 5F                 1237 	ld	e,a
-   05DB DD 7E EB           1238 	ld	a,-21 (ix)
-   05DE CE 00              1239 	adc	a,#0x00
-   05E0 57                 1240 	ld	d,a
-   05E1 3E 20              1241 	ld	a,#0x20
-   05E3 12                 1242 	ld	(de),a
-   05E4 DD 7E EA           1243 	ld	a,-22 (ix)
-   05E7 C6 08              1244 	add	a,#0x08
-   05E9 5F                 1245 	ld	e,a
-   05EA DD 7E EB           1246 	ld	a,-21 (ix)
-   05ED CE 00              1247 	adc	a,#0x00
-   05EF 57                 1248 	ld	d,a
-   05F0 3E 20              1249 	ld	a,#0x20
-   05F2 12                 1250 	ld	(de),a
-   05F3 DD 7E EA           1251 	ld	a,-22 (ix)
-   05F6 C6 09              1252 	add	a,#0x09
-   05F8 5F                 1253 	ld	e,a
-   05F9 DD 7E EB           1254 	ld	a,-21 (ix)
-   05FC CE 00              1255 	adc	a,#0x00
-   05FE 57                 1256 	ld	d,a
-   05FF 3E 20              1257 	ld	a,#0x20
-   0601 12                 1258 	ld	(de),a
-   0602 DD 7E EA           1259 	ld	a,-22 (ix)
-   0605 C6 0A              1260 	add	a,#0x0A
-   0607 5F                 1261 	ld	e,a
-   0608 DD 7E EB           1262 	ld	a,-21 (ix)
-   060B CE 00              1263 	adc	a,#0x00
-   060D 57                 1264 	ld	d,a
-   060E 3E 20              1265 	ld	a,#0x20
-   0610 12                 1266 	ld	(de),a
-   0611 DD 7E EA           1267 	ld	a,-22 (ix)
-   0614 C6 0B              1268 	add	a,#0x0B
-   0616 4F                 1269 	ld	c,a
-   0617 DD 7E EB           1270 	ld	a,-21 (ix)
-   061A CE 00              1271 	adc	a,#0x00
-   061C 47                 1272 	ld	b,a
-   061D 3E 20              1273 	ld	a,#0x20
-   061F 02                 1274 	ld	(bc),a
-   0620 DD 7E EA           1275 	ld	a,-22 (ix)
-   0623 C6 0C              1276 	add	a,#0x0C
-   0625 5F                 1277 	ld	e,a
-   0626 DD 7E EB           1278 	ld	a,-21 (ix)
-   0629 CE 00              1279 	adc	a,#0x00
-   062B 57                 1280 	ld	d,a
-   062C 3E 20              1281 	ld	a,#0x20
-   062E 12                 1282 	ld	(de),a
-   062F DD 7E EA           1283 	ld	a,-22 (ix)
-   0632 C6 0D              1284 	add	a,#0x0D
-   0634 5F                 1285 	ld	e,a
-   0635 DD 7E EB           1286 	ld	a,-21 (ix)
-   0638 CE 00              1287 	adc	a,#0x00
-   063A 57                 1288 	ld	d,a
-   063B 3E 00              1289 	ld	a,#0x00
-   063D 12                 1290 	ld	(de),a
-                           1291 ;msxlib.c:644: for(n=0;n<11;n++)
-   063E DD 36 F0 00        1292 	ld	-16 (ix),#0x00
-   0642 DD 36 F1 00        1293 	ld	-15 (ix),#0x00
-   0646                    1294 00127$:
-   0646 DD 7E F0           1295 	ld	a,-16 (ix)
-   0649 D6 0B              1296 	sub	a,#0x0B
-   064B DD 7E F1           1297 	ld	a,-15 (ix)
-   064E DE 00              1298 	sbc	a,#0x00
-   0650 F2r6Es06           1299 	jp	P,00130$
-                           1300 ;msxlib.c:645: namn[n]=' ';
-   0653 DD 7E EA           1301 	ld	a,-22 (ix)
-   0656 DD 86 F0           1302 	add	a,-16 (ix)
-   0659 5F                 1303 	ld	e,a
-   065A DD 7E EB           1304 	ld	a,-21 (ix)
-   065D DD 8E F1           1305 	adc	a,-15 (ix)
-   0660 57                 1306 	ld	d,a
-   0661 3E 20              1307 	ld	a,#0x20
-   0663 12                 1308 	ld	(de),a
-                           1309 ;msxlib.c:644: for(n=0;n<11;n++)
-   0664 DD 34 F0           1310 	inc	-16 (ix)
-   0667 20 03              1311 	jr	NZ,00149$
-   0669 DD 34 F1           1312 	inc	-15 (ix)
-   066C                    1313 00149$:
-   066C 18 D8              1314 	jr	00127$
-   066E                    1315 00130$:
-                           1316 ;msxlib.c:646: namn[11]=0;
-   066E 3E 00              1317 	ld	a,#0x00
-   0670 02                 1318 	ld	(bc),a
-                           1319 ;msxlib.c:649: for(n=0;n<8;n++)
-   0671 DD 36 F0 00        1320 	ld	-16 (ix),#0x00
-   0675 DD 36 F1 00        1321 	ld	-15 (ix),#0x00
-   0679                    1322 00105$:
-   0679 DD 7E F0           1323 	ld	a,-16 (ix)
-   067C D6 08              1324 	sub	a,#0x08
-   067E DD 7E F1           1325 	ld	a,-15 (ix)
-   0681 DE 00              1326 	sbc	a,#0x00
-   0683 F2rB8s06           1327 	jp	P,00108$
-                           1328 ;msxlib.c:650: if(name[n]=='.' || name[n]==0)
-   0686 DD 7E 04           1329 	ld	a,4 (ix)
-   0689 DD 86 F0           1330 	add	a,-16 (ix)
-   068C 5F                 1331 	ld	e,a
-   068D DD 7E 05           1332 	ld	a,5 (ix)
-   0690 DD 8E F1           1333 	adc	a,-15 (ix)
-   0693 57                 1334 	ld	d,a
-   0694 1A                 1335 	ld	a,(de)
-   0695 4F                 1336 	ld	c,a
-   0696 D6 2E              1337 	sub	a,#0x2E
-   0698 28 1E              1338 	jr	Z,00108$
-   069A AF                 1339 	xor	a,a
-   069B B1                 1340 	or	a,c
-   069C 28 1A              1341 	jr	Z,00108$
-                           1342 ;msxlib.c:653: namn[n]=name[n];
-   069E DD 7E EA           1343 	ld	a,-22 (ix)
-   06A1 DD 86 F0           1344 	add	a,-16 (ix)
-   06A4 5F                 1345 	ld	e,a
-   06A5 DD 7E EB           1346 	ld	a,-21 (ix)
-   06A8 DD 8E F1           1347 	adc	a,-15 (ix)
-   06AB 57                 1348 	ld	d,a
-   06AC 79                 1349 	ld	a,c
-   06AD 12                 1350 	ld	(de),a
-                           1351 ;msxlib.c:649: for(n=0;n<8;n++)
-   06AE DD 34 F0           1352 	inc	-16 (ix)
-   06B1 20 03              1353 	jr	NZ,00151$
-   06B3 DD 34 F1           1354 	inc	-15 (ix)
-   06B6                    1355 00151$:
-   06B6 18 C1              1356 	jr	00105$
-   06B8                    1357 00108$:
-                           1358 ;msxlib.c:655: for(n=0;;n++)
-   06B8 01 00 00           1359 	ld	bc,#0x0000
-   06BB DD 36 F0 00        1360 	ld	-16 (ix),#0x00
-   06BF DD 36 F1 00        1361 	ld	-15 (ix),#0x00
-   06C3                    1362 00121$:
-                           1363 ;msxlib.c:657: if(name[n]=='.')
-   06C3 DD 7E 04           1364 	ld	a,4 (ix)
-   06C6 DD 86 F0           1365 	add	a,-16 (ix)
-   06C9 5F                 1366 	ld	e,a
-   06CA DD 7E 05           1367 	ld	a,5 (ix)
-   06CD DD 8E F1           1368 	adc	a,-15 (ix)
-   06D0 57                 1369 	ld	d,a
-   06D1 1A                 1370 	ld	a,(de)
-   06D2 5F                 1371 	ld	e,a
-   06D3 D6 2E              1372 	sub	a,#0x2E
-   06D5 20 52              1373 	jr	NZ,00117$
-                           1374 ;msxlib.c:659: n++;
-   06D7 03                 1375 	inc	bc
-                           1376 ;msxlib.c:660: m=8;
-   06D8 DD 71 EC           1377 	ld	-20 (ix),c
-   06DB DD 70 ED           1378 	ld	-19 (ix),b
-   06DE DD 36 EE 08        1379 	ld	-18 (ix),#0x08
-   06E2 DD 36 EF 00        1380 	ld	-17 (ix),#0x00
-   06E6                    1381 00112$:
-                           1382 ;msxlib.c:661: for(;m<11;n++,m++)
-   06E6 DD 7E EE           1383 	ld	a,-18 (ix)
-   06E9 D6 0B              1384 	sub	a,#0x0B
-   06EB DD 7E EF           1385 	ld	a,-17 (ix)
-   06EE DE 00              1386 	sbc	a,#0x00
-   06F0 F2r3Es07           1387 	jp	P,00123$
-                           1388 ;msxlib.c:662: if(name[n]==0)
-   06F3 DD 7E 04           1389 	ld	a,4 (ix)
-   06F6 DD 86 EC           1390 	add	a,-20 (ix)
-   06F9 57                 1391 	ld	d,a
-   06FA DD 7E 05           1392 	ld	a,5 (ix)
-   06FD DD 8E ED           1393 	adc	a,-19 (ix)
-   0700 6A                 1394 	ld	l,d
-   0701 67                 1395 	ld	h,a
-   0702 4E                 1396 	ld	c,(hl)
-   0703 AF                 1397 	xor	a,a
-   0704 B1                 1398 	or	a,c
-   0705 28 37              1399 	jr	Z,00123$
-                           1400 ;msxlib.c:665: namn[m]=name[n];
-   0707 DD 7E EA           1401 	ld	a,-22 (ix)
-   070A DD 86 EE           1402 	add	a,-18 (ix)
-   070D 47                 1403 	ld	b,a
-   070E DD 7E EB           1404 	ld	a,-21 (ix)
-   0711 DD 8E EF           1405 	adc	a,-17 (ix)
-   0714 68                 1406 	ld	l,b
-   0715 67                 1407 	ld	h,a
-   0716 71                 1408 	ld	(hl),c
-                           1409 ;msxlib.c:661: for(;m<11;n++,m++)
-   0717 DD 34 EC           1410 	inc	-20 (ix)
-   071A 20 03              1411 	jr	NZ,00154$
-   071C DD 34 ED           1412 	inc	-19 (ix)
-   071F                    1413 00154$:
-   071F DD 34 EE           1414 	inc	-18 (ix)
-   0722 20 03              1415 	jr	NZ,00155$
-   0724 DD 34 EF           1416 	inc	-17 (ix)
-   0727                    1417 00155$:
-   0727 18 BD              1418 	jr	00112$
-                           1419 ;msxlib.c:666: break;
-   0729                    1420 00117$:
-                           1421 ;msxlib.c:668: if(name[n]==0)
-   0729 AF                 1422 	xor	a,a
-   072A B3                 1423 	or	a,e
-   072B 28 11              1424 	jr	Z,00123$
-                           1425 ;msxlib.c:655: for(n=0;;n++)
-   072D DD 34 F0           1426 	inc	-16 (ix)
-   0730 20 03              1427 	jr	NZ,00156$
-   0732 DD 34 F1           1428 	inc	-15 (ix)
-   0735                    1429 00156$:
-   0735 DD 4E F0           1430 	ld	c,-16 (ix)
-   0738 DD 46 F1           1431 	ld	b,-15 (ix)
-   073B C3rC3s06           1432 	jp	00121$
-   073E                    1433 00123$:
-                           1434 ;msxlib.c:672: asm_readfile(namn,dest);
-   073E DD 6E 06           1435 	ld	l,6 (ix)
-   0741 DD 66 07           1436 	ld	h,7 (ix)
-   0744 E5                 1437 	push	hl
-   0745 DD 6E EA           1438 	ld	l,-22 (ix)
-   0748 DD 66 EB           1439 	ld	h,-21 (ix)
-   074B E5                 1440 	push	hl
-   074C CDrCEs04           1441 	call	_asm_readfile
-   074F F1                 1442 	pop	af
-   0750 F1                 1443 	pop	af
-                           1444 ;msxlib.c:674: if(retvalli)
-   0751 AF                 1445 	xor	a,a
-   0752 21r00s00           1446 	ld	hl,#_retvalli + 0
-   0755 B6                 1447 	or	a,(hl)
-   0756 28 05              1448 	jr	Z,00125$
-                           1449 ;msxlib.c:675: return(-1);
-   0758 21 FF FF           1450 	ld	hl,#0xFFFFFFFF
-   075B 18 03              1451 	jr	00131$
-   075D                    1452 00125$:
-                           1453 ;msxlib.c:677: return(0);
-   075D 21 00 00           1454 	ld	hl,#0x0000
-   0760                    1455 00131$:
-   0760 DD F9              1456 	ld	sp,ix
-   0762 DD E1              1457 	pop	ix
-   0764 C9                 1458 	ret
-   0765                    1459 _readfile_end::
-                           1460 ;msxlib.c:680: void spindown(void)
-                           1461 ;	---------------------------------
-                           1462 ; Function spindown
-                           1463 ; ---------------------------------
-   0765                    1464 _spindown_start::
-   0765                    1465 _spindown:
-                           1466 ;msxlib.c:682: DI;
-   0765 F3                 1467 		di 
-                           1468 ;msxlib.c:683: *(unsigned *)0xf1c1=1;
-   0766 FD 21 C1 F1        1469 	ld	iy,#0xF1C1
-   076A FD 36 00 01        1470 	ld	0 (iy),#0x01
-   076E FD 36 01 00        1471 	ld	1 (iy),#0x00
-                           1472 ;msxlib.c:684: EI;
-   0772 FB                 1473 		ei 
-                           1474 ;msxlib.c:685: waitVB();
-   0773 76                 1475 		halt 
-                           1476 ;msxlib.c:686: waitVB();
-   0774 76                 1477 		halt 
-   0775 C9                 1478 	ret
-   0776                    1479 _spindown_end::
-                           1480 ;msxlib.c:689: void print(char* str) __naked
-                           1481 ;	---------------------------------
-                           1482 ; Function print
-                           1483 ; ---------------------------------
-   0776                    1484 _print_start::
-   0776                    1485 _print:
-                           1486 ;msxlib.c:710: __endasm; 
-                           1487 	
-   0776 21 02 00           1488 		       ld hl,#2
-   0779 39                 1489 		       add hl,sp
-   077A 7E                 1490 		       ld a,(hl)
-   077B 23                 1491 		       inc hl
-   077C 66                 1492 		       ld h,(hl)
-   077D 6F                 1493 		       ld l,a
-                           1494 	
-   077E                    1495 	PRLOOP:
-   077E 7E                 1496 	ld	a,(hl)
-   077F B7                 1497 		       or a
-   0780 C8                 1498 		       ret z
-   0781 5F                 1499 		       ld e,a
-   0782 0E 02              1500 		       ld c,#2
-   0784 E5                 1501 		       push hl
-   0785 CD 05 00           1502 		       call #5
-   0788 E1                 1503 		       pop hl
-   0789 23                 1504 		       inc hl
-   078A 18 F2              1505 		       jr PRLOOP
-                           1506 		       
-                           1507 ;msxlib.c:715: unsigned random(void)
-                           1508 ;	---------------------------------
-                           1509 ; Function random
-                           1510 ; ---------------------------------
-   078C                    1511 _random_start::
-   078C                    1512 _random:
-                           1513 ;msxlib.c:731: __endasm;
-                           1514 	
-   078C D5                 1515 		push de
-                           1516 	
-   078D 2Ar01s00           1517 		ld hl,(_randomseed)
-   0790 11 CD 83           1518 		ld de,#0x83cd
-   0793 ED 5F              1519 		ld a,r
-   0795 83                 1520 		add a,e
-   0796 5F                 1521 		ld e,a
-   0797 19                 1522 		add hl,de
-   0798 CB 0C              1523 		rrc h
-   079A CB 1D              1524 		rr l
-   079C 22r01s00           1525 		ld (_randomseed),hl
-                           1526 	
-   079F D1                 1527 		pop de
-                           1528 		
-                           1529 ;msxlib.c:733: return(randomseed);
-   07A0 2Ar01s00           1530 	ld	hl,(_randomseed)
-   07A3 C9                 1531 	ret
-   07A4                    1532 _random_end::
-                           1533 ;msxlib.c:736: void mem_set(void *dest,unsigned char c,unsigned len)
-                           1534 ;	---------------------------------
-                           1535 ; Function mem_set
-                           1536 ; ---------------------------------
-   07A4                    1537 _mem_set_start::
-   07A4                    1538 _mem_set:
-   07A4 DD E5              1539 	push	ix
-   07A6 DD 21 00 00        1540 	ld	ix,#0
-   07AA DD 39              1541 	add	ix,sp
-                           1542 ;msxlib.c:800: __endasm;
-                           1543 	
-   07AC D5                 1544 		    push de
-   07AD E5                 1545 		    push hl
-   07AE C5                 1546 		    push bc
-                           1547 	
-   07AF DD 6E 04           1548 		    ld l,4(ix) ; Parametrit
-   07B2 DD 66 05           1549 		    ld h,5(ix)
-   07B5 DD 4E 06           1550 		    ld c,6(ix)
-   07B8 DD 5E 07           1551 		    ld e,7(ix)
-   07BB DD 56 08           1552 		    ld d,8(ix)
-   07BE D5                 1553 		    push de
-                           1554 	
-   07BF CB 3A              1555 		    srl d ; DE/8
-   07C1 CB 1B              1556 		    rr e
-   07C3 CB 3A              1557 		    srl d
-   07C5 CB 1B              1558 		   rr e
-   07C7 CB 3A              1559 		    srl d
-   07C9 CB 1B              1560 		    rr e
-   07CB 7A                 1561 		    ld a,d
-   07CC B3                 1562 		    or e
-   07CD CArE6s07           1563 		    jp z,2$
-                           1564 	
-   07D0                    1565 	1$:
-   07D0 71                 1566 		   ld (hl),c
-   07D1 23                 1567 		inc hl
-   07D2 71                 1568 		   ld (hl),c
-   07D3 23                 1569 		inc hl
-   07D4 71                 1570 		   ld (hl),c
-   07D5 23                 1571 		inc hl
-   07D6 71                 1572 		   ld (hl),c
-   07D7 23                 1573 		inc hl
-   07D8 71                 1574 		   ld (hl),c
-   07D9 23                 1575 		inc hl
-   07DA 71                 1576 		   ld (hl),c
-   07DB 23                 1577 		inc hl
-   07DC 71                 1578 		   ld (hl),c
-   07DD 23                 1579 		inc hl
-   07DE 71                 1580 		   ld (hl),c
-   07DF 23                 1581 		inc hl
-                           1582 	
-   07E0 1B                 1583 		dec de
-   07E1 7A                 1584 		    ld a,d
-   07E2 B3                 1585 		    or e
-   07E3 C2rD0s07           1586 		    jp nz,1$
-                           1587 	
-   07E6                    1588 	2$:
-   07E6 D1                 1589 		    pop de ; The modulo part
-   07E7 7B                 1590 		    ld a,e
-   07E8 E6 07              1591 		    and #7
-   07EA CArF2s07           1592 		    jp z,4$
-                           1593 	
-   07ED 47                 1594 		ld b,a
-   07EE                    1595 	3$:
-   07EE 71                 1596 		    ld (hl),c
-   07EF 23                 1597 		inc hl
-   07F0 10 FC              1598 		    djnz 3$
-                           1599 	
-   07F2                    1600 	4$:
-   07F2 C1                 1601 		    pop bc
-   07F3 E1                 1602 		    pop hl
-   07F4 D1                 1603 		    pop de
-                           1604 		    
-   07F5 DD E1              1605 	pop	ix
-   07F7 C9                 1606 	ret
-   07F8                    1607 _mem_set_end::
-                           1608 ;msxlib.c:803: void mem_set_stack(void *dest,unsigned char c,unsigned len)
-                           1609 ;	---------------------------------
-                           1610 ; Function mem_set_stack
-                           1611 ; ---------------------------------
-   07F8                    1612 _mem_set_stack_start::
-   07F8                    1613 _mem_set_stack:
-   07F8 DD E5              1614 	push	ix
-   07FA DD 21 00 00        1615 	ld	ix,#0
-   07FE DD 39              1616 	add	ix,sp
-                           1617 ;msxlib.c:871: __endasm;
-                           1618 	
-   0800 D5                 1619 		    push de
-   0801 E5                 1620 		    push hl
-   0802 C5                 1621 		    push bc
-                           1622 	
-   0803 DD 6E 04           1623 		    ld l,4(ix) ; Parametrit
-   0806 DD 66 05           1624 		    ld h,5(ix)
-   0809 DD 4E 06           1625 		    ld c,6(ix)
-   080C 41                 1626 		ld b,c
-   080D DD 5E 07           1627 		    ld e,7(ix)
-   0810 DD 56 08           1628 		    ld d,8(ix)
-   0813 E5                 1629 		push hl
-   0814 D5                 1630 		    push de
-   0815 19                 1631 		add hl,de
-                           1632 	
-   0816 CB 3A              1633 		    srl d ; DE/16
-   0818 CB 1B              1634 		    rr e
-   081A CB 3A              1635 		    srl d
-   081C CB 1B              1636 		   rr e
-   081E CB 3A              1637 		    srl d
-   0820 CB 1B              1638 		    rr e
-   0822 CB 3A              1639 		    srl d
-   0824 CB 1B              1640 		    rr e
-   0826 7A                 1641 		    ld a,d
-   0827 B3                 1642 		    or e
-   0828 CAr42s08           1643 		    jp z,2$
-                           1644 	
-   082B DD 21 00 00        1645 		ld ix,#0
-   082F DD 39              1646 		add ix,sp
-   0831 F9                 1647 		ld sp,hl
-                           1648 	
-   0832                    1649 	1$:
-   0832 C5                 1650 		push bc
-   0833 C5                 1651 		push bc
-   0834 C5                 1652 		push bc
-   0835 C5                 1653 		push bc
-   0836 C5                 1654 		push bc
-   0837 C5                 1655 		push bc
-   0838 C5                 1656 		push bc
-   0839 C5                 1657 		push bc
-                           1658 	
-   083A 1B                 1659 		dec de
-   083B 7A                 1660 		    ld a,d
-   083C B3                 1661 		    or e
-   083D C2r32s08           1662 		    jp nz,1$
-                           1663 	
-   0840 DD F9              1664 		ld sp,ix
-                           1665 	
-   0842                    1666 	2$:
-   0842 D1                 1667 		pop de
-   0843 E1                 1668 		    pop hl ; The modulo part
-   0844 7B                 1669 		    ld a,e
-   0845 E6 0F              1670 		    and #15
-   0847 CAr4Fs08           1671 		    jp z,4$
-                           1672 	
-   084A 47                 1673 		ld b,a
-   084B                    1674 	3$:
-   084B 71                 1675 		    ld (hl),c
-   084C 23                 1676 		inc hl
-   084D 10 FC              1677 		    djnz 3$
-                           1678 	
-   084F                    1679 	4$:
-   084F C1                 1680 		    pop bc
-   0850 E1                 1681 		    pop hl
-   0851 D1                 1682 		    pop de
-                           1683 		    
-   0852 DD E1              1684 	pop	ix
-   0854 C9                 1685 	ret
-   0855                    1686 _mem_set_stack_end::
-                           1687 ;msxlib.c:874: void mem_cpy(void *dest,void *src,unsigned len)
-                           1688 ;	---------------------------------
-                           1689 ; Function mem_cpy
-                           1690 ; ---------------------------------
-   0855                    1691 _mem_cpy_start::
-   0855                    1692 _mem_cpy:
-   0855 DD E5              1693 	push	ix
-   0857 DD 21 00 00        1694 	ld	ix,#0
-   085B DD 39              1695 	add	ix,sp
-                           1696 ;msxlib.c:898: __endasm;
-                           1697 	
-   085D D5                 1698 		    push de
-   085E E5                 1699 		    push hl
-   085F C5                 1700 		    push bc
-                           1701 	
-   0860 DD 5E 04           1702 		    ld e,4(ix) ; Parametrit
-   0863 DD 56 05           1703 		    ld d,5(ix)
-   0866 DD 6E 06           1704 		    ld l,6(ix)
-   0869 DD 66 07           1705 		    ld h,7(ix)
-   086C DD 4E 08           1706 		    ld c,8(ix)
-   086F DD 46 09           1707 		    ld b,9(ix)
-                           1708 	
-   0872 79                 1709 		ld a,c
-   0873 B0                 1710 		or b
-   0874 CAr79s08           1711 		jp z,$1
-   0877 ED B0              1712 		ldir
-                           1713 	
-   0879                    1714 	$1:
-   0879 C1                 1715 		   pop bc
-   087A E1                 1716 		    pop hl
-   087B D1                 1717 		    pop de
-                           1718 		    
-   087C DD E1              1719 	pop	ix
-   087E C9                 1720 	ret
-   087F                    1721 _mem_cpy_end::
-                           1722 	.area _CODE
-                           1723 	.area _CABS
+   04E0 2Ar01s00           1121 		ld hl,(_randomseed)
+   04E3 11 CD 83           1122 		ld de,#0x83cd
+   04E6 ED 5F              1123 		ld a,r
+   04E8 83                 1124 		add a,e
+   04E9 5F                 1125 		ld e,a
+   04EA 19                 1126 		add hl,de
+   04EB CB 0C              1127 		rrc h
+   04ED CB 1D              1128 		rr l
+   04EF 22r01s00           1129 		ld (_randomseed),hl
+                           1130 	
+   04F2 D1                 1131 		pop de
+                           1132 		
+                           1133 ;msxlib.c:596: return(randomseed);
+   04F3 2Ar01s00           1134 	ld	hl,(_randomseed)
+   04F6 C9                 1135 	ret
+   04F7                    1136 _random_end::
+                           1137 	.area _CODE
+                           1138 	.area _CABS

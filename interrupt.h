@@ -14,7 +14,7 @@ __asm\
     push hl\
     push ix\
     push iy\
-__endasm
+__endasm;
 
 
 #define RESTORE_ALL_REGISTER\
@@ -25,7 +25,7 @@ __endasm
        pop de\
        pop bc\
        pop af\
-   __endasm
+   __endasm;
 
 
 /*

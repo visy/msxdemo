@@ -2,14 +2,6 @@
 
 Symbol Table
 
-  0 $1                                                             0879 R
-  0 $21                                                            053B R
-  0 $22                                                            0563 R
-  0 $23                                                            0518 R
-  0 $24                                                            0530 R
-  0 $25                                                            04E7 R
-  0 PRLOOP                                                         077E R
-  0 _asm_readfile                                                  04CE R
   0 _ispressed                                                     0000 GR
   0 _ispressed_end                                                 0026 GR
   0 _ispressed_start                                               0000 GR
@@ -21,15 +13,6 @@ Symbol Table
   0 _joy_status_start                                              039F GR
     _kbd1                                                       =  00A9 
     _kbd2                                                       =  00AA 
-  0 _mem_cpy                                                       0855 GR
-  0 _mem_cpy_end                                                   087F GR
-  0 _mem_cpy_start                                                 0855 GR
-  0 _mem_set                                                       07A4 GR
-  0 _mem_set_end                                                   07F8 GR
-  0 _mem_set_stack                                                 07F8 GR
-  0 _mem_set_stack_end                                             0855 GR
-  0 _mem_set_stack_start                                           07F8 GR
-  0 _mem_set_start                                                 07A4 GR
   0 _mouse_status                                                  03DC GR
   0 _mouse_status_end                                              04AE GR
   0 _mouse_status_start                                            03DC GR
@@ -39,25 +22,20 @@ Symbol Table
   0 _msx2_sethz                                                    0299 GR
   0 _msx2_sethz_end                                                02BD GR
   0 _msx2_sethz_start                                              0299 GR
-  0 _print                                                         0776 GR
-  0 _print_start                                                   0776 GR
     _psgr                                                       =  00A2 
     _psgsel                                                     =  00A0 
     _psgw                                                       =  00A1 
-  0 _random                                                        078C GR
-  0 _random_end                                                    07A4 GR
-  0 _random_start                                                  078C GR
+  0 _random                                                        04DF GR
+  0 _random_end                                                    04F7 GR
+  0 _random_start                                                  04DF GR
   1 _randomseed                                                    0001 R
-  0 _readfile                                                      056B GR
-  0 _readfile_end                                                  0765 GR
-  0 _readfile_start                                                056B GR
   1 _retvalli                                                      0000 R
   0 _screen                                                        0026 GR
   0 _screen_end                                                    004C GR
   0 _screen_start                                                  0026 GR
-  0 _spindown                                                      0765 GR
-  0 _spindown_end                                                  0776 GR
-  0 _spindown_start                                                0765 GR
+  0 _spindown                                                      04CE GR
+  0 _spindown_end                                                  04DF GR
+  0 _spindown_start                                                04CE GR
   0 _sprite_col                                                    02E7 GR
   0 _sprite_col_end                                                0311 GR
   0 _sprite_col_start                                              02E7 GR
@@ -109,7 +87,7 @@ Symbol Table
 
 Area Table
 
-   0 _CODE                                                          size  87F   flags 0
+   0 _CODE                                                          size  4F7   flags 0
    1 _DATA                                                          size    3   flags 0
    2 _OVERLAY                                                       size    0   flags 0
    3 _HOME                                                          size    0   flags 0
