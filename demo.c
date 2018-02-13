@@ -209,7 +209,7 @@ void fadein() {
 // effut ---------------------------------------------------------------------------------------------------------------------------
 // effut ---------------------------------------------------------------------------------------------------------------------------
 
-uint8_t yo = 0;
+uint8_t yofff = 0;
 uint8_t cc = 0;
 static int flipper = 0;
 static int ymmmf = 0;
@@ -223,14 +223,14 @@ void do_ymmm() {
 	if (flipper > 10) { flipper = 0;}
 
 	ymmmf++;
-	for (yo = 0; yo<212-step;yo+=step) {
-		xo = (sintabx[(yo+ymmmf) & 255]);
+	for (yofff = 0; yofff<212-step;yofff+=step) {
+		xo = (sintabx[(yofff+ymmmf) & 255]);
 
 //		msx2_palette(1,xo>>1,xo>>1,xo>>2);
 		cmd.source_x = 0;
-		cmd.source_y = 0+yo;
+		cmd.source_y = 0+yofff;
 		cmd.dest_x = xo;
-		cmd.dest_y = 3+yo;
+		cmd.dest_y = 3+yofff;
 		cmd.size_x = 256;
 		cmd.size_y = 1;
 		cmd.data = 0;
@@ -338,6 +338,60 @@ void raster_effu() {
 }
 
 
+static int xo = 0;
+static int yo = 0;
+static int po = 0;
+static int fffaaa = 0;
+void do_animplay() {
+	uint8_t y = 0;
+	uint8_t xx = 0;
+	uint8_t dx = 0;
+	vdp_copy_command cmd;
+
+	for (y = 0; y < 106; y+=1) {
+		cmd.source_x = xo;
+		cmd.source_y = 256+po+yo+(y>>1);
+		cmd.dest_x = 0;
+		cmd.dest_y = (y<<1);
+		cmd.size_x = 128;
+		cmd.size_y = 1;
+		cmd.data = 0;
+		cmd.argument = 0x00;
+		cmd.command = 0xD0;
+		vdp_copier(&cmd);
+	}
+
+	for (y = 0; y < 106; y+=1) {
+		cmd.source_x = xo;
+		cmd.source_y = 256+po+yo+(y>>1);
+		cmd.dest_x = 128;
+		cmd.dest_y = (y<<1);
+		cmd.size_x = 128;
+		cmd.size_y = 1;
+		cmd.data = 0;
+		cmd.argument = 0x00;
+		cmd.command = 0xd2; // logical vram to vram, xor
+		vdp_copier(&cmd);
+	}
+
+
+	xo+=128;
+	if (xo >= 256) {
+		xo = 0;
+		yo+=53;
+		if (yo >= 212) { yo = 0; po+=256; }
+		if (po >= 768) {
+			po = 0;
+		}		
+	}
+
+
+	msx2_palette(15,3+sintab[fffaaa & 255]>>5,3,4);
+	msx2_palette(3,2+sintab[fffaaa & 255]>>5,0,0);
+	fffaaa++;
+
+}
+
 
 // main ---------------------------------------------------------------------------------------------------------------------------
 // main ---------------------------------------------------------------------------------------------------------------------------
@@ -347,10 +401,6 @@ void main() {
 	unsigned char quit=0;
 	int modes = 128; // interlace bit on
 	int loops = 0;
-	int frames = 0;
-	int po = 0;
-	uint8_t y = 0;
-	vdp_copy_command cmd;
 
 	spindown();
 
@@ -390,70 +440,34 @@ void main() {
 
     vdp_register(VDP_VOFFSET,0);
 
-/*
-
     pal_load("LF      PL5",32);
     vdp_load_palette(cur_palette);
 
-	memset((uint8_t *) &packbuffer, 0, 14100);
-	raw_load("LF1     PCK", 14089, packbuffer);
+	memset((uint8_t *) &packbuffer, 0, 13428);
+	raw_load("LF1     PCK", 13428, packbuffer);
 	bitbuster(packbuffer,0x8000,VRAM_0); // to page 1
 
-	memset((uint8_t *) &packbuffer, 0, 15990);
-	raw_load("LF2     PCK", 15990, packbuffer);
+	memset((uint8_t *) &packbuffer, 0, 14505);
+	raw_load("LF2     PCK", 14505, packbuffer);
 	bitbuster(packbuffer,0x0000,VRAM_1); // to page 2
 
-	memset((uint8_t *) &packbuffer, 0, 15006);
-	raw_load("LF3     PCK", 15006, packbuffer);
+	memset((uint8_t *) &packbuffer, 0, 14480);
+	raw_load("LF3     PCK", 14480, packbuffer);
 	bitbuster(packbuffer,0x8000,VRAM_1); // to page 3
-*/
 
+/*
     pal_load("KETTU16 PL5",32);
     vdp_load_palette(cur_palette);
 
 	memset((uint8_t *) &packbuffer, 0, 4501);
 	raw_load("KETTU16 PCK", 4501, packbuffer);
 	bitbuster(packbuffer,0x0000,VRAM_0); // to page 1
-
-
-
-
-	install_isr(color_isr);
-//	uninstall_isr();
-
-    while(!quit) {
-    	raster_effu();
-    	if (space()) quit=1;
-    }
-
-/*
-	while (!quit) {
-		//waitVB();
-
-		for (y = 0; y < 106; y+=1) {
-			cmd.source_x = 0;
-			cmd.source_y = 256+po+frames+(y>>1);
-			cmd.dest_x = 0;
-			cmd.dest_y = (y<<1);
-			cmd.size_x = 256;
-			cmd.size_y = 1;
-			cmd.data = 0;
-			cmd.argument = 0x00;
-			cmd.command = 0xD0;
-			vdp_copier(&cmd);
-		}
-
-		frames+=53;
-		if (frames >= 212) { frames = 0; po+=256; }
-		if (po >= 768) {
-			po = 0;
-		}
-
-		if(space())
-			quit=1;
-	}
-
 */
+
+
+
+	install_isr(my_isr);
+
 /*
 	pal_load("STDBLCK PL5", 32);
 	memcpy(block_palette,cur_palette,32);
@@ -473,10 +487,15 @@ void main() {
 	vdp_register(8, 0x2); // disable sprites
 
     install_isr(my_isr);
+*/
 
 	while (!quit) {
-		waitVB();
+		//waitVB();
 
+		do_animplay();
+
+		//raster_effu();
+/*
 		if (vbicount < 192) { 
 			fadein(); 
 		} else if (vbicount >= 192 && vbicount < 800) {
@@ -484,11 +503,11 @@ void main() {
 		} else {
 			do_blocks();
 		}
-
+*/
 		if(space())
 			quit=1;
 	}
-*/
+
     waitVB();
     uninstall_isr();
     PLY_Stop();

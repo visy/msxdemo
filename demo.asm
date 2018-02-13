@@ -1,7 +1,7 @@
 ;--------------------------------------------------------
 ; File Created by SDCC : free open source ANSI-C Compiler
 ; Version 2.9.0 #5416 (Mar 22 2009) (Mac OS X i386)
-; This file was generated Tue Feb 13 15:01:04 2018
+; This file was generated Tue Feb 13 20:39:37 2018
 ;--------------------------------------------------------
 	.module demo
 	.optsdcc -mz80
@@ -10,6 +10,7 @@
 ; Public variables in this module
 ;--------------------------------------------------------
 	.globl _main
+	.globl _do_animplay
 	.globl _raster_effu
 	.globl _do_blocks
 	.globl _do_ymmm
@@ -31,7 +32,7 @@
 	.globl _bsx
 	.globl _block_init
 	.globl _cc
-	.globl _yo
+	.globl _yofff
 	.globl _tick
 	.globl _vbicount
 	.globl _block_palette
@@ -63,7 +64,7 @@ _tick::
 	.ds 2
 _isNthBitSet_mask_1_1:
 	.ds 8
-_yo::
+_yofff::
 	.ds 1
 _cc::
 	.ds 1
@@ -86,6 +87,14 @@ _btab::
 _flof::
 	.ds 2
 _linenum::
+	.ds 2
+_xo:
+	.ds 2
+_yo:
+	.ds 2
+_po:
+	.ds 2
+_fffaaa:
 	.ds 2
 ;--------------------------------------------------------
 ; overlayable items in  ram 
@@ -293,8 +302,8 @@ _linenum::
 	ld	0 (iy),#0x00
 	ld	iy,#_tick
 	ld	1 (iy),#0x00
-;demo.c:212: uint8_t yo = 0;
-	ld	iy,#_yo
+;demo.c:212: uint8_t yofff = 0;
+	ld	iy,#_yofff
 	ld	0 (iy),#0x00
 ;demo.c:213: uint8_t cc = 0;
 	ld	iy,#_cc
@@ -346,6 +355,26 @@ _linenum::
 	ld	iy,#_linenum
 	ld	0 (iy),#0x0A
 	ld	iy,#_linenum
+	ld	1 (iy),#0x00
+;demo.c:341: static int xo = 0;
+	ld	iy,#_xo
+	ld	0 (iy),#0x00
+	ld	iy,#_xo
+	ld	1 (iy),#0x00
+;demo.c:342: static int yo = 0;
+	ld	iy,#_yo
+	ld	0 (iy),#0x00
+	ld	iy,#_yo
+	ld	1 (iy),#0x00
+;demo.c:343: static int po = 0;
+	ld	iy,#_po
+	ld	0 (iy),#0x00
+	ld	iy,#_po
+	ld	1 (iy),#0x00
+;demo.c:344: static int fffaaa = 0;
+	ld	iy,#_fffaaa
+	ld	0 (iy),#0x00
+	ld	iy,#_fffaaa
 	ld	1 (iy),#0x00
 ;--------------------------------------------------------
 ; Home
@@ -1424,11 +1453,11 @@ _do_ymmm:
 	ld	iy,#_ymmmf
 	inc	1 (iy)
 00116$:
-;demo.c:226: for (yo = 0; yo<212-step;yo+=step) {
-	ld	hl,#_yo + 0
+;demo.c:226: for (yofff = 0; yofff<212-step;yofff+=step) {
+	ld	hl,#_yofff + 0
 	ld	(hl), #0x00
 00105$:
-	ld	a,(#_yo+0)
+	ld	a,(#_yofff+0)
 	ld	-19 (ix),a
 	ld	-18 (ix),#0x00
 	ld	a,-19 (ix)
@@ -1436,7 +1465,7 @@ _do_ymmm:
 	ld	a,-18 (ix)
 	sbc	a,#0x00
 	jp	P,00109$
-;demo.c:227: xo = (sintabx[(yo+ymmmf) & 255]);
+;demo.c:227: xo = (sintabx[(yofff+ymmmf) & 255]);
 	ld	hl,#_ymmmf
 	ld	a,-19 (ix)
 	add	a,(hl)
@@ -1460,7 +1489,7 @@ _do_ymmm:
 	ld	(hl),#0x00
 	inc	hl
 	ld	(hl),#0x00
-;demo.c:231: cmd.source_y = 0+yo;
+;demo.c:231: cmd.source_y = 0+yofff;
 	ld	hl,#0x0006
 	add	hl,sp
 	ex	de,hl
@@ -1483,7 +1512,7 @@ _do_ymmm:
 	inc	hl
 	ld	a,-16 (ix)
 	ld	(hl),a
-;demo.c:233: cmd.dest_y = 3+yo;
+;demo.c:233: cmd.dest_y = 3+yofff;
 	ld	hl,#0x0006
 	add	hl,de
 	ld	-21 (ix),l
@@ -1536,10 +1565,10 @@ _do_ymmm:
 	push	de
 	call	_vdp_copier
 	pop	af
-;demo.c:226: for (yo = 0; yo<212-step;yo+=step) {
-	ld	hl,#_yo + 0
+;demo.c:226: for (yofff = 0; yofff<212-step;yofff+=step) {
+	ld	hl,#_yofff + 0
 	ld	c,(hl)
-	ld	hl,#_yo
+	ld	hl,#_yofff
 	ld	a,c
 	add	a,#0x02
 	ld	(hl),a
@@ -1935,29 +1964,417 @@ _raster_effu:
 	pop	af
 	ret
 _raster_effu_end::
-;demo.c:346: void main() {
+;demo.c:345: void do_animplay() {
+;	---------------------------------
+; Function do_animplay
+; ---------------------------------
+_do_animplay_start::
+_do_animplay:
+	push	ix
+	ld	ix,#0
+	add	ix,sp
+	ld	hl,#-20
+	add	hl,sp
+	ld	sp,hl
+;demo.c:351: for (y = 0; y < 106; y+=1) {
+	ld	-1 (ix),#0x00
+00107$:
+	ld	a,-1 (ix)
+	sub	a,#0x6A
+	jp	NC,00110$
+;demo.c:352: cmd.source_x = xo;
+	ld	hl,#0x0004
+	add	hl,sp
+	ex	de,hl
+	ld	bc,(_xo)
+	ex	de,hl
+	ld	(hl),c
+	inc	hl
+	ld	(hl),b
+;demo.c:353: cmd.source_y = 256+po+yo+(y>>1);
+	ld	hl,#0x0004
+	add	hl,sp
+	ld	c,l
+	ld	b,h
+	ld	hl,#0x0002
+	add	hl,bc
+	ld	-18 (ix),l
+	ld	-17 (ix),h
+	ld	a,(#_po+0)
+	ld	e,a
+	ld	a,(#_po+1)
+	add	a,#0x01
+	ld	d,a
+	ld	hl,#_yo
+	ld	a,e
+	add	a,(hl)
+	ld	-20 (ix),a
+	ld	a,d
+	inc	hl
+	adc	a,(hl)
+	ld	-19 (ix),a
+	ld	e,-1 (ix)
+	srl	e
+	ld	d,#0x00
+	ld	a,-20 (ix)
+	add	a,e
+	ld	e,a
+	ld	a,-19 (ix)
+	adc	a,d
+	ld	d,a
+	ld	l,-18 (ix)
+	ld	h,-17 (ix)
+	ld	(hl),e
+	inc	hl
+	ld	(hl),d
+;demo.c:354: cmd.dest_x = 0;
+	ld	hl,#0x0004
+	add	hl,bc
+	ld	(hl),#0x00
+	inc	hl
+	ld	(hl),#0x00
+;demo.c:355: cmd.dest_y = (y<<1);
+	ld	hl,#0x0006
+	add	hl,bc
+	ld	-20 (ix),l
+	ld	-19 (ix),h
+	ld	e,-1 (ix)
+	ld	d,#0x00
+	sla	e
+	rl	d
+	ld	l,-20 (ix)
+	ld	h,-19 (ix)
+	ld	(hl),e
+	inc	hl
+	ld	(hl),d
+;demo.c:356: cmd.size_x = 128;
+	ld	hl,#0x0008
+	add	hl,bc
+	ld	(hl),#0x80
+	inc	hl
+	ld	(hl),#0x00
+;demo.c:357: cmd.size_y = 1;
+	ld	hl,#0x000A
+	add	hl,bc
+	ld	(hl),#0x01
+	inc	hl
+	ld	(hl),#0x00
+;demo.c:358: cmd.data = 0;
+	ld	hl,#0x000C
+	add	hl,bc
+	ex	de,hl
+	ld	a,#0x00
+	ld	(de),a
+;demo.c:359: cmd.argument = 0x00;
+	ld	hl,#0x000D
+	add	hl,bc
+	ex	de,hl
+	ld	a,#0x00
+	ld	(de),a
+;demo.c:360: cmd.command = 0xD0;
+	ld	hl,#0x000E
+	add	hl,bc
+	ex	de,hl
+	ld	a,#0xD0
+	ld	(de),a
+;demo.c:361: vdp_copier(&cmd);
+	push	bc
+	call	_vdp_copier
+	pop	af
+;demo.c:351: for (y = 0; y < 106; y+=1) {
+	inc	-1 (ix)
+	jp	00107$
+00110$:
+;demo.c:364: for (y = 0; y < 106; y+=1) {
+	ld	-1 (ix),#0x00
+00111$:
+	ld	a,-1 (ix)
+	sub	a,#0x6A
+	jp	NC,00114$
+;demo.c:365: cmd.source_x = xo;
+	ld	hl,#0x0004
+	add	hl,sp
+	ex	de,hl
+	ld	bc,(_xo)
+	ex	de,hl
+	ld	(hl),c
+	inc	hl
+	ld	(hl),b
+;demo.c:366: cmd.source_y = 256+po+yo+(y>>1);
+	ld	hl,#0x0004
+	add	hl,sp
+	ld	c,l
+	ld	b,h
+	ld	hl,#0x0002
+	add	hl,bc
+	ld	-20 (ix),l
+	ld	-19 (ix),h
+	ld	a,(#_po+0)
+	ld	e,a
+	ld	a,(#_po+1)
+	add	a,#0x01
+	ld	d,a
+	ld	hl,#_yo
+	ld	a,e
+	add	a,(hl)
+	ld	-18 (ix),a
+	ld	a,d
+	inc	hl
+	adc	a,(hl)
+	ld	-17 (ix),a
+	ld	e,-1 (ix)
+	srl	e
+	ld	d,#0x00
+	ld	a,-18 (ix)
+	add	a,e
+	ld	e,a
+	ld	a,-17 (ix)
+	adc	a,d
+	ld	d,a
+	ld	l,-20 (ix)
+	ld	h,-19 (ix)
+	ld	(hl),e
+	inc	hl
+	ld	(hl),d
+;demo.c:367: cmd.dest_x = 128;
+	ld	hl,#0x0004
+	add	hl,bc
+	ld	(hl),#0x80
+	inc	hl
+	ld	(hl),#0x00
+;demo.c:368: cmd.dest_y = (y<<1);
+	ld	hl,#0x0006
+	add	hl,bc
+	ld	-20 (ix),l
+	ld	-19 (ix),h
+	ld	e,-1 (ix)
+	ld	d,#0x00
+	sla	e
+	rl	d
+	ld	l,-20 (ix)
+	ld	h,-19 (ix)
+	ld	(hl),e
+	inc	hl
+	ld	(hl),d
+;demo.c:369: cmd.size_x = 128;
+	ld	hl,#0x0008
+	add	hl,bc
+	ld	(hl),#0x80
+	inc	hl
+	ld	(hl),#0x00
+;demo.c:370: cmd.size_y = 1;
+	ld	hl,#0x000A
+	add	hl,bc
+	ld	(hl),#0x01
+	inc	hl
+	ld	(hl),#0x00
+;demo.c:371: cmd.data = 0;
+	ld	hl,#0x000C
+	add	hl,bc
+	ex	de,hl
+	ld	a,#0x00
+	ld	(de),a
+;demo.c:372: cmd.argument = 0x00;
+	ld	hl,#0x000D
+	add	hl,bc
+	ex	de,hl
+	ld	a,#0x00
+	ld	(de),a
+;demo.c:373: cmd.command = 0xd2; // logical vram to vram, xor
+	ld	hl,#0x000E
+	add	hl,bc
+	ex	de,hl
+	ld	a,#0xD2
+	ld	(de),a
+;demo.c:374: vdp_copier(&cmd);
+	push	bc
+	call	_vdp_copier
+	pop	af
+;demo.c:364: for (y = 0; y < 106; y+=1) {
+	inc	-1 (ix)
+	jp	00111$
+00114$:
+;demo.c:378: xo+=128;
+	ld	hl,#_xo
+	ld	a,(hl)
+	add	a,#0x80
+	inc	hl
+	dec	hl
+	push	bc
+	ld	c, a
+	inc	hl
+	ld	a, (hl)
+	ld	b, a
+	ld	a, c
+	dec	hl
+	ld	(hl), a
+	ld	a, b
+	pop	bc
+	adc	a,#0x00
+	inc	hl
+	ld	(hl),a
+;demo.c:379: if (xo >= 256) {
+	ld	a,(#_xo+0)
+	sub	a,#0x00
+	ld	a,(#_xo+1)
+	sbc	a,#0x01
+	jp	M,00106$
+;demo.c:380: xo = 0;
+	ld	hl,#_xo + 0
+	ld	(hl), #0x00
+	ld	hl,#_xo + 1
+	ld	(hl), #0x00
+;demo.c:381: yo+=53;
+	ld	hl,#_yo
+	ld	a,(hl)
+	add	a,#0x35
+	inc	hl
+	dec	hl
+	push	bc
+	ld	c, a
+	inc	hl
+	ld	a, (hl)
+	ld	b, a
+	ld	a, c
+	dec	hl
+	ld	(hl), a
+	ld	a, b
+	pop	bc
+	adc	a,#0x00
+	inc	hl
+	ld	(hl),a
+;demo.c:382: if (yo >= 212) { yo = 0; po+=256; }
+	ld	a,(#_yo+0)
+	sub	a,#0xD4
+	ld	a,(#_yo+1)
+	sbc	a,#0x00
+	jp	M,00102$
+	ld	hl,#_yo + 0
+	ld	(hl), #0x00
+	ld	hl,#_yo + 1
+	ld	(hl), #0x00
+	ld	hl,#_po
+	ld	a,(hl)
+	add	a,#0x00
+	inc	hl
+	dec	hl
+	push	bc
+	ld	c, a
+	inc	hl
+	ld	a, (hl)
+	ld	b, a
+	ld	a, c
+	dec	hl
+	ld	(hl), a
+	ld	a, b
+	pop	bc
+	adc	a,#0x01
+	inc	hl
+	ld	(hl),a
+00102$:
+;demo.c:383: if (po >= 768) {
+	ld	a,(#_po+0)
+	sub	a,#0x00
+	ld	a,(#_po+1)
+	sbc	a,#0x03
+	jp	M,00106$
+;demo.c:384: po = 0;
+	ld	hl,#_po + 0
+	ld	(hl), #0x00
+	ld	hl,#_po + 1
+	ld	(hl), #0x00
+00106$:
+;demo.c:389: msx2_palette(15,3+sintab[fffaaa & 255]>>5,3,4);
+	ld	hl,#_fffaaa + 0
+	ld	c,(hl)
+	ld	b,#0x00
+	ld	hl,#_sintab
+	add	hl,bc
+	ld	a,(hl)
+	ld	c,a
+	rla	
+	sbc	a,a
+	ld	b,a
+	inc	bc
+	inc	bc
+	inc	bc
+	sra	b
+	rr	c
+	sra	b
+	rr	c
+	sra	b
+	rr	c
+	sra	b
+	rr	c
+	sra	b
+	rr	c
+	ld	hl,#0x0403
+	push	hl
+	ld	b,c
+	ld	c,#0x0F
+	push	bc
+	call	_msx2_palette
+	pop	af
+	pop	af
+;demo.c:390: msx2_palette(3,2+sintab[fffaaa & 255]>>5,0,0);
+	ld	hl,#_fffaaa + 0
+	ld	c,(hl)
+	ld	b,#0x00
+	ld	hl,#_sintab
+	add	hl,bc
+	ld	a,(hl)
+	ld	c,a
+	rla	
+	sbc	a,a
+	ld	b,a
+	inc	bc
+	inc	bc
+	sra	b
+	rr	c
+	sra	b
+	rr	c
+	sra	b
+	rr	c
+	sra	b
+	rr	c
+	sra	b
+	rr	c
+	ld	hl,#0x0000
+	push	hl
+	ld	b,c
+	ld	c,#0x03
+	push	bc
+	call	_msx2_palette
+	pop	af
+	pop	af
+;demo.c:391: fffaaa++;
+	ld	iy,#_fffaaa
+	inc	0 (iy)
+	jr	NZ,00132$
+	ld	iy,#_fffaaa
+	inc	1 (iy)
+00132$:
+	ld	sp,ix
+	pop	ix
+	ret
+_do_animplay_end::
+;demo.c:400: void main() {
 ;	---------------------------------
 ; Function main
 ; ---------------------------------
 _main_start::
 _main:
-	push	ix
-	ld	ix,#0
-	add	ix,sp
-	ld	hl,#-15
-	add	hl,sp
-	ld	sp,hl
-;demo.c:347: unsigned char quit=0;
+;demo.c:401: unsigned char quit=0;
 	ld	c,#0x00
-;demo.c:348: int modes = 128; // interlace bit on
+;demo.c:402: int modes = 128; // interlace bit on
 	ld	de,#0x0080
-;demo.c:355: spindown();
+;demo.c:405: spindown();
 	push	bc
 	push	de
 	call	_spindown
 	pop	de
 	pop	bc
-;demo.c:357: puts("demo init\r\n\r\n");
+;demo.c:407: puts("demo init\r\n\r\n");
 	push	bc
 	push	de
 	ld	hl,#__str_0
@@ -1966,7 +2383,7 @@ _main:
 	pop	af
 	pop	de
 	pop	bc
-;demo.c:370: puts("music init...");
+;demo.c:420: puts("music init...");
 	push	bc
 	push	de
 	ld	hl,#__str_1
@@ -1975,18 +2392,18 @@ _main:
 	pop	af
 	pop	de
 	pop	bc
-;demo.c:372: PLY_SongPtr = (char *)0x0103;
+;demo.c:422: PLY_SongPtr = (char *)0x0103;
 	ld	hl,#_PLY_SongPtr + 0
 	ld	(hl), #0x03
 	ld	hl,#_PLY_SongPtr + 1
 	ld	(hl), #0x01
-;demo.c:373: PLY_Init();
+;demo.c:423: PLY_Init();
 	push	bc
 	push	de
 	call	_PLY_Init
 	pop	de
 	pop	bc
-;demo.c:374: puts("done.\n\n");
+;demo.c:424: puts("done.\n\n");
 	push	bc
 	push	de
 	ld	hl,#__str_2
@@ -1995,7 +2412,7 @@ _main:
 	pop	af
 	pop	de
 	pop	bc
-;demo.c:376: if(isvdp2())
+;demo.c:426: if(isvdp2())
 	push	bc
 	push	de
 	call	_isvdp2
@@ -2006,16 +2423,16 @@ _main:
 	ld	b,a
 	or	a,a
 	jr	Z,00102$
-;demo.c:378: modes+=2; // pal
+;demo.c:428: modes+=2; // pal
 	ld	de,#0x0082
 00102$:
-;demo.c:382: vdp_set_screen5();
+;demo.c:432: vdp_set_screen5();
 	push	bc
 	push	de
 	call	_vdp_set_screen5
 	pop	de
 	pop	bc
-;demo.c:384: vdp_register(VDP_MODE3,modes); // interlace on, screen mode pal or ntsc
+;demo.c:434: vdp_register(VDP_MODE3,modes); // interlace on, screen mode pal or ntsc
 	ld	b,e
 	push	bc
 	push	bc
@@ -2026,32 +2443,32 @@ _main:
 	call	_vdp_register
 	pop	af
 	pop	bc
-;demo.c:386: puts("demo start\r\n");
+;demo.c:436: puts("demo start\r\n");
 	push	bc
 	ld	hl,#__str_3
 	push	hl
 	call	_puts
 	pop	af
 	pop	bc
-;demo.c:388: scratch_clear();
+;demo.c:438: scratch_clear();
 	push	bc
 	call	_scratch_clear
 	pop	bc
-;demo.c:389: vdp_load_palette(scratch);
+;demo.c:439: vdp_load_palette(scratch);
 	push	bc
 	ld	hl,#_scratch
 	push	hl
 	call	_vdp_load_palette
 	pop	af
 	pop	bc
-;demo.c:391: vdp_register(VDP_VOFFSET,0);
+;demo.c:441: vdp_register(VDP_VOFFSET,0);
 	push	bc
 	ld	hl,#0x0017
 	push	hl
 	call	_vdp_register
 	pop	af
 	pop	bc
-;demo.c:411: pal_load("KETTU16 PL5",32);
+;demo.c:443: pal_load("LF      PL5",32);
 	push	bc
 	ld	a,#0x20
 	push	af
@@ -2062,16 +2479,16 @@ _main:
 	pop	af
 	inc	sp
 	pop	bc
-;demo.c:412: vdp_load_palette(cur_palette);
+;demo.c:444: vdp_load_palette(cur_palette);
 	push	bc
 	ld	hl,#_cur_palette
 	push	hl
 	call	_vdp_load_palette
 	pop	af
 	pop	bc
-;demo.c:414: memset((uint8_t *) &packbuffer, 0, 4501);
+;demo.c:446: memset((uint8_t *) &packbuffer, 0, 13428);
 	push	bc
-	ld	hl,#0x1195
+	ld	hl,#0x3474
 	push	hl
 	ld	a,#0x00
 	push	af
@@ -2083,11 +2500,11 @@ _main:
 	pop	af
 	inc	sp
 	pop	bc
-;demo.c:415: raw_load("KETTU16 PCK", 4501, packbuffer);
+;demo.c:447: raw_load("LF1     PCK", 13428, packbuffer);
 	push	bc
 	ld	hl,#_packbuffer
 	push	hl
-	ld	hl,#0x1195
+	ld	hl,#0x3474
 	push	hl
 	ld	hl,#__str_5
 	push	hl
@@ -2096,9 +2513,50 @@ _main:
 	pop	af
 	pop	af
 	pop	bc
-;demo.c:416: bitbuster(packbuffer,0x0000,VRAM_0); // to page 1
+;demo.c:448: bitbuster(packbuffer,0x8000,VRAM_0); // to page 1
 	push	bc
 	ld	a,#0x01
+	push	af
+	inc	sp
+	ld	hl,#0x8000
+	push	hl
+	ld	hl,#_packbuffer
+	push	hl
+	call	_bitbuster
+	pop	af
+	pop	af
+	inc	sp
+	pop	bc
+;demo.c:450: memset((uint8_t *) &packbuffer, 0, 14505);
+	push	bc
+	ld	hl,#0x38A9
+	push	hl
+	ld	a,#0x00
+	push	af
+	inc	sp
+	ld	hl,#_packbuffer
+	push	hl
+	call	_memset
+	pop	af
+	pop	af
+	inc	sp
+	pop	bc
+;demo.c:451: raw_load("LF2     PCK", 14505, packbuffer);
+	push	bc
+	ld	hl,#_packbuffer
+	push	hl
+	ld	hl,#0x38A9
+	push	hl
+	ld	hl,#__str_6
+	push	hl
+	call	_raw_load
+	pop	af
+	pop	af
+	pop	af
+	pop	bc
+;demo.c:452: bitbuster(packbuffer,0x0000,VRAM_1); // to page 2
+	push	bc
+	ld	a,#0x00
 	push	af
 	inc	sp
 	ld	hl,#0x0000
@@ -2110,23 +2568,64 @@ _main:
 	pop	af
 	inc	sp
 	pop	bc
-;demo.c:421: install_isr(color_isr);
+;demo.c:454: memset((uint8_t *) &packbuffer, 0, 14480);
 	push	bc
-	ld	hl,#_color_isr
+	ld	hl,#0x3890
+	push	hl
+	ld	a,#0x00
+	push	af
+	inc	sp
+	ld	hl,#_packbuffer
+	push	hl
+	call	_memset
+	pop	af
+	pop	af
+	inc	sp
+	pop	bc
+;demo.c:455: raw_load("LF3     PCK", 14480, packbuffer);
+	push	bc
+	ld	hl,#_packbuffer
+	push	hl
+	ld	hl,#0x3890
+	push	hl
+	ld	hl,#__str_7
+	push	hl
+	call	_raw_load
+	pop	af
+	pop	af
+	pop	af
+	pop	bc
+;demo.c:456: bitbuster(packbuffer,0x8000,VRAM_1); // to page 3
+	push	bc
+	ld	a,#0x00
+	push	af
+	inc	sp
+	ld	hl,#0x8000
+	push	hl
+	ld	hl,#_packbuffer
+	push	hl
+	call	_bitbuster
+	pop	af
+	pop	af
+	inc	sp
+	pop	bc
+;demo.c:469: install_isr(my_isr);
+	push	bc
+	ld	hl,#_my_isr
 	push	hl
 	call	_install_isr
 	pop	af
 	pop	bc
-;demo.c:424: while(!quit) {
+;demo.c:492: while (!quit) {
 00105$:
 	xor	a,a
 	or	a,c
 	jr	NZ,00107$
-;demo.c:425: raster_effu();
+;demo.c:495: do_animplay();
 	push	bc
-	call	_raster_effu
+	call	_do_animplay
 	pop	bc
-;demo.c:426: if (space()) quit=1;
+;demo.c:507: if(space())
 	push	bc
 	ld	hl,#0x0108
 	push	hl
@@ -2137,36 +2636,35 @@ _main:
 	ld	b,a
 	or	a,a
 	jr	Z,00105$
+;demo.c:508: quit=1;
 	ld	c,#0x01
 	jr	00105$
 00107$:
-;demo.c:492: waitVB();
+;demo.c:511: waitVB();
 		halt 
-;demo.c:493: uninstall_isr();
+;demo.c:512: uninstall_isr();
 	call	_uninstall_isr
-;demo.c:494: PLY_Stop();
+;demo.c:513: PLY_Stop();
 	call	_PLY_Stop
-;demo.c:495: PLY_SendRegisters();
+;demo.c:514: PLY_SendRegisters();
 	call	_PLY_SendRegisters
-;demo.c:497: screen(0);
+;demo.c:516: screen(0);
 	ld	a,#0x00
 	push	af
 	inc	sp
 	call	_screen
 	inc	sp
-;demo.c:499: puts("demo exit\r\n\r\n");
-	ld	hl,#__str_6
+;demo.c:518: puts("demo exit\r\n\r\n");
+	ld	hl,#__str_8
 	push	hl
 	call	_puts
 	pop	af
-;demo.c:501: exit(0);
+;demo.c:520: exit(0);
 	ld	a,#0x00
 	push	af
 	inc	sp
 	call	_exit
 	inc	sp
-	ld	sp,ix
-	pop	ix
 	ret
 _main_end::
 __str_0:
@@ -2190,12 +2688,18 @@ __str_3:
 	.db 0x0A
 	.db 0x00
 __str_4:
-	.ascii "KETTU16 PL5"
+	.ascii "LF      PL5"
 	.db 0x00
 __str_5:
-	.ascii "KETTU16 PCK"
+	.ascii "LF1     PCK"
 	.db 0x00
 __str_6:
+	.ascii "LF2     PCK"
+	.db 0x00
+__str_7:
+	.ascii "LF3     PCK"
+	.db 0x00
+__str_8:
 	.ascii "demo exit"
 	.db 0x0D
 	.db 0x0A
