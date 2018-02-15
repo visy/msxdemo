@@ -61,7 +61,7 @@ void my_isr(void) interrupt
         PLY_Play();
         PLY_SendRegisters();
 
-        vbicount++;
+        vbicount+=2;
         tick++;
 
         EI;
@@ -72,15 +72,16 @@ void color_isr(void) interrupt
         DI;
 
 		if(isNthBitSet(vdp2_status(1),0)) {
+	        vdp_register(VDP_VOFFSET,sintab[vbicount & 255]);
 	        READ_VDP_STATUS;
-	        msx2_palette(0,4,5,6);
+//	        msx2_palette(0,4,5,6);
 		} else {
 	        READ_VDP_STATUS;
-	        msx2_palette(0,0,0,0);
+	        vbicount++;
+//	        msx2_palette(0,0,0,0);
 
 	        PLY_Play();
 	        PLY_SendRegisters();
-	        vbicount++;
 		}
 
         EI;
@@ -303,19 +304,22 @@ void do_blocks() {
 
 }
 
-volatile int linenum = 10;
+int linenum = 0;
 
 void raster_effu() {
-	vbicount = 0;
-
+	vdp_register(VDP_VOFFSET,0);
 	waitVB();
 
 	vdp_register(1,0x40); // disable vblank
 
-	vdp_register(19,linenum); // interrupt on line
-	vdp_register(0,0x16); // mode SC5, IE1 interrupts on
+	for (linenum = 40; linenum < 212; linenum+=4) {
+		vdp_register(19,linenum); // interrupt on line
+		vdp_register(0,0x16); // mode SC5, IE1 interrupts on
 
-	waitVB();
+		waitVB();
+	}
+
+	vdp_register(VDP_VOFFSET,0);
 
 /*
 
@@ -329,11 +333,27 @@ void raster_effu() {
 
 */
 
-	linenum++;
-	if (linenum >= 212-60) linenum = 10;
-
 	vdp_register(0,0x6); // mode SC5, IE1 interrupts off
 	vdp_register(1,0x60); // enable vblank
+}
+
+void twister() {
+	vdp_copy_command cmd;
+	int y,sy;
+	waitVB();
+	for (y = 0; y < 212; y+=4) {
+		cmd.source_x = 0;
+		sy = ((sintab[(vbicount+(y>>1)) & 255])>>1)+(256+64);
+		cmd.source_y = sy;
+		cmd.dest_x = 0;
+		cmd.dest_y = y;
+		cmd.size_x = 70;
+		cmd.size_y = 4;
+		cmd.data = 0;
+		cmd.argument = 0x00;
+		cmd.command = 0xd0; // logical vram to vram
+		vdp_copier(&cmd);
+	}
 
 }
 
@@ -439,7 +459,14 @@ void main() {
 	vdp_load_palette(scratch);
 
     vdp_register(VDP_VOFFSET,0);
+    pal_load("TWISTER PL5",32);
+    vdp_load_palette(cur_palette);
 
+	memset((uint8_t *) &packbuffer, 0, 3498);
+	raw_load("TWISTER PCK", 3498, packbuffer);
+	bitbuster(packbuffer,0x8000,VRAM_0); // to page 0
+
+/*
     pal_load("LF      PL5",32);
     vdp_load_palette(cur_palette);
 
@@ -455,13 +482,14 @@ void main() {
 	raw_load("LF3     PCK", 14480, packbuffer);
 	bitbuster(packbuffer,0x8000,VRAM_1); // to page 3
 
+*/
 /*
     pal_load("KETTU16 PL5",32);
     vdp_load_palette(cur_palette);
 
 	memset((uint8_t *) &packbuffer, 0, 4501);
 	raw_load("KETTU16 PCK", 4501, packbuffer);
-	bitbuster(packbuffer,0x0000,VRAM_0); // to page 1
+	bitbuster(packbuffer,0x0000,VRAM_0); // to page 0
 */
 
 
@@ -492,8 +520,8 @@ void main() {
 	while (!quit) {
 		//waitVB();
 
-		do_animplay();
-
+		//do_animplay();
+		twister();
 		//raster_effu();
 /*
 		if (vbicount < 192) { 
