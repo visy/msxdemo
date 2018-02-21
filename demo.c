@@ -357,6 +357,86 @@ void twister() {
 
 }
 
+const int font_x[16] = {
+	1,9,17,25,33,41,49,57,65,70
+};
+
+const int font_y[16] = {
+	28,28,28,28,28,28,28,28,28,28
+};
+
+const int font_w[16] = {
+	6,6,6,6,6,6,6,6,4,6
+};
+
+const int font_h[16] = {
+	8,8,8,8,8,8,8,8,8,8
+};
+
+int lx = 0;
+int ly = 0;
+
+
+void do_letter(int cc) {
+	vdp_copy_command cmd;
+	int cidx = cc - 65;
+	cmd.source_x = 128+font_x[cidx];
+	cmd.source_y = 256+font_y[cidx];
+	cmd.dest_x = lx;
+	cmd.dest_y = ly;
+	cmd.size_x = font_w[cidx];
+	cmd.size_y = font_h[cidx];
+	cmd.argument = 0x00;
+	cmd.command = 0xd0; // logical vram to vram
+	vdp_copier(&cmd);
+	lx+=font_w[cidx];
+}
+
+
+void font() {
+	int i = 0;
+	lx = 128;
+	ly = 128;
+
+	do_letter('F');
+	do_letter('A');
+	do_letter('D');
+	do_letter('E');
+	lx+=2;
+	do_letter('D');
+	do_letter('I');
+	do_letter('E');
+	lx+=2;
+	do_letter('C');
+	do_letter('A');
+	do_letter('F');
+	do_letter('E');
+	lx = 128;
+	ly+=10;
+	do_letter('A');
+	do_letter('B');
+	do_letter('C');
+	do_letter('D');
+	do_letter('E');
+	do_letter('F');
+	do_letter('G');
+	do_letter('H');
+	do_letter('I');
+	do_letter('J');
+	lx = 128;
+	ly+=10;
+	do_letter('J');
+	do_letter('I');
+	do_letter('H');
+	do_letter('G');
+	do_letter('F');
+	do_letter('E');
+	do_letter('D');
+	do_letter('C');
+	do_letter('B');
+	do_letter('A');
+
+}
 
 static int xo = 0;
 static int yo = 0;
@@ -421,6 +501,7 @@ void main() {
 	unsigned char quit=0;
 	int modes = 128; // interlace bit on
 	int loops = 0;
+	int i = 0;
 
 	spindown();
 
@@ -462,9 +543,17 @@ void main() {
     pal_load("TWISTER PL5",32);
     vdp_load_palette(cur_palette);
 
-	memset((uint8_t *) &packbuffer, 0, 3498);
-	raw_load("TWISTER PCK", 3498, packbuffer);
-	bitbuster(packbuffer,0x8000,VRAM_0); // to page 0
+	memset((uint8_t *) &packbuffer, 0, 3963);
+	raw_load("TWISTER PCK", 3963, packbuffer);
+	bitbuster(packbuffer,0x8000,VRAM_0); // to page 1
+
+	// cls
+	vdp_set_write_address(0, 0);
+	memset((uint8_t *) &scratch, 0, 256);
+
+	for (i = 0; i < 213; i++) {		
+		vdp_load_screen(scratch, 128);
+	}
 
 /*
     pal_load("LF      PL5",32);
@@ -522,6 +611,7 @@ void main() {
 
 		//do_animplay();
 		twister();
+		font();
 		//raster_effu();
 /*
 		if (vbicount < 192) { 
