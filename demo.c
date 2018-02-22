@@ -357,21 +357,24 @@ void twister() {
 
 }
 
-const uint8_t font_x[32] = {
-	1,9,17,25,33,41,49,57,65,70,78,86,94,   1,10,18,26,35,43,51,60,68,76,86,94,103
+const uint8_t font_x[64] = {
+	1,9,17,25,33,41,49,57,65,70,78,86,94,1,10,18,26,35,43,51,60,68,76,86,94,103,  // uppercase
+	00,00,00,00,00,00, // padding
+	1,9,17,24,32,40,47,55,63,69,76,84,90,100,1,9,17,25,33,41,48,56,64,74,82,90
 };
 
-const uint8_t font_y[32] = {
-	28,28,28,28,28,28,28,28,28,28,28,28,28, 37,37,37,37,37,37,37,37,37,37,37,37,37
+const uint8_t font_y[64] = {
+	28,28,28,28,28,28,28,28,28,28,28,28,28,37,37,37,37,37,37,37,37,37,37,37,37,37,
+	00,00,00,00,00,00,
+	55,55,55,55,55,55,55,55,55,55,55,55,55,55,64,64,64,64,64,64,64,64,64,64,64,64
 };
 
-const uint8_t font_w[32] = {
-	7,7,7,7,7,7,7,7,4,7,7,7,9, 8,7,7,8,7,7,8,7,7,9,7,8,7
+const uint8_t font_w[64] = {
+	7,7,7,7,7,7,7,7,4,7,7,7,9,8,7,7,8,7,7,8,7,7,9,7,8,7,
+	00,00,00,00,00,00,
+	7,7,6,7,7,7,7,7,5,6,7,5,9,7,7,7,7,7,7,6,7,7,9,7,7,7
 };
 
-const uint8_t font_h[32] = {
-	8,8,8,8,8,8,8,8,8,8,8,8,8, 8,8,8,8,8,8,8,8,8,8,8,8,8
-};
 
 uint8_t lx = 0;
 uint8_t ly = 0;
@@ -383,8 +386,8 @@ void do_letter(char cc) {
 	cmd.source_y = 256+font_y[cidx];
 	cmd.dest_x = lx;
 	cmd.dest_y = ly;
-	cmd.size_x = font_w[cidx]+1;
-	cmd.size_y = font_h[cidx];
+	cmd.size_x = font_w[cidx];
+	cmd.size_y = 8;
 	cmd.argument = 0x00;
 	cmd.command = 0x90; // logical vram to vram
 	vdp_copier(&cmd);
@@ -397,8 +400,9 @@ void drawstr(char* str, uint8_t x, uint8_t y) {
 	ly = y;
 	while (*c) {
 		char ltr = *c++; 
-		if (ltr != ' ') do_letter(ltr);
-		else lx+=4;
+		if (ltr == ' ') lx+=4;
+		else if (ltr == '_') { ly+=9; lx = x; }
+		else do_letter(ltr);
 	}
 }
 
@@ -406,14 +410,10 @@ void font() {
 	drawstr("THE QUICK BROWN FOX",70,40);
 	drawstr("JUMPS OVER THE LAZY DOG",70,49);
 
-	drawstr("WHAT A MYSTERY THE",74,60);
-	drawstr("WORLD HOLDS FOR US",74,69);
+	drawstr("the quick brown fox",70,60);
+	drawstr("jumps over the lazy dog",70,69);
 
-	drawstr("LOSE YOURSELF IN THE",70,80);
-	drawstr("MUSIC AND NEVER LET IT GO",70,89);
-
-	drawstr("CODE  BY VISY",90,212-18);
-	drawstr("MUSIC BY LYNN",91,212-9);
+	drawstr("This is a test of the_emergency alert system__This is only a test__Please locate your_nearest exit and proceed_to your gate at once",70,100);
 
 }
 

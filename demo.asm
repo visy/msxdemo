@@ -1,7 +1,7 @@
 ;--------------------------------------------------------
 ; File Created by SDCC : free open source ANSI-C Compiler
 ; Version 2.9.0 #5416 (Mar 22 2009) (Mac OS X i386)
-; This file was generated Thu Feb 22 22:04:35 2018
+; This file was generated Thu Feb 22 22:38:51 2018
 ;--------------------------------------------------------
 	.module demo
 	.optsdcc -mz80
@@ -46,7 +46,6 @@
 	.globl _scratch
 	.globl _packbuffer
 	.globl _sintab
-	.globl _font_h
 	.globl _font_w
 	.globl _font_y
 	.globl _font_x
@@ -370,10 +369,10 @@ _fffaaa:
 	ld	0 (iy),#0x00
 	ld	iy,#_linenum
 	ld	1 (iy),#0x00
-;demo.c:376: uint8_t lx = 0;
+;demo.c:379: uint8_t lx = 0;
 	ld	iy,#_lx
 	ld	0 (iy),#0x00
-;demo.c:377: uint8_t ly = 0;
+;demo.c:380: uint8_t ly = 0;
 	ld	iy,#_ly
 	ld	0 (iy),#0x00
 ;demo.c:420: static int xo = 0;
@@ -2144,7 +2143,7 @@ _twister:
 	pop	ix
 	ret
 _twister_end::
-;demo.c:379: void do_letter(char cc) {
+;demo.c:382: void do_letter(char cc) {
 ;	---------------------------------
 ; Function do_letter
 ; ---------------------------------
@@ -2156,7 +2155,7 @@ _do_letter:
 	ld	hl,#-19
 	add	hl,sp
 	ld	sp,hl
-;demo.c:381: int cidx = cc - 65;
+;demo.c:384: int cidx = cc - 65;
 	ld	c,4 (ix)
 	ld	a,4 (ix)
 	rla	
@@ -2168,7 +2167,7 @@ _do_letter:
 	ld	a,b
 	adc	a,#0xFF
 	ld	-16 (ix),a
-;demo.c:382: cmd.source_x = 127+font_x[cidx];
+;demo.c:385: cmd.source_x = 127+font_x[cidx];
 	ld	hl,#0x0004
 	add	hl,sp
 	ex	de,hl
@@ -2189,7 +2188,7 @@ _do_letter:
 	ld	(hl),c
 	inc	hl
 	ld	(hl),b
-;demo.c:383: cmd.source_y = 256+font_y[cidx];
+;demo.c:386: cmd.source_y = 256+font_y[cidx];
 	ld	hl,#0x0004
 	add	hl,sp
 	ld	c,l
@@ -2215,7 +2214,7 @@ _do_letter:
 	ld	(hl),e
 	inc	hl
 	ld	(hl),d
-;demo.c:384: cmd.dest_x = lx;
+;demo.c:387: cmd.dest_x = lx;
 	ld	hl,#0x0004
 	add	hl,bc
 	ld	-19 (ix),l
@@ -2228,7 +2227,7 @@ _do_letter:
 	ld	(hl),e
 	inc	hl
 	ld	(hl),d
-;demo.c:385: cmd.dest_y = ly;
+;demo.c:388: cmd.dest_y = ly;
 	ld	hl,#0x0006
 	add	hl,bc
 	ld	-19 (ix),l
@@ -2241,7 +2240,7 @@ _do_letter:
 	ld	(hl),e
 	inc	hl
 	ld	(hl),d
-;demo.c:386: cmd.size_x = font_w[cidx]+1;
+;demo.c:389: cmd.size_x = font_w[cidx];
 	ld	hl,#0x0008
 	add	hl,bc
 	ld	-19 (ix),l
@@ -2255,48 +2254,34 @@ _do_letter:
 	ld	a,(de)
 	ld	e,a
 	ld	d,#0x00
-	inc	de
 	ld	l,-19 (ix)
 	ld	h,-18 (ix)
 	ld	(hl),e
 	inc	hl
 	ld	(hl),d
-;demo.c:387: cmd.size_y = font_h[cidx];
+;demo.c:390: cmd.size_y = 8;
 	ld	hl,#0x000A
 	add	hl,bc
-	ld	-19 (ix),l
-	ld	-18 (ix),h
-	ld	a,#<_font_h
-	add	a,-17 (ix)
-	ld	e,a
-	ld	a,#>_font_h
-	adc	a,-16 (ix)
-	ld	d,a
-	ld	a,(de)
-	ld	e,a
-	ld	d,#0x00
-	ld	l,-19 (ix)
-	ld	h,-18 (ix)
-	ld	(hl),e
+	ld	(hl),#0x08
 	inc	hl
-	ld	(hl),d
-;demo.c:388: cmd.argument = 0x00;
+	ld	(hl),#0x00
+;demo.c:391: cmd.argument = 0x00;
 	ld	hl,#0x000D
 	add	hl,bc
 	ex	de,hl
 	ld	a,#0x00
 	ld	(de),a
-;demo.c:389: cmd.command = 0x90; // logical vram to vram
+;demo.c:392: cmd.command = 0x90; // logical vram to vram
 	ld	hl,#0x000E
 	add	hl,bc
 	ex	de,hl
 	ld	a,#0x90
 	ld	(de),a
-;demo.c:390: vdp_copier(&cmd);
+;demo.c:393: vdp_copier(&cmd);
 	push	bc
 	call	_vdp_copier
 	pop	af
-;demo.c:391: lx+=font_w[cidx]+1;
+;demo.c:394: lx+=font_w[cidx]+1;
 	ld	a,#<_font_w
 	add	a,-17 (ix)
 	ld	c,a
@@ -2341,6 +2326,38 @@ _font_x:
 	.db #0x56
 	.db #0x5E
 	.db #0x67
+	.db #0x00
+	.db #0x00
+	.db #0x00
+	.db #0x00
+	.db #0x00
+	.db #0x00
+	.db #0x01
+	.db #0x09
+	.db #0x11
+	.db #0x18
+	.db #0x20
+	.db #0x28
+	.db #0x2F
+	.db #0x37
+	.db #0x3F
+	.db #0x45
+	.db #0x4C
+	.db #0x54
+	.db #0x5A
+	.db #0x64
+	.db #0x01
+	.db #0x09
+	.db #0x11
+	.db #0x19
+	.db #0x21
+	.db #0x29
+	.db #0x30
+	.db #0x38
+	.db #0x40
+	.db #0x4A
+	.db #0x52
+	.db #0x5A
 	.db 0x00
 	.db 0x00
 	.db 0x00
@@ -2374,6 +2391,38 @@ _font_y:
 	.db #0x25
 	.db #0x25
 	.db #0x25
+	.db #0x00
+	.db #0x00
+	.db #0x00
+	.db #0x00
+	.db #0x00
+	.db #0x00
+	.db #0x37
+	.db #0x37
+	.db #0x37
+	.db #0x37
+	.db #0x37
+	.db #0x37
+	.db #0x37
+	.db #0x37
+	.db #0x37
+	.db #0x37
+	.db #0x37
+	.db #0x37
+	.db #0x37
+	.db #0x37
+	.db #0x40
+	.db #0x40
+	.db #0x40
+	.db #0x40
+	.db #0x40
+	.db #0x40
+	.db #0x40
+	.db #0x40
+	.db #0x40
+	.db #0x40
+	.db #0x40
+	.db #0x40
 	.db 0x00
 	.db 0x00
 	.db 0x00
@@ -2407,46 +2456,45 @@ _font_w:
 	.db #0x07
 	.db #0x08
 	.db #0x07
+	.db #0x00
+	.db #0x00
+	.db #0x00
+	.db #0x00
+	.db #0x00
+	.db #0x00
+	.db #0x07
+	.db #0x07
+	.db #0x06
+	.db #0x07
+	.db #0x07
+	.db #0x07
+	.db #0x07
+	.db #0x07
+	.db #0x05
+	.db #0x06
+	.db #0x07
+	.db #0x05
+	.db #0x09
+	.db #0x07
+	.db #0x07
+	.db #0x07
+	.db #0x07
+	.db #0x07
+	.db #0x07
+	.db #0x06
+	.db #0x07
+	.db #0x07
+	.db #0x09
+	.db #0x07
+	.db #0x07
+	.db #0x07
 	.db 0x00
 	.db 0x00
 	.db 0x00
 	.db 0x00
 	.db 0x00
 	.db 0x00
-_font_h:
-	.db #0x08
-	.db #0x08
-	.db #0x08
-	.db #0x08
-	.db #0x08
-	.db #0x08
-	.db #0x08
-	.db #0x08
-	.db #0x08
-	.db #0x08
-	.db #0x08
-	.db #0x08
-	.db #0x08
-	.db #0x08
-	.db #0x08
-	.db #0x08
-	.db #0x08
-	.db #0x08
-	.db #0x08
-	.db #0x08
-	.db #0x08
-	.db #0x08
-	.db #0x08
-	.db #0x08
-	.db #0x08
-	.db #0x08
-	.db 0x00
-	.db 0x00
-	.db 0x00
-	.db 0x00
-	.db 0x00
-	.db 0x00
-;demo.c:394: void drawstr(char* str, uint8_t x, uint8_t y) {
+;demo.c:397: void drawstr(char* str, uint8_t x, uint8_t y) {
 ;	---------------------------------
 ; Function drawstr
 ; ---------------------------------
@@ -2455,59 +2503,72 @@ _drawstr:
 	push	ix
 	ld	ix,#0
 	add	ix,sp
-;demo.c:395: char* c = str;
+;demo.c:398: char* c = str;
 	ld	c,4 (ix)
 	ld	b,5 (ix)
-;demo.c:396: lx = x;
-	ld	a,6 (ix)
+;demo.c:399: lx = x;
+	ld	e,6 (ix)
 	ld	hl,#_lx + 0
-	ld	(hl), a
-;demo.c:397: ly = y;
+	ld	(hl), e
+;demo.c:400: ly = y;
 	ld	a,7 (ix)
 	ld	hl,#_ly + 0
 	ld	(hl), a
-;demo.c:398: while (*c) {
-00104$:
+;demo.c:401: while (*c) {
+00107$:
 	ld	a,(bc)
-	ld	e,a
+	ld	d,a
 	or	a,a
-	jr	Z,00107$
-;demo.c:399: char ltr = *c++; 
+	jr	Z,00110$
+;demo.c:402: char ltr = *c++; 
 	inc	bc
-;demo.c:400: if (ltr != ' ') do_letter(ltr);
-	ld	a,e
+;demo.c:403: if (ltr == ' ') lx+=4;
+	ld	a,d
 	sub	a,#0x20
-	jr	Z,00102$
+	jr	NZ,00105$
+	ld	iy,#_lx
+	inc	0 (iy)
+	ld	iy,#_lx
+	inc	0 (iy)
+	ld	iy,#_lx
+	inc	0 (iy)
+	ld	iy,#_lx
+	inc	0 (iy)
+	jr	00107$
+00105$:
+;demo.c:404: else if (ltr == '_') { ly+=9; lx = x; }
+	ld	a,d
+	sub	a,#0x5F
+	jr	NZ,00102$
+	ld	hl,#_ly
+	ld	a,(hl)
+	add	a,#0x09
+	ld	(hl),a
+	ld	hl,#_lx + 0
+	ld	(hl), e
+	jr	00107$
+00102$:
+;demo.c:405: else do_letter(ltr);
 	push	bc
-	ld	a,e
-	push	af
+	push	de
+	push	de
 	inc	sp
 	call	_do_letter
 	inc	sp
+	pop	de
 	pop	bc
-	jr	00104$
-00102$:
-;demo.c:401: else lx+=4;
-	ld	iy,#_lx
-	inc	0 (iy)
-	ld	iy,#_lx
-	inc	0 (iy)
-	ld	iy,#_lx
-	inc	0 (iy)
-	ld	iy,#_lx
-	inc	0 (iy)
-	jr	00104$
-00107$:
+	jr	00107$
+00110$:
 	pop	ix
 	ret
 _drawstr_end::
-;demo.c:405: void font() {
+;demo.c:409: void font() {
 ;	---------------------------------
 ; Function font
 ; ---------------------------------
 _font_start::
 _font:
-;demo.c:406: drawstr("THE QUICK BROWN FOX",70,40);
+;demo.c:410: drawstr("THE QUICK BROWN FOX",70,40);
 	ld	hl,#0x2846
 	push	hl
 	ld	hl,#__str_0
@@ -2515,7 +2576,7 @@ _font:
 	call	_drawstr
 	pop	af
 	pop	af
-;demo.c:407: drawstr("JUMPS OVER THE LAZY DOG",70,49);
+;demo.c:411: drawstr("JUMPS OVER THE LAZY DOG",70,49);
 	ld	hl,#0x3146
 	push	hl
 	ld	hl,#__str_1
@@ -2523,50 +2584,26 @@ _font:
 	call	_drawstr
 	pop	af
 	pop	af
-;demo.c:409: drawstr("WHAT A MYSTERY THE",74,60);
-	ld	hl,#0x3C4A
+;demo.c:413: drawstr("the quick brown fox",70,60);
+	ld	hl,#0x3C46
 	push	hl
 	ld	hl,#__str_2
 	push	hl
 	call	_drawstr
 	pop	af
 	pop	af
-;demo.c:410: drawstr("WORLD HOLDS FOR US",74,69);
-	ld	hl,#0x454A
+;demo.c:414: drawstr("jumps over the lazy dog",70,69);
+	ld	hl,#0x4546
 	push	hl
 	ld	hl,#__str_3
 	push	hl
 	call	_drawstr
 	pop	af
 	pop	af
-;demo.c:412: drawstr("LOSE YOURSELF IN THE",70,80);
-	ld	hl,#0x5046
+;demo.c:416: drawstr("This is a test of the_emergency alert system__This is only a test__Please locate your_nearest exit and proceed_to your gate at once",70,100);
+	ld	hl,#0x6446
 	push	hl
 	ld	hl,#__str_4
-	push	hl
-	call	_drawstr
-	pop	af
-	pop	af
-;demo.c:413: drawstr("MUSIC AND NEVER LET IT GO",70,89);
-	ld	hl,#0x5946
-	push	hl
-	ld	hl,#__str_5
-	push	hl
-	call	_drawstr
-	pop	af
-	pop	af
-;demo.c:415: drawstr("CODE  BY VISY",90,212-18);
-	ld	hl,#0xC25A
-	push	hl
-	ld	hl,#__str_6
-	push	hl
-	call	_drawstr
-	pop	af
-	pop	af
-;demo.c:416: drawstr("MUSIC BY LYNN",91,212-9);
-	ld	hl,#0xCB5B
-	push	hl
-	ld	hl,#__str_7
 	push	hl
 	call	_drawstr
 	pop	af
@@ -2580,22 +2617,15 @@ __str_1:
 	.ascii "JUMPS OVER THE LAZY DOG"
 	.db 0x00
 __str_2:
-	.ascii "WHAT A MYSTERY THE"
+	.ascii "the quick brown fox"
 	.db 0x00
 __str_3:
-	.ascii "WORLD HOLDS FOR US"
+	.ascii "jumps over the lazy dog"
 	.db 0x00
 __str_4:
-	.ascii "LOSE YOURSELF IN THE"
-	.db 0x00
-__str_5:
-	.ascii "MUSIC AND NEVER LET IT GO"
-	.db 0x00
-__str_6:
-	.ascii "CODE  BY VISY"
-	.db 0x00
-__str_7:
-	.ascii "MUSIC BY LYNN"
+	.ascii "This is a test of the_emergency alert system__This is only a"
+	.ascii " test__Please locate your_nearest exit and proceed_to your g"
+	.ascii "ate at once"
 	.db 0x00
 ;demo.c:424: void do_animplay() {
 ;	---------------------------------
@@ -3010,7 +3040,7 @@ _main:
 ;demo.c:487: puts("demo init\r\n\r\n");
 	push	bc
 	push	de
-	ld	hl,#__str_8
+	ld	hl,#__str_5
 	push	hl
 	call	_puts
 	pop	af
@@ -3019,7 +3049,7 @@ _main:
 ;demo.c:500: puts("music init...");
 	push	bc
 	push	de
-	ld	hl,#__str_9
+	ld	hl,#__str_6
 	push	hl
 	call	_puts
 	pop	af
@@ -3039,7 +3069,7 @@ _main:
 ;demo.c:504: puts("done.\n\n");
 	push	bc
 	push	de
-	ld	hl,#__str_10
+	ld	hl,#__str_7
 	push	hl
 	call	_puts
 	pop	af
@@ -3078,7 +3108,7 @@ _main:
 	pop	bc
 ;demo.c:516: puts("demo start\r\n");
 	push	bc
-	ld	hl,#__str_11
+	ld	hl,#__str_8
 	push	hl
 	call	_puts
 	pop	af
@@ -3106,7 +3136,7 @@ _main:
 	ld	a,#0x20
 	push	af
 	inc	sp
-	ld	hl,#__str_12
+	ld	hl,#__str_9
 	push	hl
 	call	_pal_load
 	pop	af
@@ -3139,7 +3169,7 @@ _main:
 	push	hl
 	ld	hl,#0x0F7B
 	push	hl
-	ld	hl,#__str_13
+	ld	hl,#__str_10
 	push	hl
 	call	_raw_load
 	pop	af
@@ -3260,7 +3290,7 @@ _main:
 	call	_screen
 	inc	sp
 ;demo.c:616: puts("demo exit\r\n\r\n");
-	ld	hl,#__str_14
+	ld	hl,#__str_11
 	push	hl
 	call	_puts
 	pop	af
@@ -3272,33 +3302,33 @@ _main:
 	inc	sp
 	ret
 _main_end::
-__str_8:
+__str_5:
 	.ascii "demo init"
 	.db 0x0D
 	.db 0x0A
 	.db 0x0D
 	.db 0x0A
 	.db 0x00
-__str_9:
+__str_6:
 	.ascii "music init..."
 	.db 0x00
-__str_10:
+__str_7:
 	.ascii "done."
 	.db 0x0A
 	.db 0x0A
 	.db 0x00
-__str_11:
+__str_8:
 	.ascii "demo start"
 	.db 0x0D
 	.db 0x0A
 	.db 0x00
-__str_12:
+__str_9:
 	.ascii "TWISTER PL5"
 	.db 0x00
-__str_13:
+__str_10:
 	.ascii "TWISTER PCK"
 	.db 0x00
-__str_14:
+__str_11:
 	.ascii "demo exit"
 	.db 0x0D
 	.db 0x0A
