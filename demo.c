@@ -357,94 +357,63 @@ void twister() {
 
 }
 
-const int font_x[32] = {
-	1,9,17,25,34,41,49,57,66,70,78,86,94,   1,10,19,27,35,44,51
+const uint8_t font_x[32] = {
+	1,9,17,25,33,41,49,57,65,70,78,86,94,   1,10,18,26,35,43,51,60,68,76,86,94,103
 };
 
-const int font_y[32] = {
-	28,28,28,28,28,28,28,28,28,28,28,28,28, 37,37,37,37,37,37,37
+const uint8_t font_y[32] = {
+	28,28,28,28,28,28,28,28,28,28,28,28,28, 37,37,37,37,37,37,37,37,37,37,37,37,37
 };
 
-const int font_w[32] = {
-	7,7,7,7,7,7,7,7,4,7,7,7,9, 8,7,8,8,8,7,8
+const uint8_t font_w[32] = {
+	7,7,7,7,7,7,7,7,4,7,7,7,9, 8,7,7,8,7,7,8,7,7,9,7,8,7
 };
 
-const int font_h[32] = {
-	8,8,8,8,8,8,8,8,8,8,8,8,8, 8,8,8,8,8,8,8
+const uint8_t font_h[32] = {
+	8,8,8,8,8,8,8,8,8,8,8,8,8, 8,8,8,8,8,8,8,8,8,8,8,8,8
 };
 
-const int font_xo[32] = {
-	0,0,0,0,0,0,0,0,0,1,1,1,2, 1,1,2,2,2,2,2
-};
+uint8_t lx = 0;
+uint8_t ly = 0;
 
-int lx = 0;
-int ly = 0;
-
-
-void do_letter(int cc) {
+void do_letter(char cc) {
 	vdp_copy_command cmd;
 	int cidx = cc - 65;
 	cmd.source_x = 127+font_x[cidx];
 	cmd.source_y = 256+font_y[cidx];
-	cmd.dest_x = lx-font_xo[cidx];
+	cmd.dest_x = lx;
 	cmd.dest_y = ly;
 	cmd.size_x = font_w[cidx]+1;
 	cmd.size_y = font_h[cidx];
 	cmd.argument = 0x00;
-	cmd.command = 0xd0; // logical vram to vram
+	cmd.command = 0x90; // logical vram to vram
 	vdp_copier(&cmd);
 	lx+=font_w[cidx]+1;
 }
 
+void drawstr(char* str, uint8_t x, uint8_t y) {
+	char* c = str;
+	lx = x;
+	ly = y;
+	while (*c) {
+		char ltr = *c++; 
+		if (ltr != ' ') do_letter(ltr);
+		else lx+=4;
+	}
+}
 
 void font() {
-	int i = 0;
-	lx = 70;
-	ly = 128;
+	drawstr("THE QUICK BROWN FOX",70,40);
+	drawstr("JUMPS OVER THE LAZY DOG",70,49);
 
-	do_letter('D');
-	do_letter('E');
-	do_letter('M');
-	do_letter('O');
-	lx+=2;
-	do_letter('C');
-	do_letter('O');
-	do_letter('D');
-	do_letter('E');
-	do_letter('D');
-	lx+=2;
-	do_letter('C');
-	do_letter('A');
-	do_letter('F');
-	do_letter('E');
-	lx = 70;
-	ly+=20;
-	for (i = 0; i < 20; i++) 
-	do_letter('A'+i);
+	drawstr("WHAT A MYSTERY THE",74,60);
+	drawstr("WORLD HOLDS FOR US",74,69);
 
-	lx = 70;
-	ly = 158;
+	drawstr("LOSE YOURSELF IN THE",70,80);
+	drawstr("MUSIC AND NEVER LET IT GO",70,89);
 
-	do_letter('D');
-	do_letter('A');
-	do_letter('N');
-	do_letter('C');
-	do_letter('I');
-	do_letter('N');
-	do_letter('G');
-	lx+=2;
-	do_letter('I');
-	do_letter('S');
-	lx+=2;
-	do_letter('F');
-	do_letter('O');
-	do_letter('R');
-	do_letter('B');
-	do_letter('I');
-	do_letter('D');
-	do_letter('D');
-	do_letter('E');
-	do_letter('N');
+	drawstr("CODE  BY VISY",90,212-18);
+	drawstr("MUSIC BY LYNN",91,212-9);
 
 }
 
