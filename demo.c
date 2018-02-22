@@ -358,7 +358,7 @@ void twister() {
 }
 
 const int font_x[32] = {
-	1,9,17,25,34,41,49,57,66,72,78,86,94,   2,10,18,27,35,44,51
+	1,9,17,25,34,41,49,57,66,70,78,86,94,   1,10,19,27,35,44,51
 };
 
 const int font_y[32] = {
@@ -366,11 +366,15 @@ const int font_y[32] = {
 };
 
 const int font_w[32] = {
-	7,7,7,7,7,7,7,7,4,5,7,7,10, 8,8,8,8,8,7,8
+	7,7,7,7,7,7,7,7,4,7,7,7,9, 8,7,8,8,8,7,8
 };
 
 const int font_h[32] = {
 	8,8,8,8,8,8,8,8,8,8,8,8,8, 8,8,8,8,8,8,8
+};
+
+const int font_xo[32] = {
+	0,0,0,0,0,0,0,0,0,1,1,1,2, 1,1,2,2,2,2,2
 };
 
 int lx = 0;
@@ -382,7 +386,7 @@ void do_letter(int cc) {
 	int cidx = cc - 65;
 	cmd.source_x = 127+font_x[cidx];
 	cmd.source_y = 256+font_y[cidx];
-	cmd.dest_x = lx;
+	cmd.dest_x = lx-font_xo[cidx];
 	cmd.dest_y = ly;
 	cmd.size_x = font_w[cidx]+1;
 	cmd.size_y = font_h[cidx];
@@ -402,13 +406,13 @@ void font() {
 	do_letter('E');
 	do_letter('M');
 	do_letter('O');
-	lx+=4;
+	lx+=2;
 	do_letter('C');
 	do_letter('O');
 	do_letter('D');
 	do_letter('E');
 	do_letter('D');
-	lx+=4;
+	lx+=2;
 	do_letter('C');
 	do_letter('A');
 	do_letter('F');
@@ -417,10 +421,30 @@ void font() {
 	ly+=20;
 	for (i = 0; i < 20; i++) 
 	do_letter('A'+i);
+
 	lx = 70;
-	ly+=10;
-	for (i = 0; i < 20; i++) 
-	do_letter('T'-i);
+	ly = 158;
+
+	do_letter('D');
+	do_letter('A');
+	do_letter('N');
+	do_letter('C');
+	do_letter('I');
+	do_letter('N');
+	do_letter('G');
+	lx+=2;
+	do_letter('I');
+	do_letter('S');
+	lx+=2;
+	do_letter('F');
+	do_letter('O');
+	do_letter('R');
+	do_letter('B');
+	do_letter('I');
+	do_letter('D');
+	do_letter('D');
+	do_letter('E');
+	do_letter('N');
 
 }
 
