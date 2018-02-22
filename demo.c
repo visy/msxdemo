@@ -357,20 +357,20 @@ void twister() {
 
 }
 
-const int font_x[16] = {
-	1,9,17,25,33,41,49,57,65,70
+const int font_x[32] = {
+	1,9,17,25,34,41,49,57,66,72,78,86,94,   2,10,18,27,35,44,51
 };
 
-const int font_y[16] = {
-	28,28,28,28,28,28,28,28,28,28
+const int font_y[32] = {
+	28,28,28,28,28,28,28,28,28,28,28,28,28, 37,37,37,37,37,37,37
 };
 
-const int font_w[16] = {
-	6,6,6,6,6,6,6,6,4,6
+const int font_w[32] = {
+	7,7,7,7,7,7,7,7,4,5,7,7,10, 8,8,8,8,8,7,8
 };
 
-const int font_h[16] = {
-	8,8,8,8,8,8,8,8,8,8
+const int font_h[32] = {
+	8,8,8,8,8,8,8,8,8,8,8,8,8, 8,8,8,8,8,8,8
 };
 
 int lx = 0;
@@ -380,61 +380,47 @@ int ly = 0;
 void do_letter(int cc) {
 	vdp_copy_command cmd;
 	int cidx = cc - 65;
-	cmd.source_x = 128+font_x[cidx];
+	cmd.source_x = 127+font_x[cidx];
 	cmd.source_y = 256+font_y[cidx];
 	cmd.dest_x = lx;
 	cmd.dest_y = ly;
-	cmd.size_x = font_w[cidx];
+	cmd.size_x = font_w[cidx]+1;
 	cmd.size_y = font_h[cidx];
 	cmd.argument = 0x00;
 	cmd.command = 0xd0; // logical vram to vram
 	vdp_copier(&cmd);
-	lx+=font_w[cidx];
+	lx+=font_w[cidx]+1;
 }
 
 
 void font() {
 	int i = 0;
-	lx = 128;
+	lx = 70;
 	ly = 128;
 
-	do_letter('F');
-	do_letter('A');
 	do_letter('D');
 	do_letter('E');
-	lx+=2;
+	do_letter('M');
+	do_letter('O');
+	lx+=4;
+	do_letter('C');
+	do_letter('O');
 	do_letter('D');
-	do_letter('I');
 	do_letter('E');
-	lx+=2;
+	do_letter('D');
+	lx+=4;
 	do_letter('C');
 	do_letter('A');
 	do_letter('F');
 	do_letter('E');
-	lx = 128;
+	lx = 70;
+	ly+=20;
+	for (i = 0; i < 20; i++) 
+	do_letter('A'+i);
+	lx = 70;
 	ly+=10;
-	do_letter('A');
-	do_letter('B');
-	do_letter('C');
-	do_letter('D');
-	do_letter('E');
-	do_letter('F');
-	do_letter('G');
-	do_letter('H');
-	do_letter('I');
-	do_letter('J');
-	lx = 128;
-	ly+=10;
-	do_letter('J');
-	do_letter('I');
-	do_letter('H');
-	do_letter('G');
-	do_letter('F');
-	do_letter('E');
-	do_letter('D');
-	do_letter('C');
-	do_letter('B');
-	do_letter('A');
+	for (i = 0; i < 20; i++) 
+	do_letter('T'-i);
 
 }
 
@@ -605,13 +591,14 @@ void main() {
 
     install_isr(my_isr);
 */
+		twister();
+		font();
 
 	while (!quit) {
 		//waitVB();
 
 		//do_animplay();
 		twister();
-		font();
 		//raster_effu();
 /*
 		if (vbicount < 192) { 
