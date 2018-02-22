@@ -391,7 +391,7 @@ void do_letter(char cc) {
 	cmd.argument = 0x00;
 	cmd.command = 0x90; // logical vram to vram
 	vdp_copier(&cmd);
-	lx+=font_w[cidx]+1;
+	lx+=font_w[cidx]-1;
 }
 
 void drawstr(char* str, uint8_t x, uint8_t y) {
