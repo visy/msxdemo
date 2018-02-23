@@ -1,7 +1,7 @@
                               1 ;--------------------------------------------------------
                               2 ; File Created by SDCC : free open source ANSI-C Compiler
                               3 ; Version 2.9.0 #5416 (Mar 22 2009) (Mac OS X i386)
-                              4 ; This file was generated Thu Feb 22 22:38:51 2018
+                              4 ; This file was generated Fri Feb 23 17:40:03 2018
                               5 ;--------------------------------------------------------
                               6 	.module demo
                               7 	.optsdcc -mz80
@@ -398,28 +398,28 @@
    02C8 FD 36 00 00         369 	ld	0 (iy),#0x00
    02CC FD 21r7Ds40         370 	ld	iy,#_linenum
    02D0 FD 36 01 00         371 	ld	1 (iy),#0x00
-                            372 ;demo.c:379: uint8_t lx = 0;
+                            372 ;demo.c:381: uint8_t lx = 0;
    02D4 FD 21r7Fs40         373 	ld	iy,#_lx
    02D8 FD 36 00 00         374 	ld	0 (iy),#0x00
-                            375 ;demo.c:380: uint8_t ly = 0;
+                            375 ;demo.c:382: uint8_t ly = 0;
    02DC FD 21r80s40         376 	ld	iy,#_ly
    02E0 FD 36 00 00         377 	ld	0 (iy),#0x00
-                            378 ;demo.c:420: static int xo = 0;
+                            378 ;demo.c:422: static int xo = 0;
    02E4 FD 21r81s40         379 	ld	iy,#_xo
    02E8 FD 36 00 00         380 	ld	0 (iy),#0x00
    02EC FD 21r81s40         381 	ld	iy,#_xo
    02F0 FD 36 01 00         382 	ld	1 (iy),#0x00
-                            383 ;demo.c:421: static int yo = 0;
+                            383 ;demo.c:423: static int yo = 0;
    02F4 FD 21r83s40         384 	ld	iy,#_yo
    02F8 FD 36 00 00         385 	ld	0 (iy),#0x00
    02FC FD 21r83s40         386 	ld	iy,#_yo
    0300 FD 36 01 00         387 	ld	1 (iy),#0x00
-                            388 ;demo.c:422: static int po = 0;
+                            388 ;demo.c:424: static int po = 0;
    0304 FD 21r85s40         389 	ld	iy,#_po
    0308 FD 36 00 00         390 	ld	0 (iy),#0x00
    030C FD 21r85s40         391 	ld	iy,#_po
    0310 FD 36 01 00         392 	ld	1 (iy),#0x00
-                            393 ;demo.c:423: static int fffaaa = 0;
+                            393 ;demo.c:425: static int fffaaa = 0;
    0314 FD 21r87s40         394 	ld	iy,#_fffaaa
    0318 FD 36 00 00         395 	ld	0 (iy),#0x00
    031C FD 21r87s40         396 	ld	iy,#_fffaaa
@@ -2063,7 +2063,7 @@
    0A07 D6 D4              2034 	sub	a,#0xD4
    0A09 DD 7E F0           2035 	ld	a,-16 (ix)
    0A0C DE 00              2036 	sbc	a,#0x00
-   0A0E F2rB3s0A           2037 	jp	P,00105$
+   0A0E F2rB3s0A           2037 	jp	P,00104$
                            2038 ;demo.c:345: cmd.source_x = 0;
    0A11 21 04 00           2039 	ld	hl,#0x0004
    0A14 39                 2040 	add	hl,sp
@@ -2167,504 +2167,543 @@
    0AAB CE 00              2138 	adc	a,#0x00
    0AAD DD 77 F0           2139 	ld	-16 (ix),a
    0AB0 C3r04s0A           2140 	jp	00101$
-   0AB3                    2141 00105$:
-   0AB3 DD F9              2142 	ld	sp,ix
-   0AB5 DD E1              2143 	pop	ix
-   0AB7 C9                 2144 	ret
-   0AB8                    2145 _twister_end::
-                           2146 ;demo.c:382: void do_letter(char cc) {
-                           2147 ;	---------------------------------
-                           2148 ; Function do_letter
-                           2149 ; ---------------------------------
-   0AB8                    2150 _do_letter_start::
-   0AB8                    2151 _do_letter:
-   0AB8 DD E5              2152 	push	ix
-   0ABA DD 21 00 00        2153 	ld	ix,#0
-   0ABE DD 39              2154 	add	ix,sp
-   0AC0 21 ED FF           2155 	ld	hl,#-19
-   0AC3 39                 2156 	add	hl,sp
-   0AC4 F9                 2157 	ld	sp,hl
-                           2158 ;demo.c:384: int cidx = cc - 65;
-   0AC5 DD 4E 04           2159 	ld	c,4 (ix)
-   0AC8 DD 7E 04           2160 	ld	a,4 (ix)
-   0ACB 17                 2161 	rla	
-   0ACC 9F                 2162 	sbc	a,a
-   0ACD 47                 2163 	ld	b,a
-   0ACE 79                 2164 	ld	a,c
-   0ACF C6 BF              2165 	add	a,#0xBF
-   0AD1 DD 77 EF           2166 	ld	-17 (ix),a
-   0AD4 78                 2167 	ld	a,b
-   0AD5 CE FF              2168 	adc	a,#0xFF
-   0AD7 DD 77 F0           2169 	ld	-16 (ix),a
-                           2170 ;demo.c:385: cmd.source_x = 127+font_x[cidx];
-   0ADA 21 04 00           2171 	ld	hl,#0x0004
-   0ADD 39                 2172 	add	hl,sp
-   0ADE EB                 2173 	ex	de,hl
-   0ADF 3ErB4              2174 	ld	a,#<_font_x
-   0AE1 DD 86 EF           2175 	add	a,-17 (ix)
-   0AE4 4F                 2176 	ld	c,a
-   0AE5 3Es0B              2177 	ld	a,#>_font_x
-   0AE7 DD 8E F0           2178 	adc	a,-16 (ix)
-   0AEA 47                 2179 	ld	b,a
-   0AEB 0A                 2180 	ld	a,(bc)
-   0AEC 4F                 2181 	ld	c,a
-   0AED 06 00              2182 	ld	b,#0x00
-   0AEF 21 7F 00           2183 	ld	hl,#0x007F
-   0AF2 09                 2184 	add	hl,bc
-   0AF3 4D                 2185 	ld	c,l
-   0AF4 44                 2186 	ld	b,h
-   0AF5 EB                 2187 	ex	de,hl
-   0AF6 71                 2188 	ld	(hl),c
-   0AF7 23                 2189 	inc	hl
-   0AF8 70                 2190 	ld	(hl),b
-                           2191 ;demo.c:386: cmd.source_y = 256+font_y[cidx];
-   0AF9 21 04 00           2192 	ld	hl,#0x0004
-   0AFC 39                 2193 	add	hl,sp
-   0AFD 4D                 2194 	ld	c,l
-   0AFE 44                 2195 	ld	b,h
-   0AFF 21 02 00           2196 	ld	hl,#0x0002
-   0B02 09                 2197 	add	hl,bc
-   0B03 DD 75 ED           2198 	ld	-19 (ix),l
-   0B06 DD 74 EE           2199 	ld	-18 (ix),h
-   0B09 3ErF4              2200 	ld	a,#<_font_y
-   0B0B DD 86 EF           2201 	add	a,-17 (ix)
-   0B0E 5F                 2202 	ld	e,a
-   0B0F 3Es0B              2203 	ld	a,#>_font_y
-   0B11 DD 8E F0           2204 	adc	a,-16 (ix)
-   0B14 57                 2205 	ld	d,a
-   0B15 1A                 2206 	ld	a,(de)
-   0B16 5F                 2207 	ld	e,a
-   0B17 16 00              2208 	ld	d,#0x00
-   0B19 21 00 01           2209 	ld	hl,#0x0100
-   0B1C 19                 2210 	add	hl,de
-   0B1D EB                 2211 	ex	de,hl
-   0B1E DD 6E ED           2212 	ld	l,-19 (ix)
-   0B21 DD 66 EE           2213 	ld	h,-18 (ix)
-   0B24 73                 2214 	ld	(hl),e
-   0B25 23                 2215 	inc	hl
-   0B26 72                 2216 	ld	(hl),d
-                           2217 ;demo.c:387: cmd.dest_x = lx;
-   0B27 21 04 00           2218 	ld	hl,#0x0004
-   0B2A 09                 2219 	add	hl,bc
-   0B2B DD 75 ED           2220 	ld	-19 (ix),l
-   0B2E DD 74 EE           2221 	ld	-18 (ix),h
-   0B31 21r7Fs40           2222 	ld	hl,#_lx + 0
-   0B34 5E                 2223 	ld	e,(hl)
-   0B35 16 00              2224 	ld	d,#0x00
-   0B37 DD 6E ED           2225 	ld	l,-19 (ix)
-   0B3A DD 66 EE           2226 	ld	h,-18 (ix)
-   0B3D 73                 2227 	ld	(hl),e
-   0B3E 23                 2228 	inc	hl
-   0B3F 72                 2229 	ld	(hl),d
-                           2230 ;demo.c:388: cmd.dest_y = ly;
-   0B40 21 06 00           2231 	ld	hl,#0x0006
-   0B43 09                 2232 	add	hl,bc
-   0B44 DD 75 ED           2233 	ld	-19 (ix),l
-   0B47 DD 74 EE           2234 	ld	-18 (ix),h
-   0B4A 21r80s40           2235 	ld	hl,#_ly + 0
-   0B4D 5E                 2236 	ld	e,(hl)
-   0B4E 16 00              2237 	ld	d,#0x00
-   0B50 DD 6E ED           2238 	ld	l,-19 (ix)
-   0B53 DD 66 EE           2239 	ld	h,-18 (ix)
-   0B56 73                 2240 	ld	(hl),e
-   0B57 23                 2241 	inc	hl
-   0B58 72                 2242 	ld	(hl),d
-                           2243 ;demo.c:389: cmd.size_x = font_w[cidx];
-   0B59 21 08 00           2244 	ld	hl,#0x0008
-   0B5C 09                 2245 	add	hl,bc
-   0B5D DD 75 ED           2246 	ld	-19 (ix),l
-   0B60 DD 74 EE           2247 	ld	-18 (ix),h
-   0B63 3Er34              2248 	ld	a,#<_font_w
-   0B65 DD 86 EF           2249 	add	a,-17 (ix)
-   0B68 5F                 2250 	ld	e,a
-   0B69 3Es0C              2251 	ld	a,#>_font_w
-   0B6B DD 8E F0           2252 	adc	a,-16 (ix)
-   0B6E 57                 2253 	ld	d,a
-   0B6F 1A                 2254 	ld	a,(de)
-   0B70 5F                 2255 	ld	e,a
-   0B71 16 00              2256 	ld	d,#0x00
-   0B73 DD 6E ED           2257 	ld	l,-19 (ix)
-   0B76 DD 66 EE           2258 	ld	h,-18 (ix)
-   0B79 73                 2259 	ld	(hl),e
-   0B7A 23                 2260 	inc	hl
-   0B7B 72                 2261 	ld	(hl),d
-                           2262 ;demo.c:390: cmd.size_y = 8;
-   0B7C 21 0A 00           2263 	ld	hl,#0x000A
-   0B7F 09                 2264 	add	hl,bc
-   0B80 36 08              2265 	ld	(hl),#0x08
-   0B82 23                 2266 	inc	hl
-   0B83 36 00              2267 	ld	(hl),#0x00
-                           2268 ;demo.c:391: cmd.argument = 0x00;
-   0B85 21 0D 00           2269 	ld	hl,#0x000D
-   0B88 09                 2270 	add	hl,bc
-   0B89 EB                 2271 	ex	de,hl
-   0B8A 3E 00              2272 	ld	a,#0x00
-   0B8C 12                 2273 	ld	(de),a
-                           2274 ;demo.c:392: cmd.command = 0x90; // logical vram to vram
-   0B8D 21 0E 00           2275 	ld	hl,#0x000E
-   0B90 09                 2276 	add	hl,bc
-   0B91 EB                 2277 	ex	de,hl
-   0B92 3E 90              2278 	ld	a,#0x90
-   0B94 12                 2279 	ld	(de),a
-                           2280 ;demo.c:393: vdp_copier(&cmd);
-   0B95 C5                 2281 	push	bc
-   0B96 CDr00s00           2282 	call	_vdp_copier
-   0B99 F1                 2283 	pop	af
-                           2284 ;demo.c:394: lx+=font_w[cidx]+1;
-   0B9A 3Er34              2285 	ld	a,#<_font_w
-   0B9C DD 86 EF           2286 	add	a,-17 (ix)
-   0B9F 4F                 2287 	ld	c,a
-   0BA0 3Es0C              2288 	ld	a,#>_font_w
-   0BA2 DD 8E F0           2289 	adc	a,-16 (ix)
-   0BA5 47                 2290 	ld	b,a
-   0BA6 0A                 2291 	ld	a,(bc)
-   0BA7 4F                 2292 	ld	c,a
-   0BA8 0C                 2293 	inc	c
-   0BA9 21r7Fs40           2294 	ld	hl,#_lx
-   0BAC 7E                 2295 	ld	a,(hl)
-   0BAD 81                 2296 	add	a,c
-   0BAE 77                 2297 	ld	(hl),a
-   0BAF DD F9              2298 	ld	sp,ix
-   0BB1 DD E1              2299 	pop	ix
-   0BB3 C9                 2300 	ret
-   0BB4                    2301 _do_letter_end::
-   0BB4                    2302 _font_x:
-   0BB4 01                 2303 	.db #0x01
-   0BB5 09                 2304 	.db #0x09
-   0BB6 11                 2305 	.db #0x11
-   0BB7 19                 2306 	.db #0x19
-   0BB8 21                 2307 	.db #0x21
-   0BB9 29                 2308 	.db #0x29
-   0BBA 31                 2309 	.db #0x31
-   0BBB 39                 2310 	.db #0x39
-   0BBC 41                 2311 	.db #0x41
-   0BBD 46                 2312 	.db #0x46
-   0BBE 4E                 2313 	.db #0x4E
-   0BBF 56                 2314 	.db #0x56
-   0BC0 5E                 2315 	.db #0x5E
-   0BC1 01                 2316 	.db #0x01
-   0BC2 0A                 2317 	.db #0x0A
-   0BC3 12                 2318 	.db #0x12
-   0BC4 1A                 2319 	.db #0x1A
-   0BC5 23                 2320 	.db #0x23
-   0BC6 2B                 2321 	.db #0x2B
-   0BC7 33                 2322 	.db #0x33
-   0BC8 3C                 2323 	.db #0x3C
-   0BC9 44                 2324 	.db #0x44
-   0BCA 4C                 2325 	.db #0x4C
-   0BCB 56                 2326 	.db #0x56
-   0BCC 5E                 2327 	.db #0x5E
-   0BCD 67                 2328 	.db #0x67
-   0BCE 00                 2329 	.db #0x00
-   0BCF 00                 2330 	.db #0x00
-   0BD0 00                 2331 	.db #0x00
-   0BD1 00                 2332 	.db #0x00
-   0BD2 00                 2333 	.db #0x00
-   0BD3 00                 2334 	.db #0x00
-   0BD4 01                 2335 	.db #0x01
-   0BD5 09                 2336 	.db #0x09
-   0BD6 11                 2337 	.db #0x11
-   0BD7 18                 2338 	.db #0x18
-   0BD8 20                 2339 	.db #0x20
-   0BD9 28                 2340 	.db #0x28
-   0BDA 2F                 2341 	.db #0x2F
-   0BDB 37                 2342 	.db #0x37
-   0BDC 3F                 2343 	.db #0x3F
-   0BDD 45                 2344 	.db #0x45
-   0BDE 4C                 2345 	.db #0x4C
-   0BDF 54                 2346 	.db #0x54
-   0BE0 5A                 2347 	.db #0x5A
-   0BE1 64                 2348 	.db #0x64
-   0BE2 01                 2349 	.db #0x01
-   0BE3 09                 2350 	.db #0x09
-   0BE4 11                 2351 	.db #0x11
-   0BE5 19                 2352 	.db #0x19
-   0BE6 21                 2353 	.db #0x21
-   0BE7 29                 2354 	.db #0x29
-   0BE8 30                 2355 	.db #0x30
-   0BE9 38                 2356 	.db #0x38
-   0BEA 40                 2357 	.db #0x40
-   0BEB 4A                 2358 	.db #0x4A
-   0BEC 52                 2359 	.db #0x52
-   0BED 5A                 2360 	.db #0x5A
-   0BEE 00                 2361 	.db 0x00
-   0BEF 00                 2362 	.db 0x00
-   0BF0 00                 2363 	.db 0x00
-   0BF1 00                 2364 	.db 0x00
-   0BF2 00                 2365 	.db 0x00
-   0BF3 00                 2366 	.db 0x00
-   0BF4                    2367 _font_y:
-   0BF4 1C                 2368 	.db #0x1C
-   0BF5 1C                 2369 	.db #0x1C
-   0BF6 1C                 2370 	.db #0x1C
-   0BF7 1C                 2371 	.db #0x1C
-   0BF8 1C                 2372 	.db #0x1C
-   0BF9 1C                 2373 	.db #0x1C
-   0BFA 1C                 2374 	.db #0x1C
-   0BFB 1C                 2375 	.db #0x1C
-   0BFC 1C                 2376 	.db #0x1C
-   0BFD 1C                 2377 	.db #0x1C
-   0BFE 1C                 2378 	.db #0x1C
-   0BFF 1C                 2379 	.db #0x1C
-   0C00 1C                 2380 	.db #0x1C
-   0C01 25                 2381 	.db #0x25
-   0C02 25                 2382 	.db #0x25
-   0C03 25                 2383 	.db #0x25
-   0C04 25                 2384 	.db #0x25
-   0C05 25                 2385 	.db #0x25
-   0C06 25                 2386 	.db #0x25
-   0C07 25                 2387 	.db #0x25
-   0C08 25                 2388 	.db #0x25
-   0C09 25                 2389 	.db #0x25
-   0C0A 25                 2390 	.db #0x25
-   0C0B 25                 2391 	.db #0x25
-   0C0C 25                 2392 	.db #0x25
-   0C0D 25                 2393 	.db #0x25
-   0C0E 00                 2394 	.db #0x00
-   0C0F 00                 2395 	.db #0x00
-   0C10 00                 2396 	.db #0x00
-   0C11 00                 2397 	.db #0x00
-   0C12 00                 2398 	.db #0x00
-   0C13 00                 2399 	.db #0x00
-   0C14 37                 2400 	.db #0x37
-   0C15 37                 2401 	.db #0x37
-   0C16 37                 2402 	.db #0x37
-   0C17 37                 2403 	.db #0x37
-   0C18 37                 2404 	.db #0x37
-   0C19 37                 2405 	.db #0x37
-   0C1A 37                 2406 	.db #0x37
-   0C1B 37                 2407 	.db #0x37
-   0C1C 37                 2408 	.db #0x37
-   0C1D 37                 2409 	.db #0x37
-   0C1E 37                 2410 	.db #0x37
-   0C1F 37                 2411 	.db #0x37
-   0C20 37                 2412 	.db #0x37
-   0C21 37                 2413 	.db #0x37
-   0C22 40                 2414 	.db #0x40
-   0C23 40                 2415 	.db #0x40
-   0C24 40                 2416 	.db #0x40
-   0C25 40                 2417 	.db #0x40
-   0C26 40                 2418 	.db #0x40
-   0C27 40                 2419 	.db #0x40
-   0C28 40                 2420 	.db #0x40
-   0C29 40                 2421 	.db #0x40
-   0C2A 40                 2422 	.db #0x40
-   0C2B 40                 2423 	.db #0x40
-   0C2C 40                 2424 	.db #0x40
-   0C2D 40                 2425 	.db #0x40
-   0C2E 00                 2426 	.db 0x00
-   0C2F 00                 2427 	.db 0x00
-   0C30 00                 2428 	.db 0x00
-   0C31 00                 2429 	.db 0x00
-   0C32 00                 2430 	.db 0x00
-   0C33 00                 2431 	.db 0x00
-   0C34                    2432 _font_w:
-   0C34 07                 2433 	.db #0x07
-   0C35 07                 2434 	.db #0x07
-   0C36 07                 2435 	.db #0x07
-   0C37 07                 2436 	.db #0x07
-   0C38 07                 2437 	.db #0x07
-   0C39 07                 2438 	.db #0x07
-   0C3A 07                 2439 	.db #0x07
-   0C3B 07                 2440 	.db #0x07
-   0C3C 04                 2441 	.db #0x04
-   0C3D 07                 2442 	.db #0x07
-   0C3E 07                 2443 	.db #0x07
-   0C3F 07                 2444 	.db #0x07
-   0C40 09                 2445 	.db #0x09
-   0C41 08                 2446 	.db #0x08
-   0C42 07                 2447 	.db #0x07
-   0C43 07                 2448 	.db #0x07
-   0C44 08                 2449 	.db #0x08
-   0C45 07                 2450 	.db #0x07
-   0C46 07                 2451 	.db #0x07
-   0C47 08                 2452 	.db #0x08
-   0C48 07                 2453 	.db #0x07
-   0C49 07                 2454 	.db #0x07
-   0C4A 09                 2455 	.db #0x09
-   0C4B 07                 2456 	.db #0x07
-   0C4C 08                 2457 	.db #0x08
-   0C4D 07                 2458 	.db #0x07
-   0C4E 00                 2459 	.db #0x00
-   0C4F 00                 2460 	.db #0x00
-   0C50 00                 2461 	.db #0x00
-   0C51 00                 2462 	.db #0x00
-   0C52 00                 2463 	.db #0x00
-   0C53 00                 2464 	.db #0x00
-   0C54 07                 2465 	.db #0x07
-   0C55 07                 2466 	.db #0x07
-   0C56 06                 2467 	.db #0x06
-   0C57 07                 2468 	.db #0x07
-   0C58 07                 2469 	.db #0x07
-   0C59 07                 2470 	.db #0x07
-   0C5A 07                 2471 	.db #0x07
-   0C5B 07                 2472 	.db #0x07
-   0C5C 05                 2473 	.db #0x05
-   0C5D 06                 2474 	.db #0x06
-   0C5E 07                 2475 	.db #0x07
-   0C5F 05                 2476 	.db #0x05
-   0C60 09                 2477 	.db #0x09
-   0C61 07                 2478 	.db #0x07
-   0C62 07                 2479 	.db #0x07
-   0C63 07                 2480 	.db #0x07
-   0C64 07                 2481 	.db #0x07
-   0C65 07                 2482 	.db #0x07
-   0C66 07                 2483 	.db #0x07
-   0C67 06                 2484 	.db #0x06
-   0C68 07                 2485 	.db #0x07
-   0C69 07                 2486 	.db #0x07
-   0C6A 09                 2487 	.db #0x09
-   0C6B 07                 2488 	.db #0x07
-   0C6C 07                 2489 	.db #0x07
-   0C6D 07                 2490 	.db #0x07
-   0C6E 00                 2491 	.db 0x00
-   0C6F 00                 2492 	.db 0x00
-   0C70 00                 2493 	.db 0x00
-   0C71 00                 2494 	.db 0x00
-   0C72 00                 2495 	.db 0x00
-   0C73 00                 2496 	.db 0x00
-                           2497 ;demo.c:397: void drawstr(char* str, uint8_t x, uint8_t y) {
-                           2498 ;	---------------------------------
-                           2499 ; Function drawstr
-                           2500 ; ---------------------------------
-   0C74                    2501 _drawstr_start::
-   0C74                    2502 _drawstr:
-   0C74 DD E5              2503 	push	ix
-   0C76 DD 21 00 00        2504 	ld	ix,#0
-   0C7A DD 39              2505 	add	ix,sp
-                           2506 ;demo.c:398: char* c = str;
-   0C7C DD 4E 04           2507 	ld	c,4 (ix)
-   0C7F DD 46 05           2508 	ld	b,5 (ix)
-                           2509 ;demo.c:399: lx = x;
-   0C82 DD 5E 06           2510 	ld	e,6 (ix)
-   0C85 21r7Fs40           2511 	ld	hl,#_lx + 0
-   0C88 73                 2512 	ld	(hl), e
-                           2513 ;demo.c:400: ly = y;
-   0C89 DD 7E 07           2514 	ld	a,7 (ix)
-   0C8C 21r80s40           2515 	ld	hl,#_ly + 0
-   0C8F 77                 2516 	ld	(hl), a
-                           2517 ;demo.c:401: while (*c) {
-   0C90                    2518 00107$:
-   0C90 0A                 2519 	ld	a,(bc)
-   0C91 57                 2520 	ld	d,a
-   0C92 B7                 2521 	or	a,a
-   0C93 28 42              2522 	jr	Z,00110$
-                           2523 ;demo.c:402: char ltr = *c++; 
-   0C95 03                 2524 	inc	bc
-                           2525 ;demo.c:403: if (ltr == ' ') lx+=4;
-   0C96 7A                 2526 	ld	a,d
-   0C97 D6 20              2527 	sub	a,#0x20
-   0C99 20 1E              2528 	jr	NZ,00105$
-   0C9B FD 21r7Fs40        2529 	ld	iy,#_lx
-   0C9F FD 34 00           2530 	inc	0 (iy)
-   0CA2 FD 21r7Fs40        2531 	ld	iy,#_lx
-   0CA6 FD 34 00           2532 	inc	0 (iy)
-   0CA9 FD 21r7Fs40        2533 	ld	iy,#_lx
-   0CAD FD 34 00           2534 	inc	0 (iy)
-   0CB0 FD 21r7Fs40        2535 	ld	iy,#_lx
-   0CB4 FD 34 00           2536 	inc	0 (iy)
-   0CB7 18 D7              2537 	jr	00107$
-   0CB9                    2538 00105$:
-                           2539 ;demo.c:404: else if (ltr == '_') { ly+=9; lx = x; }
-   0CB9 7A                 2540 	ld	a,d
-   0CBA D6 5F              2541 	sub	a,#0x5F
-   0CBC 20 0D              2542 	jr	NZ,00102$
-   0CBE 21r80s40           2543 	ld	hl,#_ly
-   0CC1 7E                 2544 	ld	a,(hl)
-   0CC2 C6 09              2545 	add	a,#0x09
-   0CC4 77                 2546 	ld	(hl),a
-   0CC5 21r7Fs40           2547 	ld	hl,#_lx + 0
-   0CC8 73                 2548 	ld	(hl), e
-   0CC9 18 C5              2549 	jr	00107$
-   0CCB                    2550 00102$:
-                           2551 ;demo.c:405: else do_letter(ltr);
-   0CCB C5                 2552 	push	bc
-   0CCC D5                 2553 	push	de
-   0CCD D5                 2554 	push	de
-   0CCE 33                 2555 	inc	sp
-   0CCF CDrB8s0A           2556 	call	_do_letter
-   0CD2 33                 2557 	inc	sp
-   0CD3 D1                 2558 	pop	de
-   0CD4 C1                 2559 	pop	bc
-   0CD5 18 B9              2560 	jr	00107$
-   0CD7                    2561 00110$:
-   0CD7 DD E1              2562 	pop	ix
-   0CD9 C9                 2563 	ret
-   0CDA                    2564 _drawstr_end::
-                           2565 ;demo.c:409: void font() {
-                           2566 ;	---------------------------------
-                           2567 ; Function font
-                           2568 ; ---------------------------------
-   0CDA                    2569 _font_start::
-   0CDA                    2570 _font:
-                           2571 ;demo.c:410: drawstr("THE QUICK BROWN FOX",70,40);
-   0CDA 21 46 28           2572 	ld	hl,#0x2846
-   0CDD E5                 2573 	push	hl
-   0CDE 21r1Cs0D           2574 	ld	hl,#__str_0
-   0CE1 E5                 2575 	push	hl
-   0CE2 CDr74s0C           2576 	call	_drawstr
-   0CE5 F1                 2577 	pop	af
-   0CE6 F1                 2578 	pop	af
-                           2579 ;demo.c:411: drawstr("JUMPS OVER THE LAZY DOG",70,49);
-   0CE7 21 46 31           2580 	ld	hl,#0x3146
-   0CEA E5                 2581 	push	hl
-   0CEB 21r30s0D           2582 	ld	hl,#__str_1
-   0CEE E5                 2583 	push	hl
-   0CEF CDr74s0C           2584 	call	_drawstr
-   0CF2 F1                 2585 	pop	af
-   0CF3 F1                 2586 	pop	af
-                           2587 ;demo.c:413: drawstr("the quick brown fox",70,60);
-   0CF4 21 46 3C           2588 	ld	hl,#0x3C46
-   0CF7 E5                 2589 	push	hl
-   0CF8 21r48s0D           2590 	ld	hl,#__str_2
-   0CFB E5                 2591 	push	hl
-   0CFC CDr74s0C           2592 	call	_drawstr
-   0CFF F1                 2593 	pop	af
-   0D00 F1                 2594 	pop	af
-                           2595 ;demo.c:414: drawstr("jumps over the lazy dog",70,69);
-   0D01 21 46 45           2596 	ld	hl,#0x4546
-   0D04 E5                 2597 	push	hl
-   0D05 21r5Cs0D           2598 	ld	hl,#__str_3
-   0D08 E5                 2599 	push	hl
-   0D09 CDr74s0C           2600 	call	_drawstr
-   0D0C F1                 2601 	pop	af
-   0D0D F1                 2602 	pop	af
-                           2603 ;demo.c:416: drawstr("This is a test of the_emergency alert system__This is only a test__Please locate your_nearest exit and proceed_to your gate at once",70,100);
-   0D0E 21 46 64           2604 	ld	hl,#0x6446
-   0D11 E5                 2605 	push	hl
-   0D12 21r74s0D           2606 	ld	hl,#__str_4
-   0D15 E5                 2607 	push	hl
-   0D16 CDr74s0C           2608 	call	_drawstr
-   0D19 F1                 2609 	pop	af
-   0D1A F1                 2610 	pop	af
-   0D1B C9                 2611 	ret
-   0D1C                    2612 _font_end::
-   0D1C                    2613 __str_0:
-   0D1C 54 48 45 20 51 55  2614 	.ascii "THE QUICK BROWN FOX"
+   0AB3                    2141 00104$:
+                           2142 ;demo.c:358: msx2_palette(4,vbicount>>2,vbicount>>3,vbicount>>2);
+   0AB3 21r40s40           2143 	ld	hl,#_vbicount + 0
+   0AB6 4E                 2144 	ld	c,(hl)
+   0AB7 21r41s40           2145 	ld	hl,#_vbicount + 1
+   0ABA 46                 2146 	ld	b,(hl)
+   0ABB CB 28              2147 	sra	b
+   0ABD CB 19              2148 	rr	c
+   0ABF CB 28              2149 	sra	b
+   0AC1 CB 19              2150 	rr	c
+   0AC3 21r40s40           2151 	ld	hl,#_vbicount + 0
+   0AC6 5E                 2152 	ld	e,(hl)
+   0AC7 21r41s40           2153 	ld	hl,#_vbicount + 1
+   0ACA 56                 2154 	ld	d,(hl)
+   0ACB CB 2A              2155 	sra	d
+   0ACD CB 1B              2156 	rr	e
+   0ACF CB 2A              2157 	sra	d
+   0AD1 CB 1B              2158 	rr	e
+   0AD3 CB 2A              2159 	sra	d
+   0AD5 CB 1B              2160 	rr	e
+   0AD7 43                 2161 	ld	b,e
+   0AD8 21r40s40           2162 	ld	hl,#_vbicount + 0
+   0ADB 5E                 2163 	ld	e,(hl)
+   0ADC 21r41s40           2164 	ld	hl,#_vbicount + 1
+   0ADF 56                 2165 	ld	d,(hl)
+   0AE0 CB 2A              2166 	sra	d
+   0AE2 CB 1B              2167 	rr	e
+   0AE4 CB 2A              2168 	sra	d
+   0AE6 CB 1B              2169 	rr	e
+   0AE8 79                 2170 	ld	a,c
+   0AE9 F5                 2171 	push	af
+   0AEA 33                 2172 	inc	sp
+   0AEB C5                 2173 	push	bc
+   0AEC 33                 2174 	inc	sp
+   0AED 53                 2175 	ld	d,e
+   0AEE 1E 04              2176 	ld	e,#0x04
+   0AF0 D5                 2177 	push	de
+   0AF1 CDr00s00           2178 	call	_msx2_palette
+   0AF4 F1                 2179 	pop	af
+   0AF5 F1                 2180 	pop	af
+   0AF6 DD F9              2181 	ld	sp,ix
+   0AF8 DD E1              2182 	pop	ix
+   0AFA C9                 2183 	ret
+   0AFB                    2184 _twister_end::
+                           2185 ;demo.c:384: void do_letter(char cc) {
+                           2186 ;	---------------------------------
+                           2187 ; Function do_letter
+                           2188 ; ---------------------------------
+   0AFB                    2189 _do_letter_start::
+   0AFB                    2190 _do_letter:
+   0AFB DD E5              2191 	push	ix
+   0AFD DD 21 00 00        2192 	ld	ix,#0
+   0B01 DD 39              2193 	add	ix,sp
+   0B03 21 ED FF           2194 	ld	hl,#-19
+   0B06 39                 2195 	add	hl,sp
+   0B07 F9                 2196 	ld	sp,hl
+                           2197 ;demo.c:386: int cidx = cc - 65;
+   0B08 DD 4E 04           2198 	ld	c,4 (ix)
+   0B0B DD 7E 04           2199 	ld	a,4 (ix)
+   0B0E 17                 2200 	rla	
+   0B0F 9F                 2201 	sbc	a,a
+   0B10 47                 2202 	ld	b,a
+   0B11 79                 2203 	ld	a,c
+   0B12 C6 BF              2204 	add	a,#0xBF
+   0B14 DD 77 EF           2205 	ld	-17 (ix),a
+   0B17 78                 2206 	ld	a,b
+   0B18 CE FF              2207 	adc	a,#0xFF
+   0B1A DD 77 F0           2208 	ld	-16 (ix),a
+                           2209 ;demo.c:387: cmd.source_x = 127+font_x[cidx];
+   0B1D 21 04 00           2210 	ld	hl,#0x0004
+   0B20 39                 2211 	add	hl,sp
+   0B21 EB                 2212 	ex	de,hl
+   0B22 3ErF7              2213 	ld	a,#<_font_x
+   0B24 DD 86 EF           2214 	add	a,-17 (ix)
+   0B27 4F                 2215 	ld	c,a
+   0B28 3Es0B              2216 	ld	a,#>_font_x
+   0B2A DD 8E F0           2217 	adc	a,-16 (ix)
+   0B2D 47                 2218 	ld	b,a
+   0B2E 0A                 2219 	ld	a,(bc)
+   0B2F 4F                 2220 	ld	c,a
+   0B30 06 00              2221 	ld	b,#0x00
+   0B32 21 7F 00           2222 	ld	hl,#0x007F
+   0B35 09                 2223 	add	hl,bc
+   0B36 4D                 2224 	ld	c,l
+   0B37 44                 2225 	ld	b,h
+   0B38 EB                 2226 	ex	de,hl
+   0B39 71                 2227 	ld	(hl),c
+   0B3A 23                 2228 	inc	hl
+   0B3B 70                 2229 	ld	(hl),b
+                           2230 ;demo.c:388: cmd.source_y = 256+font_y[cidx];
+   0B3C 21 04 00           2231 	ld	hl,#0x0004
+   0B3F 39                 2232 	add	hl,sp
+   0B40 4D                 2233 	ld	c,l
+   0B41 44                 2234 	ld	b,h
+   0B42 21 02 00           2235 	ld	hl,#0x0002
+   0B45 09                 2236 	add	hl,bc
+   0B46 DD 75 ED           2237 	ld	-19 (ix),l
+   0B49 DD 74 EE           2238 	ld	-18 (ix),h
+   0B4C 3Er37              2239 	ld	a,#<_font_y
+   0B4E DD 86 EF           2240 	add	a,-17 (ix)
+   0B51 5F                 2241 	ld	e,a
+   0B52 3Es0C              2242 	ld	a,#>_font_y
+   0B54 DD 8E F0           2243 	adc	a,-16 (ix)
+   0B57 57                 2244 	ld	d,a
+   0B58 1A                 2245 	ld	a,(de)
+   0B59 5F                 2246 	ld	e,a
+   0B5A 16 00              2247 	ld	d,#0x00
+   0B5C 21 00 01           2248 	ld	hl,#0x0100
+   0B5F 19                 2249 	add	hl,de
+   0B60 EB                 2250 	ex	de,hl
+   0B61 DD 6E ED           2251 	ld	l,-19 (ix)
+   0B64 DD 66 EE           2252 	ld	h,-18 (ix)
+   0B67 73                 2253 	ld	(hl),e
+   0B68 23                 2254 	inc	hl
+   0B69 72                 2255 	ld	(hl),d
+                           2256 ;demo.c:389: cmd.dest_x = lx;
+   0B6A 21 04 00           2257 	ld	hl,#0x0004
+   0B6D 09                 2258 	add	hl,bc
+   0B6E DD 75 ED           2259 	ld	-19 (ix),l
+   0B71 DD 74 EE           2260 	ld	-18 (ix),h
+   0B74 21r7Fs40           2261 	ld	hl,#_lx + 0
+   0B77 5E                 2262 	ld	e,(hl)
+   0B78 16 00              2263 	ld	d,#0x00
+   0B7A DD 6E ED           2264 	ld	l,-19 (ix)
+   0B7D DD 66 EE           2265 	ld	h,-18 (ix)
+   0B80 73                 2266 	ld	(hl),e
+   0B81 23                 2267 	inc	hl
+   0B82 72                 2268 	ld	(hl),d
+                           2269 ;demo.c:390: cmd.dest_y = ly;
+   0B83 21 06 00           2270 	ld	hl,#0x0006
+   0B86 09                 2271 	add	hl,bc
+   0B87 DD 75 ED           2272 	ld	-19 (ix),l
+   0B8A DD 74 EE           2273 	ld	-18 (ix),h
+   0B8D 21r80s40           2274 	ld	hl,#_ly + 0
+   0B90 5E                 2275 	ld	e,(hl)
+   0B91 16 00              2276 	ld	d,#0x00
+   0B93 DD 6E ED           2277 	ld	l,-19 (ix)
+   0B96 DD 66 EE           2278 	ld	h,-18 (ix)
+   0B99 73                 2279 	ld	(hl),e
+   0B9A 23                 2280 	inc	hl
+   0B9B 72                 2281 	ld	(hl),d
+                           2282 ;demo.c:391: cmd.size_x = font_w[cidx];
+   0B9C 21 08 00           2283 	ld	hl,#0x0008
+   0B9F 09                 2284 	add	hl,bc
+   0BA0 DD 75 ED           2285 	ld	-19 (ix),l
+   0BA3 DD 74 EE           2286 	ld	-18 (ix),h
+   0BA6 3Er77              2287 	ld	a,#<_font_w
+   0BA8 DD 86 EF           2288 	add	a,-17 (ix)
+   0BAB 5F                 2289 	ld	e,a
+   0BAC 3Es0C              2290 	ld	a,#>_font_w
+   0BAE DD 8E F0           2291 	adc	a,-16 (ix)
+   0BB1 57                 2292 	ld	d,a
+   0BB2 1A                 2293 	ld	a,(de)
+   0BB3 5F                 2294 	ld	e,a
+   0BB4 16 00              2295 	ld	d,#0x00
+   0BB6 DD 6E ED           2296 	ld	l,-19 (ix)
+   0BB9 DD 66 EE           2297 	ld	h,-18 (ix)
+   0BBC 73                 2298 	ld	(hl),e
+   0BBD 23                 2299 	inc	hl
+   0BBE 72                 2300 	ld	(hl),d
+                           2301 ;demo.c:392: cmd.size_y = 8;
+   0BBF 21 0A 00           2302 	ld	hl,#0x000A
+   0BC2 09                 2303 	add	hl,bc
+   0BC3 36 08              2304 	ld	(hl),#0x08
+   0BC5 23                 2305 	inc	hl
+   0BC6 36 00              2306 	ld	(hl),#0x00
+                           2307 ;demo.c:393: cmd.argument = 0x00;
+   0BC8 21 0D 00           2308 	ld	hl,#0x000D
+   0BCB 09                 2309 	add	hl,bc
+   0BCC EB                 2310 	ex	de,hl
+   0BCD 3E 00              2311 	ld	a,#0x00
+   0BCF 12                 2312 	ld	(de),a
+                           2313 ;demo.c:394: cmd.command = 0x90; // logical vram to vram
+   0BD0 21 0E 00           2314 	ld	hl,#0x000E
+   0BD3 09                 2315 	add	hl,bc
+   0BD4 EB                 2316 	ex	de,hl
+   0BD5 3E 90              2317 	ld	a,#0x90
+   0BD7 12                 2318 	ld	(de),a
+                           2319 ;demo.c:395: vdp_copier(&cmd);
+   0BD8 C5                 2320 	push	bc
+   0BD9 CDr00s00           2321 	call	_vdp_copier
+   0BDC F1                 2322 	pop	af
+                           2323 ;demo.c:396: lx+=font_w[cidx]-1;
+   0BDD 3Er77              2324 	ld	a,#<_font_w
+   0BDF DD 86 EF           2325 	add	a,-17 (ix)
+   0BE2 4F                 2326 	ld	c,a
+   0BE3 3Es0C              2327 	ld	a,#>_font_w
+   0BE5 DD 8E F0           2328 	adc	a,-16 (ix)
+   0BE8 47                 2329 	ld	b,a
+   0BE9 0A                 2330 	ld	a,(bc)
+   0BEA 4F                 2331 	ld	c,a
+   0BEB 0D                 2332 	dec	c
+   0BEC 21r7Fs40           2333 	ld	hl,#_lx
+   0BEF 7E                 2334 	ld	a,(hl)
+   0BF0 81                 2335 	add	a,c
+   0BF1 77                 2336 	ld	(hl),a
+   0BF2 DD F9              2337 	ld	sp,ix
+   0BF4 DD E1              2338 	pop	ix
+   0BF6 C9                 2339 	ret
+   0BF7                    2340 _do_letter_end::
+   0BF7                    2341 _font_x:
+   0BF7 01                 2342 	.db #0x01
+   0BF8 09                 2343 	.db #0x09
+   0BF9 11                 2344 	.db #0x11
+   0BFA 19                 2345 	.db #0x19
+   0BFB 21                 2346 	.db #0x21
+   0BFC 29                 2347 	.db #0x29
+   0BFD 31                 2348 	.db #0x31
+   0BFE 39                 2349 	.db #0x39
+   0BFF 41                 2350 	.db #0x41
+   0C00 46                 2351 	.db #0x46
+   0C01 4E                 2352 	.db #0x4E
+   0C02 56                 2353 	.db #0x56
+   0C03 5E                 2354 	.db #0x5E
+   0C04 01                 2355 	.db #0x01
+   0C05 0A                 2356 	.db #0x0A
+   0C06 12                 2357 	.db #0x12
+   0C07 1A                 2358 	.db #0x1A
+   0C08 23                 2359 	.db #0x23
+   0C09 2B                 2360 	.db #0x2B
+   0C0A 33                 2361 	.db #0x33
+   0C0B 3C                 2362 	.db #0x3C
+   0C0C 44                 2363 	.db #0x44
+   0C0D 4C                 2364 	.db #0x4C
+   0C0E 56                 2365 	.db #0x56
+   0C0F 5E                 2366 	.db #0x5E
+   0C10 67                 2367 	.db #0x67
+   0C11 00                 2368 	.db #0x00
+   0C12 00                 2369 	.db #0x00
+   0C13 00                 2370 	.db #0x00
+   0C14 00                 2371 	.db #0x00
+   0C15 00                 2372 	.db #0x00
+   0C16 00                 2373 	.db #0x00
+   0C17 01                 2374 	.db #0x01
+   0C18 09                 2375 	.db #0x09
+   0C19 11                 2376 	.db #0x11
+   0C1A 18                 2377 	.db #0x18
+   0C1B 20                 2378 	.db #0x20
+   0C1C 28                 2379 	.db #0x28
+   0C1D 2F                 2380 	.db #0x2F
+   0C1E 37                 2381 	.db #0x37
+   0C1F 3F                 2382 	.db #0x3F
+   0C20 45                 2383 	.db #0x45
+   0C21 4C                 2384 	.db #0x4C
+   0C22 54                 2385 	.db #0x54
+   0C23 5A                 2386 	.db #0x5A
+   0C24 64                 2387 	.db #0x64
+   0C25 01                 2388 	.db #0x01
+   0C26 09                 2389 	.db #0x09
+   0C27 11                 2390 	.db #0x11
+   0C28 19                 2391 	.db #0x19
+   0C29 21                 2392 	.db #0x21
+   0C2A 29                 2393 	.db #0x29
+   0C2B 30                 2394 	.db #0x30
+   0C2C 38                 2395 	.db #0x38
+   0C2D 40                 2396 	.db #0x40
+   0C2E 4A                 2397 	.db #0x4A
+   0C2F 52                 2398 	.db #0x52
+   0C30 5A                 2399 	.db #0x5A
+   0C31 00                 2400 	.db 0x00
+   0C32 00                 2401 	.db 0x00
+   0C33 00                 2402 	.db 0x00
+   0C34 00                 2403 	.db 0x00
+   0C35 00                 2404 	.db 0x00
+   0C36 00                 2405 	.db 0x00
+   0C37                    2406 _font_y:
+   0C37 1C                 2407 	.db #0x1C
+   0C38 1C                 2408 	.db #0x1C
+   0C39 1C                 2409 	.db #0x1C
+   0C3A 1C                 2410 	.db #0x1C
+   0C3B 1C                 2411 	.db #0x1C
+   0C3C 1C                 2412 	.db #0x1C
+   0C3D 1C                 2413 	.db #0x1C
+   0C3E 1C                 2414 	.db #0x1C
+   0C3F 1C                 2415 	.db #0x1C
+   0C40 1C                 2416 	.db #0x1C
+   0C41 1C                 2417 	.db #0x1C
+   0C42 1C                 2418 	.db #0x1C
+   0C43 1C                 2419 	.db #0x1C
+   0C44 25                 2420 	.db #0x25
+   0C45 25                 2421 	.db #0x25
+   0C46 25                 2422 	.db #0x25
+   0C47 25                 2423 	.db #0x25
+   0C48 25                 2424 	.db #0x25
+   0C49 25                 2425 	.db #0x25
+   0C4A 25                 2426 	.db #0x25
+   0C4B 25                 2427 	.db #0x25
+   0C4C 25                 2428 	.db #0x25
+   0C4D 25                 2429 	.db #0x25
+   0C4E 25                 2430 	.db #0x25
+   0C4F 25                 2431 	.db #0x25
+   0C50 25                 2432 	.db #0x25
+   0C51 00                 2433 	.db #0x00
+   0C52 00                 2434 	.db #0x00
+   0C53 00                 2435 	.db #0x00
+   0C54 00                 2436 	.db #0x00
+   0C55 00                 2437 	.db #0x00
+   0C56 00                 2438 	.db #0x00
+   0C57 37                 2439 	.db #0x37
+   0C58 37                 2440 	.db #0x37
+   0C59 37                 2441 	.db #0x37
+   0C5A 37                 2442 	.db #0x37
+   0C5B 37                 2443 	.db #0x37
+   0C5C 37                 2444 	.db #0x37
+   0C5D 37                 2445 	.db #0x37
+   0C5E 37                 2446 	.db #0x37
+   0C5F 37                 2447 	.db #0x37
+   0C60 37                 2448 	.db #0x37
+   0C61 37                 2449 	.db #0x37
+   0C62 37                 2450 	.db #0x37
+   0C63 37                 2451 	.db #0x37
+   0C64 37                 2452 	.db #0x37
+   0C65 40                 2453 	.db #0x40
+   0C66 40                 2454 	.db #0x40
+   0C67 40                 2455 	.db #0x40
+   0C68 40                 2456 	.db #0x40
+   0C69 40                 2457 	.db #0x40
+   0C6A 40                 2458 	.db #0x40
+   0C6B 40                 2459 	.db #0x40
+   0C6C 40                 2460 	.db #0x40
+   0C6D 40                 2461 	.db #0x40
+   0C6E 40                 2462 	.db #0x40
+   0C6F 40                 2463 	.db #0x40
+   0C70 40                 2464 	.db #0x40
+   0C71 00                 2465 	.db 0x00
+   0C72 00                 2466 	.db 0x00
+   0C73 00                 2467 	.db 0x00
+   0C74 00                 2468 	.db 0x00
+   0C75 00                 2469 	.db 0x00
+   0C76 00                 2470 	.db 0x00
+   0C77                    2471 _font_w:
+   0C77 07                 2472 	.db #0x07
+   0C78 07                 2473 	.db #0x07
+   0C79 07                 2474 	.db #0x07
+   0C7A 07                 2475 	.db #0x07
+   0C7B 07                 2476 	.db #0x07
+   0C7C 07                 2477 	.db #0x07
+   0C7D 07                 2478 	.db #0x07
+   0C7E 07                 2479 	.db #0x07
+   0C7F 04                 2480 	.db #0x04
+   0C80 07                 2481 	.db #0x07
+   0C81 07                 2482 	.db #0x07
+   0C82 07                 2483 	.db #0x07
+   0C83 09                 2484 	.db #0x09
+   0C84 08                 2485 	.db #0x08
+   0C85 07                 2486 	.db #0x07
+   0C86 07                 2487 	.db #0x07
+   0C87 08                 2488 	.db #0x08
+   0C88 07                 2489 	.db #0x07
+   0C89 07                 2490 	.db #0x07
+   0C8A 08                 2491 	.db #0x08
+   0C8B 07                 2492 	.db #0x07
+   0C8C 07                 2493 	.db #0x07
+   0C8D 09                 2494 	.db #0x09
+   0C8E 07                 2495 	.db #0x07
+   0C8F 08                 2496 	.db #0x08
+   0C90 07                 2497 	.db #0x07
+   0C91 00                 2498 	.db #0x00
+   0C92 00                 2499 	.db #0x00
+   0C93 00                 2500 	.db #0x00
+   0C94 00                 2501 	.db #0x00
+   0C95 00                 2502 	.db #0x00
+   0C96 00                 2503 	.db #0x00
+   0C97 07                 2504 	.db #0x07
+   0C98 07                 2505 	.db #0x07
+   0C99 06                 2506 	.db #0x06
+   0C9A 07                 2507 	.db #0x07
+   0C9B 07                 2508 	.db #0x07
+   0C9C 07                 2509 	.db #0x07
+   0C9D 07                 2510 	.db #0x07
+   0C9E 07                 2511 	.db #0x07
+   0C9F 05                 2512 	.db #0x05
+   0CA0 06                 2513 	.db #0x06
+   0CA1 07                 2514 	.db #0x07
+   0CA2 05                 2515 	.db #0x05
+   0CA3 09                 2516 	.db #0x09
+   0CA4 07                 2517 	.db #0x07
+   0CA5 07                 2518 	.db #0x07
+   0CA6 07                 2519 	.db #0x07
+   0CA7 07                 2520 	.db #0x07
+   0CA8 07                 2521 	.db #0x07
+   0CA9 07                 2522 	.db #0x07
+   0CAA 06                 2523 	.db #0x06
+   0CAB 07                 2524 	.db #0x07
+   0CAC 07                 2525 	.db #0x07
+   0CAD 09                 2526 	.db #0x09
+   0CAE 07                 2527 	.db #0x07
+   0CAF 07                 2528 	.db #0x07
+   0CB0 07                 2529 	.db #0x07
+   0CB1 00                 2530 	.db 0x00
+   0CB2 00                 2531 	.db 0x00
+   0CB3 00                 2532 	.db 0x00
+   0CB4 00                 2533 	.db 0x00
+   0CB5 00                 2534 	.db 0x00
+   0CB6 00                 2535 	.db 0x00
+                           2536 ;demo.c:399: void drawstr(char* str, uint8_t x, uint8_t y) {
+                           2537 ;	---------------------------------
+                           2538 ; Function drawstr
+                           2539 ; ---------------------------------
+   0CB7                    2540 _drawstr_start::
+   0CB7                    2541 _drawstr:
+   0CB7 DD E5              2542 	push	ix
+   0CB9 DD 21 00 00        2543 	ld	ix,#0
+   0CBD DD 39              2544 	add	ix,sp
+                           2545 ;demo.c:400: char* c = str;
+   0CBF DD 4E 04           2546 	ld	c,4 (ix)
+   0CC2 DD 46 05           2547 	ld	b,5 (ix)
+                           2548 ;demo.c:401: lx = x;
+   0CC5 DD 5E 06           2549 	ld	e,6 (ix)
+   0CC8 21r7Fs40           2550 	ld	hl,#_lx + 0
+   0CCB 73                 2551 	ld	(hl), e
+                           2552 ;demo.c:402: ly = y;
+   0CCC DD 7E 07           2553 	ld	a,7 (ix)
+   0CCF 21r80s40           2554 	ld	hl,#_ly + 0
+   0CD2 77                 2555 	ld	(hl), a
+                           2556 ;demo.c:403: while (*c) {
+   0CD3                    2557 00107$:
+   0CD3 0A                 2558 	ld	a,(bc)
+   0CD4 57                 2559 	ld	d,a
+   0CD5 B7                 2560 	or	a,a
+   0CD6 28 42              2561 	jr	Z,00110$
+                           2562 ;demo.c:404: char ltr = *c++; 
+   0CD8 03                 2563 	inc	bc
+                           2564 ;demo.c:405: if (ltr == ' ') lx+=4;
+   0CD9 7A                 2565 	ld	a,d
+   0CDA D6 20              2566 	sub	a,#0x20
+   0CDC 20 1E              2567 	jr	NZ,00105$
+   0CDE FD 21r7Fs40        2568 	ld	iy,#_lx
+   0CE2 FD 34 00           2569 	inc	0 (iy)
+   0CE5 FD 21r7Fs40        2570 	ld	iy,#_lx
+   0CE9 FD 34 00           2571 	inc	0 (iy)
+   0CEC FD 21r7Fs40        2572 	ld	iy,#_lx
+   0CF0 FD 34 00           2573 	inc	0 (iy)
+   0CF3 FD 21r7Fs40        2574 	ld	iy,#_lx
+   0CF7 FD 34 00           2575 	inc	0 (iy)
+   0CFA 18 D7              2576 	jr	00107$
+   0CFC                    2577 00105$:
+                           2578 ;demo.c:406: else if (ltr == '_') { ly+=9; lx = x; }
+   0CFC 7A                 2579 	ld	a,d
+   0CFD D6 5F              2580 	sub	a,#0x5F
+   0CFF 20 0D              2581 	jr	NZ,00102$
+   0D01 21r80s40           2582 	ld	hl,#_ly
+   0D04 7E                 2583 	ld	a,(hl)
+   0D05 C6 09              2584 	add	a,#0x09
+   0D07 77                 2585 	ld	(hl),a
+   0D08 21r7Fs40           2586 	ld	hl,#_lx + 0
+   0D0B 73                 2587 	ld	(hl), e
+   0D0C 18 C5              2588 	jr	00107$
+   0D0E                    2589 00102$:
+                           2590 ;demo.c:407: else do_letter(ltr);
+   0D0E C5                 2591 	push	bc
+   0D0F D5                 2592 	push	de
+   0D10 D5                 2593 	push	de
+   0D11 33                 2594 	inc	sp
+   0D12 CDrFBs0A           2595 	call	_do_letter
+   0D15 33                 2596 	inc	sp
+   0D16 D1                 2597 	pop	de
+   0D17 C1                 2598 	pop	bc
+   0D18 18 B9              2599 	jr	00107$
+   0D1A                    2600 00110$:
+   0D1A DD E1              2601 	pop	ix
+   0D1C C9                 2602 	ret
+   0D1D                    2603 _drawstr_end::
+                           2604 ;demo.c:411: void font() {
+                           2605 ;	---------------------------------
+                           2606 ; Function font
+                           2607 ; ---------------------------------
+   0D1D                    2608 _font_start::
+   0D1D                    2609 _font:
+                           2610 ;demo.c:412: drawstr("THE QUICK BROWN FOX",70,40);
+   0D1D 21 46 28           2611 	ld	hl,#0x2846
+   0D20 E5                 2612 	push	hl
+   0D21 21r5Fs0D           2613 	ld	hl,#__str_0
+   0D24 E5                 2614 	push	hl
+   0D25 CDrB7s0C           2615 	call	_drawstr
+   0D28 F1                 2616 	pop	af
+   0D29 F1                 2617 	pop	af
+                           2618 ;demo.c:413: drawstr("JUMPS OVER THE LAZY DOG",70,49);
+   0D2A 21 46 31           2619 	ld	hl,#0x3146
+   0D2D E5                 2620 	push	hl
+   0D2E 21r73s0D           2621 	ld	hl,#__str_1
+   0D31 E5                 2622 	push	hl
+   0D32 CDrB7s0C           2623 	call	_drawstr
+   0D35 F1                 2624 	pop	af
+   0D36 F1                 2625 	pop	af
+                           2626 ;demo.c:415: drawstr("the quick brown fox",70,60);
+   0D37 21 46 3C           2627 	ld	hl,#0x3C46
+   0D3A E5                 2628 	push	hl
+   0D3B 21r8Bs0D           2629 	ld	hl,#__str_2
+   0D3E E5                 2630 	push	hl
+   0D3F CDrB7s0C           2631 	call	_drawstr
+   0D42 F1                 2632 	pop	af
+   0D43 F1                 2633 	pop	af
+                           2634 ;demo.c:416: drawstr("jumps over the lazy dog",70,69);
+   0D44 21 46 45           2635 	ld	hl,#0x4546
+   0D47 E5                 2636 	push	hl
+   0D48 21r9Fs0D           2637 	ld	hl,#__str_3
+   0D4B E5                 2638 	push	hl
+   0D4C CDrB7s0C           2639 	call	_drawstr
+   0D4F F1                 2640 	pop	af
+   0D50 F1                 2641 	pop	af
+                           2642 ;demo.c:418: drawstr("This is a test of the_emergency alert system__This is only a test__Please locate your_nearest exit and proceed_to your gate at once",70,100);
+   0D51 21 46 64           2643 	ld	hl,#0x6446
+   0D54 E5                 2644 	push	hl
+   0D55 21rB7s0D           2645 	ld	hl,#__str_4
+   0D58 E5                 2646 	push	hl
+   0D59 CDrB7s0C           2647 	call	_drawstr
+   0D5C F1                 2648 	pop	af
+   0D5D F1                 2649 	pop	af
+   0D5E C9                 2650 	ret
+   0D5F                    2651 _font_end::
+   0D5F                    2652 __str_0:
+   0D5F 54 48 45 20 51 55  2653 	.ascii "THE QUICK BROWN FOX"
         49 43 4B 20 42 52
         4F 57 4E 20 46 4F
         58
-   0D2F 00                 2615 	.db 0x00
-   0D30                    2616 __str_1:
-   0D30 4A 55 4D 50 53 20  2617 	.ascii "JUMPS OVER THE LAZY DOG"
+   0D72 00                 2654 	.db 0x00
+   0D73                    2655 __str_1:
+   0D73 4A 55 4D 50 53 20  2656 	.ascii "JUMPS OVER THE LAZY DOG"
         4F 56 45 52 20 54
         48 45 20 4C 41 5A
         59 20 44 4F 47
-   0D47 00                 2618 	.db 0x00
-   0D48                    2619 __str_2:
-   0D48 74 68 65 20 71 75  2620 	.ascii "the quick brown fox"
+   0D8A 00                 2657 	.db 0x00
+   0D8B                    2658 __str_2:
+   0D8B 74 68 65 20 71 75  2659 	.ascii "the quick brown fox"
         69 63 6B 20 62 72
         6F 77 6E 20 66 6F
         78
-   0D5B 00                 2621 	.db 0x00
-   0D5C                    2622 __str_3:
-   0D5C 6A 75 6D 70 73 20  2623 	.ascii "jumps over the lazy dog"
+   0D9E 00                 2660 	.db 0x00
+   0D9F                    2661 __str_3:
+   0D9F 6A 75 6D 70 73 20  2662 	.ascii "jumps over the lazy dog"
         6F 76 65 72 20 74
         68 65 20 6C 61 7A
         79 20 64 6F 67
-   0D73 00                 2624 	.db 0x00
-   0D74                    2625 __str_4:
-   0D74 54 68 69 73 20 69  2626 	.ascii "This is a test of the_emergency alert system__This is only a"
+   0DB6 00                 2663 	.db 0x00
+   0DB7                    2664 __str_4:
+   0DB7 54 68 69 73 20 69  2665 	.ascii "This is a test of the_emergency alert system__This is only a"
         73 20 61 20 74 65
         73 74 20 6F 66 20
         74 68 65 5F 65 6D
@@ -2674,7 +2713,7 @@
         65 6D 5F 5F 54 68
         69 73 20 69 73 20
         6F 6E 6C 79 20 61
-   0DB0 20 74 65 73 74 5F  2627 	.ascii " test__Please locate your_nearest exit and proceed_to your g"
+   0DF3 20 74 65 73 74 5F  2666 	.ascii " test__Please locate your_nearest exit and proceed_to your g"
         5F 50 6C 65 61 73
         65 20 6C 6F 63 61
         74 65 20 79 6F 75
@@ -2684,723 +2723,723 @@
         20 70 72 6F 63 65
         65 64 5F 74 6F 20
         79 6F 75 72 20 67
-   0DEC 61 74 65 20 61 74  2628 	.ascii "ate at once"
+   0E2F 61 74 65 20 61 74  2667 	.ascii "ate at once"
         20 6F 6E 63 65
-   0DF7 00                 2629 	.db 0x00
-                           2630 ;demo.c:424: void do_animplay() {
-                           2631 ;	---------------------------------
-                           2632 ; Function do_animplay
-                           2633 ; ---------------------------------
-   0DF8                    2634 _do_animplay_start::
-   0DF8                    2635 _do_animplay:
-   0DF8 DD E5              2636 	push	ix
-   0DFA DD 21 00 00        2637 	ld	ix,#0
-   0DFE DD 39              2638 	add	ix,sp
-   0E00 21 EC FF           2639 	ld	hl,#-20
-   0E03 39                 2640 	add	hl,sp
-   0E04 F9                 2641 	ld	sp,hl
-                           2642 ;demo.c:430: for (y = 0; y < 106; y+=1) {
-   0E05 DD 36 FF 00        2643 	ld	-1 (ix),#0x00
-   0E09                    2644 00107$:
-   0E09 DD 7E FF           2645 	ld	a,-1 (ix)
-   0E0C D6 6A              2646 	sub	a,#0x6A
-   0E0E D2rBAs0E           2647 	jp	NC,00110$
-                           2648 ;demo.c:431: cmd.source_x = xo;
-   0E11 21 04 00           2649 	ld	hl,#0x0004
-   0E14 39                 2650 	add	hl,sp
-   0E15 EB                 2651 	ex	de,hl
-   0E16 ED 4Br81s40        2652 	ld	bc,(_xo)
-   0E1A EB                 2653 	ex	de,hl
-   0E1B 71                 2654 	ld	(hl),c
-   0E1C 23                 2655 	inc	hl
-   0E1D 70                 2656 	ld	(hl),b
-                           2657 ;demo.c:432: cmd.source_y = 256+po+yo+(y>>1);
-   0E1E 21 04 00           2658 	ld	hl,#0x0004
-   0E21 39                 2659 	add	hl,sp
-   0E22 4D                 2660 	ld	c,l
-   0E23 44                 2661 	ld	b,h
-   0E24 21 02 00           2662 	ld	hl,#0x0002
-   0E27 09                 2663 	add	hl,bc
-   0E28 DD 75 EE           2664 	ld	-18 (ix),l
-   0E2B DD 74 EF           2665 	ld	-17 (ix),h
-   0E2E 3Ar85s40           2666 	ld	a,(#_po+0)
-   0E31 5F                 2667 	ld	e,a
-   0E32 3Ar86s40           2668 	ld	a,(#_po+1)
-   0E35 C6 01              2669 	add	a,#0x01
-   0E37 57                 2670 	ld	d,a
-   0E38 21r83s40           2671 	ld	hl,#_yo
-   0E3B 7B                 2672 	ld	a,e
-   0E3C 86                 2673 	add	a,(hl)
-   0E3D DD 77 EC           2674 	ld	-20 (ix),a
-   0E40 7A                 2675 	ld	a,d
-   0E41 23                 2676 	inc	hl
-   0E42 8E                 2677 	adc	a,(hl)
-   0E43 DD 77 ED           2678 	ld	-19 (ix),a
-   0E46 DD 5E FF           2679 	ld	e,-1 (ix)
-   0E49 CB 3B              2680 	srl	e
-   0E4B 16 00              2681 	ld	d,#0x00
-   0E4D DD 7E EC           2682 	ld	a,-20 (ix)
-   0E50 83                 2683 	add	a,e
-   0E51 5F                 2684 	ld	e,a
-   0E52 DD 7E ED           2685 	ld	a,-19 (ix)
-   0E55 8A                 2686 	adc	a,d
-   0E56 57                 2687 	ld	d,a
-   0E57 DD 6E EE           2688 	ld	l,-18 (ix)
-   0E5A DD 66 EF           2689 	ld	h,-17 (ix)
-   0E5D 73                 2690 	ld	(hl),e
-   0E5E 23                 2691 	inc	hl
-   0E5F 72                 2692 	ld	(hl),d
-                           2693 ;demo.c:433: cmd.dest_x = 0;
-   0E60 21 04 00           2694 	ld	hl,#0x0004
-   0E63 09                 2695 	add	hl,bc
-   0E64 36 00              2696 	ld	(hl),#0x00
-   0E66 23                 2697 	inc	hl
-   0E67 36 00              2698 	ld	(hl),#0x00
-                           2699 ;demo.c:434: cmd.dest_y = (y<<1);
-   0E69 21 06 00           2700 	ld	hl,#0x0006
-   0E6C 09                 2701 	add	hl,bc
-   0E6D DD 75 EC           2702 	ld	-20 (ix),l
-   0E70 DD 74 ED           2703 	ld	-19 (ix),h
-   0E73 DD 5E FF           2704 	ld	e,-1 (ix)
-   0E76 16 00              2705 	ld	d,#0x00
-   0E78 CB 23              2706 	sla	e
-   0E7A CB 12              2707 	rl	d
-   0E7C DD 6E EC           2708 	ld	l,-20 (ix)
-   0E7F DD 66 ED           2709 	ld	h,-19 (ix)
-   0E82 73                 2710 	ld	(hl),e
-   0E83 23                 2711 	inc	hl
-   0E84 72                 2712 	ld	(hl),d
-                           2713 ;demo.c:435: cmd.size_x = 128;
-   0E85 21 08 00           2714 	ld	hl,#0x0008
-   0E88 09                 2715 	add	hl,bc
-   0E89 36 80              2716 	ld	(hl),#0x80
-   0E8B 23                 2717 	inc	hl
-   0E8C 36 00              2718 	ld	(hl),#0x00
-                           2719 ;demo.c:436: cmd.size_y = 1;
-   0E8E 21 0A 00           2720 	ld	hl,#0x000A
-   0E91 09                 2721 	add	hl,bc
-   0E92 36 01              2722 	ld	(hl),#0x01
-   0E94 23                 2723 	inc	hl
-   0E95 36 00              2724 	ld	(hl),#0x00
-                           2725 ;demo.c:437: cmd.data = 0;
-   0E97 21 0C 00           2726 	ld	hl,#0x000C
-   0E9A 09                 2727 	add	hl,bc
-   0E9B EB                 2728 	ex	de,hl
-   0E9C 3E 00              2729 	ld	a,#0x00
-   0E9E 12                 2730 	ld	(de),a
-                           2731 ;demo.c:438: cmd.argument = 0x00;
-   0E9F 21 0D 00           2732 	ld	hl,#0x000D
-   0EA2 09                 2733 	add	hl,bc
-   0EA3 EB                 2734 	ex	de,hl
-   0EA4 3E 00              2735 	ld	a,#0x00
-   0EA6 12                 2736 	ld	(de),a
-                           2737 ;demo.c:439: cmd.command = 0xD0;
-   0EA7 21 0E 00           2738 	ld	hl,#0x000E
-   0EAA 09                 2739 	add	hl,bc
-   0EAB EB                 2740 	ex	de,hl
-   0EAC 3E D0              2741 	ld	a,#0xD0
-   0EAE 12                 2742 	ld	(de),a
-                           2743 ;demo.c:440: vdp_copier(&cmd);
-   0EAF C5                 2744 	push	bc
-   0EB0 CDr00s00           2745 	call	_vdp_copier
-   0EB3 F1                 2746 	pop	af
-                           2747 ;demo.c:430: for (y = 0; y < 106; y+=1) {
-   0EB4 DD 34 FF           2748 	inc	-1 (ix)
-   0EB7 C3r09s0E           2749 	jp	00107$
-   0EBA                    2750 00110$:
-                           2751 ;demo.c:443: for (y = 0; y < 106; y+=1) {
-   0EBA DD 36 FF 00        2752 	ld	-1 (ix),#0x00
-   0EBE                    2753 00111$:
-   0EBE DD 7E FF           2754 	ld	a,-1 (ix)
-   0EC1 D6 6A              2755 	sub	a,#0x6A
-   0EC3 D2r6Fs0F           2756 	jp	NC,00114$
-                           2757 ;demo.c:444: cmd.source_x = xo;
-   0EC6 21 04 00           2758 	ld	hl,#0x0004
-   0EC9 39                 2759 	add	hl,sp
-   0ECA EB                 2760 	ex	de,hl
-   0ECB ED 4Br81s40        2761 	ld	bc,(_xo)
-   0ECF EB                 2762 	ex	de,hl
-   0ED0 71                 2763 	ld	(hl),c
-   0ED1 23                 2764 	inc	hl
-   0ED2 70                 2765 	ld	(hl),b
-                           2766 ;demo.c:445: cmd.source_y = 256+po+yo+(y>>1);
-   0ED3 21 04 00           2767 	ld	hl,#0x0004
-   0ED6 39                 2768 	add	hl,sp
-   0ED7 4D                 2769 	ld	c,l
-   0ED8 44                 2770 	ld	b,h
-   0ED9 21 02 00           2771 	ld	hl,#0x0002
-   0EDC 09                 2772 	add	hl,bc
-   0EDD DD 75 EC           2773 	ld	-20 (ix),l
-   0EE0 DD 74 ED           2774 	ld	-19 (ix),h
-   0EE3 3Ar85s40           2775 	ld	a,(#_po+0)
-   0EE6 5F                 2776 	ld	e,a
-   0EE7 3Ar86s40           2777 	ld	a,(#_po+1)
-   0EEA C6 01              2778 	add	a,#0x01
-   0EEC 57                 2779 	ld	d,a
-   0EED 21r83s40           2780 	ld	hl,#_yo
-   0EF0 7B                 2781 	ld	a,e
-   0EF1 86                 2782 	add	a,(hl)
-   0EF2 DD 77 EE           2783 	ld	-18 (ix),a
-   0EF5 7A                 2784 	ld	a,d
-   0EF6 23                 2785 	inc	hl
-   0EF7 8E                 2786 	adc	a,(hl)
-   0EF8 DD 77 EF           2787 	ld	-17 (ix),a
-   0EFB DD 5E FF           2788 	ld	e,-1 (ix)
-   0EFE CB 3B              2789 	srl	e
-   0F00 16 00              2790 	ld	d,#0x00
-   0F02 DD 7E EE           2791 	ld	a,-18 (ix)
-   0F05 83                 2792 	add	a,e
-   0F06 5F                 2793 	ld	e,a
-   0F07 DD 7E EF           2794 	ld	a,-17 (ix)
-   0F0A 8A                 2795 	adc	a,d
-   0F0B 57                 2796 	ld	d,a
-   0F0C DD 6E EC           2797 	ld	l,-20 (ix)
-   0F0F DD 66 ED           2798 	ld	h,-19 (ix)
-   0F12 73                 2799 	ld	(hl),e
-   0F13 23                 2800 	inc	hl
-   0F14 72                 2801 	ld	(hl),d
-                           2802 ;demo.c:446: cmd.dest_x = 128;
-   0F15 21 04 00           2803 	ld	hl,#0x0004
-   0F18 09                 2804 	add	hl,bc
-   0F19 36 80              2805 	ld	(hl),#0x80
-   0F1B 23                 2806 	inc	hl
-   0F1C 36 00              2807 	ld	(hl),#0x00
-                           2808 ;demo.c:447: cmd.dest_y = (y<<1);
-   0F1E 21 06 00           2809 	ld	hl,#0x0006
-   0F21 09                 2810 	add	hl,bc
-   0F22 DD 75 EC           2811 	ld	-20 (ix),l
-   0F25 DD 74 ED           2812 	ld	-19 (ix),h
-   0F28 DD 5E FF           2813 	ld	e,-1 (ix)
-   0F2B 16 00              2814 	ld	d,#0x00
-   0F2D CB 23              2815 	sla	e
-   0F2F CB 12              2816 	rl	d
-   0F31 DD 6E EC           2817 	ld	l,-20 (ix)
-   0F34 DD 66 ED           2818 	ld	h,-19 (ix)
-   0F37 73                 2819 	ld	(hl),e
-   0F38 23                 2820 	inc	hl
-   0F39 72                 2821 	ld	(hl),d
-                           2822 ;demo.c:448: cmd.size_x = 128;
-   0F3A 21 08 00           2823 	ld	hl,#0x0008
-   0F3D 09                 2824 	add	hl,bc
-   0F3E 36 80              2825 	ld	(hl),#0x80
-   0F40 23                 2826 	inc	hl
-   0F41 36 00              2827 	ld	(hl),#0x00
-                           2828 ;demo.c:449: cmd.size_y = 1;
-   0F43 21 0A 00           2829 	ld	hl,#0x000A
-   0F46 09                 2830 	add	hl,bc
-   0F47 36 01              2831 	ld	(hl),#0x01
-   0F49 23                 2832 	inc	hl
-   0F4A 36 00              2833 	ld	(hl),#0x00
-                           2834 ;demo.c:450: cmd.data = 0;
-   0F4C 21 0C 00           2835 	ld	hl,#0x000C
-   0F4F 09                 2836 	add	hl,bc
-   0F50 EB                 2837 	ex	de,hl
-   0F51 3E 00              2838 	ld	a,#0x00
-   0F53 12                 2839 	ld	(de),a
-                           2840 ;demo.c:451: cmd.argument = 0x00;
-   0F54 21 0D 00           2841 	ld	hl,#0x000D
-   0F57 09                 2842 	add	hl,bc
-   0F58 EB                 2843 	ex	de,hl
-   0F59 3E 00              2844 	ld	a,#0x00
-   0F5B 12                 2845 	ld	(de),a
-                           2846 ;demo.c:452: cmd.command = 0xd2; // logical vram to vram, xor
-   0F5C 21 0E 00           2847 	ld	hl,#0x000E
-   0F5F 09                 2848 	add	hl,bc
-   0F60 EB                 2849 	ex	de,hl
-   0F61 3E D2              2850 	ld	a,#0xD2
-   0F63 12                 2851 	ld	(de),a
-                           2852 ;demo.c:453: vdp_copier(&cmd);
-   0F64 C5                 2853 	push	bc
-   0F65 CDr00s00           2854 	call	_vdp_copier
-   0F68 F1                 2855 	pop	af
-                           2856 ;demo.c:443: for (y = 0; y < 106; y+=1) {
-   0F69 DD 34 FF           2857 	inc	-1 (ix)
-   0F6C C3rBEs0E           2858 	jp	00111$
-   0F6F                    2859 00114$:
-                           2860 ;demo.c:457: xo+=128;
-   0F6F 21r81s40           2861 	ld	hl,#_xo
-   0F72 7E                 2862 	ld	a,(hl)
-   0F73 C6 80              2863 	add	a,#0x80
-   0F75 23                 2864 	inc	hl
-   0F76 2B                 2865 	dec	hl
-   0F77 C5                 2866 	push	bc
-   0F78 4F                 2867 	ld	c, a
-   0F79 23                 2868 	inc	hl
-   0F7A 7E                 2869 	ld	a, (hl)
-   0F7B 47                 2870 	ld	b, a
-   0F7C 79                 2871 	ld	a, c
-   0F7D 2B                 2872 	dec	hl
-   0F7E 77                 2873 	ld	(hl), a
-   0F7F 78                 2874 	ld	a, b
-   0F80 C1                 2875 	pop	bc
-   0F81 CE 00              2876 	adc	a,#0x00
-   0F83 23                 2877 	inc	hl
-   0F84 77                 2878 	ld	(hl),a
-                           2879 ;demo.c:458: if (xo >= 256) {
-   0F85 3Ar81s40           2880 	ld	a,(#_xo+0)
-   0F88 D6 00              2881 	sub	a,#0x00
-   0F8A 3Ar82s40           2882 	ld	a,(#_xo+1)
-   0F8D DE 01              2883 	sbc	a,#0x01
-   0F8F FArF6s0F           2884 	jp	M,00106$
-                           2885 ;demo.c:459: xo = 0;
-   0F92 21r81s40           2886 	ld	hl,#_xo + 0
-   0F95 36 00              2887 	ld	(hl), #0x00
-   0F97 21r82s40           2888 	ld	hl,#_xo + 1
-   0F9A 36 00              2889 	ld	(hl), #0x00
-                           2890 ;demo.c:460: yo+=53;
-   0F9C 21r83s40           2891 	ld	hl,#_yo
-   0F9F 7E                 2892 	ld	a,(hl)
-   0FA0 C6 35              2893 	add	a,#0x35
-   0FA2 23                 2894 	inc	hl
-   0FA3 2B                 2895 	dec	hl
-   0FA4 C5                 2896 	push	bc
-   0FA5 4F                 2897 	ld	c, a
-   0FA6 23                 2898 	inc	hl
-   0FA7 7E                 2899 	ld	a, (hl)
-   0FA8 47                 2900 	ld	b, a
-   0FA9 79                 2901 	ld	a, c
-   0FAA 2B                 2902 	dec	hl
-   0FAB 77                 2903 	ld	(hl), a
-   0FAC 78                 2904 	ld	a, b
-   0FAD C1                 2905 	pop	bc
-   0FAE CE 00              2906 	adc	a,#0x00
-   0FB0 23                 2907 	inc	hl
-   0FB1 77                 2908 	ld	(hl),a
-                           2909 ;demo.c:461: if (yo >= 212) { yo = 0; po+=256; }
-   0FB2 3Ar83s40           2910 	ld	a,(#_yo+0)
-   0FB5 D6 D4              2911 	sub	a,#0xD4
-   0FB7 3Ar84s40           2912 	ld	a,(#_yo+1)
-   0FBA DE 00              2913 	sbc	a,#0x00
-   0FBC FArDFs0F           2914 	jp	M,00102$
-   0FBF 21r83s40           2915 	ld	hl,#_yo + 0
-   0FC2 36 00              2916 	ld	(hl), #0x00
-   0FC4 21r84s40           2917 	ld	hl,#_yo + 1
-   0FC7 36 00              2918 	ld	(hl), #0x00
-   0FC9 21r85s40           2919 	ld	hl,#_po
-   0FCC 7E                 2920 	ld	a,(hl)
-   0FCD C6 00              2921 	add	a,#0x00
-   0FCF 23                 2922 	inc	hl
-   0FD0 2B                 2923 	dec	hl
-   0FD1 C5                 2924 	push	bc
-   0FD2 4F                 2925 	ld	c, a
-   0FD3 23                 2926 	inc	hl
-   0FD4 7E                 2927 	ld	a, (hl)
-   0FD5 47                 2928 	ld	b, a
-   0FD6 79                 2929 	ld	a, c
-   0FD7 2B                 2930 	dec	hl
-   0FD8 77                 2931 	ld	(hl), a
-   0FD9 78                 2932 	ld	a, b
-   0FDA C1                 2933 	pop	bc
-   0FDB CE 01              2934 	adc	a,#0x01
-   0FDD 23                 2935 	inc	hl
-   0FDE 77                 2936 	ld	(hl),a
-   0FDF                    2937 00102$:
-                           2938 ;demo.c:462: if (po >= 768) {
-   0FDF 3Ar85s40           2939 	ld	a,(#_po+0)
-   0FE2 D6 00              2940 	sub	a,#0x00
-   0FE4 3Ar86s40           2941 	ld	a,(#_po+1)
-   0FE7 DE 03              2942 	sbc	a,#0x03
-   0FE9 FArF6s0F           2943 	jp	M,00106$
-                           2944 ;demo.c:463: po = 0;
-   0FEC 21r85s40           2945 	ld	hl,#_po + 0
-   0FEF 36 00              2946 	ld	(hl), #0x00
-   0FF1 21r86s40           2947 	ld	hl,#_po + 1
-   0FF4 36 00              2948 	ld	(hl), #0x00
-   0FF6                    2949 00106$:
-                           2950 ;demo.c:468: msx2_palette(15,3+sintab[fffaaa & 255]>>5,3,4);
-   0FF6 21r87s40           2951 	ld	hl,#_fffaaa + 0
-   0FF9 4E                 2952 	ld	c,(hl)
-   0FFA 06 00              2953 	ld	b,#0x00
-   0FFC 21r00s00           2954 	ld	hl,#_sintab
-   0FFF 09                 2955 	add	hl,bc
-   1000 7E                 2956 	ld	a,(hl)
-   1001 4F                 2957 	ld	c,a
-   1002 17                 2958 	rla	
-   1003 9F                 2959 	sbc	a,a
-   1004 47                 2960 	ld	b,a
-   1005 03                 2961 	inc	bc
-   1006 03                 2962 	inc	bc
-   1007 03                 2963 	inc	bc
-   1008 CB 28              2964 	sra	b
-   100A CB 19              2965 	rr	c
-   100C CB 28              2966 	sra	b
-   100E CB 19              2967 	rr	c
-   1010 CB 28              2968 	sra	b
-   1012 CB 19              2969 	rr	c
-   1014 CB 28              2970 	sra	b
-   1016 CB 19              2971 	rr	c
-   1018 CB 28              2972 	sra	b
-   101A CB 19              2973 	rr	c
-   101C 21 03 04           2974 	ld	hl,#0x0403
-   101F E5                 2975 	push	hl
-   1020 41                 2976 	ld	b,c
-   1021 0E 0F              2977 	ld	c,#0x0F
-   1023 C5                 2978 	push	bc
-   1024 CDr00s00           2979 	call	_msx2_palette
-   1027 F1                 2980 	pop	af
-   1028 F1                 2981 	pop	af
-                           2982 ;demo.c:469: msx2_palette(3,2+sintab[fffaaa & 255]>>5,0,0);
-   1029 21r87s40           2983 	ld	hl,#_fffaaa + 0
-   102C 4E                 2984 	ld	c,(hl)
-   102D 06 00              2985 	ld	b,#0x00
-   102F 21r00s00           2986 	ld	hl,#_sintab
-   1032 09                 2987 	add	hl,bc
-   1033 7E                 2988 	ld	a,(hl)
-   1034 4F                 2989 	ld	c,a
-   1035 17                 2990 	rla	
-   1036 9F                 2991 	sbc	a,a
-   1037 47                 2992 	ld	b,a
-   1038 03                 2993 	inc	bc
-   1039 03                 2994 	inc	bc
-   103A CB 28              2995 	sra	b
-   103C CB 19              2996 	rr	c
-   103E CB 28              2997 	sra	b
-   1040 CB 19              2998 	rr	c
-   1042 CB 28              2999 	sra	b
-   1044 CB 19              3000 	rr	c
-   1046 CB 28              3001 	sra	b
-   1048 CB 19              3002 	rr	c
-   104A CB 28              3003 	sra	b
-   104C CB 19              3004 	rr	c
-   104E 21 00 00           3005 	ld	hl,#0x0000
-   1051 E5                 3006 	push	hl
-   1052 41                 3007 	ld	b,c
-   1053 0E 03              3008 	ld	c,#0x03
-   1055 C5                 3009 	push	bc
-   1056 CDr00s00           3010 	call	_msx2_palette
-   1059 F1                 3011 	pop	af
-   105A F1                 3012 	pop	af
-                           3013 ;demo.c:470: fffaaa++;
-   105B FD 21r87s40        3014 	ld	iy,#_fffaaa
-   105F FD 34 00           3015 	inc	0 (iy)
-   1062 20 07              3016 	jr	NZ,00132$
-   1064 FD 21r87s40        3017 	ld	iy,#_fffaaa
-   1068 FD 34 01           3018 	inc	1 (iy)
-   106B                    3019 00132$:
-   106B DD F9              3020 	ld	sp,ix
-   106D DD E1              3021 	pop	ix
-   106F C9                 3022 	ret
-   1070                    3023 _do_animplay_end::
-                           3024 ;demo.c:479: void main() {
-                           3025 ;	---------------------------------
-                           3026 ; Function main
-                           3027 ; ---------------------------------
-   1070                    3028 _main_start::
-   1070                    3029 _main:
-                           3030 ;demo.c:480: unsigned char quit=0;
-   1070 0E 00              3031 	ld	c,#0x00
-                           3032 ;demo.c:481: int modes = 128; // interlace bit on
-   1072 11 80 00           3033 	ld	de,#0x0080
-                           3034 ;demo.c:485: spindown();
-   1075 C5                 3035 	push	bc
-   1076 D5                 3036 	push	de
-   1077 CDr00s00           3037 	call	_spindown
-   107A D1                 3038 	pop	de
-   107B C1                 3039 	pop	bc
-                           3040 ;demo.c:487: puts("demo init\r\n\r\n");
-   107C C5                 3041 	push	bc
-   107D D5                 3042 	push	de
-   107E 21rDCs11           3043 	ld	hl,#__str_5
-   1081 E5                 3044 	push	hl
-   1082 CDr00s00           3045 	call	_puts
-   1085 F1                 3046 	pop	af
-   1086 D1                 3047 	pop	de
-   1087 C1                 3048 	pop	bc
-                           3049 ;demo.c:500: puts("music init...");
-   1088 C5                 3050 	push	bc
-   1089 D5                 3051 	push	de
-   108A 21rEAs11           3052 	ld	hl,#__str_6
-   108D E5                 3053 	push	hl
-   108E CDr00s00           3054 	call	_puts
-   1091 F1                 3055 	pop	af
-   1092 D1                 3056 	pop	de
-   1093 C1                 3057 	pop	bc
-                           3058 ;demo.c:502: PLY_SongPtr = (char *)0x0103;
-   1094 21r00s00           3059 	ld	hl,#_PLY_SongPtr + 0
-   1097 36 03              3060 	ld	(hl), #0x03
-   1099 21r01s00           3061 	ld	hl,#_PLY_SongPtr + 1
-   109C 36 01              3062 	ld	(hl), #0x01
-                           3063 ;demo.c:503: PLY_Init();
-   109E C5                 3064 	push	bc
-   109F D5                 3065 	push	de
-   10A0 CDr00s00           3066 	call	_PLY_Init
-   10A3 D1                 3067 	pop	de
-   10A4 C1                 3068 	pop	bc
-                           3069 ;demo.c:504: puts("done.\n\n");
-   10A5 C5                 3070 	push	bc
-   10A6 D5                 3071 	push	de
-   10A7 21rF8s11           3072 	ld	hl,#__str_7
-   10AA E5                 3073 	push	hl
-   10AB CDr00s00           3074 	call	_puts
-   10AE F1                 3075 	pop	af
-   10AF D1                 3076 	pop	de
-   10B0 C1                 3077 	pop	bc
-                           3078 ;demo.c:506: if(isvdp2())
-   10B1 C5                 3079 	push	bc
-   10B2 D5                 3080 	push	de
-   10B3 CDr00s00           3081 	call	_isvdp2
-   10B6 45                 3082 	ld	b,l
-   10B7 D1                 3083 	pop	de
-   10B8 78                 3084 	ld	a,b
-   10B9 C1                 3085 	pop	bc
-   10BA 47                 3086 	ld	b,a
-   10BB B7                 3087 	or	a,a
-   10BC 28 03              3088 	jr	Z,00102$
-                           3089 ;demo.c:508: modes+=2; // pal
-   10BE 11 82 00           3090 	ld	de,#0x0082
-   10C1                    3091 00102$:
-                           3092 ;demo.c:512: vdp_set_screen5();
-   10C1 C5                 3093 	push	bc
-   10C2 D5                 3094 	push	de
-   10C3 CDr00s00           3095 	call	_vdp_set_screen5
-   10C6 D1                 3096 	pop	de
-   10C7 C1                 3097 	pop	bc
-                           3098 ;demo.c:514: vdp_register(VDP_MODE3,modes); // interlace on, screen mode pal or ntsc
-   10C8 43                 3099 	ld	b,e
-   10C9 C5                 3100 	push	bc
-   10CA C5                 3101 	push	bc
-   10CB 33                 3102 	inc	sp
-   10CC 3E 09              3103 	ld	a,#0x09
-   10CE F5                 3104 	push	af
-   10CF 33                 3105 	inc	sp
-   10D0 CDr00s00           3106 	call	_vdp_register
-   10D3 F1                 3107 	pop	af
-   10D4 C1                 3108 	pop	bc
-                           3109 ;demo.c:516: puts("demo start\r\n");
-   10D5 C5                 3110 	push	bc
-   10D6 21r00s12           3111 	ld	hl,#__str_8
-   10D9 E5                 3112 	push	hl
-   10DA CDr00s00           3113 	call	_puts
-   10DD F1                 3114 	pop	af
-   10DE C1                 3115 	pop	bc
-                           3116 ;demo.c:518: scratch_clear();
-   10DF C5                 3117 	push	bc
-   10E0 CDr97s03           3118 	call	_scratch_clear
-   10E3 C1                 3119 	pop	bc
-                           3120 ;demo.c:519: vdp_load_palette(scratch);
-   10E4 C5                 3121 	push	bc
-   10E5 21r80s3F           3122 	ld	hl,#_scratch
-   10E8 E5                 3123 	push	hl
-   10E9 CDr00s00           3124 	call	_vdp_load_palette
-   10EC F1                 3125 	pop	af
-   10ED C1                 3126 	pop	bc
-                           3127 ;demo.c:521: vdp_register(VDP_VOFFSET,0);
-   10EE C5                 3128 	push	bc
-   10EF 21 17 00           3129 	ld	hl,#0x0017
-   10F2 E5                 3130 	push	hl
-   10F3 CDr00s00           3131 	call	_vdp_register
-   10F6 F1                 3132 	pop	af
-   10F7 C1                 3133 	pop	bc
-                           3134 ;demo.c:522: pal_load("TWISTER PL5",32);
-   10F8 C5                 3135 	push	bc
-   10F9 3E 20              3136 	ld	a,#0x20
-   10FB F5                 3137 	push	af
-   10FC 33                 3138 	inc	sp
-   10FD 21r0Ds12           3139 	ld	hl,#__str_9
-   1100 E5                 3140 	push	hl
-   1101 CDrAAs03           3141 	call	_pal_load
-   1104 F1                 3142 	pop	af
-   1105 33                 3143 	inc	sp
-   1106 C1                 3144 	pop	bc
-                           3145 ;demo.c:523: vdp_load_palette(cur_palette);
-   1107 C5                 3146 	push	bc
-   1108 21r00s40           3147 	ld	hl,#_cur_palette
-   110B E5                 3148 	push	hl
-   110C CDr00s00           3149 	call	_vdp_load_palette
-   110F F1                 3150 	pop	af
-   1110 C1                 3151 	pop	bc
-                           3152 ;demo.c:525: memset((uint8_t *) &packbuffer, 0, 3963);
-   1111 C5                 3153 	push	bc
-   1112 21 7B 0F           3154 	ld	hl,#0x0F7B
-   1115 E5                 3155 	push	hl
-   1116 3E 00              3156 	ld	a,#0x00
-   1118 F5                 3157 	push	af
-   1119 33                 3158 	inc	sp
-   111A 21r00s01           3159 	ld	hl,#_packbuffer
-   111D E5                 3160 	push	hl
-   111E CDr00s00           3161 	call	_memset
-   1121 F1                 3162 	pop	af
-   1122 F1                 3163 	pop	af
-   1123 33                 3164 	inc	sp
-   1124 C1                 3165 	pop	bc
-                           3166 ;demo.c:526: raw_load("TWISTER PCK", 3963, packbuffer);
-   1125 C5                 3167 	push	bc
-   1126 21r00s01           3168 	ld	hl,#_packbuffer
-   1129 E5                 3169 	push	hl
-   112A 21 7B 0F           3170 	ld	hl,#0x0F7B
-   112D E5                 3171 	push	hl
-   112E 21r19s12           3172 	ld	hl,#__str_10
-   1131 E5                 3173 	push	hl
-   1132 CDr5Es04           3174 	call	_raw_load
-   1135 F1                 3175 	pop	af
-   1136 F1                 3176 	pop	af
-   1137 F1                 3177 	pop	af
-   1138 C1                 3178 	pop	bc
-                           3179 ;demo.c:527: bitbuster(packbuffer,0x8000,VRAM_0); // to page 1
-   1139 C5                 3180 	push	bc
-   113A 3E 01              3181 	ld	a,#0x01
-   113C F5                 3182 	push	af
-   113D 33                 3183 	inc	sp
-   113E 21 00 80           3184 	ld	hl,#0x8000
-   1141 E5                 3185 	push	hl
-   1142 21r00s01           3186 	ld	hl,#_packbuffer
-   1145 E5                 3187 	push	hl
-   1146 CDr00s00           3188 	call	_bitbuster
-   1149 F1                 3189 	pop	af
-   114A F1                 3190 	pop	af
-   114B 33                 3191 	inc	sp
-   114C C1                 3192 	pop	bc
-                           3193 ;demo.c:530: vdp_set_write_address(0, 0);
-   114D C5                 3194 	push	bc
-   114E 21 00 00           3195 	ld	hl,#0x0000
-   1151 E5                 3196 	push	hl
-   1152 3E 00              3197 	ld	a,#0x00
-   1154 F5                 3198 	push	af
-   1155 33                 3199 	inc	sp
-   1156 CDr00s00           3200 	call	_vdp_set_write_address
-   1159 F1                 3201 	pop	af
-   115A 33                 3202 	inc	sp
-   115B C1                 3203 	pop	bc
-                           3204 ;demo.c:531: memset((uint8_t *) &scratch, 0, 256);
-   115C C5                 3205 	push	bc
-   115D 21 00 01           3206 	ld	hl,#0x0100
-   1160 E5                 3207 	push	hl
-   1161 3E 00              3208 	ld	a,#0x00
-   1163 F5                 3209 	push	af
-   1164 33                 3210 	inc	sp
-   1165 21r80s3F           3211 	ld	hl,#_scratch
-   1168 E5                 3212 	push	hl
-   1169 CDr00s00           3213 	call	_memset
-   116C F1                 3214 	pop	af
-   116D F1                 3215 	pop	af
-   116E 33                 3216 	inc	sp
-   116F C1                 3217 	pop	bc
-                           3218 ;demo.c:533: for (i = 0; i < 213; i++) {		
-   1170 11 D5 00           3219 	ld	de,#0x00D5
-   1173                    3220 00110$:
-                           3221 ;demo.c:534: vdp_load_screen(scratch, 128);
-   1173 C5                 3222 	push	bc
-   1174 D5                 3223 	push	de
-   1175 3E 80              3224 	ld	a,#0x80
-   1177 F5                 3225 	push	af
-   1178 33                 3226 	inc	sp
-   1179 21r80s3F           3227 	ld	hl,#_scratch
-   117C E5                 3228 	push	hl
-   117D CDr00s00           3229 	call	_vdp_load_screen
-   1180 F1                 3230 	pop	af
-   1181 33                 3231 	inc	sp
-   1182 D1                 3232 	pop	de
-   1183 C1                 3233 	pop	bc
-   1184 1B                 3234 	dec	de
-                           3235 ;demo.c:533: for (i = 0; i < 213; i++) {		
-   1185 7B                 3236 	ld	a,e
-   1186 B2                 3237 	or	a,d
-   1187 20 EA              3238 	jr	NZ,00110$
-                           3239 ;demo.c:565: install_isr(my_isr);
-   1189 C5                 3240 	push	bc
-   118A 21r2Cs02           3241 	ld	hl,#_my_isr
-   118D E5                 3242 	push	hl
-   118E CDr00s00           3243 	call	_install_isr
-   1191 F1                 3244 	pop	af
-   1192 C1                 3245 	pop	bc
-                           3246 ;demo.c:587: twister();
-   1193 C5                 3247 	push	bc
-   1194 CDrEEs09           3248 	call	_twister
-   1197 C1                 3249 	pop	bc
-                           3250 ;demo.c:588: font();
-   1198 C5                 3251 	push	bc
-   1199 CDrDAs0C           3252 	call	_font
-   119C C1                 3253 	pop	bc
-                           3254 ;demo.c:590: while (!quit) {
-   119D                    3255 00105$:
-   119D AF                 3256 	xor	a,a
-   119E B1                 3257 	or	a,c
-   119F 20 18              3258 	jr	NZ,00107$
-                           3259 ;demo.c:594: twister();
-   11A1 C5                 3260 	push	bc
-   11A2 CDrEEs09           3261 	call	_twister
-   11A5 C1                 3262 	pop	bc
-                           3263 ;demo.c:605: if(space())
-   11A6 C5                 3264 	push	bc
-   11A7 21 08 01           3265 	ld	hl,#0x0108
-   11AA E5                 3266 	push	hl
-   11AB CDr00s00           3267 	call	_ispressed
-   11AE F1                 3268 	pop	af
-   11AF 7D                 3269 	ld	a,l
-   11B0 C1                 3270 	pop	bc
-   11B1 47                 3271 	ld	b,a
-   11B2 B7                 3272 	or	a,a
-   11B3 28 E8              3273 	jr	Z,00105$
-                           3274 ;demo.c:606: quit=1;
-   11B5 0E 01              3275 	ld	c,#0x01
-   11B7 18 E4              3276 	jr	00105$
-   11B9                    3277 00107$:
-                           3278 ;demo.c:609: waitVB();
-   11B9 76                 3279 		halt 
-                           3280 ;demo.c:610: uninstall_isr();
-   11BA CDr00s00           3281 	call	_uninstall_isr
-                           3282 ;demo.c:611: PLY_Stop();
-   11BD CDr00s00           3283 	call	_PLY_Stop
-                           3284 ;demo.c:612: PLY_SendRegisters();
-   11C0 CDr00s00           3285 	call	_PLY_SendRegisters
-                           3286 ;demo.c:614: screen(0);
-   11C3 3E 00              3287 	ld	a,#0x00
-   11C5 F5                 3288 	push	af
-   11C6 33                 3289 	inc	sp
-   11C7 CDr00s00           3290 	call	_screen
-   11CA 33                 3291 	inc	sp
-                           3292 ;demo.c:616: puts("demo exit\r\n\r\n");
-   11CB 21r25s12           3293 	ld	hl,#__str_11
-   11CE E5                 3294 	push	hl
-   11CF CDr00s00           3295 	call	_puts
-   11D2 F1                 3296 	pop	af
-                           3297 ;demo.c:618: exit(0);
-   11D3 3E 00              3298 	ld	a,#0x00
-   11D5 F5                 3299 	push	af
-   11D6 33                 3300 	inc	sp
-   11D7 CDr00s00           3301 	call	_exit
-   11DA 33                 3302 	inc	sp
-   11DB C9                 3303 	ret
-   11DC                    3304 _main_end::
-   11DC                    3305 __str_5:
-   11DC 64 65 6D 6F 20 69  3306 	.ascii "demo init"
+   0E3A 00                 2668 	.db 0x00
+                           2669 ;demo.c:426: void do_animplay() {
+                           2670 ;	---------------------------------
+                           2671 ; Function do_animplay
+                           2672 ; ---------------------------------
+   0E3B                    2673 _do_animplay_start::
+   0E3B                    2674 _do_animplay:
+   0E3B DD E5              2675 	push	ix
+   0E3D DD 21 00 00        2676 	ld	ix,#0
+   0E41 DD 39              2677 	add	ix,sp
+   0E43 21 EC FF           2678 	ld	hl,#-20
+   0E46 39                 2679 	add	hl,sp
+   0E47 F9                 2680 	ld	sp,hl
+                           2681 ;demo.c:432: for (y = 0; y < 106; y+=1) {
+   0E48 DD 36 FF 00        2682 	ld	-1 (ix),#0x00
+   0E4C                    2683 00107$:
+   0E4C DD 7E FF           2684 	ld	a,-1 (ix)
+   0E4F D6 6A              2685 	sub	a,#0x6A
+   0E51 D2rFDs0E           2686 	jp	NC,00110$
+                           2687 ;demo.c:433: cmd.source_x = xo;
+   0E54 21 04 00           2688 	ld	hl,#0x0004
+   0E57 39                 2689 	add	hl,sp
+   0E58 EB                 2690 	ex	de,hl
+   0E59 ED 4Br81s40        2691 	ld	bc,(_xo)
+   0E5D EB                 2692 	ex	de,hl
+   0E5E 71                 2693 	ld	(hl),c
+   0E5F 23                 2694 	inc	hl
+   0E60 70                 2695 	ld	(hl),b
+                           2696 ;demo.c:434: cmd.source_y = 256+po+yo+(y>>1);
+   0E61 21 04 00           2697 	ld	hl,#0x0004
+   0E64 39                 2698 	add	hl,sp
+   0E65 4D                 2699 	ld	c,l
+   0E66 44                 2700 	ld	b,h
+   0E67 21 02 00           2701 	ld	hl,#0x0002
+   0E6A 09                 2702 	add	hl,bc
+   0E6B DD 75 EE           2703 	ld	-18 (ix),l
+   0E6E DD 74 EF           2704 	ld	-17 (ix),h
+   0E71 3Ar85s40           2705 	ld	a,(#_po+0)
+   0E74 5F                 2706 	ld	e,a
+   0E75 3Ar86s40           2707 	ld	a,(#_po+1)
+   0E78 C6 01              2708 	add	a,#0x01
+   0E7A 57                 2709 	ld	d,a
+   0E7B 21r83s40           2710 	ld	hl,#_yo
+   0E7E 7B                 2711 	ld	a,e
+   0E7F 86                 2712 	add	a,(hl)
+   0E80 DD 77 EC           2713 	ld	-20 (ix),a
+   0E83 7A                 2714 	ld	a,d
+   0E84 23                 2715 	inc	hl
+   0E85 8E                 2716 	adc	a,(hl)
+   0E86 DD 77 ED           2717 	ld	-19 (ix),a
+   0E89 DD 5E FF           2718 	ld	e,-1 (ix)
+   0E8C CB 3B              2719 	srl	e
+   0E8E 16 00              2720 	ld	d,#0x00
+   0E90 DD 7E EC           2721 	ld	a,-20 (ix)
+   0E93 83                 2722 	add	a,e
+   0E94 5F                 2723 	ld	e,a
+   0E95 DD 7E ED           2724 	ld	a,-19 (ix)
+   0E98 8A                 2725 	adc	a,d
+   0E99 57                 2726 	ld	d,a
+   0E9A DD 6E EE           2727 	ld	l,-18 (ix)
+   0E9D DD 66 EF           2728 	ld	h,-17 (ix)
+   0EA0 73                 2729 	ld	(hl),e
+   0EA1 23                 2730 	inc	hl
+   0EA2 72                 2731 	ld	(hl),d
+                           2732 ;demo.c:435: cmd.dest_x = 0;
+   0EA3 21 04 00           2733 	ld	hl,#0x0004
+   0EA6 09                 2734 	add	hl,bc
+   0EA7 36 00              2735 	ld	(hl),#0x00
+   0EA9 23                 2736 	inc	hl
+   0EAA 36 00              2737 	ld	(hl),#0x00
+                           2738 ;demo.c:436: cmd.dest_y = (y<<1);
+   0EAC 21 06 00           2739 	ld	hl,#0x0006
+   0EAF 09                 2740 	add	hl,bc
+   0EB0 DD 75 EC           2741 	ld	-20 (ix),l
+   0EB3 DD 74 ED           2742 	ld	-19 (ix),h
+   0EB6 DD 5E FF           2743 	ld	e,-1 (ix)
+   0EB9 16 00              2744 	ld	d,#0x00
+   0EBB CB 23              2745 	sla	e
+   0EBD CB 12              2746 	rl	d
+   0EBF DD 6E EC           2747 	ld	l,-20 (ix)
+   0EC2 DD 66 ED           2748 	ld	h,-19 (ix)
+   0EC5 73                 2749 	ld	(hl),e
+   0EC6 23                 2750 	inc	hl
+   0EC7 72                 2751 	ld	(hl),d
+                           2752 ;demo.c:437: cmd.size_x = 128;
+   0EC8 21 08 00           2753 	ld	hl,#0x0008
+   0ECB 09                 2754 	add	hl,bc
+   0ECC 36 80              2755 	ld	(hl),#0x80
+   0ECE 23                 2756 	inc	hl
+   0ECF 36 00              2757 	ld	(hl),#0x00
+                           2758 ;demo.c:438: cmd.size_y = 1;
+   0ED1 21 0A 00           2759 	ld	hl,#0x000A
+   0ED4 09                 2760 	add	hl,bc
+   0ED5 36 01              2761 	ld	(hl),#0x01
+   0ED7 23                 2762 	inc	hl
+   0ED8 36 00              2763 	ld	(hl),#0x00
+                           2764 ;demo.c:439: cmd.data = 0;
+   0EDA 21 0C 00           2765 	ld	hl,#0x000C
+   0EDD 09                 2766 	add	hl,bc
+   0EDE EB                 2767 	ex	de,hl
+   0EDF 3E 00              2768 	ld	a,#0x00
+   0EE1 12                 2769 	ld	(de),a
+                           2770 ;demo.c:440: cmd.argument = 0x00;
+   0EE2 21 0D 00           2771 	ld	hl,#0x000D
+   0EE5 09                 2772 	add	hl,bc
+   0EE6 EB                 2773 	ex	de,hl
+   0EE7 3E 00              2774 	ld	a,#0x00
+   0EE9 12                 2775 	ld	(de),a
+                           2776 ;demo.c:441: cmd.command = 0xD0;
+   0EEA 21 0E 00           2777 	ld	hl,#0x000E
+   0EED 09                 2778 	add	hl,bc
+   0EEE EB                 2779 	ex	de,hl
+   0EEF 3E D0              2780 	ld	a,#0xD0
+   0EF1 12                 2781 	ld	(de),a
+                           2782 ;demo.c:442: vdp_copier(&cmd);
+   0EF2 C5                 2783 	push	bc
+   0EF3 CDr00s00           2784 	call	_vdp_copier
+   0EF6 F1                 2785 	pop	af
+                           2786 ;demo.c:432: for (y = 0; y < 106; y+=1) {
+   0EF7 DD 34 FF           2787 	inc	-1 (ix)
+   0EFA C3r4Cs0E           2788 	jp	00107$
+   0EFD                    2789 00110$:
+                           2790 ;demo.c:445: for (y = 0; y < 106; y+=1) {
+   0EFD DD 36 FF 00        2791 	ld	-1 (ix),#0x00
+   0F01                    2792 00111$:
+   0F01 DD 7E FF           2793 	ld	a,-1 (ix)
+   0F04 D6 6A              2794 	sub	a,#0x6A
+   0F06 D2rB2s0F           2795 	jp	NC,00114$
+                           2796 ;demo.c:446: cmd.source_x = xo;
+   0F09 21 04 00           2797 	ld	hl,#0x0004
+   0F0C 39                 2798 	add	hl,sp
+   0F0D EB                 2799 	ex	de,hl
+   0F0E ED 4Br81s40        2800 	ld	bc,(_xo)
+   0F12 EB                 2801 	ex	de,hl
+   0F13 71                 2802 	ld	(hl),c
+   0F14 23                 2803 	inc	hl
+   0F15 70                 2804 	ld	(hl),b
+                           2805 ;demo.c:447: cmd.source_y = 256+po+yo+(y>>1);
+   0F16 21 04 00           2806 	ld	hl,#0x0004
+   0F19 39                 2807 	add	hl,sp
+   0F1A 4D                 2808 	ld	c,l
+   0F1B 44                 2809 	ld	b,h
+   0F1C 21 02 00           2810 	ld	hl,#0x0002
+   0F1F 09                 2811 	add	hl,bc
+   0F20 DD 75 EC           2812 	ld	-20 (ix),l
+   0F23 DD 74 ED           2813 	ld	-19 (ix),h
+   0F26 3Ar85s40           2814 	ld	a,(#_po+0)
+   0F29 5F                 2815 	ld	e,a
+   0F2A 3Ar86s40           2816 	ld	a,(#_po+1)
+   0F2D C6 01              2817 	add	a,#0x01
+   0F2F 57                 2818 	ld	d,a
+   0F30 21r83s40           2819 	ld	hl,#_yo
+   0F33 7B                 2820 	ld	a,e
+   0F34 86                 2821 	add	a,(hl)
+   0F35 DD 77 EE           2822 	ld	-18 (ix),a
+   0F38 7A                 2823 	ld	a,d
+   0F39 23                 2824 	inc	hl
+   0F3A 8E                 2825 	adc	a,(hl)
+   0F3B DD 77 EF           2826 	ld	-17 (ix),a
+   0F3E DD 5E FF           2827 	ld	e,-1 (ix)
+   0F41 CB 3B              2828 	srl	e
+   0F43 16 00              2829 	ld	d,#0x00
+   0F45 DD 7E EE           2830 	ld	a,-18 (ix)
+   0F48 83                 2831 	add	a,e
+   0F49 5F                 2832 	ld	e,a
+   0F4A DD 7E EF           2833 	ld	a,-17 (ix)
+   0F4D 8A                 2834 	adc	a,d
+   0F4E 57                 2835 	ld	d,a
+   0F4F DD 6E EC           2836 	ld	l,-20 (ix)
+   0F52 DD 66 ED           2837 	ld	h,-19 (ix)
+   0F55 73                 2838 	ld	(hl),e
+   0F56 23                 2839 	inc	hl
+   0F57 72                 2840 	ld	(hl),d
+                           2841 ;demo.c:448: cmd.dest_x = 128;
+   0F58 21 04 00           2842 	ld	hl,#0x0004
+   0F5B 09                 2843 	add	hl,bc
+   0F5C 36 80              2844 	ld	(hl),#0x80
+   0F5E 23                 2845 	inc	hl
+   0F5F 36 00              2846 	ld	(hl),#0x00
+                           2847 ;demo.c:449: cmd.dest_y = (y<<1);
+   0F61 21 06 00           2848 	ld	hl,#0x0006
+   0F64 09                 2849 	add	hl,bc
+   0F65 DD 75 EC           2850 	ld	-20 (ix),l
+   0F68 DD 74 ED           2851 	ld	-19 (ix),h
+   0F6B DD 5E FF           2852 	ld	e,-1 (ix)
+   0F6E 16 00              2853 	ld	d,#0x00
+   0F70 CB 23              2854 	sla	e
+   0F72 CB 12              2855 	rl	d
+   0F74 DD 6E EC           2856 	ld	l,-20 (ix)
+   0F77 DD 66 ED           2857 	ld	h,-19 (ix)
+   0F7A 73                 2858 	ld	(hl),e
+   0F7B 23                 2859 	inc	hl
+   0F7C 72                 2860 	ld	(hl),d
+                           2861 ;demo.c:450: cmd.size_x = 128;
+   0F7D 21 08 00           2862 	ld	hl,#0x0008
+   0F80 09                 2863 	add	hl,bc
+   0F81 36 80              2864 	ld	(hl),#0x80
+   0F83 23                 2865 	inc	hl
+   0F84 36 00              2866 	ld	(hl),#0x00
+                           2867 ;demo.c:451: cmd.size_y = 1;
+   0F86 21 0A 00           2868 	ld	hl,#0x000A
+   0F89 09                 2869 	add	hl,bc
+   0F8A 36 01              2870 	ld	(hl),#0x01
+   0F8C 23                 2871 	inc	hl
+   0F8D 36 00              2872 	ld	(hl),#0x00
+                           2873 ;demo.c:452: cmd.data = 0;
+   0F8F 21 0C 00           2874 	ld	hl,#0x000C
+   0F92 09                 2875 	add	hl,bc
+   0F93 EB                 2876 	ex	de,hl
+   0F94 3E 00              2877 	ld	a,#0x00
+   0F96 12                 2878 	ld	(de),a
+                           2879 ;demo.c:453: cmd.argument = 0x00;
+   0F97 21 0D 00           2880 	ld	hl,#0x000D
+   0F9A 09                 2881 	add	hl,bc
+   0F9B EB                 2882 	ex	de,hl
+   0F9C 3E 00              2883 	ld	a,#0x00
+   0F9E 12                 2884 	ld	(de),a
+                           2885 ;demo.c:454: cmd.command = 0xd2; // logical vram to vram, xor
+   0F9F 21 0E 00           2886 	ld	hl,#0x000E
+   0FA2 09                 2887 	add	hl,bc
+   0FA3 EB                 2888 	ex	de,hl
+   0FA4 3E D2              2889 	ld	a,#0xD2
+   0FA6 12                 2890 	ld	(de),a
+                           2891 ;demo.c:455: vdp_copier(&cmd);
+   0FA7 C5                 2892 	push	bc
+   0FA8 CDr00s00           2893 	call	_vdp_copier
+   0FAB F1                 2894 	pop	af
+                           2895 ;demo.c:445: for (y = 0; y < 106; y+=1) {
+   0FAC DD 34 FF           2896 	inc	-1 (ix)
+   0FAF C3r01s0F           2897 	jp	00111$
+   0FB2                    2898 00114$:
+                           2899 ;demo.c:459: xo+=128;
+   0FB2 21r81s40           2900 	ld	hl,#_xo
+   0FB5 7E                 2901 	ld	a,(hl)
+   0FB6 C6 80              2902 	add	a,#0x80
+   0FB8 23                 2903 	inc	hl
+   0FB9 2B                 2904 	dec	hl
+   0FBA C5                 2905 	push	bc
+   0FBB 4F                 2906 	ld	c, a
+   0FBC 23                 2907 	inc	hl
+   0FBD 7E                 2908 	ld	a, (hl)
+   0FBE 47                 2909 	ld	b, a
+   0FBF 79                 2910 	ld	a, c
+   0FC0 2B                 2911 	dec	hl
+   0FC1 77                 2912 	ld	(hl), a
+   0FC2 78                 2913 	ld	a, b
+   0FC3 C1                 2914 	pop	bc
+   0FC4 CE 00              2915 	adc	a,#0x00
+   0FC6 23                 2916 	inc	hl
+   0FC7 77                 2917 	ld	(hl),a
+                           2918 ;demo.c:460: if (xo >= 256) {
+   0FC8 3Ar81s40           2919 	ld	a,(#_xo+0)
+   0FCB D6 00              2920 	sub	a,#0x00
+   0FCD 3Ar82s40           2921 	ld	a,(#_xo+1)
+   0FD0 DE 01              2922 	sbc	a,#0x01
+   0FD2 FAr39s10           2923 	jp	M,00106$
+                           2924 ;demo.c:461: xo = 0;
+   0FD5 21r81s40           2925 	ld	hl,#_xo + 0
+   0FD8 36 00              2926 	ld	(hl), #0x00
+   0FDA 21r82s40           2927 	ld	hl,#_xo + 1
+   0FDD 36 00              2928 	ld	(hl), #0x00
+                           2929 ;demo.c:462: yo+=53;
+   0FDF 21r83s40           2930 	ld	hl,#_yo
+   0FE2 7E                 2931 	ld	a,(hl)
+   0FE3 C6 35              2932 	add	a,#0x35
+   0FE5 23                 2933 	inc	hl
+   0FE6 2B                 2934 	dec	hl
+   0FE7 C5                 2935 	push	bc
+   0FE8 4F                 2936 	ld	c, a
+   0FE9 23                 2937 	inc	hl
+   0FEA 7E                 2938 	ld	a, (hl)
+   0FEB 47                 2939 	ld	b, a
+   0FEC 79                 2940 	ld	a, c
+   0FED 2B                 2941 	dec	hl
+   0FEE 77                 2942 	ld	(hl), a
+   0FEF 78                 2943 	ld	a, b
+   0FF0 C1                 2944 	pop	bc
+   0FF1 CE 00              2945 	adc	a,#0x00
+   0FF3 23                 2946 	inc	hl
+   0FF4 77                 2947 	ld	(hl),a
+                           2948 ;demo.c:463: if (yo >= 212) { yo = 0; po+=256; }
+   0FF5 3Ar83s40           2949 	ld	a,(#_yo+0)
+   0FF8 D6 D4              2950 	sub	a,#0xD4
+   0FFA 3Ar84s40           2951 	ld	a,(#_yo+1)
+   0FFD DE 00              2952 	sbc	a,#0x00
+   0FFF FAr22s10           2953 	jp	M,00102$
+   1002 21r83s40           2954 	ld	hl,#_yo + 0
+   1005 36 00              2955 	ld	(hl), #0x00
+   1007 21r84s40           2956 	ld	hl,#_yo + 1
+   100A 36 00              2957 	ld	(hl), #0x00
+   100C 21r85s40           2958 	ld	hl,#_po
+   100F 7E                 2959 	ld	a,(hl)
+   1010 C6 00              2960 	add	a,#0x00
+   1012 23                 2961 	inc	hl
+   1013 2B                 2962 	dec	hl
+   1014 C5                 2963 	push	bc
+   1015 4F                 2964 	ld	c, a
+   1016 23                 2965 	inc	hl
+   1017 7E                 2966 	ld	a, (hl)
+   1018 47                 2967 	ld	b, a
+   1019 79                 2968 	ld	a, c
+   101A 2B                 2969 	dec	hl
+   101B 77                 2970 	ld	(hl), a
+   101C 78                 2971 	ld	a, b
+   101D C1                 2972 	pop	bc
+   101E CE 01              2973 	adc	a,#0x01
+   1020 23                 2974 	inc	hl
+   1021 77                 2975 	ld	(hl),a
+   1022                    2976 00102$:
+                           2977 ;demo.c:464: if (po >= 768) {
+   1022 3Ar85s40           2978 	ld	a,(#_po+0)
+   1025 D6 00              2979 	sub	a,#0x00
+   1027 3Ar86s40           2980 	ld	a,(#_po+1)
+   102A DE 03              2981 	sbc	a,#0x03
+   102C FAr39s10           2982 	jp	M,00106$
+                           2983 ;demo.c:465: po = 0;
+   102F 21r85s40           2984 	ld	hl,#_po + 0
+   1032 36 00              2985 	ld	(hl), #0x00
+   1034 21r86s40           2986 	ld	hl,#_po + 1
+   1037 36 00              2987 	ld	(hl), #0x00
+   1039                    2988 00106$:
+                           2989 ;demo.c:470: msx2_palette(15,3+sintab[fffaaa & 255]>>5,3,4);
+   1039 21r87s40           2990 	ld	hl,#_fffaaa + 0
+   103C 4E                 2991 	ld	c,(hl)
+   103D 06 00              2992 	ld	b,#0x00
+   103F 21r00s00           2993 	ld	hl,#_sintab
+   1042 09                 2994 	add	hl,bc
+   1043 7E                 2995 	ld	a,(hl)
+   1044 4F                 2996 	ld	c,a
+   1045 17                 2997 	rla	
+   1046 9F                 2998 	sbc	a,a
+   1047 47                 2999 	ld	b,a
+   1048 03                 3000 	inc	bc
+   1049 03                 3001 	inc	bc
+   104A 03                 3002 	inc	bc
+   104B CB 28              3003 	sra	b
+   104D CB 19              3004 	rr	c
+   104F CB 28              3005 	sra	b
+   1051 CB 19              3006 	rr	c
+   1053 CB 28              3007 	sra	b
+   1055 CB 19              3008 	rr	c
+   1057 CB 28              3009 	sra	b
+   1059 CB 19              3010 	rr	c
+   105B CB 28              3011 	sra	b
+   105D CB 19              3012 	rr	c
+   105F 21 03 04           3013 	ld	hl,#0x0403
+   1062 E5                 3014 	push	hl
+   1063 41                 3015 	ld	b,c
+   1064 0E 0F              3016 	ld	c,#0x0F
+   1066 C5                 3017 	push	bc
+   1067 CDr00s00           3018 	call	_msx2_palette
+   106A F1                 3019 	pop	af
+   106B F1                 3020 	pop	af
+                           3021 ;demo.c:471: msx2_palette(3,2+sintab[fffaaa & 255]>>5,0,0);
+   106C 21r87s40           3022 	ld	hl,#_fffaaa + 0
+   106F 4E                 3023 	ld	c,(hl)
+   1070 06 00              3024 	ld	b,#0x00
+   1072 21r00s00           3025 	ld	hl,#_sintab
+   1075 09                 3026 	add	hl,bc
+   1076 7E                 3027 	ld	a,(hl)
+   1077 4F                 3028 	ld	c,a
+   1078 17                 3029 	rla	
+   1079 9F                 3030 	sbc	a,a
+   107A 47                 3031 	ld	b,a
+   107B 03                 3032 	inc	bc
+   107C 03                 3033 	inc	bc
+   107D CB 28              3034 	sra	b
+   107F CB 19              3035 	rr	c
+   1081 CB 28              3036 	sra	b
+   1083 CB 19              3037 	rr	c
+   1085 CB 28              3038 	sra	b
+   1087 CB 19              3039 	rr	c
+   1089 CB 28              3040 	sra	b
+   108B CB 19              3041 	rr	c
+   108D CB 28              3042 	sra	b
+   108F CB 19              3043 	rr	c
+   1091 21 00 00           3044 	ld	hl,#0x0000
+   1094 E5                 3045 	push	hl
+   1095 41                 3046 	ld	b,c
+   1096 0E 03              3047 	ld	c,#0x03
+   1098 C5                 3048 	push	bc
+   1099 CDr00s00           3049 	call	_msx2_palette
+   109C F1                 3050 	pop	af
+   109D F1                 3051 	pop	af
+                           3052 ;demo.c:472: fffaaa++;
+   109E FD 21r87s40        3053 	ld	iy,#_fffaaa
+   10A2 FD 34 00           3054 	inc	0 (iy)
+   10A5 20 07              3055 	jr	NZ,00132$
+   10A7 FD 21r87s40        3056 	ld	iy,#_fffaaa
+   10AB FD 34 01           3057 	inc	1 (iy)
+   10AE                    3058 00132$:
+   10AE DD F9              3059 	ld	sp,ix
+   10B0 DD E1              3060 	pop	ix
+   10B2 C9                 3061 	ret
+   10B3                    3062 _do_animplay_end::
+                           3063 ;demo.c:481: void main() {
+                           3064 ;	---------------------------------
+                           3065 ; Function main
+                           3066 ; ---------------------------------
+   10B3                    3067 _main_start::
+   10B3                    3068 _main:
+                           3069 ;demo.c:482: unsigned char quit=0;
+   10B3 0E 00              3070 	ld	c,#0x00
+                           3071 ;demo.c:483: int modes = 128; // interlace bit on
+   10B5 11 80 00           3072 	ld	de,#0x0080
+                           3073 ;demo.c:487: spindown();
+   10B8 C5                 3074 	push	bc
+   10B9 D5                 3075 	push	de
+   10BA CDr00s00           3076 	call	_spindown
+   10BD D1                 3077 	pop	de
+   10BE C1                 3078 	pop	bc
+                           3079 ;demo.c:489: puts("demo init\r\n\r\n");
+   10BF C5                 3080 	push	bc
+   10C0 D5                 3081 	push	de
+   10C1 21r1Fs12           3082 	ld	hl,#__str_5
+   10C4 E5                 3083 	push	hl
+   10C5 CDr00s00           3084 	call	_puts
+   10C8 F1                 3085 	pop	af
+   10C9 D1                 3086 	pop	de
+   10CA C1                 3087 	pop	bc
+                           3088 ;demo.c:502: puts("music init...");
+   10CB C5                 3089 	push	bc
+   10CC D5                 3090 	push	de
+   10CD 21r2Ds12           3091 	ld	hl,#__str_6
+   10D0 E5                 3092 	push	hl
+   10D1 CDr00s00           3093 	call	_puts
+   10D4 F1                 3094 	pop	af
+   10D5 D1                 3095 	pop	de
+   10D6 C1                 3096 	pop	bc
+                           3097 ;demo.c:504: PLY_SongPtr = (char *)0x0103;
+   10D7 21r00s00           3098 	ld	hl,#_PLY_SongPtr + 0
+   10DA 36 03              3099 	ld	(hl), #0x03
+   10DC 21r01s00           3100 	ld	hl,#_PLY_SongPtr + 1
+   10DF 36 01              3101 	ld	(hl), #0x01
+                           3102 ;demo.c:505: PLY_Init();
+   10E1 C5                 3103 	push	bc
+   10E2 D5                 3104 	push	de
+   10E3 CDr00s00           3105 	call	_PLY_Init
+   10E6 D1                 3106 	pop	de
+   10E7 C1                 3107 	pop	bc
+                           3108 ;demo.c:506: puts("done.\n\n");
+   10E8 C5                 3109 	push	bc
+   10E9 D5                 3110 	push	de
+   10EA 21r3Bs12           3111 	ld	hl,#__str_7
+   10ED E5                 3112 	push	hl
+   10EE CDr00s00           3113 	call	_puts
+   10F1 F1                 3114 	pop	af
+   10F2 D1                 3115 	pop	de
+   10F3 C1                 3116 	pop	bc
+                           3117 ;demo.c:508: if(isvdp2())
+   10F4 C5                 3118 	push	bc
+   10F5 D5                 3119 	push	de
+   10F6 CDr00s00           3120 	call	_isvdp2
+   10F9 45                 3121 	ld	b,l
+   10FA D1                 3122 	pop	de
+   10FB 78                 3123 	ld	a,b
+   10FC C1                 3124 	pop	bc
+   10FD 47                 3125 	ld	b,a
+   10FE B7                 3126 	or	a,a
+   10FF 28 03              3127 	jr	Z,00102$
+                           3128 ;demo.c:510: modes+=2; // pal
+   1101 11 82 00           3129 	ld	de,#0x0082
+   1104                    3130 00102$:
+                           3131 ;demo.c:514: vdp_set_screen5();
+   1104 C5                 3132 	push	bc
+   1105 D5                 3133 	push	de
+   1106 CDr00s00           3134 	call	_vdp_set_screen5
+   1109 D1                 3135 	pop	de
+   110A C1                 3136 	pop	bc
+                           3137 ;demo.c:516: vdp_register(VDP_MODE3,modes); // interlace on, screen mode pal or ntsc
+   110B 43                 3138 	ld	b,e
+   110C C5                 3139 	push	bc
+   110D C5                 3140 	push	bc
+   110E 33                 3141 	inc	sp
+   110F 3E 09              3142 	ld	a,#0x09
+   1111 F5                 3143 	push	af
+   1112 33                 3144 	inc	sp
+   1113 CDr00s00           3145 	call	_vdp_register
+   1116 F1                 3146 	pop	af
+   1117 C1                 3147 	pop	bc
+                           3148 ;demo.c:518: puts("demo start\r\n");
+   1118 C5                 3149 	push	bc
+   1119 21r43s12           3150 	ld	hl,#__str_8
+   111C E5                 3151 	push	hl
+   111D CDr00s00           3152 	call	_puts
+   1120 F1                 3153 	pop	af
+   1121 C1                 3154 	pop	bc
+                           3155 ;demo.c:520: scratch_clear();
+   1122 C5                 3156 	push	bc
+   1123 CDr97s03           3157 	call	_scratch_clear
+   1126 C1                 3158 	pop	bc
+                           3159 ;demo.c:521: vdp_load_palette(scratch);
+   1127 C5                 3160 	push	bc
+   1128 21r80s3F           3161 	ld	hl,#_scratch
+   112B E5                 3162 	push	hl
+   112C CDr00s00           3163 	call	_vdp_load_palette
+   112F F1                 3164 	pop	af
+   1130 C1                 3165 	pop	bc
+                           3166 ;demo.c:523: vdp_register(VDP_VOFFSET,0);
+   1131 C5                 3167 	push	bc
+   1132 21 17 00           3168 	ld	hl,#0x0017
+   1135 E5                 3169 	push	hl
+   1136 CDr00s00           3170 	call	_vdp_register
+   1139 F1                 3171 	pop	af
+   113A C1                 3172 	pop	bc
+                           3173 ;demo.c:524: pal_load("TWISTER PL5",32);
+   113B C5                 3174 	push	bc
+   113C 3E 20              3175 	ld	a,#0x20
+   113E F5                 3176 	push	af
+   113F 33                 3177 	inc	sp
+   1140 21r50s12           3178 	ld	hl,#__str_9
+   1143 E5                 3179 	push	hl
+   1144 CDrAAs03           3180 	call	_pal_load
+   1147 F1                 3181 	pop	af
+   1148 33                 3182 	inc	sp
+   1149 C1                 3183 	pop	bc
+                           3184 ;demo.c:525: vdp_load_palette(cur_palette);
+   114A C5                 3185 	push	bc
+   114B 21r00s40           3186 	ld	hl,#_cur_palette
+   114E E5                 3187 	push	hl
+   114F CDr00s00           3188 	call	_vdp_load_palette
+   1152 F1                 3189 	pop	af
+   1153 C1                 3190 	pop	bc
+                           3191 ;demo.c:527: memset((uint8_t *) &packbuffer, 0, 4032);
+   1154 C5                 3192 	push	bc
+   1155 21 C0 0F           3193 	ld	hl,#0x0FC0
+   1158 E5                 3194 	push	hl
+   1159 3E 00              3195 	ld	a,#0x00
+   115B F5                 3196 	push	af
+   115C 33                 3197 	inc	sp
+   115D 21r00s01           3198 	ld	hl,#_packbuffer
+   1160 E5                 3199 	push	hl
+   1161 CDr00s00           3200 	call	_memset
+   1164 F1                 3201 	pop	af
+   1165 F1                 3202 	pop	af
+   1166 33                 3203 	inc	sp
+   1167 C1                 3204 	pop	bc
+                           3205 ;demo.c:528: raw_load("TWISTER PCK", 4032, packbuffer);
+   1168 C5                 3206 	push	bc
+   1169 21r00s01           3207 	ld	hl,#_packbuffer
+   116C E5                 3208 	push	hl
+   116D 21 C0 0F           3209 	ld	hl,#0x0FC0
+   1170 E5                 3210 	push	hl
+   1171 21r5Cs12           3211 	ld	hl,#__str_10
+   1174 E5                 3212 	push	hl
+   1175 CDr5Es04           3213 	call	_raw_load
+   1178 F1                 3214 	pop	af
+   1179 F1                 3215 	pop	af
+   117A F1                 3216 	pop	af
+   117B C1                 3217 	pop	bc
+                           3218 ;demo.c:529: bitbuster(packbuffer,0x8000,VRAM_0); // to page 1
+   117C C5                 3219 	push	bc
+   117D 3E 01              3220 	ld	a,#0x01
+   117F F5                 3221 	push	af
+   1180 33                 3222 	inc	sp
+   1181 21 00 80           3223 	ld	hl,#0x8000
+   1184 E5                 3224 	push	hl
+   1185 21r00s01           3225 	ld	hl,#_packbuffer
+   1188 E5                 3226 	push	hl
+   1189 CDr00s00           3227 	call	_bitbuster
+   118C F1                 3228 	pop	af
+   118D F1                 3229 	pop	af
+   118E 33                 3230 	inc	sp
+   118F C1                 3231 	pop	bc
+                           3232 ;demo.c:532: vdp_set_write_address(0, 0);
+   1190 C5                 3233 	push	bc
+   1191 21 00 00           3234 	ld	hl,#0x0000
+   1194 E5                 3235 	push	hl
+   1195 3E 00              3236 	ld	a,#0x00
+   1197 F5                 3237 	push	af
+   1198 33                 3238 	inc	sp
+   1199 CDr00s00           3239 	call	_vdp_set_write_address
+   119C F1                 3240 	pop	af
+   119D 33                 3241 	inc	sp
+   119E C1                 3242 	pop	bc
+                           3243 ;demo.c:533: memset((uint8_t *) &scratch, 0, 256);
+   119F C5                 3244 	push	bc
+   11A0 21 00 01           3245 	ld	hl,#0x0100
+   11A3 E5                 3246 	push	hl
+   11A4 3E 00              3247 	ld	a,#0x00
+   11A6 F5                 3248 	push	af
+   11A7 33                 3249 	inc	sp
+   11A8 21r80s3F           3250 	ld	hl,#_scratch
+   11AB E5                 3251 	push	hl
+   11AC CDr00s00           3252 	call	_memset
+   11AF F1                 3253 	pop	af
+   11B0 F1                 3254 	pop	af
+   11B1 33                 3255 	inc	sp
+   11B2 C1                 3256 	pop	bc
+                           3257 ;demo.c:535: for (i = 0; i < 213; i++) {		
+   11B3 11 D5 00           3258 	ld	de,#0x00D5
+   11B6                    3259 00110$:
+                           3260 ;demo.c:536: vdp_load_screen(scratch, 128);
+   11B6 C5                 3261 	push	bc
+   11B7 D5                 3262 	push	de
+   11B8 3E 80              3263 	ld	a,#0x80
+   11BA F5                 3264 	push	af
+   11BB 33                 3265 	inc	sp
+   11BC 21r80s3F           3266 	ld	hl,#_scratch
+   11BF E5                 3267 	push	hl
+   11C0 CDr00s00           3268 	call	_vdp_load_screen
+   11C3 F1                 3269 	pop	af
+   11C4 33                 3270 	inc	sp
+   11C5 D1                 3271 	pop	de
+   11C6 C1                 3272 	pop	bc
+   11C7 1B                 3273 	dec	de
+                           3274 ;demo.c:535: for (i = 0; i < 213; i++) {		
+   11C8 7B                 3275 	ld	a,e
+   11C9 B2                 3276 	or	a,d
+   11CA 20 EA              3277 	jr	NZ,00110$
+                           3278 ;demo.c:567: install_isr(my_isr);
+   11CC C5                 3279 	push	bc
+   11CD 21r2Cs02           3280 	ld	hl,#_my_isr
+   11D0 E5                 3281 	push	hl
+   11D1 CDr00s00           3282 	call	_install_isr
+   11D4 F1                 3283 	pop	af
+   11D5 C1                 3284 	pop	bc
+                           3285 ;demo.c:589: twister();
+   11D6 C5                 3286 	push	bc
+   11D7 CDrEEs09           3287 	call	_twister
+   11DA C1                 3288 	pop	bc
+                           3289 ;demo.c:590: font();
+   11DB C5                 3290 	push	bc
+   11DC CDr1Ds0D           3291 	call	_font
+   11DF C1                 3292 	pop	bc
+                           3293 ;demo.c:592: while (!quit) {
+   11E0                    3294 00105$:
+   11E0 AF                 3295 	xor	a,a
+   11E1 B1                 3296 	or	a,c
+   11E2 20 18              3297 	jr	NZ,00107$
+                           3298 ;demo.c:596: twister();
+   11E4 C5                 3299 	push	bc
+   11E5 CDrEEs09           3300 	call	_twister
+   11E8 C1                 3301 	pop	bc
+                           3302 ;demo.c:607: if(space())
+   11E9 C5                 3303 	push	bc
+   11EA 21 08 01           3304 	ld	hl,#0x0108
+   11ED E5                 3305 	push	hl
+   11EE CDr00s00           3306 	call	_ispressed
+   11F1 F1                 3307 	pop	af
+   11F2 7D                 3308 	ld	a,l
+   11F3 C1                 3309 	pop	bc
+   11F4 47                 3310 	ld	b,a
+   11F5 B7                 3311 	or	a,a
+   11F6 28 E8              3312 	jr	Z,00105$
+                           3313 ;demo.c:608: quit=1;
+   11F8 0E 01              3314 	ld	c,#0x01
+   11FA 18 E4              3315 	jr	00105$
+   11FC                    3316 00107$:
+                           3317 ;demo.c:611: waitVB();
+   11FC 76                 3318 		halt 
+                           3319 ;demo.c:612: uninstall_isr();
+   11FD CDr00s00           3320 	call	_uninstall_isr
+                           3321 ;demo.c:613: PLY_Stop();
+   1200 CDr00s00           3322 	call	_PLY_Stop
+                           3323 ;demo.c:614: PLY_SendRegisters();
+   1203 CDr00s00           3324 	call	_PLY_SendRegisters
+                           3325 ;demo.c:616: screen(0);
+   1206 3E 00              3326 	ld	a,#0x00
+   1208 F5                 3327 	push	af
+   1209 33                 3328 	inc	sp
+   120A CDr00s00           3329 	call	_screen
+   120D 33                 3330 	inc	sp
+                           3331 ;demo.c:618: puts("demo exit\r\n\r\n");
+   120E 21r68s12           3332 	ld	hl,#__str_11
+   1211 E5                 3333 	push	hl
+   1212 CDr00s00           3334 	call	_puts
+   1215 F1                 3335 	pop	af
+                           3336 ;demo.c:620: exit(0);
+   1216 3E 00              3337 	ld	a,#0x00
+   1218 F5                 3338 	push	af
+   1219 33                 3339 	inc	sp
+   121A CDr00s00           3340 	call	_exit
+   121D 33                 3341 	inc	sp
+   121E C9                 3342 	ret
+   121F                    3343 _main_end::
+   121F                    3344 __str_5:
+   121F 64 65 6D 6F 20 69  3345 	.ascii "demo init"
         6E 69 74
-   11E5 0D                 3307 	.db 0x0D
-   11E6 0A                 3308 	.db 0x0A
-   11E7 0D                 3309 	.db 0x0D
-   11E8 0A                 3310 	.db 0x0A
-   11E9 00                 3311 	.db 0x00
-   11EA                    3312 __str_6:
-   11EA 6D 75 73 69 63 20  3313 	.ascii "music init..."
+   1228 0D                 3346 	.db 0x0D
+   1229 0A                 3347 	.db 0x0A
+   122A 0D                 3348 	.db 0x0D
+   122B 0A                 3349 	.db 0x0A
+   122C 00                 3350 	.db 0x00
+   122D                    3351 __str_6:
+   122D 6D 75 73 69 63 20  3352 	.ascii "music init..."
         69 6E 69 74 2E 2E
         2E
-   11F7 00                 3314 	.db 0x00
-   11F8                    3315 __str_7:
-   11F8 64 6F 6E 65 2E     3316 	.ascii "done."
-   11FD 0A                 3317 	.db 0x0A
-   11FE 0A                 3318 	.db 0x0A
-   11FF 00                 3319 	.db 0x00
-   1200                    3320 __str_8:
-   1200 64 65 6D 6F 20 73  3321 	.ascii "demo start"
+   123A 00                 3353 	.db 0x00
+   123B                    3354 __str_7:
+   123B 64 6F 6E 65 2E     3355 	.ascii "done."
+   1240 0A                 3356 	.db 0x0A
+   1241 0A                 3357 	.db 0x0A
+   1242 00                 3358 	.db 0x00
+   1243                    3359 __str_8:
+   1243 64 65 6D 6F 20 73  3360 	.ascii "demo start"
         74 61 72 74
-   120A 0D                 3322 	.db 0x0D
-   120B 0A                 3323 	.db 0x0A
-   120C 00                 3324 	.db 0x00
-   120D                    3325 __str_9:
-   120D 54 57 49 53 54 45  3326 	.ascii "TWISTER PL5"
+   124D 0D                 3361 	.db 0x0D
+   124E 0A                 3362 	.db 0x0A
+   124F 00                 3363 	.db 0x00
+   1250                    3364 __str_9:
+   1250 54 57 49 53 54 45  3365 	.ascii "TWISTER PL5"
         52 20 50 4C 35
-   1218 00                 3327 	.db 0x00
-   1219                    3328 __str_10:
-   1219 54 57 49 53 54 45  3329 	.ascii "TWISTER PCK"
+   125B 00                 3366 	.db 0x00
+   125C                    3367 __str_10:
+   125C 54 57 49 53 54 45  3368 	.ascii "TWISTER PCK"
         52 20 50 43 4B
-   1224 00                 3330 	.db 0x00
-   1225                    3331 __str_11:
-   1225 64 65 6D 6F 20 65  3332 	.ascii "demo exit"
+   1267 00                 3369 	.db 0x00
+   1268                    3370 __str_11:
+   1268 64 65 6D 6F 20 65  3371 	.ascii "demo exit"
         78 69 74
-   122E 0D                 3333 	.db 0x0D
-   122F 0A                 3334 	.db 0x0A
-   1230 0D                 3335 	.db 0x0D
-   1231 0A                 3336 	.db 0x0A
-   1232 00                 3337 	.db 0x00
-                           3338 	.area _CODE
-                           3339 	.area _CABS
+   1271 0D                 3372 	.db 0x0D
+   1272 0A                 3373 	.db 0x0A
+   1273 0D                 3374 	.db 0x0D
+   1274 0A                 3375 	.db 0x0A
+   1275 00                 3376 	.db 0x00
+                           3377 	.area _CODE
+                           3378 	.area _CABS

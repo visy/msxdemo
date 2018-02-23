@@ -354,6 +354,8 @@ void twister() {
 		cmd.command = 0xd0; // logical vram to vram
 		vdp_copier(&cmd);
 	}
+		//msx2_palette(9,vbicount>>2,vbicount>>2,vbicount>>2);
+		msx2_palette(4,vbicount>>2,vbicount>>3,vbicount>>2);
 
 }
 
@@ -522,8 +524,8 @@ void main() {
     pal_load("TWISTER PL5",32);
     vdp_load_palette(cur_palette);
 
-	memset((uint8_t *) &packbuffer, 0, 3963);
-	raw_load("TWISTER PCK", 3963, packbuffer);
+	memset((uint8_t *) &packbuffer, 0, 4032);
+	raw_load("TWISTER PCK", 4032, packbuffer);
 	bitbuster(packbuffer,0x8000,VRAM_0); // to page 1
 
 	// cls
