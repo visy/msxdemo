@@ -341,21 +341,21 @@ void twister() {
 	vdp_copy_command cmd;
 	int y,sy;
 	waitVB();
-	for (y = 0; y < 212; y+=4) {
-		cmd.source_x = 0;
+	for (y = 0; y < 212; y+=2) {
+		cmd.source_x = 70;
 		sy = ((sintab[(vbicount+(y>>1)) & 255])>>1)+(256+64);
 		cmd.source_y = sy;
-		cmd.dest_x = 0;
+		cmd.dest_x = 70;
 		cmd.dest_y = y;
 		cmd.size_x = 70;
-		cmd.size_y = 4;
+		cmd.size_y = 2;
 		cmd.data = 0;
-		cmd.argument = 0x00;
-		cmd.command = 0xd0; // logical vram to vram
+		cmd.argument = 0x04; // from 70xY to left
+		cmd.command = 0xe0; // logical vram to vram, y only
 		vdp_copier(&cmd);
 	}
-		//msx2_palette(9,vbicount>>2,vbicount>>2,vbicount>>2);
-		msx2_palette(4,vbicount>>2,vbicount>>3,vbicount>>2);
+	//msx2_palette(9,vbicount>>2,vbicount>>2,vbicount>>2);
+	msx2_palette(4,vbicount>>2,vbicount>>3,vbicount>>2);
 
 }
 
@@ -409,13 +409,13 @@ void drawstr(char* str, uint8_t x, uint8_t y) {
 }
 
 void font() {
-	drawstr("THE QUICK BROWN FOX",70,40);
-	drawstr("JUMPS OVER THE LAZY DOG",70,49);
+	drawstr("THE QUICK BROWN FOX",74,40);
+	drawstr("JUMPS OVER THE LAZY DOG",74,49);
 
-	drawstr("the quick brown fox",70,60);
-	drawstr("jumps over the lazy dog",70,69);
+	drawstr("the quick brown fox",74,60);
+	drawstr("jumps over the lazy dog",74,69);
 
-	drawstr("This is a test of the_emergency alert system__This is only a test__Please locate your_nearest exit and proceed_to your gate at once",70,100);
+	drawstr("This is a test of the_emergency alert system__This is only a test__Please locate your_nearest exit and proceed_to your gate at once",74,100);
 
 }
 
