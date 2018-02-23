@@ -337,26 +337,34 @@ void raster_effu() {
 	vdp_register(1,0x60); // enable vblank
 }
 
+int ff = 0;
+
 void twister() {
 	vdp_copy_command cmd;
-	int y,sy;
+	int y;
+
+	vdp_register(8,0x2); // no sprites
+
 	waitVB();
+
+	cmd.size_x = 70;
+	cmd.size_y = 2;
+	cmd.data = 0;
+	cmd.argument = 0x04; // from 70xY to left
+	cmd.command = 0xe0; // logical vram to vram, y only
+	cmd.source_x = 70;
+	cmd.dest_x = 70;
+
 	for (y = 0; y < 212; y+=2) {
-		cmd.source_x = 70;
-		sy = ((sintab[(vbicount+(y>>1)) & 255])>>1)+(256+64);
-		cmd.source_y = sy;
-		cmd.dest_x = 70;
+		cmd.source_y = ((sintab[(ff+(y>>1)) & 255])>>1)+320;
 		cmd.dest_y = y;
-		cmd.size_x = 70;
-		cmd.size_y = 2;
-		cmd.data = 0;
-		cmd.argument = 0x04; // from 70xY to left
-		cmd.command = 0xe0; // logical vram to vram, y only
 		vdp_copier(&cmd);
 	}
-	//msx2_palette(9,vbicount>>2,vbicount>>2,vbicount>>2);
-	msx2_palette(4,vbicount>>2,vbicount>>3,vbicount>>2);
 
+	//msx2_palette(9,vbicount>>2,vbicount>>2,vbicount>>2);
+	msx2_palette(4,ff>>2,ff>>3,ff>>2);
+
+	ff+=4;
 }
 
 const uint8_t font_x[64] = {
