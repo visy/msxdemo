@@ -345,13 +345,11 @@ void twister() {
 
 	vdp_register(8,0x2); // no sprites
 
-	waitVB();
-
 	cmd.size_x = 70;
 	cmd.size_y = 2;
 	cmd.data = 0;
 	cmd.argument = 0x04; // from 70xY to left
-	cmd.command = 0xe0; // logical vram to vram, y only
+	cmd.command = 0xe0; // vram to vram, y only
 	cmd.source_x = 70;
 	cmd.dest_x = 70;
 
@@ -366,6 +364,58 @@ void twister() {
 
 	ff+=4;
 }
+
+
+int bulbflipper = 1;
+
+int ff1,ff2 = 0;
+
+void bulbs() {
+	vdp_copy_command cmd;
+	int y;
+
+	if(bulbflipper == 1) {
+		cmd.size_x = 72;
+		cmd.size_y = 8;
+		cmd.data = 0;
+		cmd.argument = 0x04; // from 72xY to left
+		cmd.command = 0xe0; // vram to vram, y only
+		cmd.source_x = 72;
+		cmd.dest_x = 72;
+
+		for (y = 0; y < 212; y+=8) {
+			cmd.source_y = ((sintab[(ff1+(y)) & 255])>>1)+320;
+			cmd.dest_y = y;
+			vdp_copier(&cmd);
+		}
+		ff1+=4;
+
+	} else {
+
+		cmd.size_x = 72;
+		cmd.size_y = 8;
+		cmd.data = 0;
+		cmd.argument = 0x00; // from 182xY to right
+		cmd.command = 0xe0; // vram to vram, y only
+		cmd.source_x = 182;
+		cmd.dest_x = 182;
+
+		for (y = 0; y < 212; y+=8) {
+			cmd.source_y = ((sintab[(ff2+(y>>1)) & 255])>>1)+320;
+			cmd.dest_y = y;
+			vdp_copier(&cmd);
+		}
+		ff2+=3;
+	}
+
+	bulbflipper = -bulbflipper;
+
+}
+
+
+
+//////
+
 
 const uint8_t font_x[64] = {
 	1,9,17,25,33,41,49,57,65,70,78,86,94,1,10,18,26,35,43,51,60,68,76,86,94,103,  // uppercase
@@ -557,20 +607,23 @@ void main() {
 	vdp_load_palette(scratch);
 
     vdp_register(VDP_VOFFSET,0);
+
+/*
     pal_load("TWISTER PL5",32);
     vdp_load_palette(cur_palette);
+*/
 
+    pal_load("BULBS   PL5",32);
+    vdp_load_palette(cur_palette);
+/*
 	memset((uint8_t *) &packbuffer, 0, 4032);
 	raw_load("TWISTER PCK", 4032, packbuffer);
 	bitbuster(packbuffer,0x8000,VRAM_0); // to page 1
+*/
+	memset((uint8_t *) &packbuffer, 0, 2431);
+	raw_load("BULBS   PCK", 2431, packbuffer);
+	bitbuster(packbuffer,0x8000,VRAM_0); // to page 2
 
-	// cls
-	vdp_set_write_address(0, 0);
-	memset((uint8_t *) &scratch, 0, 256);
-
-	for (i = 0; i < 213; i++) {		
-		vdp_load_screen(scratch, 128);
-	}
 
 /*
     pal_load("LF      PL5",32);
@@ -589,48 +642,31 @@ void main() {
 	bitbuster(packbuffer,0x8000,VRAM_1); // to page 3
 
 */
-/*
-    pal_load("KETTU16 PL5",32);
-    vdp_load_palette(cur_palette);
 
-	memset((uint8_t *) &packbuffer, 0, 4501);
-	raw_load("KETTU16 PCK", 4501, packbuffer);
-	bitbuster(packbuffer,0x0000,VRAM_0); // to page 0
-*/
+	// cls
+	vdp_set_write_address(0, 0);
+	memset((uint8_t *) &scratch, 0, 256);
+
+	for (i = 0; i < 212; i++) {		
+		vdp_load_screen(scratch, 128);
+	}
 
 
+	bulbs();
+	bulbs();
+	//font();
+	//drawsine("DIGITAL SOUNDS SYSTEM",80,150);
 
 	install_isr(my_isr);
 
-/*
-	pal_load("STDBLCK PL5", 32);
-	memcpy(block_palette,cur_palette,32);
-
-	pal_load("MONOLOG PI6", 8);
-
-	memset((uint8_t *) &packbuffer, 0, 5000);
-	raw_load("STDBLCK PCK", 4884, packbuffer);
-	bitbuster(packbuffer,0x8000,VRAM_1); // to page 2 (0x10000)
-
-	memset((uint8_t *) &packbuffer, 0, 5000);
-	raw_load("MONOLOG PCK", 2042, packbuffer);
-	bitbuster(packbuffer,0x0000,VRAM_0); // to page 0 (0x0000)
-
-	scratch_clear();
-
-	vdp_register(8, 0x2); // disable sprites
-
-    install_isr(my_isr);
-*/
-		twister();
-		font();
 
 	while (!quit) {
 		//waitVB();
+//		twister();
+		bulbs();
 
 		//do_animplay();
-		twister();
-		drawsine("DIGITAL SOUNDS SYSTEM",80,150);
+		//twister();
 		//raster_effu();
 /*
 		if (vbicount < 192) { 
