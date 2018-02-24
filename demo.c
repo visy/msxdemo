@@ -14,6 +14,8 @@
 extern void bitbuster(unsigned char*, uint16_t, unsigned char);
 extern void play_sample(unsigned char*, uint16_t);
 
+
+
 const unsigned short sintabx[256] = {
  120, 122, 125, 128, 131, 134, 137, 140, 143, 146, 149, 152, 154, 157, 160, 163,
  165, 168, 171, 173, 176, 179, 181, 184, 186, 189, 191, 193, 196, 198, 200, 202,
@@ -38,6 +40,7 @@ uint8_t packbuffer[16000] = {0};
 uint8_t scratch[128];
 uint8_t cur_palette[32];
 uint8_t block_palette[32];
+uint8_t twister_palette[32];
 
 volatile int vbicount=0;
 volatile int tick=0;
@@ -61,7 +64,7 @@ void my_isr(void) interrupt
         PLY_Play();
         PLY_SendRegisters();
 
-        vbicount+=2;
+        vbicount+=1;
         tick++;
 
         EI;
@@ -181,6 +184,12 @@ uint8_t raw_load(char *file_name, int size, char* buffer) {
 	close(&f);
 
 	return 1;
+}
+
+void pck_load(char *file_name, int size, uint16_t address, int vram_offset) {
+	memset((uint8_t *) &packbuffer, 0, size);
+	raw_load(file_name, size, packbuffer);
+	bitbuster(packbuffer,address,vram_offset);
 }
 
 void fadein() {
@@ -337,80 +346,6 @@ void raster_effu() {
 	vdp_register(1,0x60); // enable vblank
 }
 
-int ff = 0;
-
-void twister() {
-	vdp_copy_command cmd;
-	int y;
-
-	vdp_register(8,0x2); // no sprites
-
-	cmd.size_x = 70;
-	cmd.size_y = 2;
-	cmd.data = 0;
-	cmd.argument = 0x04; // from 70xY to left
-	cmd.command = 0xe0; // vram to vram, y only
-	cmd.source_x = 70;
-	cmd.dest_x = 70;
-
-	for (y = 0; y < 212; y+=2) {
-		cmd.source_y = ((sintab[(ff+(y>>1)) & 255])>>1)+320;
-		cmd.dest_y = y;
-		vdp_copier(&cmd);
-	}
-
-	//msx2_palette(9,vbicount>>2,vbicount>>2,vbicount>>2);
-	msx2_palette(4,ff>>2,ff>>3,ff>>2);
-
-	ff+=4;
-}
-
-
-int bulbflipper = 1;
-
-int ff1,ff2 = 0;
-
-void bulbs() {
-	vdp_copy_command cmd;
-	int y;
-
-	if(bulbflipper == 1) {
-		cmd.size_x = 72;
-		cmd.size_y = 8;
-		cmd.data = 0;
-		cmd.argument = 0x04; // from 72xY to left
-		cmd.command = 0xe0; // vram to vram, y only
-		cmd.source_x = 72;
-		cmd.dest_x = 72;
-
-		for (y = 0; y < 212; y+=8) {
-			cmd.source_y = ((sintab[(ff1+(y)) & 255])>>1)+320;
-			cmd.dest_y = y;
-			vdp_copier(&cmd);
-		}
-		ff1+=4;
-
-	} else {
-
-		cmd.size_x = 72;
-		cmd.size_y = 8;
-		cmd.data = 0;
-		cmd.argument = 0x00; // from 182xY to right
-		cmd.command = 0xe0; // vram to vram, y only
-		cmd.source_x = 182;
-		cmd.dest_x = 182;
-
-		for (y = 0; y < 212; y+=8) {
-			cmd.source_y = ((sintab[(ff2+(y>>1)) & 255])>>1)+320;
-			cmd.dest_y = y;
-			vdp_copier(&cmd);
-		}
-		ff2+=3;
-	}
-
-	bulbflipper = -bulbflipper;
-
-}
 
 
 
@@ -443,7 +378,7 @@ void do_letter(char cc) {
 	vdp_copy_command cmd;
 	int cidx = cc - 65;
 	cmd.source_x = 127+font_x[cidx];
-	cmd.source_y = 256+font_y[cidx];
+	cmd.source_y = 512+font_y[cidx];
 	cmd.dest_x = lx;
 	cmd.dest_y = ly;
 	cmd.size_x = font_w[cidx];
@@ -459,7 +394,7 @@ void do_letter_tall(char cc) {
 	vdp_copy_command cmd;
 	int cidx = cc - 65;
 	cmd.source_x = 127+font_x[cidx];
-	cmd.source_y = 256+font_y[cidx]-1;
+	cmd.source_y = 512+font_y[cidx]-1;
 	cmd.dest_x = lx;
 	cmd.dest_y = ly;
 	cmd.size_x = font_w[cidx];
@@ -495,15 +430,124 @@ void drawsine(char* str, uint8_t x, uint8_t y) {
 }
 
 void font() {
-	drawstr("THE QUICK BROWN FOX",74,20);
-	drawstr("JUMPS OVER THE LAZY DOG",74,29);
 
-	drawstr("the quick brown fox",74,40);
-	drawstr("jumps over the lazy dog",74,49);
-
-	drawstr("This is a test of the_emergency alert system__This is only a test__Please locate your_nearest exit and proceed_to your gate at once",74,60);
+	drawstr("DIGITAL SOUNDS SYSTEM__ IN THE HOUSE__  ON MSX__   AT REVISION__    OLDSKOOL_     DEMO_      COMPO",74,60);
 
 }
+
+
+
+int ff = 0;
+int twinited = 0;
+
+void twister() {
+	vdp_copy_command cmd;
+	int y;
+
+
+	if (twinited == 0) {
+		cmd.size_x = 256;
+		cmd.size_y = 1;
+		cmd.data = 0;
+		cmd.argument = 0x04; // from 70xY to left
+		cmd.command = 0xe0; // vram to vram, y only
+		cmd.source_x = 256;
+		cmd.dest_x = 256;
+
+		for (y = 0; y < 212; y+=1) {
+			waitVB();
+			cmd.source_y = 0;
+			cmd.dest_y = y;
+			vdp_copier(&cmd);
+		}
+
+
+		twinited = 1;
+		vdp_register(8,0x2); // no sprites
+		vdp_load_palette(twister_palette);
+		font();
+	}
+
+	cmd.size_x = 70;
+	cmd.size_y = 2;
+	cmd.data = 0;
+	cmd.argument = 0x04; // from 70xY to left
+	cmd.command = 0xe0; // vram to vram, y only
+	cmd.source_x = 70;
+	cmd.dest_x = 70;
+
+	for (y = 0; y < 212; y+=2) {
+		cmd.source_y = ((sintab[(ff+(y>>1)) & 255])>>1)+512+64;
+		cmd.dest_y = y;
+		vdp_copier(&cmd);
+	}
+
+	//msx2_palette(9,vbicount>>2,vbicount>>2,vbicount>>2);
+	msx2_palette(4,ff>>2,ff>>3,ff>>2);
+
+	ff+=4;
+}
+
+
+int bulbflipper = 1;
+
+int ff1,ff2 = 0;
+int ender = 212;
+int enderdir = -1;
+
+void bulbs() {
+	vdp_copy_command cmd;
+	int enderend;
+	int y;
+
+	ender+=enderdir;
+	if (ender < 2) enderdir = -enderdir;
+	if (ender >= 212) enderdir = -enderdir;
+
+	enderend = ender + 92;
+
+	if (enderend > 212) enderend = 212;
+
+	if(bulbflipper == 1) {
+		cmd.size_x = 72;
+		cmd.size_y = 16;
+		cmd.data = 0;
+		cmd.argument = 0x04; // from 72xY to left
+		cmd.command = 0xe0; // vram to vram, y only
+		cmd.source_x = 72;
+		cmd.dest_x = 72;
+
+		for (y = ender; y < enderend; y+=16) {
+			cmd.source_y = ((sintab[(ff1+(y)) & 255])>>1)+320;
+			cmd.dest_y = y;
+			vdp_copier(&cmd);
+		}
+		ff1+=4;
+
+	} else {
+
+		cmd.size_x = 72;
+		cmd.size_y = 16;
+		cmd.data = 0;
+		cmd.argument = 0x00; // from 182xY to right
+		cmd.command = 0xe0; // vram to vram, y only
+		cmd.source_x = 182;
+		cmd.dest_x = 182;
+
+		for (y = ender; y < enderend; y+=16) {
+			cmd.source_y = ((sintab[(ff2+(y)) & 255])>>1)+320;
+			cmd.dest_y = y;
+			vdp_copier(&cmd);
+		}
+		ff2+=4;
+	}
+
+	bulbflipper = -bulbflipper;
+
+}
+
+
+
 
 static int xo = 0;
 static int yo = 0;
@@ -612,71 +656,48 @@ void main() {
     pal_load("TWISTER PL5",32);
     vdp_load_palette(cur_palette);
 */
+    pal_load("TWISTER PL5",32);
+    memcpy(twister_palette, cur_palette, 32);
 
     pal_load("BULBS   PL5",32);
-    vdp_load_palette(cur_palette);
-/*
-	memset((uint8_t *) &packbuffer, 0, 4032);
-	raw_load("TWISTER PCK", 4032, packbuffer);
-	bitbuster(packbuffer,0x8000,VRAM_0); // to page 1
-*/
-	memset((uint8_t *) &packbuffer, 0, 2431);
-	raw_load("BULBS   PCK", 2431, packbuffer);
-	bitbuster(packbuffer,0x8000,VRAM_0); // to page 2
 
+//   	pck_load("TWISTER PCK",1962,0x8000,VRAM_0);
+    pck_load("DSSLOGO PCK",2154,0x0000,VRAM_0);
+   	pck_load("BULBS   PCK",2431,0x8000,VRAM_0);
+   	pck_load("TWISTER PCK",4032,0x0000,VRAM_1);
 
-/*
-    pal_load("LF      PL5",32);
-    vdp_load_palette(cur_palette);
-
-	memset((uint8_t *) &packbuffer, 0, 13428);
-	raw_load("LF1     PCK", 13428, packbuffer);
-	bitbuster(packbuffer,0x8000,VRAM_0); // to page 1
-
-	memset((uint8_t *) &packbuffer, 0, 14505);
-	raw_load("LF2     PCK", 14505, packbuffer);
-	bitbuster(packbuffer,0x0000,VRAM_1); // to page 2
-
-	memset((uint8_t *) &packbuffer, 0, 14480);
-	raw_load("LF3     PCK", 14480, packbuffer);
-	bitbuster(packbuffer,0x8000,VRAM_1); // to page 3
-
-*/
-
-	// cls
-	vdp_set_write_address(0, 0);
-	memset((uint8_t *) &scratch, 0, 256);
-
-	for (i = 0; i < 212; i++) {		
-		vdp_load_screen(scratch, 128);
-	}
-
-
-	bulbs();
-	bulbs();
+	//bulbs();
+	//bulbs();
 	//font();
 	//drawsine("DIGITAL SOUNDS SYSTEM",80,150);
 
+	scratch_clear();
+	vdp_load_palette(scratch);
+
 	install_isr(my_isr);
 
-
 	while (!quit) {
-		//waitVB();
+		waitVB();
 //		twister();
-		bulbs();
 
 		//do_animplay();
 		//twister();
 		//raster_effu();
-/*
-		if (vbicount < 192) { 
+
+		if (vbicount < 64) { 
 			fadein(); 
-		} else if (vbicount >= 192 && vbicount < 800) {
-			do_ymmm();
-		} else {
-			do_blocks();
+		} 
+
+		if (vbicount >= 192 && vbicount < 800) {
+			bulbs();
 		}
-*/
+
+		if (vbicount >= 800 && vbicount < 10000) {
+			twister();
+
+		}
+
+
 		if(space())
 			quit=1;
 	}
