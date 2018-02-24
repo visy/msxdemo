@@ -404,6 +404,22 @@ void do_letter(char cc) {
 	lx+=font_w[cidx]-1;
 }
 
+
+void do_letter_tall(char cc) {
+	vdp_copy_command cmd;
+	int cidx = cc - 65;
+	cmd.source_x = 127+font_x[cidx];
+	cmd.source_y = 256+font_y[cidx]-1;
+	cmd.dest_x = lx;
+	cmd.dest_y = ly;
+	cmd.size_x = font_w[cidx];
+	cmd.size_y = 10;
+	cmd.argument = 0x00;
+	cmd.command = 0x90; // logical vram to vram
+	vdp_copier(&cmd);
+	lx+=font_w[cidx]-1;
+}
+
 void drawstr(char* str, uint8_t x, uint8_t y) {
 	char* c = str;
 	lx = x;
@@ -416,14 +432,26 @@ void drawstr(char* str, uint8_t x, uint8_t y) {
 	}
 }
 
+void drawsine(char* str, uint8_t x, uint8_t y) {
+	char* c = str;
+	lx = x;
+
+	while (*c) {
+		char ltr = *c++; 
+		ly = y+(sintabx[(lx+vbicount>>1) & 255]>>4);
+		if (ltr == ' ') lx+=4;
+		else do_letter_tall(ltr);
+	}
+}
+
 void font() {
-	drawstr("THE QUICK BROWN FOX",74,40);
-	drawstr("JUMPS OVER THE LAZY DOG",74,49);
+	drawstr("THE QUICK BROWN FOX",74,20);
+	drawstr("JUMPS OVER THE LAZY DOG",74,29);
 
-	drawstr("the quick brown fox",74,60);
-	drawstr("jumps over the lazy dog",74,69);
+	drawstr("the quick brown fox",74,40);
+	drawstr("jumps over the lazy dog",74,49);
 
-	drawstr("This is a test of the_emergency alert system__This is only a test__Please locate your_nearest exit and proceed_to your gate at once",74,100);
+	drawstr("This is a test of the_emergency alert system__This is only a test__Please locate your_nearest exit and proceed_to your gate at once",74,60);
 
 }
 
@@ -602,6 +630,7 @@ void main() {
 
 		//do_animplay();
 		twister();
+		drawsine("DIGITAL SOUNDS SYSTEM",80,150);
 		//raster_effu();
 /*
 		if (vbicount < 192) { 
