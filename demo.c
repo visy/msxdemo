@@ -14,8 +14,6 @@
 extern void bitbuster(unsigned char*, uint16_t, unsigned char);
 extern void play_sample(unsigned char*, uint16_t);
 
-
-
 const unsigned short sintabx[256] = {
  120, 122, 125, 128, 131, 134, 137, 140, 143, 146, 149, 152, 154, 157, 160, 163,
  165, 168, 171, 173, 176, 179, 181, 184, 186, 189, 191, 193, 196, 198, 200, 202,
@@ -35,16 +33,22 @@ const unsigned short sintabx[256] = {
   74,  76,  79,  82,  85,  87,  90,  93,  96,  99, 102, 105, 108, 111, 114, 117
 };
 
-uint8_t packbuffer[16000] = {0};
+uint8_t packbuffer[12000] = {0};
+
+uint8_t tf1[12000] = {0};
+uint8_t tf2[12000] = {0};
 
 uint8_t scratch[128];
 uint8_t cur_palette[32];
 uint8_t block_palette[32];
 uint8_t twister_palette[32];
+uint8_t tf_palette[32];
+uint8_t boxes_palette[32];
 
 volatile int vbicount=0;
 volatile int tick=0;
 
+vdp_copy_command cmd;
 
 int isNthBitSet (unsigned char c, int n) {
     static unsigned char mask[] = {1, 2, 4, 8, 16, 32, 64, 128};
@@ -225,7 +229,6 @@ static int flipper = 0;
 static int ymmmf = 0;
 
 void do_ymmm() {
-	vdp_copy_command cmd;
 	int xo;
 	const int step = 2;
 
@@ -266,7 +269,6 @@ int btab[16] = {0};
 int flof = 0;
 
 void do_blocks() {
-	vdp_copy_command cmd;
 	int i=0;
 	int ys = 0;
 	int ye = 0;
@@ -375,7 +377,6 @@ uint8_t lx = 0;
 uint8_t ly = 0;
 
 void do_letter(char cc) {
-	vdp_copy_command cmd;
 	int cidx = cc - 65;
 	cmd.source_x = 127+font_x[cidx];
 	cmd.source_y = 512+font_y[cidx];
@@ -391,7 +392,6 @@ void do_letter(char cc) {
 
 
 void do_letter_tall(char cc) {
-	vdp_copy_command cmd;
 	int cidx = cc - 65;
 	cmd.source_x = 127+font_x[cidx];
 	cmd.source_y = 512+font_y[cidx]-1;
@@ -441,7 +441,6 @@ int ff = 0;
 int twinited = 0;
 
 void twister() {
-	vdp_copy_command cmd;
 	int y;
 
 
@@ -496,7 +495,6 @@ int ender = 212;
 int enderdir = -1;
 
 void bulbs() {
-	vdp_copy_command cmd;
 	int enderend;
 	int y;
 
@@ -553,13 +551,32 @@ static int xo = 0;
 static int yo = 0;
 static int po = 0;
 static int fffaaa = 0;
-void do_animplay() {
+
+int anim_init = 0;
+
+void animplay() {
 	uint8_t y = 0;
 	uint8_t xx = 0;
 	uint8_t dx = 0;
-	vdp_copy_command cmd;
 
-	for (y = 0; y < 106; y+=1) {
+	if (anim_init == 0) {
+
+		vdp_register(0,0);
+		vdp_register(1,0);
+
+		bitbuster(tf1,0x8000,VRAM_0);
+		bitbuster(tf2,0x0000,VRAM_1);
+
+		vdp_set_screen5();
+		vdp_register(1,0x60);
+		vdp_register(9,2); // 192 lines
+
+
+		anim_init = 1;
+		vdp_load_palette(tf_palette);
+	}
+
+	for (y = 0; y < 96; y+=1) {
 		cmd.source_x = xo;
 		cmd.source_y = 256+po+yo+(y>>1);
 		cmd.dest_x = 0;
@@ -572,37 +589,112 @@ void do_animplay() {
 		vdp_copier(&cmd);
 	}
 
-	for (y = 0; y < 106; y+=1) {
-		cmd.source_x = xo;
-		cmd.source_y = 256+po+yo+(y>>1);
-		cmd.dest_x = 128;
-		cmd.dest_y = (y<<1);
-		cmd.size_x = 128;
-		cmd.size_y = 1;
-		cmd.data = 0;
-		cmd.argument = 0x00;
-		cmd.command = 0xd2; // logical vram to vram, xor
-		vdp_copier(&cmd);
-	}
-
-
 	xo+=128;
 	if (xo >= 256) {
 		xo = 0;
-		yo+=53;
-		if (yo >= 212) { yo = 0; po+=256; }
+		yo+=48;
+		if (yo >= 192) { yo = 0; po+=256; }
 		if (po >= 768) {
 			po = 0;
 		}		
 	}
 
 
-	msx2_palette(15,3+sintab[fffaaa & 255]>>5,3,4);
-	msx2_palette(3,2+sintab[fffaaa & 255]>>5,0,0);
+//	msx2_palette(15,3+sintab[fffaaa & 255]>>5,3,4);
+//	msx2_palette(3,2+sintab[fffaaa & 255]>>5,0,0);
 	fffaaa++;
+}
+
+
+uint8_t boxes_init = 0;
+int buffer = 1;
+int dbly = 0;
+
+
+void drawbox(int box_x, int box_y, uint8_t x, uint8_t y) {
+	dbly = 0;
+
+	cmd.source_x = box_x * 42;
+	cmd.source_y = 768+box_y * 42;
+	cmd.dest_x = x;
+	cmd.dest_y = dbly+y;
+	cmd.size_x = 42;
+	cmd.size_y = 42;
+	cmd.data = 0;
+	cmd.argument = 0x00;
+	cmd.command = 0x99; // mask AND
+	vdp_copier(&cmd);
+
+	cmd.source_x = box_x * 42;
+	cmd.source_y = 768+box_y * 42;
+	cmd.dest_x = x;
+	cmd.dest_y = dbly+y;
+	cmd.size_x = 42;
+	cmd.size_y = 42;
+	cmd.data = 0;
+	cmd.argument = 0x00;
+	cmd.command = 0x9A; // IMAGE OR
+	vdp_copier(&cmd);
 
 }
 
+int bx = 256-42;
+int by = 192-42;
+int bt = 0;
+int bxx = 0;
+int byy = 0;
+int bo = 0;
+
+void boxes() {
+	int x;
+
+	if (buffer == 1) vdp_register(2,31);
+	//else vdp_register(2,63);
+
+	if (boxes_init == 0) {
+		boxes_init = 1;
+
+		cmd.size_x = 8;
+		cmd.size_y = 212;
+		cmd.data = 0;
+		cmd.argument = 0x00; // from 70xY to left
+		cmd.command = 0xd0; // vram to vram, y only
+		cmd.source_x = 248;
+		cmd.source_y = 0;
+		cmd.dest_y = 0;
+
+		for (x = 248; x >= 0; x-=8) {
+			waitVB();
+			cmd.dest_x = x;
+			cmd.dest_y = 0;
+			vdp_copier(&cmd);
+			cmd.dest_y = 256;
+			vdp_copier(&cmd);
+		}
+
+    	vdp_load_palette(boxes_palette);
+	}
+
+	bt++;
+	if (bt > 8) {
+		bt = 0;
+		if (by > 0) {
+			by-=16;
+			if (by < 212-42) drawbox(bxx,byy,bx,by);
+			bxx++;
+			if (bxx >= 4) { bxx = 0; byy++; }
+			if (byy >= 2) { byy = 0; }
+		} else {
+			bx-=21;
+			bo+=11;
+			if (bo > 192) bo = 0;
+			by=192-42+bo;
+ 		}
+	}
+
+	//buffer = -buffer;
+
+}
 
 // main ---------------------------------------------------------------------------------------------------------------------------
 // main ---------------------------------------------------------------------------------------------------------------------------
@@ -652,24 +744,31 @@ void main() {
 
     vdp_register(VDP_VOFFSET,0);
 
-/*
-    pal_load("TWISTER PL5",32);
-    vdp_load_palette(cur_palette);
-*/
     pal_load("TWISTER PL5",32);
     memcpy(twister_palette, cur_palette, 32);
+    pal_load("TF1     PL5",32);
+    memcpy(tf_palette, cur_palette, 32);
+    pal_load("BOXES   PL5",32);
+    memcpy(boxes_palette, cur_palette, 32);
+
 
     pal_load("BULBS   PL5",32);
 
-//   	pck_load("TWISTER PCK",1962,0x8000,VRAM_0);
     pck_load("DSSLOGO PCK",2154,0x0000,VRAM_0);
    	pck_load("BULBS   PCK",2431,0x8000,VRAM_0);
-   	pck_load("TWISTER PCK",4032,0x0000,VRAM_1);
 
-	//bulbs();
-	//bulbs();
-	//font();
-	//drawsine("DIGITAL SOUNDS SYSTEM",80,150);
+   	pck_load("TWISTER PCK",4032,0x0000,VRAM_1);
+   	pck_load("BOXES   PCK",3667,0x8000,VRAM_1);
+
+/*
+	memset((uint8_t *) &tf1, 0, 10981);
+	raw_load("TF1     PCK", 10981, tf1);
+
+	memset((uint8_t *) &tf2, 0, 11406);
+	raw_load("TF2     PCK", 11406, tf2);
+
+   	pck_load("TF3     PCK",11248,0x8000,VRAM_1);
+*/
 
 	scratch_clear();
 	vdp_load_palette(scratch);
@@ -678,23 +777,32 @@ void main() {
 
 	while (!quit) {
 		waitVB();
-//		twister();
-
-		//do_animplay();
-		//twister();
-		//raster_effu();
+//		animplay();
 
 		if (vbicount < 64) { 
 			fadein(); 
-		} 
+		} else {
+			boxes();
+
+		}
+/*
 
 		if (vbicount >= 192 && vbicount < 800) {
 			bulbs();
 		}
 
-		if (vbicount >= 800 && vbicount < 10000) {
+		if (vbicount >= 800 && vbicount < 1200) {
 			twister();
+		}
 
+		if (vbicount >= 1200 && vbicount < 5000) {
+			boxes();
+		}
+*/
+
+
+		if (vbicount >= 1500) {
+			//animplay();
 		}
 
 
