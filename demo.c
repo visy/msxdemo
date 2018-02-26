@@ -33,6 +33,39 @@ const unsigned short sintabx[256] = {
   74,  76,  79,  82,  85,  87,  90,  93,  96,  99, 102, 105, 108, 111, 114, 117
 };
 
+const uint8_t tri_center[192] = {
+8,10,18,16,0,2,8,10,11,9,3,1,17,19,11,9,
+10,18,16,0,2,8,10,18,19,11,9,3,1,17,19,11,
+18,16,0,2,8,10,18,16,17,19,11,9,3,1,17,19,
+16,0,2,8,10,18,16,0,1,17,19,11,9,3,1,17,
+0,2,8,10,18,16,0,2,3,1,17,19,11,9,3,1,
+2,8,10,18,16,0,2,8,9,3,1,17,19,11,9,3,
+1,11,9,17,19,3,1,11,10,0,2,18,16,8,10,0,
+3,1,11,9,17,19,3,1,0,2,18,16,8,10,0,2,
+19,3,1,11,9,17,19,3,2,18,16,8,10,0,2,18,
+17,19,3,1,11,9,17,19,18,16,8,10,0,2,18,16,
+9,17,19,3,1,11,9,17,16,8,10,0,2,18,16,8,
+11,9,17,19,3,1,11,9,8,10,0,2,18,16,8,10
+};
+
+const uint8_t tri_up[192] = {
+10,18,16,0,2,8,10,18,19,11,9,3,1,17,19,11,
+18,16,0,2,8,10,18,16,17,19,11,9,3,1,17,19,
+16,0,2,8,10,18,16,0,1,17,19,11,9,3,1,17,
+0,2,8,10,18,16,0,2,3,1,17,19,11,9,3,1,
+2,8,10,18,16,0,2,8,9,3,1,17,19,11,9,3,
+8,10,18,16,0,2,8,10,11,9,3,1,17,19,11,9,
+10,18,16,0,2,8,10,18,19,11,9,3,1,17,19,11,
+18,16,0,2,8,10,18,16,17,19,11,9,3,1,17,19,
+16,0,2,8,10,18,16,0,1,17,19,11,9,3,1,17,
+0,2,8,10,18,16,0,2,3,1,17,19,11,9,3,1,
+2,8,10,18,16,0,2,8,9,3,1,17,19,11,9,3,
+8,10,18,16,0,2,8,10,11,9,3,1,17,19,11,9
+};
+
+uint8_t tri_lookup_x[16*2] = { 0 };
+int tri_lookup_y[16*2] = { 0 };
+
 uint8_t packbuffer[12000] = {0};
 
 uint8_t tf1[12000] = {0};
@@ -768,6 +801,108 @@ void boxes() {
 
 }
 
+uint8_t tri_inited = 0;
+
+void drawtritile(uint8_t tx, int ty, uint8_t x, uint8_t y) {
+	cmd.source_x = tx;
+	cmd.source_y = ty-1;
+	cmd.dest_x = x;
+	cmd.dest_y = y;
+	cmd.size_x = 16;
+	cmd.size_y = 16;
+	cmd.data = 0;
+	cmd.argument = 0x00;
+	cmd.command = 0xd0; // HMMM
+	vdp_copier(&cmd);
+}
+
+void drawtilescreen(char* tripic) {
+	int x = 0;
+	int y = 0;
+	int i = 0;
+	while(i < 256) {
+		drawtritile(tri_lookup_x[tripic[i]],tri_lookup_y[tripic[i]],x,y);
+		x+=16;
+		if (x >= 256) {x = 0; y+=16;}
+		i++;
+	}
+
+}
+
+char tripal[9] = {
+	2,2,1,
+	1,2,3,
+	0,4,2
+};
+
+uint8_t tripaltick = 0;
+
+int triframes = 0;
+
+void tritiles() {
+	int x = 0;
+	int i = 0;
+	char r;
+	char g;
+	char b;
+
+	if (tri_inited == 0) {
+		tri_inited = 1;
+
+		cmd.size_x = 256;
+		cmd.size_y = 1;
+		cmd.data = 0;
+		cmd.argument = 0x00; // from 70xY to left
+		cmd.command = 0xd0; // vram to vram, y only
+		cmd.source_x = 0;
+		cmd.source_y = 255;
+		cmd.dest_y = 0;
+
+		for (x = 0; x < 212; x++) {
+			waitVB();
+			cmd.dest_x = 0;
+			cmd.dest_y = x;
+			vdp_copier(&cmd);
+		}
+		vdp_register(9,2); // 192 lines
+
+    	vdp_load_palette(boxes_palette);
+    	msx2_palette(15,0,0,0);
+
+		drawtilescreen(tri_center);
+
+	}
+
+
+	triframes++;
+	if (triframes == 300) {
+		drawtilescreen(tri_up);
+	}
+
+	msx2_palette(3,tripal[0],tripal[1],tripal[2]);
+	msx2_palette(13,tripal[3],tripal[4],tripal[5]);
+	msx2_palette(5,tripal[6],tripal[7],tripal[8]);
+
+
+	tripaltick++;
+	if (tripaltick > 6) {
+		// rotate pal
+		r = tripal[0];
+		g = tripal[1];
+		b = tripal[2];
+
+		for (x = 0; x < 6; x++) {
+			tripal[x] = tripal[x+3];
+		} 
+
+		tripal[6] = r;
+		tripal[7] = g;
+		tripal[8] = b;
+		tripaltick = 0;
+	}
+
+}
+
 // main ---------------------------------------------------------------------------------------------------------------------------
 // main ---------------------------------------------------------------------------------------------------------------------------
 // main ---------------------------------------------------------------------------------------------------------------------------
@@ -790,10 +925,19 @@ void main() {
 	int modes = 128; // interlace bit on
 	int loops = 0;
 	int i = 0;
+	int x = 0;
+	int y = 0;
 
 	spindown();
 
 	puts("demo init\r\n\r\n");
+
+	for (y = 0; y < 2; y++) {
+		for (x = 0; x < 16; x++) {
+			tri_lookup_x[(y*16)+x] = x * 16;
+			tri_lookup_y[(y*16)+x] = (768+129)+(y * 16);
+		}
+	}
 /*
 	puts("loading sample data\r\n");
 
@@ -836,7 +980,7 @@ void main() {
    	pck_load("BULBS   PCK",2431,0x8000,VRAM_0,1);
 
    	pck_load("TWISTER PCK",4032,0x0000,VRAM_1,1);
-   	pck_load("BOXES   PCK",3741,0x8000,VRAM_1,1);
+   	pck_load("BOXES   PCK",4500,0x8000,VRAM_1,1);
 
 
 
@@ -885,11 +1029,15 @@ void main() {
 			twister();
 		}
 
-		if (vbicount >= 1500 && vbicount < 3000) {
-			waitVB();
+		if (vbicount >= 1500 && vbicount < 2200) {
 			boxes();
 		}
 
+
+		if (vbicount >= 2200 && vbicount < 5800) {
+	    	waitVB();
+			tritiles();
+		}
 
 
 		if(space())
