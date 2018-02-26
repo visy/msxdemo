@@ -115,9 +115,6 @@ int tri_lookup_y[16*2] = { 0 };
 
 uint8_t packbuffer[12000] = {0};
 
-uint8_t tf1[12000] = {0};
-uint8_t tf2[12000] = {0};
-
 uint8_t scratch[128];
 uint8_t cur_palette[32];
 uint8_t block_palette[32];
@@ -667,8 +664,8 @@ void animplay() {
 		vdp_register(0,0);
 		vdp_register(1,0);
 
-		bitbuster(tf1,0x8000,VRAM_0);
-		bitbuster(tf2,0x0000,VRAM_1);
+//		bitbuster(tf1,0x8000,VRAM_0);
+//		bitbuster(tf2,0x0000,VRAM_1);
 
 		vdp_set_screen5();
 		vdp_register(1,0x60);
