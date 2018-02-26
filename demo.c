@@ -98,9 +98,15 @@ void color_isr(void) interrupt
 // helpers ---------------------------------------------------------------------------------------------------------------------------
 // helpers ---------------------------------------------------------------------------------------------------------------------------
 
-uint8_t ge5_load(char *file_name, uint8_t vramh, uint16_t vraml) {
+uint8_t ge5_load(char *file_name, uint8_t vramh, uint16_t vraml, int debugprint) {
 	fcb f;
 	uint8_t i;
+
+	if(debugprint == 1) {
+		puts("loading ge5file: ");
+		puts(file_name);
+		puts("\r\n");
+	}
 
 	memset((uint8_t *) &f, 0, sizeof(fcb));
 
@@ -129,8 +135,14 @@ void scratch_clear() {
 	memset((uint8_t *) &scratch, 0, 128);
 }
 
-uint8_t pal_load(char *file_name, uint8_t ss) {
+uint8_t pal_load(char *file_name, uint8_t ss, int debugprint) {
 	fcb f;
+
+	if(debugprint == 1) {
+		puts("loading palfile: ");
+		puts(file_name);
+		puts("\r\n");
+	}
 
 	memset((uint8_t *) &f, 0, sizeof(fcb));
 	scratch_clear();
@@ -161,10 +173,16 @@ void pause() {
 }
 
 
-uint8_t raw_load(char *file_name, int size, char* buffer) {
+uint8_t raw_load(char *file_name, int size, char* buffer, int debugprint) {
 	fcb f;
 	int total = 0;
 	int incr = 128;
+
+	if(debugprint == 1) {
+		puts("loading rawfile: ");
+		puts(file_name);
+		puts("\r\n");
+	}
 
 	memset((uint8_t *) &f, 0, sizeof(fcb));
 	scratch_clear();
@@ -190,9 +208,14 @@ uint8_t raw_load(char *file_name, int size, char* buffer) {
 	return 1;
 }
 
-void pck_load(char *file_name, int size, uint16_t address, int vram_offset) {
+void pck_load(char *file_name, int size, uint16_t address, int vram_offset, int debugprint) {
+	if(debugprint == 1) {
+		puts("loading pckfile: ");
+		puts(file_name);
+		puts("\r\n");
+	}
 	memset((uint8_t *) &packbuffer, 0, size);
-	raw_load(file_name, size, packbuffer);
+	raw_load(file_name, size, packbuffer,0);
 	bitbuster(packbuffer,address,vram_offset);
 }
 
@@ -609,7 +632,10 @@ void animplay() {
 uint8_t boxes_init = 0;
 int buffer = 1;
 int dbly = 0;
-
+int prevx = -1;
+int prevy;
+int prevbx;
+int prevby;
 
 void drawbox(int box_x, int box_y, uint8_t x, uint8_t y) {
 	dbly = 0;
@@ -622,34 +648,44 @@ void drawbox(int box_x, int box_y, uint8_t x, uint8_t y) {
 	cmd.size_y = 42;
 	cmd.data = 0;
 	cmd.argument = 0x00;
-	cmd.command = 0x99; // mask AND
+	cmd.command = 0x98; // TIMP sprite
 	vdp_copier(&cmd);
 
-	cmd.source_x = box_x * 42;
-	cmd.source_y = 768+box_y * 42;
-	cmd.dest_x = x;
-	cmd.dest_y = dbly+y;
-	cmd.size_x = 42;
-	cmd.size_y = 42;
-	cmd.data = 0;
-	cmd.argument = 0x00;
-	cmd.command = 0x9A; // IMAGE OR
-	vdp_copier(&cmd);
-
+	prevx = x;
+	prevy = y;
+	prevbx = box_x;
+	prevby = box_y;
 }
 
 int bx = 256-42;
-int by = 192-42;
+int by = 84;
 int bt = 0;
 int bxx = 0;
 int byy = 0;
 int bo = 0;
 
+int bonc = 0;
+int pbx = 0;
+int pbt = 0;
+
 void boxes() {
 	int x;
 
-	if (buffer == 1) vdp_register(2,31);
-	//else vdp_register(2,63);
+
+	if (bonc == 1) {
+	// draw saved
+	cmd.source_x = 0;
+	cmd.source_y = 256;
+	cmd.dest_x = pbx;
+	cmd.dest_y = pbt;
+	cmd.size_x = 42;
+	cmd.size_y = 42;
+	cmd.data = 0;
+	cmd.argument = 0x00;
+	cmd.command = 0xD0; // HMMM
+	vdp_copier(&cmd);
+
+	}
 
 	if (boxes_init == 0) {
 		boxes_init = 1;
@@ -672,15 +708,46 @@ void boxes() {
 			vdp_copier(&cmd);
 		}
 
+		drawsine("LET US STOP   WE ARE BUILDING WALLS BETWEEN",8,180);
+
     	vdp_load_palette(boxes_palette);
 	}
 
-	bt++;
-	if (bt > 8) {
+	if (bt >= 80) bt+=6;
+	if (bt < 80 && bt >= 60) bt+=5;
+	if (bt < 60 && bt >= 40) bt+=4;
+	if (bt < 40 && bt >= 10) bt+=3;
+	if (bt < 10 ) bt+=2;
+
+
+	// save rect
+	cmd.source_x = bx;
+	cmd.source_y = bt;
+	cmd.dest_x = 0;
+	cmd.dest_y = 256;
+	cmd.size_x = 42;
+	cmd.size_y = 42;
+	cmd.data = 0;
+	cmd.argument = 0x00;
+	cmd.command = 0xD0; // HMMM
+	vdp_copier(&cmd);
+
+	pbx = bx;
+	pbt = bt;
+
+	waitVB();
+
+	drawbox(bxx,byy,bx,bt);
+
+	waitVB();
+
+	bonc = 1;
+	if (bt > by) {
+
 		bt = 0;
 		if (by > 0) {
+			bonc = 0;
 			by-=16;
-			if (by < 212-42) drawbox(bxx,byy,bx,by);
 			bxx++;
 			if (bxx >= 4) { bxx = 0; byy++; }
 			if (byy >= 2) { byy = 0; }
@@ -688,7 +755,12 @@ void boxes() {
 			bx-=21;
 			bo+=11;
 			if (bo > 192) bo = 0;
-			by=192-42+bo;
+			by=84+bo;
+			if (bx <= 0) {
+				bx = 256;
+				bo = 0;
+				by = 84;
+			}
  		}
 	}
 
@@ -699,6 +771,19 @@ void boxes() {
 // main ---------------------------------------------------------------------------------------------------------------------------
 // main ---------------------------------------------------------------------------------------------------------------------------
 // main ---------------------------------------------------------------------------------------------------------------------------
+
+void do_quit() {
+    waitVB();
+    uninstall_isr();
+    PLY_Stop();
+    PLY_SendRegisters();
+
+	screen(0);
+
+	puts("demo quit\r\n\r\n");
+
+	exit(0);	
+}
 
 void main() {
 	unsigned char quit=0;
@@ -725,40 +810,51 @@ void main() {
 
 	PLY_SongPtr = (char *)0x0103;
 	PLY_Init();
-	puts("done.\n\n");
+	puts("done.\r\n");
 
+	puts("detecting vdp type...");
 	if(isvdp2())
 	{
+		puts(" vdp2 found!\r\n\r\n");
 		modes+=2; // pal
 //		msx2_palette(6,4,0,0); // Bloodier red for VDP2
+	} else {
+		puts(" vdp1 found.\r\nSorry, this demo requires a VDP2 with 128k for VRAM.\r\n\r\n");
+		do_quit();
 	}
+
+    pal_load("TWISTER PL5",32,1);
+    memcpy(twister_palette, cur_palette, 32);
+    pal_load("TF1     PL5",32,1);
+    memcpy(tf_palette, cur_palette, 32);
+    pal_load("BOXES   PL5",32,1);
+    memcpy(boxes_palette, cur_palette, 32);
+
+
+    pal_load("BULBS   PL5",32,1);
+
+   	pck_load("BULBS   PCK",2431,0x8000,VRAM_0,1);
+
+   	pck_load("TWISTER PCK",4032,0x0000,VRAM_1,1);
+   	pck_load("BOXES   PCK",3741,0x8000,VRAM_1,1);
+
+
 
 	vdp_set_screen5();
 
     vdp_register(VDP_MODE3,modes); // interlace on, screen mode pal or ntsc
+
 
 	puts("demo start\r\n");
 
 	scratch_clear();
 	vdp_load_palette(scratch);
 
+    pck_load("DSSLOGO PCK",2154,0x0000,VRAM_0,0);
+    pal_load("DSSLOGO PL5",32,1);
+    vdp_load_palette(cur_palette);
+
     vdp_register(VDP_VOFFSET,0);
-
-    pal_load("TWISTER PL5",32);
-    memcpy(twister_palette, cur_palette, 32);
-    pal_load("TF1     PL5",32);
-    memcpy(tf_palette, cur_palette, 32);
-    pal_load("BOXES   PL5",32);
-    memcpy(boxes_palette, cur_palette, 32);
-
-
-    pal_load("BULBS   PL5",32);
-
-    pck_load("DSSLOGO PCK",2154,0x0000,VRAM_0);
-   	pck_load("BULBS   PCK",2431,0x8000,VRAM_0);
-
-   	pck_load("TWISTER PCK",4032,0x0000,VRAM_1);
-   	pck_load("BOXES   PCK",3667,0x8000,VRAM_1);
 
 /*
 	memset((uint8_t *) &tf1, 0, 10981);
@@ -770,54 +866,35 @@ void main() {
    	pck_load("TF3     PCK",11248,0x8000,VRAM_1);
 */
 
-	scratch_clear();
-	vdp_load_palette(scratch);
-
 	install_isr(my_isr);
 
 	while (!quit) {
-		waitVB();
 //		animplay();
 
 		if (vbicount < 64) { 
+			waitVB();
 			fadein(); 
-		} else {
-			boxes();
-
 		}
-/*
-
 		if (vbicount >= 192 && vbicount < 800) {
+			waitVB();
 			bulbs();
 		}
 
-		if (vbicount >= 800 && vbicount < 1200) {
+		if (vbicount >= 800 && vbicount < 1500) {
+			waitVB();
 			twister();
 		}
 
-		if (vbicount >= 1200 && vbicount < 5000) {
+		if (vbicount >= 1500 && vbicount < 3000) {
+			waitVB();
 			boxes();
 		}
-*/
 
-
-		if (vbicount >= 1500) {
-			//animplay();
-		}
 
 
 		if(space())
 			quit=1;
 	}
 
-    waitVB();
-    uninstall_isr();
-    PLY_Stop();
-    PLY_SendRegisters();
-
-	screen(0);
-
-	puts("demo exit\r\n\r\n");
-
-	exit(0);
+	do_quit();
 }

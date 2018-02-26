@@ -1,7 +1,7 @@
 ;--------------------------------------------------------
 ; File Created by SDCC : free open source ANSI-C Compiler
 ; Version 2.9.0 #5416 (Mar 22 2009) (Mac OS X i386)
-; This file was generated Mon Feb 26 00:34:25 2018
+; This file was generated Mon Feb 26 16:17:51 2018
 ;--------------------------------------------------------
 	.module msxlib
 	.optsdcc -mz80
@@ -695,7 +695,7 @@ _sprite_col:
 	push	ix
 	ld	ix,#0
 	add	ix,sp
-;msxlib.c:443: vdp_poke(0x1b00+(num<<2)+3,col);
+;msxlib.c:443: vdp_poke(0x7800+(num<<2)+3,col);
 	ld	c,6 (ix)
 	ld	e,4 (ix)
 	ld	d,5 (ix)
@@ -703,7 +703,7 @@ _sprite_col:
 	rl	d
 	sla	e
 	rl	d
-	ld	hl,#0x1B03
+	ld	hl,#0x7803
 	add	hl,de
 	ex	de,hl
 	ld	a,c
@@ -725,14 +725,14 @@ _sprite_pos:
 	push	ix
 	ld	ix,#0
 	add	ix,sp
-;msxlib.c:448: vdp_poke(0x1b00+(num<<2),y);
+;msxlib.c:448: vdp_poke(0x7a00+(num<<2),y);
 	ld	c,4 (ix)
 	ld	b,5 (ix)
 	sla	c
 	rl	b
 	sla	c
 	rl	b
-	ld	hl,#0x1B00
+	ld	hl,#0x7A00
 	add	hl,bc
 	ex	de,hl
 	push	bc
@@ -744,8 +744,8 @@ _sprite_pos:
 	pop	af
 	inc	sp
 	pop	bc
-;msxlib.c:449: vdp_poke(0x1b00+(num<<2)+1,x);
-	ld	hl,#0x1B01
+;msxlib.c:449: vdp_poke(0x7a00+(num<<2)+1,x);
+	ld	hl,#0x7A01
 	add	hl,bc
 	ld	c,l
 	ld	b,h
@@ -768,14 +768,14 @@ _sprite_pat:
 	push	ix
 	ld	ix,#0
 	add	ix,sp
-;msxlib.c:454: vdp_poke(0x1b00+(num<<2)+2,pat);
+;msxlib.c:454: vdp_poke(0x7000+(num<<2)+2,pat);
 	ld	c,4 (ix)
 	ld	b,5 (ix)
 	sla	c
 	rl	b
 	sla	c
 	rl	b
-	ld	hl,#0x1B02
+	ld	hl,#0x7002
 	add	hl,bc
 	ld	c,l
 	ld	b,h

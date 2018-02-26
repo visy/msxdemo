@@ -1,7 +1,7 @@
                               1 ;--------------------------------------------------------
                               2 ; File Created by SDCC : free open source ANSI-C Compiler
                               3 ; Version 2.9.0 #5416 (Mar 22 2009) (Mac OS X i386)
-                              4 ; This file was generated Mon Feb 26 00:34:25 2018
+                              4 ; This file was generated Mon Feb 26 16:17:51 2018
                               5 ;--------------------------------------------------------
                               6 	.module msxlib
                               7 	.optsdcc -mz80
@@ -695,7 +695,7 @@
    02E7 DD E5               695 	push	ix
    02E9 DD 21 00 00         696 	ld	ix,#0
    02ED DD 39               697 	add	ix,sp
-                            698 ;msxlib.c:443: vdp_poke(0x1b00+(num<<2)+3,col);
+                            698 ;msxlib.c:443: vdp_poke(0x7800+(num<<2)+3,col);
    02EF DD 4E 06            699 	ld	c,6 (ix)
    02F2 DD 5E 04            700 	ld	e,4 (ix)
    02F5 DD 56 05            701 	ld	d,5 (ix)
@@ -703,7 +703,7 @@
    02FA CB 12               703 	rl	d
    02FC CB 23               704 	sla	e
    02FE CB 12               705 	rl	d
-   0300 21 03 1B            706 	ld	hl,#0x1B03
+   0300 21 03 78            706 	ld	hl,#0x7803
    0303 19                  707 	add	hl,de
    0304 EB                  708 	ex	de,hl
    0305 79                  709 	ld	a,c
@@ -725,14 +725,14 @@
    0311 DD E5               725 	push	ix
    0313 DD 21 00 00         726 	ld	ix,#0
    0317 DD 39               727 	add	ix,sp
-                            728 ;msxlib.c:448: vdp_poke(0x1b00+(num<<2),y);
+                            728 ;msxlib.c:448: vdp_poke(0x7a00+(num<<2),y);
    0319 DD 4E 04            729 	ld	c,4 (ix)
    031C DD 46 05            730 	ld	b,5 (ix)
    031F CB 21               731 	sla	c
    0321 CB 10               732 	rl	b
    0323 CB 21               733 	sla	c
    0325 CB 10               734 	rl	b
-   0327 21 00 1B            735 	ld	hl,#0x1B00
+   0327 21 00 7A            735 	ld	hl,#0x7A00
    032A 09                  736 	add	hl,bc
    032B EB                  737 	ex	de,hl
    032C C5                  738 	push	bc
@@ -744,8 +744,8 @@
    0336 F1                  744 	pop	af
    0337 33                  745 	inc	sp
    0338 C1                  746 	pop	bc
-                            747 ;msxlib.c:449: vdp_poke(0x1b00+(num<<2)+1,x);
-   0339 21 01 1B            748 	ld	hl,#0x1B01
+                            747 ;msxlib.c:449: vdp_poke(0x7a00+(num<<2)+1,x);
+   0339 21 01 7A            748 	ld	hl,#0x7A01
    033C 09                  749 	add	hl,bc
    033D 4D                  750 	ld	c,l
    033E 44                  751 	ld	b,h
@@ -768,14 +768,14 @@
    034D DD E5               768 	push	ix
    034F DD 21 00 00         769 	ld	ix,#0
    0353 DD 39               770 	add	ix,sp
-                            771 ;msxlib.c:454: vdp_poke(0x1b00+(num<<2)+2,pat);
+                            771 ;msxlib.c:454: vdp_poke(0x7000+(num<<2)+2,pat);
    0355 DD 4E 04            772 	ld	c,4 (ix)
    0358 DD 46 05            773 	ld	b,5 (ix)
    035B CB 21               774 	sla	c
    035D CB 10               775 	rl	b
    035F CB 21               776 	sla	c
    0361 CB 10               777 	rl	b
-   0363 21 02 1B            778 	ld	hl,#0x1B02
+   0363 21 02 70            778 	ld	hl,#0x7002
    0366 09                  779 	add	hl,bc
    0367 4D                  780 	ld	c,l
    0368 44                  781 	ld	b,h

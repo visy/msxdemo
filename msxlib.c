@@ -440,18 +440,18 @@ unsigned char vdp2_status(unsigned char reg)
 
 void sprite_col(int num,char col)
 {
-    vdp_poke(0x1b00+(num<<2)+3,col);
+    vdp_poke(0x7800+(num<<2)+3,col);
 }
 
 void sprite_pos(int num,unsigned char x,unsigned char y)
 {
-    vdp_poke(0x1b00+(num<<2),y);
-    vdp_poke(0x1b00+(num<<2)+1,x);
+    vdp_poke(0x7a00+(num<<2),y);
+    vdp_poke(0x7a00+(num<<2)+1,x);
 }
 
 void sprite_pat(int num,unsigned char pat)
 {
-    vdp_poke(0x1b00+(num<<2)+2,pat);
+    vdp_poke(0x7000+(num<<2)+2,pat);
 }
 
 void msx2_palette(char col,char r,char g,char b)
