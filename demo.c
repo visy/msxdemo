@@ -113,7 +113,7 @@ const uint8_t tri_side2[192] = {
 uint8_t tri_lookup_x[16*2] = { 0 };
 int tri_lookup_y[16*2] = { 0 };
 
-uint8_t packbuffer[12000] = {0};
+uint8_t packbuffer[11000] = {0};
 
 uint8_t scratch[128];
 uint8_t cur_palette[32];
@@ -596,6 +596,7 @@ int enderdir = -1;
 void bulbs() {
 	int enderend;
 	int y;
+	int sy = 16;
 
 	ender+=enderdir;
 	if (ender < 2) enderdir = -enderdir;
@@ -604,10 +605,11 @@ void bulbs() {
 	enderend = ender + 92;
 
 	if (enderend > 212) enderend = 212;
+	if (enderend > 212-16) sy = 16-(212-enderend);
 
 	if(bulbflipper == 1) {
 		cmd.size_x = 72;
-		cmd.size_y = 16;
+		cmd.size_y = sy;
 		cmd.data = 0;
 		cmd.argument = 0x04; // from 72xY to left
 		cmd.command = 0xe0; // vram to vram, y only
@@ -863,7 +865,7 @@ void drawtilescreen(char* tripic) {
 	int x = 0;
 	int y = 0;
 	int i = 0;
-	while(i < 256) {
+	while(i < 192) {
 		drawtritile(tri_lookup_x[tripic[i]],tri_lookup_y[tripic[i]],x,y);
 		x+=16;
 		if (x >= 256) {x = 0; y+=16;}
@@ -1020,18 +1022,7 @@ void main() {
 			tri_lookup_y[(y*16)+x] = (768+129)+(y * 16);
 		}
 	}
-/*
-	puts("loading sample data\r\n");
 
-	raw_load("SAMPLE  RAW", 32000, sample_buf);
-
-	puts("Your PSG works perfectly!\r\n");
-
-	while (loops > 0) {
-		play_sample(sample_buf+2,(51872/2)-400);
-		loops--;
-	}
-*/
 	puts("music init...");
 
 	PLY_SongPtr = (char *)0x0103;
@@ -1065,31 +1056,19 @@ void main() {
    	pck_load("BOXES   PCK",4500,0x8000,VRAM_1,1);
 
 
-
-	vdp_set_screen5();
+	scratch_clear();
+	vdp_load_palette(scratch);
 
     vdp_register(VDP_MODE3,modes); // interlace on, screen mode pal or ntsc
+	vdp_set_screen5();
 
 	scratch_clear();
 	vdp_load_palette(scratch);
 
     pck_load("DSSLOGO PCK",2154,0x0000,VRAM_0,0);
-    pal_load("DSSLOGO PL5",32,1);
-
-    vdp_register(VDP_VOFFSET,0);
+    pal_load("DSSLOGO PL5",32,0);
 
 	scratch_clear();
-
-
-/*
-	memset((uint8_t *) &tf1, 0, 10981);
-	raw_load("TF1     PCK", 10981, tf1);
-
-	memset((uint8_t *) &tf2, 0, 11406);
-	raw_load("TF2     PCK", 11406, tf2);
-
-   	pck_load("TF3     PCK",11248,0x8000,VRAM_1);
-*/
 
 	install_isr(my_isr);
 
@@ -1099,8 +1078,6 @@ void main() {
 			sceneindex++;
 			timeindex+=2;
 		}
-
-
 
 		if (vbicount >= scenetimings[timeindex] && vbicount < scenetimings[timeindex+1]) {
 			waitVB();
