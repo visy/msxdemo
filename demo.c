@@ -548,10 +548,10 @@ void twister() {
 		cmd.size_x = 256;
 		cmd.size_y = 1;
 		cmd.data = 0;
-		cmd.argument = 0x04; // from 70xY to left
-		cmd.command = 0xe0; // vram to vram, y only
-		cmd.source_x = 256;
-		cmd.dest_x = 256;
+		cmd.argument = 0x00; // from 70xY to left
+		cmd.command = 0xd0; // vram to vram, y only
+		cmd.source_x = 0;
+		cmd.dest_x = 0;
 
 		for (y = 0; y < 212; y+=1) {
 			waitVB();
@@ -562,7 +562,6 @@ void twister() {
 
 
 		twinited = 1;
-		vdp_register(8,0x2); // no sprites
 		vdp_load_palette(twister_palette);
 		font();
 	}
@@ -984,6 +983,25 @@ void do_quit() {
 	exit(0);	
 }
 
+int sceneindex = 0;
+int timeindex = 0;
+
+void (*scenepointers[5])() = {
+	fadein, 
+	bulbs, 
+	twister,
+	boxes,
+	tritiles
+};
+
+int scenetimings[10] = {
+	0, 64,
+	192, 800,
+	800, 1500,
+	1500, 2200,
+	2200, 5800
+};
+
 void main() {
 	unsigned char quit=0;
 	int modes = 128; // interlace bit on
@@ -1052,17 +1070,16 @@ void main() {
 
     vdp_register(VDP_MODE3,modes); // interlace on, screen mode pal or ntsc
 
-
-	puts("demo start\r\n");
-
 	scratch_clear();
 	vdp_load_palette(scratch);
 
     pck_load("DSSLOGO PCK",2154,0x0000,VRAM_0,0);
     pal_load("DSSLOGO PL5",32,1);
-    vdp_load_palette(cur_palette);
 
     vdp_register(VDP_VOFFSET,0);
+
+	scratch_clear();
+
 
 /*
 	memset((uint8_t *) &tf1, 0, 10981);
@@ -1077,33 +1094,18 @@ void main() {
 	install_isr(my_isr);
 
 	while (!quit) {
-//		animplay();
 
-		if (vbicount < 64) { 
+		if (vbicount >= scenetimings[timeindex+1]) {
+			sceneindex++;
+			timeindex+=2;
+		}
+
+
+
+		if (vbicount >= scenetimings[timeindex] && vbicount < scenetimings[timeindex+1]) {
 			waitVB();
-			fadein(); 
+			scenepointers[sceneindex]();
 		}
-		if (vbicount >= 192 && vbicount < 800) {
-			waitVB();
-			bulbs();
-		}
-
-		if (vbicount >= 800 && vbicount < 1500) {
-			waitVB();
-			twister();
-		}
-
-		if (vbicount >= 1500 && vbicount < 2200) {
-			boxes();
-		}
-
-
-		if (vbicount >= 2200 && vbicount < 5800) {
-	    	waitVB();
-			tritiles();
-		}
-
-
 		if(space())
 			quit=1;
 	}

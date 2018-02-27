@@ -1,0 +1,20 @@
+== REVISION 2018 msx2 demo ==
+
+effects:
+
+currently in memory: 
+====================
+
+intro - logo + sidewobblies
+twister - twister + text + pal rotate
+boxes - falling isometric boxes + text
+tritiles - 5 variants + pal rotate
+
+text = variable-width font
+
+needs add. loading / work:
+==========================
+
+animplayer - can be configured to different sizes
+musictiles - tilemap reacting to PSG volumes
+
