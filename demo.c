@@ -113,7 +113,7 @@ const uint8_t tri_side2[192] = {
 uint8_t tri_lookup_x[16*2] = { 0 };
 int tri_lookup_y[16*2] = { 0 };
 
-uint8_t packbuffer[11000] = {0};
+uint8_t packbuffer[16000] = {0};
 
 uint8_t scratch[128];
 uint8_t cur_palette[32];
@@ -626,7 +626,7 @@ void bulbs() {
 	} else {
 
 		cmd.size_x = 72;
-		cmd.size_y = 16;
+		cmd.size_y = sy;
 		cmd.data = 0;
 		cmd.argument = 0x00; // from 182xY to right
 		cmd.command = 0xe0; // vram to vram, y only
@@ -651,7 +651,7 @@ void bulbs() {
 static int xo = 0;
 static int yo = 0;
 static int po = 0;
-static int fffaaa = 0;
+static int frames = 0;
 
 int anim_init = 0;
 
@@ -662,48 +662,86 @@ void animplay() {
 
 	if (anim_init == 0) {
 
-		vdp_register(0,0);
-		vdp_register(1,0);
+		scratch_clear();
+		vdp_load_palette(scratch);
 
-//		bitbuster(tf1,0x8000,VRAM_0);
-//		bitbuster(tf2,0x0000,VRAM_1);
+		uninstall_isr();
+	    PLY_Stop();
+	    PLY_SendRegisters();
 
-		vdp_set_screen5();
-		vdp_register(1,0x60);
-		vdp_register(9,2); // 192 lines
+	   	pck_load("LF1     PCK",14089,0x0000,VRAM_0,0);
+
+		cmd.size_x = 256;
+		cmd.size_y = 212;
+		cmd.data = 0;
+		cmd.argument = 0x00;
+		cmd.command = 0xd0; 
+		cmd.source_x = 0;
+		cmd.source_y = 0;
+		cmd.dest_x = 0;
+		cmd.dest_y = 256;
+		vdp_copier(&cmd);
+
+	   	pck_load("LF2     PCK",15990,0x0000,VRAM_0,0);
+
+		cmd.size_x = 256;
+		cmd.size_y = 212;
+		cmd.data = 0;
+		cmd.argument = 0x00;
+		cmd.command = 0xd0; 
+		cmd.source_x = 0;
+		cmd.source_y = 0;
+		cmd.dest_x = 0;
+		cmd.dest_y = 512;
+		vdp_copier(&cmd);
 
 
+	   	pck_load("LF3     PCK",15006,0x0000,VRAM_0,0);
+
+		cmd.size_x = 256;
+		cmd.size_y = 212;
+		cmd.data = 0;
+		cmd.argument = 0x00;
+		cmd.command = 0xd0; 
+		cmd.source_x = 0;
+		cmd.source_y = 0;
+		cmd.dest_x = 0;
+		cmd.dest_y = 768;
+		vdp_copier(&cmd);
+
+
+		scratch_clear();
+
+		vdp_set_write_address(0, 0);
+			
+		for (y = 0; y < 212; y++) { 
+			vdp_load_screen(scratch, 128);
+		}
+
+		install_isr(my_isr);
 		anim_init = 1;
 		vdp_load_palette(tf_palette);
 	}
 
-	for (y = 0; y < 96; y+=1) {
-		cmd.source_x = xo;
-		cmd.source_y = 256+po+yo+(y>>1);
-		cmd.dest_x = 0;
-		cmd.dest_y = (y<<1);
-		cmd.size_x = 128;
-		cmd.size_y = 1;
-		cmd.data = 0;
-		cmd.argument = 0x00;
-		cmd.command = 0xD0;
-		vdp_copier(&cmd);
-	}
+		for (y = 0; y < 106; y+=1) {
+			cmd.source_x = 0;
+			cmd.source_y = 256+po+frames+(y>>1);
+			cmd.dest_x = 0;
+			cmd.dest_y = (y<<1);
+			cmd.size_x = 256;
+			cmd.size_y = 1;
+			cmd.data = 0;
+			cmd.argument = 0x00;
+			cmd.command = 0xD0;
+			vdp_copier(&cmd);
+		}
 
-	xo+=128;
-	if (xo >= 256) {
-		xo = 0;
-		yo+=48;
-		if (yo >= 192) { yo = 0; po+=256; }
+		frames+=53;
+		if (frames >= 212) { frames = 0; po+=256; }
 		if (po >= 768) {
 			po = 0;
-		}		
-	}
+		}
 
-
-//	msx2_palette(15,3+sintab[fffaaa & 255]>>5,3,4);
-//	msx2_palette(3,2+sintab[fffaaa & 255]>>5,0,0);
-	fffaaa++;
 }
 
 
@@ -988,20 +1026,22 @@ void do_quit() {
 int sceneindex = 0;
 int timeindex = 0;
 
-void (*scenepointers[5])() = {
+void (*scenepointers[6])() = {
 	fadein, 
 	bulbs, 
 	twister,
 	boxes,
-	tritiles
+	tritiles,
+	animplay
 };
 
-int scenetimings[10] = {
+int scenetimings[12] = {
 	0, 64,
 	192, 800,
 	800, 1500,
 	1500, 2200,
-	2200, 5800
+	2200, 4000,
+	4000, 15000
 };
 
 void main() {
@@ -1042,25 +1082,57 @@ void main() {
 
     pal_load("TWISTER PL5",32,1);
     memcpy(twister_palette, cur_palette, 32);
-    pal_load("TF1     PL5",32,1);
+    pal_load("LF      PL5",32,1);
     memcpy(tf_palette, cur_palette, 32);
     pal_load("BOXES   PL5",32,1);
     memcpy(boxes_palette, cur_palette, 32);
-
-
     pal_load("BULBS   PL5",32,1);
-
-   	pck_load("BULBS   PCK",2431,0x8000,VRAM_0,1);
-
-   	pck_load("TWISTER PCK",4032,0x0000,VRAM_1,1);
-   	pck_load("BOXES   PCK",4500,0x8000,VRAM_1,1);
-
 
 	scratch_clear();
 	vdp_load_palette(scratch);
 
     vdp_register(VDP_MODE3,modes); // interlace on, screen mode pal or ntsc
 	vdp_set_screen5();
+
+   	pck_load("BULBS   PCK",2431,0x0000,VRAM_0,0);
+
+	cmd.size_x = 256;
+	cmd.size_y = 212;
+	cmd.data = 0;
+	cmd.argument = 0x00;
+	cmd.command = 0xd0; 
+	cmd.source_x = 0;
+	cmd.source_y = 0;
+	cmd.dest_x = 0;
+	cmd.dest_y = 256;
+	vdp_copier(&cmd);
+
+   	pck_load("TWISTER PCK",4032,0x0000,VRAM_0,0);
+
+	cmd.size_x = 256;
+	cmd.size_y = 212;
+	cmd.data = 0;
+	cmd.argument = 0x00;
+	cmd.command = 0xd0; 
+	cmd.source_x = 0;
+	cmd.source_y = 0;
+	cmd.dest_x = 0;
+	cmd.dest_y = 512;
+	vdp_copier(&cmd);
+
+
+   	pck_load("BOXES   PCK",4500,0x0000,VRAM_0,0);
+
+	cmd.size_x = 256;
+	cmd.size_y = 212;
+	cmd.data = 0;
+	cmd.argument = 0x00;
+	cmd.command = 0xd0; 
+	cmd.source_x = 0;
+	cmd.source_y = 0;
+	cmd.dest_x = 0;
+	cmd.dest_y = 768;
+	vdp_copier(&cmd);
 
 	scratch_clear();
 	vdp_load_palette(scratch);
