@@ -947,7 +947,6 @@ void tritiles() {
 			cmd.dest_y = x;
 			vdp_copier(&cmd);
 		}
-		vdp_register(9,2); // 192 lines
 
     	vdp_load_palette(boxes_palette);
     	msx2_palette(15,0,0,0);
@@ -1046,7 +1045,6 @@ int scenetimings[12] = {
 
 void main() {
 	unsigned char quit=0;
-	int modes = 128; // interlace bit on
 	int loops = 0;
 	int i = 0;
 	int x = 0;
@@ -1069,11 +1067,10 @@ void main() {
 	PLY_Init();
 	puts("done.\r\n");
 
-	puts("detecting vdp type...");
+	puts("detecting vdp type...\r\n\r\n");
 	if(isvdp2())
 	{
-		puts(" vdp2 found!\r\n\r\n");
-		modes+=2; // pal
+		puts("vdp2 found! setting 50hz...\r\n\r\n");
 //		msx2_palette(6,4,0,0); // Bloodier red for VDP2
 	} else {
 		puts(" vdp1 found.\r\nSorry, this demo requires a VDP2 with 128k for VRAM.\r\n\r\n");
@@ -1091,7 +1088,6 @@ void main() {
 	scratch_clear();
 	vdp_load_palette(scratch);
 
-    vdp_register(VDP_MODE3,modes); // interlace on, screen mode pal or ntsc
 	vdp_set_screen5();
 
    	pck_load("BULBS   PCK",2431,0x0000,VRAM_0,0);
@@ -1141,6 +1137,8 @@ void main() {
     pal_load("DSSLOGO PL5",32,0);
 
 	scratch_clear();
+
+	vdp_register(9,130); // 50hz,212
 
 	install_isr(my_isr);
 
