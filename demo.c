@@ -709,6 +709,7 @@ void animplay() {
 		cmd.dest_y = 768;
 		vdp_copier(&cmd);
 
+		vdp_register(9,130); // 50hz,212
 
 		scratch_clear();
 
@@ -948,7 +949,10 @@ void tritiles() {
 			vdp_copier(&cmd);
 		}
 
+		vdp_register(9,2); // 50hz,192
+
     	vdp_load_palette(boxes_palette);
+
     	msx2_palette(15,0,0,0);
 
 		drawtilescreen(tri_center);
