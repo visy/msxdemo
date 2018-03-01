@@ -750,8 +750,8 @@ uint8_t boxes_init = 0;
 int buffer = 1;
 int prevx = -1;
 int prevy;
-uint8_t boxes_x[4] = {0,36,0,36};
-int boxes_y[4] = {768,768,768+36,768+36};
+uint8_t boxes_x[5] = {0,36,0,36,0};
+int boxes_y[5] = {768,768,768+36,768+36,0};
 uint8_t boxi = 0;
 int bx = 220;
 int by = 84;
@@ -779,12 +779,15 @@ int bonc = 0;
 int pbx = 0;
 int pbt = 0;
 
-int boxes_of[4] = {0,0,6,0};
+int boxes_of[5] = {0,0,6,0,0};
 uint8_t prevbox_of = 0;
 
 
 void boxes() {
+	int y;
 	int x;
+
+	if (bx < 0) return;
 
 	if (bonc == 1) {
 		// draw saved
@@ -821,16 +824,27 @@ void boxes() {
 			vdp_copier(&cmd);
 		}
 
+		for (x=0;x < 8;x++) {
+
+			for (y=0;y < 9;y++) {
+				boxes_x[4] = 0;
+				boxes_y[4] = 768+2*36;
+				boxi = 4;
+				drawbox((x*32),15+y*17);
+				boxi = 0;
+			}
+		}
+
 		drawsine("LET US STOP   WE ARE BUILDING WALLS BETWEEN",8,180);
 
     	vdp_load_palette(boxes_palette);
 	}
 
-	if (bt >= 80) bt+=6;
-	if (bt < 80 && bt >= 60) bt+=5;
-	if (bt < 60 && bt >= 40) bt+=4;
-	if (bt < 40 && bt >= 10) bt+=3;
-	if (bt < 10 ) bt+=2;
+	if (bt >= 80) bt+=7;
+	if (bt < 80 && bt >= 60) bt+=6;
+	if (bt < 60 && bt >= 40) bt+=5;
+	if (bt < 40 && bt >= 10) bt+=4;
+	if (bt < 10 ) bt+=3;
 
 	// save rect
 	cmd.source_x = bx;
@@ -848,14 +862,14 @@ void boxes() {
 	pbt = bt;
 
 
-	drawbox(bx,bt);
 
 
 	bonc = 1;
 	if (bt > by) {
-
+		bt = by;
+			drawbox(bx,bt);
 		bt = 0;
-		if (by > 0) {
+		if (by > 48) {
 			bonc = 0;
 			by-=16;
 			prevbox_of = boxes_of[boxi];
@@ -864,12 +878,17 @@ void boxes() {
 			if (boxi >= 4) boxi = 0;
 		} 
 
-		if (by <= 0) {
+		if (by <= 48) {
 			bx-=16;
-			bo+=8;
+
+			if (bx>128)bo+=8;
+			else bo-=8;
 			if (bo > 192) bo = 0;
-			by=84+bo;
+			if (bx>128)by=84+bo;
+			else by=36+36+84+bo;
  		}
+	} else {
+		drawbox(bx,bt);
 	}
 
 	//buffer = -buffer;
@@ -1112,7 +1131,7 @@ void main() {
 	vdp_copier(&cmd);
 
 
-   	pck_load("BOXES   PCK",1997,0x0000,VRAM_0,0);
+   	pck_load("BOXES   PCK",2098,0x0000,VRAM_0,0);
 	cmd.size_x = 256;
 	cmd.size_y = 212;
 	cmd.data = 0;
