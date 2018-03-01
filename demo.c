@@ -748,21 +748,21 @@ void animplay() {
 
 uint8_t boxes_init = 0;
 int buffer = 1;
-int dbly = 0;
 int prevx = -1;
 int prevy;
-int prevbx;
-int prevby;
+uint8_t boxes_x[4] = {0,36,0,36};
+int boxes_y[4] = {768,768,768+36,768+36};
+uint8_t boxi = 0;
+int bx = 220;
+int by = 84;
 
-void drawbox(int box_x, int box_y, uint8_t x, uint8_t y) {
-	dbly = 0;
-
-	cmd.source_x = box_x * 42;
-	cmd.source_y = 768+box_y * 42;
+void drawbox(uint8_t x, uint8_t y) {
+	cmd.source_x = boxes_x[boxi];
+	cmd.source_y = boxes_y[boxi];
 	cmd.dest_x = x;
-	cmd.dest_y = dbly+y;
-	cmd.size_x = 42;
-	cmd.size_y = 42;
+	cmd.dest_y = y;
+	cmd.size_x = 36;
+	cmd.size_y = 36;
 	cmd.data = 0;
 	cmd.argument = 0x00;
 	cmd.command = 0x98; // TIMP sprite
@@ -770,38 +770,34 @@ void drawbox(int box_x, int box_y, uint8_t x, uint8_t y) {
 
 	prevx = x;
 	prevy = y;
-	prevbx = box_x;
-	prevby = box_y;
 }
 
-int bx = 256-42;
-int by = 84;
 int bt = 0;
-int bxx = 0;
-int byy = 0;
 int bo = 0;
 
 int bonc = 0;
 int pbx = 0;
 int pbt = 0;
 
+int boxes_of[4] = {0,0,6,0};
+uint8_t prevbox_of = 0;
+
+
 void boxes() {
 	int x;
 
-
 	if (bonc == 1) {
-	// draw saved
-	cmd.source_x = 0;
-	cmd.source_y = 256;
-	cmd.dest_x = pbx;
-	cmd.dest_y = pbt;
-	cmd.size_x = 42;
-	cmd.size_y = 42;
-	cmd.data = 0;
-	cmd.argument = 0x00;
-	cmd.command = 0xD0; // HMMM
-	vdp_copier(&cmd);
-
+		// draw saved
+		cmd.source_x = 0;
+		cmd.source_y = 256;
+		cmd.dest_x = pbx;
+		cmd.dest_y = pbt;
+		cmd.size_x = 36;
+		cmd.size_y = 36;
+		cmd.data = 0;
+		cmd.argument = 0x00;
+		cmd.command = 0xD0; // HMMM
+		vdp_copier(&cmd);
 	}
 
 	if (boxes_init == 0) {
@@ -836,14 +832,13 @@ void boxes() {
 	if (bt < 40 && bt >= 10) bt+=3;
 	if (bt < 10 ) bt+=2;
 
-
 	// save rect
 	cmd.source_x = bx;
 	cmd.source_y = bt;
 	cmd.dest_x = 0;
 	cmd.dest_y = 256;
-	cmd.size_x = 42;
-	cmd.size_y = 42;
+	cmd.size_x = 36;
+	cmd.size_y = 36;
 	cmd.data = 0;
 	cmd.argument = 0x00;
 	cmd.command = 0xD0; // HMMM
@@ -852,11 +847,9 @@ void boxes() {
 	pbx = bx;
 	pbt = bt;
 
-	waitVB();
 
-	drawbox(bxx,byy,bx,bt);
+	drawbox(bx,bt);
 
-	waitVB();
 
 	bonc = 1;
 	if (bt > by) {
@@ -865,19 +858,17 @@ void boxes() {
 		if (by > 0) {
 			bonc = 0;
 			by-=16;
-			bxx++;
-			if (bxx >= 4) { bxx = 0; byy++; }
-			if (byy >= 2) { byy = 0; }
-		} else {
-			bx-=21;
-			bo+=11;
+			prevbox_of = boxes_of[boxi];
+			by+=prevbox_of;
+			boxi++;
+			if (boxi >= 4) boxi = 0;
+		} 
+
+		if (by <= 0) {
+			bx-=16;
+			bo+=8;
 			if (bo > 192) bo = 0;
 			by=84+bo;
-			if (bx <= 0) {
-				bx = 256;
-				bo = 0;
-				by = 84;
-			}
  		}
 	}
 
@@ -1042,7 +1033,7 @@ int scenetimings[12] = {
 	0, 64,
 	192, 800,
 	800, 1500,
-	1500, 2200,
+	1500, 5200,
 	2200, 4000,
 	4000, 15000
 };
@@ -1121,8 +1112,7 @@ void main() {
 	vdp_copier(&cmd);
 
 
-   	pck_load("BOXES   PCK",4500,0x0000,VRAM_0,0);
-
+   	pck_load("BOXES   PCK",1997,0x0000,VRAM_0,0);
 	cmd.size_x = 256;
 	cmd.size_y = 212;
 	cmd.data = 0;
