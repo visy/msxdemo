@@ -299,7 +299,7 @@ void pck_load(char *file_name, int size, uint16_t address, int vram_offset, int 
 void fadein() {
 	uint8_t i;
 
-	if (tick < 4) return;
+	if (tick < 8) return;
 
 	tick = 0;
 
@@ -840,11 +840,11 @@ void boxes() {
     	vdp_load_palette(boxes_palette);
 	}
 
-	if (bt >= 80) bt+=7;
-	if (bt < 80 && bt >= 60) bt+=6;
-	if (bt < 60 && bt >= 40) bt+=5;
-	if (bt < 40 && bt >= 10) bt+=4;
-	if (bt < 10 ) bt+=3;
+	if (bt >= 80) bt+=8;
+	if (bt < 80 && bt >= 60) bt+=7;
+	if (bt < 60 && bt >= 40) bt+=6;
+	if (bt < 40 && bt >= 10) bt+=5;
+	if (bt < 10 ) bt+=4;
 
 	// save rect
 	cmd.source_x = bx;
@@ -930,6 +930,7 @@ char tripal[9] = {
 };
 
 uint8_t tripaltick = 0;
+uint8_t tripaltick2 = 0;
 
 int triframes = 0;
 
@@ -995,13 +996,20 @@ void tritiles() {
 		drawtilescreen(tri_center);
 	}
 
+
+		msx2_palette(2,0,0,0);
+		msx2_palette(11,0,0,0);
+
+
 	msx2_palette(3,tripal[0],tripal[1],tripal[2]);
-	msx2_palette(13,tripal[3],tripal[4],tripal[5]);
-	msx2_palette(5,tripal[6],tripal[7],tripal[8]);
+	msx2_palette(14,tripal[3],tripal[4],tripal[5]);
+	msx2_palette(6,tripal[6],tripal[7],tripal[8]);
 
 
 	tripaltick++;
 	if (tripaltick > 6) {
+		tripaltick2++;
+		if (tripaltick2 > 6) tripaltick2 = 0;
 		// rotate pal
 		r = tripal[0];
 		g = tripal[1];
@@ -1017,6 +1025,58 @@ void tritiles() {
 		tripaltick = 0;
 	}
 
+}
+
+int abs (int n) {
+    const int ret[2] = { n, -n };
+    return ret [n<0];
+}
+
+int powatick = 0;
+	int powa = 0;
+	uint8_t onceclear = 255;
+void logoeffu() {
+	int y = 0;
+	int v = 0;
+
+	fadein();
+
+	v = abs(sintabx[(vbicount) & 255]>>4);
+
+	for (y = 0; y < 116; y+=2) {
+		cmd.size_x = 108;
+		cmd.size_y = 2;
+		cmd.data = 0;
+		cmd.argument = 0x00;
+		cmd.command = 0xd0; 
+		cmd.source_x = 74;
+		cmd.source_y = 256+y;
+		v+=y;
+		v -= powa;
+		if (v<0) v = 0;
+		if (v>150) v = 150;
+		cmd.dest_x = 74+v;
+		cmd.dest_y = 50+y+1;
+		vdp_copier(&cmd);
+	}
+
+	if (vbicount > 84 && onceclear > 182) {
+			cmd.size_x = 4;
+			cmd.size_y = 116;
+			cmd.data = 0;
+			cmd.argument = 0x00;
+			cmd.command = 0xd0; 
+			cmd.source_x = 20;
+			cmd.source_y = 0;
+			cmd.dest_x = onceclear;
+			cmd.dest_y = 68;
+			vdp_copier(&cmd);
+		onceclear-=4;
+	}
+
+	powatick++;
+		powa+=2;
+		powatick = 0;
 }
 
 // main ---------------------------------------------------------------------------------------------------------------------------
@@ -1040,7 +1100,7 @@ int sceneindex = 0;
 int timeindex = 0;
 
 void (*scenepointers[6])() = {
-	fadein, 
+	logoeffu,
 	bulbs, 
 	twister,
 	boxes,
@@ -1049,12 +1109,12 @@ void (*scenepointers[6])() = {
 };
 
 int scenetimings[12] = {
-	0, 64,
-	192, 800,
-	800, 1500,
-	1500, 5200,
-	2200, 4000,
-	4000, 15000
+	0, 250,
+	250, 1200,
+	1200, 2600,
+	2600, 3700,
+	3700, 4800,
+	4800, 15000
 };
 
 void main() {
@@ -1147,6 +1207,32 @@ void main() {
 	vdp_load_palette(scratch);
 
     pck_load("DSSLOGO PCK",2154,0x0000,VRAM_0,0);
+
+	cmd.size_x = 108;
+	cmd.size_y = 116;
+	cmd.data = 0;
+	cmd.argument = 0x00;
+	cmd.command = 0xd0; 
+	cmd.source_x = 75;
+	cmd.source_y = 50;
+	cmd.dest_x = 75;
+	cmd.dest_y = 256;
+	vdp_copier(&cmd);
+
+	cmd.size_x = 108;
+	cmd.size_y = 60;
+	cmd.data = 0;
+	cmd.argument = 0x00;
+	cmd.command = 0xd0; 
+	cmd.source_x = 75;
+	cmd.source_y = 256+110;
+	cmd.dest_x = 75;
+	cmd.dest_y = 40;
+	vdp_copier(&cmd);
+	cmd.dest_x = 75;
+	cmd.dest_y = 100;
+	vdp_copier(&cmd);
+
     pal_load("DSSLOGO PL5",32,0);
 
 	scratch_clear();
