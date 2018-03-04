@@ -592,15 +592,15 @@ int bulbflipper = 1;
 int ff1,ff2 = 0;
 int ender = 212;
 int enderdir = -1;
+	int sy = 16;
 
 void bulbs() {
 	int enderend;
 	int y;
-	int sy = 16;
 
 	ender+=enderdir;
-	if (ender < 2) enderdir = -enderdir;
-	if (ender >= 212) enderdir = -enderdir;
+	if (ender < 2) { enderdir = -enderdir; }
+	if (ender >= 212) { enderdir = -enderdir;  sy -= 2; }
 
 	enderend = ender + 92;
 
@@ -661,15 +661,18 @@ void animplay() {
 	uint8_t dx = 0;
 
 	if (anim_init == 0) {
+		drawsine("L O A D I N G",8,100);
 
-		scratch_clear();
-		vdp_load_palette(scratch);
 
 		uninstall_isr();
 	    PLY_Stop();
 	    PLY_SendRegisters();
 
 	   	pck_load("LF1     PCK",14089,0x0000,VRAM_0,0);
+
+
+		scratch_clear();
+		vdp_load_palette(scratch);
 
 		cmd.size_x = 256;
 		cmd.size_y = 212;
@@ -1110,11 +1113,11 @@ void (*scenepointers[6])() = {
 
 int scenetimings[12] = {
 	0, 250,
-	250, 1200,
-	1200, 2600,
-	2600, 3700,
-	3700, 4800,
-	4800, 15000
+	250, 1100,
+	1100, 2200,
+	2200, 3700,
+	3700, 5000,
+	5000, 15000
 };
 
 void main() {
