@@ -111,6 +111,8 @@ const uint8_t tri_side2[192] = {
 };
 
 uint8_t tri_lookup_x[16*2] = { 0 };
+uint8_t sixtimes[20] = { 0 };
+
 int tri_lookup_y[16*2] = { 0 };
 
 uint8_t packbuffer[16000] = {0};
@@ -898,6 +900,85 @@ void boxes() {
 
 }
 
+uint8_t initwave = 0;
+int buf = -1;
+int ffa = 0;
+void thewave() {
+
+	uint8_t x;
+	uint8_t y;
+	int px;
+	uint8_t ya = 0;
+	int bo = 0;
+
+	if (initwave == 0) {
+		initwave = 1;
+		for (y = 0; y < 212; y++) {
+			cmd.size_x = 256;
+			cmd.size_y = 2;
+			cmd.data = 0;
+			cmd.argument = 0x00; // from 70xY to left
+			cmd.command = 0xd0; // vram to vram, y only
+
+			cmd.source_x = 0;
+			cmd.source_y = 0;
+			cmd.dest_x = 0;
+			cmd.dest_y = 0+y;
+			vdp_copier(&cmd);
+			cmd.dest_y = 256+y;
+			vdp_copier(&cmd);
+			waitVB();
+		}
+
+
+	}
+
+	if (buf == -1) { bo = 0; ya = 0; }
+	else { bo = 256; ya = 6;}
+
+	cmd.size_x = 72;
+	cmd.size_y = 80;
+	cmd.data = 0;
+	cmd.argument = 0x00; // from 70xY to left
+	cmd.command = 0xd0; // vram to vram, y only
+	cmd.source_x = 178;
+	cmd.source_y = 0;
+	cmd.dest_x = 80;
+	cmd.dest_y = 58+20+bo;
+	vdp_copier(&cmd);
+
+	for (y = 4; y < 15; y+=1) {
+		for (x = 0; x < 12; x+=1) {
+
+			px=7 + (sintab[(ffa + (x<<2) + (y<<2)) & 255]>>4);
+
+			cmd.size_x = 3;
+			cmd.size_y = 20-(14-px);
+			cmd.data = 0;
+			cmd.argument = 0x00; // from 70xY to left
+			cmd.command = 0x98; // vram to vram, y only
+
+			if (px < 0) px = 0; 
+			if (px > 14) px = 14; 
+			cmd.source_x = 1+sixtimes[px];
+			cmd.source_y = 1+768+190+(15-px);
+			cmd.dest_x = 80+sixtimes[x];
+			cmd.dest_y = 58+bo+sixtimes[y]+(14-px);
+			vdp_copier(&cmd);
+		}
+	}
+
+
+	if (buf == -1) vdp_register(2, 0x1F);
+	else vdp_register(2, 0x3F);
+
+
+	buf = -buf;
+
+	ffa+=8;
+}
+
+
 uint8_t tri_inited = 0;
 
 void drawtritile(uint8_t tx, int ty, uint8_t x, uint8_t y) {
@@ -913,7 +994,27 @@ void drawtritile(uint8_t tx, int ty, uint8_t x, uint8_t y) {
 	vdp_copier(&cmd);
 }
 
+	int tilei = 0;
+	int tilex = 0;
+	int tiley = 0;
+	uint8_t tiletick = 0;
 void drawtilescreen(char* tripic) {
+	uint8_t i = 0;
+	if(tilei >= 192) return;
+
+	tiletick++;
+	if (tiletick > 6) { tiletick = 0;}
+	else return;
+	for (i=0;i<20;i++) {
+		drawtritile(tri_lookup_x[tripic[tilei]],tri_lookup_y[tripic[tilei]],tilex,tiley);
+		tilex+=16;
+		tilei++;
+		if (tilex >= 256) {tilex = 0; tiley+=16; return; }
+	}
+
+}
+
+void drawtilescreen_full(char* tripic) {
 	int x = 0;
 	int y = 0;
 	int i = 0;
@@ -953,13 +1054,15 @@ void tritiles() {
 		cmd.argument = 0x00; // from 70xY to left
 		cmd.command = 0xd0; // vram to vram, y only
 		cmd.source_x = 0;
-		cmd.source_y = 255;
+		cmd.source_y = 212;
 		cmd.dest_y = 0;
 
 		for (x = 0; x < 212; x++) {
 			waitVB();
 			cmd.dest_x = 0;
-			cmd.dest_y = x;
+			cmd.dest_y = 256+x;
+			vdp_copier(&cmd);
+			cmd.dest_y = 0+x;
 			vdp_copier(&cmd);
 		}
 
@@ -969,39 +1072,44 @@ void tritiles() {
 
     	msx2_palette(15,0,0,0);
 
-		drawtilescreen(tri_center);
+		drawtilescreen_full(tri_center);
+		vdp_register(2, 0x1f);
 
 	}
 
 
 	triframes++;
-	if (triframes == 200) {
+
+	if (triframes == 200) { tilei = 0; tilex = 0; tiley = 0; }
+	if (triframes >= 200 && triframes < 400) {
 		drawtilescreen(tri_up);
 	}
 
-	if (triframes == 400) {
+	if (triframes == 400) { tilei = 0; tilex = 0; tiley = 0; }
+	if (triframes >= 400 && triframes < 600) {
 		drawtilescreen(tri_dia);
 	}
-	if (triframes == 600) {
+
+	if (triframes == 600) { tilei = 0; tilex = 0; tiley = 0; }
+	if (triframes >= 600 && triframes < 700) {
 		drawtilescreen(tri_side1);
 	}
-	if (triframes == 700) {
+
+	if (triframes == 800) { tilei = 0; tilex = 0; tiley = 0; }
+	if (triframes >= 800 && triframes < 1000) {
 		drawtilescreen(tri_side2);
 	}
-	if (triframes == 800) {
-		drawtilescreen(tri_side1);
-	}
-	if (triframes == 900) {
-		drawtilescreen(tri_side2);
-	}
-	if (triframes == 1000) {
-		triframes = 0;
+
+	if (triframes == 1000) { tilei = 0; tilex = 0; tiley = 0; }
+	if (triframes >= 1000 && triframes < 1200) {
 		drawtilescreen(tri_center);
 	}
 
+	if (triframes > 1200) triframes = 199;
 
-		msx2_palette(2,0,0,0);
-		msx2_palette(11,0,0,0);
+
+	msx2_palette(2,0,0,0);
+	msx2_palette(11,0,0,0);
 
 
 	msx2_palette(3,tripal[0],tripal[1],tripal[2]);
@@ -1102,22 +1210,24 @@ void do_quit() {
 int sceneindex = 0;
 int timeindex = 0;
 
-void (*scenepointers[6])() = {
+void (*scenepointers[7])() = {
 	logoeffu,
 	bulbs, 
 	twister,
 	boxes,
+	thewave,
 	tritiles,
 	animplay
 };
 
-int scenetimings[12] = {
+int scenetimings[14] = {
 	0, 250,
 	250, 1100,
 	1100, 2200,
 	2200, 3700,
 	3700, 5000,
-	5000, 15000
+	5000, 7000,
+	7000, 15000
 };
 
 void main() {
@@ -1136,6 +1246,10 @@ void main() {
 			tri_lookup_x[(y*16)+x] = x * 16;
 			tri_lookup_y[(y*16)+x] = (768+129)+(y * 16);
 		}
+	}
+
+	for (x = 0; x < 20; x++) {
+		sixtimes[x] = x * 6;
 	}
 
 	puts("music init...");
@@ -1194,7 +1308,7 @@ void main() {
 	vdp_copier(&cmd);
 
 
-   	pck_load("BOXES   PCK",2258,0x0000,VRAM_0,0);
+   	pck_load("BOXES   PCK",2492,0x0000,VRAM_0,0);
 	cmd.size_x = 256;
 	cmd.size_y = 212;
 	cmd.data = 0;
