@@ -1,7 +1,7 @@
 ;--------------------------------------------------------
 ; File Created by SDCC : free open source ANSI-C Compiler
 ; Version 2.9.0 #5416 (Mar 22 2009) (Mac OS X i386)
-; This file was generated Sat Mar  3 00:25:06 2018
+; This file was generated Sat Mar  3 20:37:17 2018
 ;--------------------------------------------------------
 	.module demo
 	.optsdcc -mz80
@@ -736,8 +736,8 @@ _scenetimings::
 	ld	hl,#_scenetimings
 	call	__initrleblock
 	.db	24
-	.db	0x00, 0x00, 0xFA, 0x00, 0xFA, 0x00, 0xDC, 0x05
-	.db	0xDC, 0x05, 0xB8, 0x0B, 0xB8, 0x0B, 0x74, 0x0E
+	.db	0x00, 0x00, 0xFA, 0x00, 0xFA, 0x00, 0xB0, 0x04
+	.db	0xB0, 0x04, 0x28, 0x0A, 0x28, 0x0A, 0x74, 0x0E
 	.db	0x74, 0x0E, 0xC0, 0x12, 0xC0, 0x12, 0x98, 0x3A
 	.db	0
 ;--------------------------------------------------------
@@ -5357,9 +5357,9 @@ _boxes:
 	inc	hl
 	ld	(hl),#0x03
 ;demo.c:832: boxi = 4;
-	ld	iy,#_boxi
-	ld	0 (iy),#0x04
-;demo.c:833: drawbox((x*32),15+y*17);
+	ld	hl,#_boxi + 0
+	ld	(hl), #0x04
+;demo.c:833: drawbox((x*36),y*18);
 	ld	c,e
 	push	de
 	ld	a,c
@@ -5367,17 +5367,21 @@ _boxes:
 	add	a,a
 	add	a,a
 	add	a,a
-	add	a,a
 	add	a,e
+	add	a,a
 	pop	de
-	add	a,#0x0F
 	ld	c,a
 	ld	b,-2 (ix)
+	push	de
 	ld	a,b
-	rrca
-	rrca
-	rrca
-	and	a,#0xE0
+	ld	e,a
+	add	a,a
+	add	a,a
+	add	a,a
+	add	a,e
+	add	a,a
+	add	a,a
+	pop	de
 	ld	b,a
 	push	de
 	ld	a,c
@@ -7111,14 +7115,14 @@ _main:
 	push	hl
 	call	_vdp_copier
 	pop	af
-;demo.c:1194: pck_load("BOXES   PCK",2098,0x0000,VRAM_0,0);
+;demo.c:1194: pck_load("BOXES   PCK",2258,0x0000,VRAM_0,0);
 	ld	hl,#0x0000
 	push	hl
 	ld	l, #0x01
 	push	hl
 	ld	l, #0x00
 	push	hl
-	ld	hl,#0x0832
+	ld	hl,#0x08D2
 	push	hl
 	ld	hl,#__str_26
 	push	hl

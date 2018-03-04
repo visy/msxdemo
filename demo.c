@@ -830,7 +830,7 @@ void boxes() {
 				boxes_x[4] = 0;
 				boxes_y[4] = 768+2*36;
 				boxi = 4;
-				drawbox((x*32),15+y*17);
+				drawbox((x*36),y*18);
 				boxi = 0;
 			}
 		}
@@ -1191,7 +1191,7 @@ void main() {
 	vdp_copier(&cmd);
 
 
-   	pck_load("BOXES   PCK",2098,0x0000,VRAM_0,0);
+   	pck_load("BOXES   PCK",2258,0x0000,VRAM_0,0);
 	cmd.size_x = 256;
 	cmd.size_y = 212;
 	cmd.data = 0;
