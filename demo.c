@@ -111,7 +111,8 @@ const uint8_t tri_side2[192] = {
 };
 
 uint8_t tri_lookup_x[16*2] = { 0 };
-uint8_t sixtimes[20] = { 0 };
+int twelvetimes[26] = { 0 };
+int eighttimes[26] = { 0 };
 
 int tri_lookup_y[16*2] = { 0 };
 
@@ -903,6 +904,8 @@ void boxes() {
 uint8_t initwave = 0;
 int buf = -1;
 int ffa = 0;
+uint8_t waveytab[6] = {25,25,25,25,25,28};
+
 void thewave() {
 
 	uint8_t x;
@@ -931,6 +934,29 @@ void thewave() {
 		}
 
 
+		for (y = 9; y < 15; y+=1) {
+			for (x = 0; x < 21; x+=1) {
+				if (x > 6 && x < 13) continue; 
+
+				if (x <= 6) px=7 + (sintab[(105 + (x<<3) + (y<<3)) & 255]>>4);
+				if (x >= 13) px=7 + (sintab[(105 + ((23+x)<<3) + ((19+y)<<3)) & 255]>>4);
+
+				cmd.size_x = 11;
+				cmd.size_y = 28-(14-px);
+				cmd.data = 0;
+				cmd.argument = 0x00; // from 70xY to left
+				cmd.command = 0x98; // vram to vram, y only
+
+				cmd.source_x = twelvetimes[px];
+				cmd.source_y = 768+183+(15-px);
+				cmd.dest_x = 0+twelvetimes[x];
+				cmd.dest_y = 0+bo+(eighttimes[y]+4)+(14-px);
+				vdp_copier(&cmd);
+				cmd.dest_y = 256+bo+(eighttimes[y]+4)+(14-px);
+				vdp_copier(&cmd);
+			}
+		}
+
 	}
 
 	if (buf == -1) { bo = 0; ya = 0; }
@@ -943,27 +969,27 @@ void thewave() {
 	cmd.command = 0xd0; // vram to vram, y only
 	cmd.source_x = 178;
 	cmd.source_y = 0;
-	cmd.dest_x = 80;
-	cmd.dest_y = 58+20+bo;
+	cmd.dest_x = 84;
+	cmd.dest_y = 72+bo;
 	vdp_copier(&cmd);
 
-	for (y = 4; y < 15; y+=1) {
-		for (x = 0; x < 12; x+=1) {
+	for (y = 0; y < 6; y+=1) {
+		for (x = 0; x < 6; x+=1) {
 
 			px=7 + (sintab[(ffa + (x<<2) + (y<<2)) & 255]>>4);
+			if (px < 0) px = 0; 
+			if (px > 14) px = 14; 
 
-			cmd.size_x = 3;
-			cmd.size_y = 20-(14-px);
+			cmd.size_x = 12;
+			cmd.size_y = waveytab[y]-(14-px);
 			cmd.data = 0;
 			cmd.argument = 0x00; // from 70xY to left
 			cmd.command = 0x98; // vram to vram, y only
 
-			if (px < 0) px = 0; 
-			if (px > 14) px = 14; 
-			cmd.source_x = 1+sixtimes[px];
-			cmd.source_y = 1+768+190+(15-px);
-			cmd.dest_x = 80+sixtimes[x];
-			cmd.dest_y = 58+bo+sixtimes[y]+(14-px);
+			cmd.source_x = twelvetimes[px];
+			cmd.source_y = 768+183+(15-px);
+			cmd.dest_x = 84+twelvetimes[x];
+			cmd.dest_y = 72+bo+(eighttimes[y]+4)+(14-px);
 			vdp_copier(&cmd);
 		}
 	}
@@ -1248,8 +1274,9 @@ void main() {
 		}
 	}
 
-	for (x = 0; x < 20; x++) {
-		sixtimes[x] = x * 6;
+	for (x = 0; x < 26; x++) {
+		twelvetimes[x] = x * 12;
+		eighttimes[x] = x * 8;
 	}
 
 	puts("music init...");
@@ -1308,7 +1335,7 @@ void main() {
 	vdp_copier(&cmd);
 
 
-   	pck_load("BOXES   PCK",2492,0x0000,VRAM_0,0);
+   	pck_load("BOXES   PCK",2731,0x0000,VRAM_0,0);
 	cmd.size_x = 256;
 	cmd.size_y = 212;
 	cmd.data = 0;
