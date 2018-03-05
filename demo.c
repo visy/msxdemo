@@ -904,7 +904,6 @@ void boxes() {
 uint8_t initwave = 0;
 int buf = -1;
 int ffa = 0;
-uint8_t waveytab[6] = {25,25,25,25,25,28};
 
 void thewave() {
 
@@ -973,7 +972,7 @@ void thewave() {
 	cmd.dest_y = 72+bo;
 	vdp_copier(&cmd);
 
-	for (y = 0; y < 6; y+=1) {
+	for (y = 0; y < 5; y+=1) {
 		for (x = 0; x < 6; x+=1) {
 
 			px=7 + (sintab[(ffa + (x<<2) + (y<<2)) & 255]>>4);
@@ -981,17 +980,36 @@ void thewave() {
 			if (px > 14) px = 14; 
 
 			cmd.size_x = 12;
-			cmd.size_y = waveytab[y]-(14-px);
+			cmd.size_y = 11;
 			cmd.data = 0;
 			cmd.argument = 0x00; // from 70xY to left
 			cmd.command = 0x98; // vram to vram, y only
 
 			cmd.source_x = twelvetimes[px];
-			cmd.source_y = 768+183+(15-px);
+			cmd.source_y = 768+183+16-px;
 			cmd.dest_x = 84+twelvetimes[x];
 			cmd.dest_y = 72+bo+(eighttimes[y]+4)+(14-px);
 			vdp_copier(&cmd);
 		}
+	}
+
+	y = 5;
+	for (x = 0; x < 6; x+=1) {
+		px=7 + (sintab[(ffa + (x<<2) + (y<<2)) & 255]>>4);
+		if (px < 0) px = 0; 
+		if (px > 14) px = 14; 
+
+		cmd.size_x = 12;
+		cmd.size_y = 27-(14-px);
+		cmd.data = 0;
+		cmd.argument = 0x00; // from 70xY to left
+		cmd.command = 0x98; // vram to vram, y only
+
+		cmd.source_x = twelvetimes[px];
+		cmd.source_y = 768+183+ 16-px;
+		cmd.dest_x = 84+twelvetimes[x];
+		cmd.dest_y = 72+bo+(eighttimes[y]+4)+(14-px);
+		vdp_copier(&cmd);
 	}
 
 
