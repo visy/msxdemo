@@ -665,18 +665,22 @@ void animplay() {
 	uint8_t dx = 0;
 
 	if (anim_init == 0) {
-		drawsine("L O A D I N G",8,100);
+		drawsine("L O A D I N G",8,180);
 
 
 		uninstall_isr();
 	    PLY_Stop();
 	    PLY_SendRegisters();
 
-	   	pck_load("LF1     PCK",14089,0x0000,VRAM_0,0);
-
+	    pause();
+	    pause();
 
 		scratch_clear();
 		vdp_load_palette(scratch);
+
+	   	pck_load("LF1     PCK",14089,0x0000,VRAM_0,0);
+
+
 
 		cmd.size_x = 256;
 		cmd.size_y = 212;
@@ -831,6 +835,8 @@ void boxes() {
 			vdp_copier(&cmd);
 		}
 
+    	vdp_load_palette(boxes_palette);
+
 		for (x=0;x < 8;x++) {
 
 			for (y=0;y < 9;y++) {
@@ -842,9 +848,7 @@ void boxes() {
 			}
 		}
 
-		drawsine("LET US STOP   WE ARE BUILDING WALLS BETWEEN",8,180);
-
-    	vdp_load_palette(boxes_palette);
+		drawsine("LET US STOP   WE ARE BUILDING WALLS BETWEEN",8,182);
 	}
 
 	if (bt >= 80) bt+=8;
@@ -1111,9 +1115,9 @@ void tritiles() {
 			vdp_copier(&cmd);
 		}
 
-		vdp_register(9,2); // 50hz,192
-
     	vdp_load_palette(boxes_palette);
+
+		vdp_register(9,2); // 50hz,192
 
     	msx2_palette(15,0,0,0);
 
