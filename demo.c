@@ -14,7 +14,7 @@
 extern void bitbuster(unsigned char*, uint16_t, unsigned char);
 extern void play_sample(unsigned char*, uint16_t);
 
-const unsigned short sintabx[256] = {
+const uint8_t sintabx[256] = {
  120, 122, 125, 128, 131, 134, 137, 140, 143, 146, 149, 152, 154, 157, 160, 163,
  165, 168, 171, 173, 176, 179, 181, 184, 186, 189, 191, 193, 196, 198, 200, 202,
  204, 206, 208, 210, 212, 214, 216, 218, 219, 221, 222, 224, 225, 227, 228, 229,
@@ -120,6 +120,7 @@ uint8_t packbuffer[16000] = {0};
 
 uint8_t scratch[128];
 uint8_t cur_palette[32];
+uint8_t bulbs_palette[32];
 uint8_t block_palette[32];
 uint8_t twister_palette[32];
 uint8_t tf_palette[32];
@@ -1234,6 +1235,66 @@ void logoeffu() {
 		powatick = 0;
 }
 
+uint8_t initpoints = 0;
+int pointframe = 0;
+void points() {
+	uint8_t y = 0;
+	int x = 0;
+	uint8_t plusser = 0;
+	if (initpoints == 0) {
+		cmd.size_x = 256;
+		cmd.size_y = 4;
+		cmd.data = 0;
+		cmd.argument = 0x00; // from 70xY to left
+		cmd.command = 0xd0; // vram to vram, y only
+		cmd.source_x = 0;
+		cmd.dest_x = 0;
+
+		for (y = 0; y < 212; y+=4) {
+			waitVB();
+			cmd.source_y = 193;
+			cmd.dest_y = y;
+			vdp_copier(&cmd);
+		}
+
+
+		vdp_load_palette(bulbs_palette);
+
+		for (x = 0; x < 256; x+=1) {
+			y = 29;
+			cmd.data = 1+((pointframe>>2) & 0xe);
+			cmd.dest_x = x;
+			cmd.dest_y = y;
+			cmd.command = 0x50;
+			vdp_copier(&cmd);
+
+			y = 162;
+			cmd.data = 1+((pointframe>>2) & 0xe);
+			cmd.dest_y = y;
+			vdp_copier(&cmd);
+
+			pointframe+=1;
+		}
+
+		initpoints = 1;
+	}
+
+	cmd.argument = 0x0;
+
+	cmd.data = 1+((pointframe>>2) & 0xe);
+
+	for (x = 30; x < 162; x+=1) {
+		y = 64+(sintabx[(x+pointframe) & 255]>>1);
+		cmd.dest_x = y;
+		cmd.dest_y = x;
+		cmd.command = 0x53;
+		vdp_copier(&cmd);
+	}
+	pointframe+=2;
+
+}
+
+
 // main ---------------------------------------------------------------------------------------------------------------------------
 // main ---------------------------------------------------------------------------------------------------------------------------
 // main ---------------------------------------------------------------------------------------------------------------------------
@@ -1254,24 +1315,26 @@ void do_quit() {
 int sceneindex = 0;
 int timeindex = 0;
 
-void (*scenepointers[7])() = {
+void (*scenepointers[8])() = {
 	logoeffu,
 	bulbs, 
 	twister,
 	boxes,
 	thewave,
 	tritiles,
+	points,
 	animplay
 };
 
-int scenetimings[14] = {
+int scenetimings[16] = {
 	0, 250,
 	250, 1100,
 	1100, 2200,
 	2200, 3700,
 	3700, 5000,
 	5000, 7000,
-	7000, 15000
+	7000, 8000,
+	8000, 15000
 };
 
 void main() {
@@ -1320,6 +1383,7 @@ void main() {
     pal_load("BOXES   PL5",32,1);
     memcpy(boxes_palette, cur_palette, 32);
     pal_load("BULBS   PL5",32,1);
+    memcpy(bulbs_palette, cur_palette, 32);
 
 	scratch_clear();
 	vdp_load_palette(scratch);
