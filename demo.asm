@@ -1,7 +1,7 @@
 ;--------------------------------------------------------
 ; File Created by SDCC : free open source ANSI-C Compiler
 ; Version 2.9.0 #5416 (Mar 22 2009) (Mac OS X i386)
-; This file was generated Fri Mar 23 14:30:09 2018
+; This file was generated Fri Mar 23 17:57:55 2018
 ;--------------------------------------------------------
 	.module demo
 	.optsdcc -mz80
@@ -731,82 +731,82 @@ _timeindex::
 	ld	0 (iy),#0x00
 	ld	iy,#_ffa
 	ld	1 (iy),#0x00
-;demo.c:1202: uint8_t tri_inited = 0;
+;demo.c:1204: uint8_t tri_inited = 0;
 	ld	iy,#_tri_inited
 	ld	0 (iy),#0x00
-;demo.c:1217: int tilei = 0;
+;demo.c:1219: int tilei = 0;
 	ld	iy,#_tilei
 	ld	0 (iy),#0x00
 	ld	iy,#_tilei
 	ld	1 (iy),#0x00
-;demo.c:1218: int tilex = 0;
+;demo.c:1220: int tilex = 0;
 	ld	iy,#_tilex
 	ld	0 (iy),#0x00
 	ld	iy,#_tilex
 	ld	1 (iy),#0x00
-;demo.c:1219: int tiley = 0;
+;demo.c:1221: int tiley = 0;
 	ld	iy,#_tiley
 	ld	0 (iy),#0x00
 	ld	iy,#_tiley
 	ld	1 (iy),#0x00
-;demo.c:1220: uint8_t tiletick = 0;
+;demo.c:1222: uint8_t tiletick = 0;
 	ld	iy,#_tiletick
 	ld	0 (iy),#0x00
-;demo.c:1250: char tripal[9] = {
+;demo.c:1252: char tripal[9] = {
 	ld	hl,#_tripal
 	call	__initrleblock
 	.db	9
 	.db	0x02, 0x02, 0x01, 0x01, 0x02, 0x03, 0x00, 0x04
 	.db	0x02
 	.db	0
-;demo.c:1256: uint8_t tripaltick = 0;
+;demo.c:1258: uint8_t tripaltick = 0;
 	ld	iy,#_tripaltick
 	ld	0 (iy),#0x00
-;demo.c:1257: uint8_t tripaltick2 = 0;
+;demo.c:1259: uint8_t tripaltick2 = 0;
 	ld	iy,#_tripaltick2
 	ld	0 (iy),#0x00
-;demo.c:1259: int triframes = 0;
+;demo.c:1261: int triframes = 0;
 	ld	iy,#_triframes
 	ld	0 (iy),#0x00
 	ld	iy,#_triframes
 	ld	1 (iy),#0x00
-;demo.c:1401: int powatick = 0;
+;demo.c:1415: int powatick = 0;
 	ld	iy,#_powatick
 	ld	0 (iy),#0x00
 	ld	iy,#_powatick
 	ld	1 (iy),#0x00
-;demo.c:1402: int powa = 0;
+;demo.c:1416: int powa = 0;
 	ld	iy,#_powa
 	ld	0 (iy),#0x00
 	ld	iy,#_powa
 	ld	1 (iy),#0x00
-;demo.c:1403: uint8_t onceclear = 255;
+;demo.c:1417: uint8_t onceclear = 255;
 	ld	iy,#_onceclear
 	ld	0 (iy),#0xFF
-;demo.c:1448: uint8_t initpoints = 0;
+;demo.c:1462: uint8_t initpoints = 0;
 	ld	iy,#_initpoints
 	ld	0 (iy),#0x00
-;demo.c:1449: int pointframe = 0;
+;demo.c:1463: int pointframe = 0;
 	ld	iy,#_pointframe
 	ld	0 (iy),#0x00
 	ld	iy,#_pointframe
 	ld	1 (iy),#0x00
-;demo.c:1452: int greetindex = 0;
+;demo.c:1466: int greetindex = 0;
 	ld	iy,#_greetindex
 	ld	0 (iy),#0x00
 	ld	iy,#_greetindex
 	ld	1 (iy),#0x00
-;demo.c:1530: int bigtextp = 0;
+;demo.c:1546: int bigtextp = 0;
 	ld	iy,#_bigtextp
 	ld	0 (iy),#0x00
 	ld	iy,#_bigtextp
 	ld	1 (iy),#0x00
-;demo.c:1594: int sceneindex = 0;
+;demo.c:1610: int sceneindex = 0;
 	ld	iy,#_sceneindex
 	ld	0 (iy),#0x00
 	ld	iy,#_sceneindex
 	ld	1 (iy),#0x00
-;demo.c:1595: int timeindex = 0;
+;demo.c:1611: int timeindex = 0;
 	ld	iy,#_timeindex
 	ld	0 (iy),#0x00
 	ld	iy,#_timeindex
@@ -5634,7 +5634,7 @@ _twister:
 	ld	-1 (ix),a
 	jp	00107$
 00110$:
-;demo.c:757: msx2_palette(4,ff>>2,ff>>3,ff>>2);
+;demo.c:757: msx2_palette(4,PLY_PSGReg8+ff>>2,PLY_PSGReg9+ff>>3,ff>>2);
 	ld	hl,#_ff + 0
 	ld	c,(hl)
 	ld	hl,#_ff + 1
@@ -5643,10 +5643,17 @@ _twister:
 	rr	c
 	sra	b
 	rr	c
-	ld	hl,#_ff + 0
+	ld	hl,#_PLY_PSGReg9 + 0
 	ld	e,(hl)
-	ld	hl,#_ff + 1
-	ld	d,(hl)
+	ld	d,#0x00
+	ld	hl,#_ff
+	ld	a,e
+	add	a,(hl)
+	ld	e,a
+	ld	a,d
+	inc	hl
+	adc	a,(hl)
+	ld	d,a
 	sra	d
 	rr	e
 	sra	d
@@ -5654,14 +5661,29 @@ _twister:
 	sra	d
 	rr	e
 	ld	b,e
+	ld	hl,#_PLY_PSGReg8 + 0
+	ld	e,(hl)
+	ld	d,#0x00
+	ld	hl,#_ff
+	ld	a,e
+	add	a,(hl)
+	ld	e,a
+	ld	a,d
+	inc	hl
+	adc	a,(hl)
+	ld	d,a
+	sra	d
+	rr	e
+	sra	d
+	rr	e
 	ld	a,c
 	push	af
 	inc	sp
 	push	bc
 	inc	sp
-	ld	b,c
-	ld	c,#0x04
-	push	bc
+	ld	d,e
+	ld	e,#0x04
+	push	de
 	call	_msx2_palette
 	pop	af
 	pop	af
@@ -7265,65 +7287,65 @@ _thewave:
 	push	ix
 	ld	ix,#0
 	add	ix,sp
-	ld	hl,#-9
+	ld	hl,#-11
 	add	hl,sp
 	ld	sp,hl
-;demo.c:1092: if (initwave == 0) {
+;demo.c:1093: if (initwave == 0) {
 	xor	a,a
 	ld	hl,#_initwave + 0
 	or	a,(hl)
 	jp	NZ,00113$
-;demo.c:1093: initwave = 1;
+;demo.c:1094: initwave = 1;
 	ld	hl,#_initwave + 0
 	ld	(hl), #0x01
-;demo.c:1094: for (y = 0; y < 212; y++) {
+;demo.c:1095: for (y = 0; y < 212; y++) {
 	ld	-2 (ix),#0x00
 00128$:
 	ld	a,-2 (ix)
 	sub	a,#0xD4
 	jp	NC,00131$
-;demo.c:1095: cmd.size_x = 256;
+;demo.c:1096: cmd.size_x = 256;
 	ld	de,#_cmd + 8
 	ex	de,hl
 	ld	(hl),#0x00
 	inc	hl
 	ld	(hl),#0x01
-;demo.c:1096: cmd.size_y = 2;
+;demo.c:1097: cmd.size_y = 2;
 	ld	de,#_cmd + 10
 	ex	de,hl
 	ld	(hl),#0x02
 	inc	hl
 	ld	(hl),#0x00
-;demo.c:1097: cmd.data = 0;
+;demo.c:1098: cmd.data = 0;
 	ld	de,#_cmd + 12
 	ld	a,#0x00
 	ld	(de),a
-;demo.c:1098: cmd.argument = 0x00; // from 70xY to left
+;demo.c:1099: cmd.argument = 0x00; // from 70xY to left
 	ld	de,#_cmd + 13
 	ld	a,#0x00
 	ld	(de),a
-;demo.c:1099: cmd.command = 0xd0; // vram to vram, y only
+;demo.c:1100: cmd.command = 0xd0; // vram to vram, y only
 	ld	de,#_cmd + 14
 	ld	a,#0xD0
 	ld	(de),a
-;demo.c:1101: cmd.source_x = 0;
+;demo.c:1102: cmd.source_x = 0;
 	ld	hl,#_cmd
 	ld	(hl),#0x00
 	inc	hl
 	ld	(hl),#0x00
-;demo.c:1102: cmd.source_y = 0;
+;demo.c:1103: cmd.source_y = 0;
 	ld	de,#_cmd + 2
 	ex	de,hl
 	ld	(hl),#0x00
 	inc	hl
 	ld	(hl),#0x00
-;demo.c:1103: cmd.dest_x = 0;
+;demo.c:1104: cmd.dest_x = 0;
 	ld	de,#_cmd + 4
 	ex	de,hl
 	ld	(hl),#0x00
 	inc	hl
 	ld	(hl),#0x00
-;demo.c:1104: cmd.dest_y = 0+y;
+;demo.c:1105: cmd.dest_y = 0+y;
 	ld	de,#_cmd + 6
 	ld	c,-2 (ix)
 	ld	b,#0x00
@@ -7331,14 +7353,14 @@ _thewave:
 	ld	(hl),c
 	inc	hl
 	ld	(hl),b
-;demo.c:1105: vdp_copier(&cmd);
+;demo.c:1106: vdp_copier(&cmd);
 	push	bc
 	ld	hl,#_cmd
 	push	hl
 	call	_vdp_copier
 	pop	af
 	pop	bc
-;demo.c:1106: cmd.dest_y = 256+y;
+;demo.c:1107: cmd.dest_y = 256+y;
 	ld	de,#_cmd + 6
 	ld	hl,#0x0100
 	add	hl,bc
@@ -7348,33 +7370,33 @@ _thewave:
 	ld	(hl),c
 	inc	hl
 	ld	(hl),b
-;demo.c:1107: vdp_copier(&cmd);
+;demo.c:1108: vdp_copier(&cmd);
 	ld	hl,#_cmd
 	push	hl
 	call	_vdp_copier
 	pop	af
-;demo.c:1108: waitVB();
+;demo.c:1109: waitVB();
 		halt 
-;demo.c:1094: for (y = 0; y < 212; y++) {
+;demo.c:1095: for (y = 0; y < 212; y++) {
 	inc	-2 (ix)
 	jp	00128$
 00131$:
-;demo.c:1112: for (y = 9; y < 15; y+=1) {
+;demo.c:1113: for (y = 9; y < 15; y+=1) {
 	ld	-2 (ix),#0x09
 00132$:
 	ld	a,-2 (ix)
 	sub	a,#0x0F
 	jp	NC,00113$
-;demo.c:1113: for (x = 0; x < 21; x+=1) {
+;demo.c:1114: for (x = 0; x < 21; x+=1) {
 	ld	a,-2 (ix)
 	add	a,a
-	ld	-7 (ix),a
+	ld	-9 (ix),a
 	ld	-1 (ix),#0x00
 00108$:
 	ld	a,-1 (ix)
 	sub	a,#0x15
 	jp	NC,00134$
-;demo.c:1114: if (x > 6 && x < 13) continue; 
+;demo.c:1115: if (x > 6 && x < 13) continue; 
 	ld	a,#0x06
 	sub	a,-1 (ix)
 	jr	NC,00102$
@@ -7382,7 +7404,7 @@ _thewave:
 	sub	a,#0x0D
 	jp	C,00110$
 00102$:
-;demo.c:1116: if (x <= 6) px=7 + (sintab[(105 + (x<<3) + (y<<3)) & 255]>>4);
+;demo.c:1117: if (x <= 6) px=7 + (sintab[(105 + (x<<3) + (y<<3)) & 255]>>4);
 	ld	a,#0x06
 	sub	a,-1 (ix)
 	jp	C,00105$
@@ -7437,7 +7459,7 @@ _thewave:
 	adc	a,#0x00
 	ld	-3 (ix),a
 00105$:
-;demo.c:1117: if (x >= 13) px=7 + (sintab[(105 + ((23+x)<<3) + ((19+y)<<3)) & 255]>>4);
+;demo.c:1118: if (x >= 13) px=7 + (sintab[(105 + ((23+x)<<3) + ((19+y)<<3)) & 255]>>4);
 	ld	a,-1 (ix)
 	sub	a,#0x0D
 	jp	C,00107$
@@ -7499,16 +7521,16 @@ _thewave:
 	adc	a,#0x00
 	ld	-3 (ix),a
 00107$:
-;demo.c:1119: cmd.size_x = 11;
+;demo.c:1120: cmd.size_x = 11;
 	ld	de,#_cmd + 8
 	ex	de,hl
 	ld	(hl),#0x0B
 	inc	hl
 	ld	(hl),#0x00
-;demo.c:1120: cmd.size_y = 28-(14-px);
+;demo.c:1121: cmd.size_y = 28-(14-px);
 	ld	hl,#_cmd + 10
-	ld	-6 (ix),l
-	ld	-5 (ix),h
+	ld	-8 (ix),l
+	ld	-7 (ix),h
 	ld	a,#0x0E
 	sub	a,-4 (ix)
 	ld	c,a
@@ -7521,21 +7543,21 @@ _thewave:
 	ld	a,#0x00
 	sbc	a,e
 	ld	b,a
-	ld	l,-6 (ix)
-	ld	h,-5 (ix)
+	ld	l,-8 (ix)
+	ld	h,-7 (ix)
 	ld	(hl),d
 	inc	hl
 	ld	(hl),b
-;demo.c:1121: cmd.data = 0;
+;demo.c:1122: cmd.data = 0;
 	ld	hl,#_cmd + 12
 	ld	(hl),#0x00
-;demo.c:1122: cmd.argument = 0x00; // from 70xY to left
+;demo.c:1123: cmd.argument = 0x00; // from 70xY to left
 	ld	hl,#_cmd + 13
 	ld	(hl),#0x00
-;demo.c:1123: cmd.command = 0x98; // vram to vram, y only
+;demo.c:1124: cmd.command = 0x98; // vram to vram, y only
 	ld	hl,#_cmd + 14
 	ld	(hl),#0x98
-;demo.c:1125: cmd.source_x = twelvetimes[px];
+;demo.c:1126: cmd.source_x = twelvetimes[px];
 	ld	b,-4 (ix)
 	ld	d,-3 (ix)
 	sla	b
@@ -7554,25 +7576,25 @@ _thewave:
 	ld	(hl),b
 	inc	hl
 	ld	(hl),d
-;demo.c:1126: cmd.source_y = 768+183+(15-px);
+;demo.c:1127: cmd.source_y = 768+183+(15-px);
 	inc	hl
-	ld	-6 (ix),l
-	ld	-5 (ix),h
+	ld	-8 (ix),l
+	ld	-7 (ix),h
 	ld	a,#0xC6
 	sub	a,-4 (ix)
 	ld	b,a
 	ld	a,#0x03
 	sbc	a,-3 (ix)
 	ld	d,a
-	ld	l,-6 (ix)
-	ld	h,-5 (ix)
+	ld	l,-8 (ix)
+	ld	h,-7 (ix)
 	ld	(hl),b
 	inc	hl
 	ld	(hl),d
-;demo.c:1127: cmd.dest_x = 0+twelvetimes[x];
+;demo.c:1128: cmd.dest_x = 0+twelvetimes[x];
 	ld	hl,#_cmd + 4
-	ld	-6 (ix),l
-	ld	-5 (ix),h
+	ld	-8 (ix),l
+	ld	-7 (ix),h
 	ld	a,-1 (ix)
 	add	a,a
 	add	a,#<_twelvetimes
@@ -7583,17 +7605,17 @@ _thewave:
 	ld	b,(hl)
 	inc	hl
 	ld	d,(hl)
-	ld	l,-6 (ix)
-	ld	h,-5 (ix)
+	ld	l,-8 (ix)
+	ld	h,-7 (ix)
 	ld	(hl),b
 	inc	hl
 	ld	(hl),d
-;demo.c:1128: cmd.dest_y = 0+bo+(eighttimes[y]+4)+(14-px);
+;demo.c:1129: cmd.dest_y = 0+bo+(eighttimes[y]+4)+(14-px);
 	ld	hl,#_cmd + 6
-	ld	-6 (ix),l
-	ld	-5 (ix),h
+	ld	-8 (ix),l
+	ld	-7 (ix),h
 	ld	a,#<_eighttimes
-	add	a,-7 (ix)
+	add	a,-9 (ix)
 	ld	l,a
 	ld	a,#>_eighttimes
 	adc	a,#0x00
@@ -7613,12 +7635,12 @@ _thewave:
 	ld	a,d
 	adc	a,e
 	ld	d,a
-	ld	l,-6 (ix)
-	ld	h,-5 (ix)
+	ld	l,-8 (ix)
+	ld	h,-7 (ix)
 	ld	(hl),b
 	inc	hl
 	ld	(hl),d
-;demo.c:1129: vdp_copier(&cmd);
+;demo.c:1130: vdp_copier(&cmd);
 	push	bc
 	push	de
 	ld	hl,#_cmd
@@ -7627,12 +7649,12 @@ _thewave:
 	pop	af
 	pop	de
 	pop	bc
-;demo.c:1130: cmd.dest_y = 256+bo+(eighttimes[y]+4)+(14-px);
+;demo.c:1131: cmd.dest_y = 256+bo+(eighttimes[y]+4)+(14-px);
 	ld	hl,#_cmd + 6
-	ld	-6 (ix),l
-	ld	-5 (ix),h
+	ld	-8 (ix),l
+	ld	-7 (ix),h
 	ld	a,#<_eighttimes
-	add	a,-7 (ix)
+	add	a,-9 (ix)
 	ld	l,a
 	ld	a,#>_eighttimes
 	adc	a,#0x00
@@ -7653,26 +7675,26 @@ _thewave:
 	ld	a,d
 	adc	a,e
 	ld	e,a
-	ld	l,-6 (ix)
-	ld	h,-5 (ix)
+	ld	l,-8 (ix)
+	ld	h,-7 (ix)
 	ld	(hl),c
 	inc	hl
 	ld	(hl),e
-;demo.c:1131: vdp_copier(&cmd);
+;demo.c:1132: vdp_copier(&cmd);
 	ld	hl,#_cmd
 	push	hl
 	call	_vdp_copier
 	pop	af
 00110$:
-;demo.c:1113: for (x = 0; x < 21; x+=1) {
+;demo.c:1114: for (x = 0; x < 21; x+=1) {
 	inc	-1 (ix)
 	jp	00108$
 00134$:
-;demo.c:1112: for (y = 9; y < 15; y+=1) {
+;demo.c:1113: for (y = 9; y < 15; y+=1) {
 	inc	-2 (ix)
 	jp	00132$
 00113$:
-;demo.c:1137: if (buf == -1) { bo = 0; ya = 0; }
+;demo.c:1138: if (buf == -1) { bo = 0; ya = 0; }
 	ld	a,(#_buf+0)
 	inc	a
 	jr	NZ,00188$
@@ -7685,51 +7707,51 @@ _thewave:
 	ld	bc,#0x0000
 	jr	00116$
 00115$:
-;demo.c:1138: else { bo = 256; ya = 6;}
+;demo.c:1139: else { bo = 256; ya = 6;}
 	ld	bc,#0x0100
 00116$:
-;demo.c:1140: cmd.size_x = 72;
+;demo.c:1141: cmd.size_x = 72;
 	ld	de,#_cmd + 8
 	ex	de,hl
 	ld	(hl),#0x48
 	inc	hl
 	ld	(hl),#0x00
-;demo.c:1141: cmd.size_y = 80;
+;demo.c:1142: cmd.size_y = 80;
 	ld	de,#_cmd + 10
 	ex	de,hl
 	ld	(hl),#0x50
 	inc	hl
 	ld	(hl),#0x00
-;demo.c:1142: cmd.data = 0;
+;demo.c:1143: cmd.data = 0;
 	ld	de,#_cmd + 12
 	ld	a,#0x00
 	ld	(de),a
-;demo.c:1143: cmd.argument = 0x00; // from 70xY to left
+;demo.c:1144: cmd.argument = 0x00; // from 70xY to left
 	ld	de,#_cmd + 13
 	ld	a,#0x00
 	ld	(de),a
-;demo.c:1144: cmd.command = 0xd0; // vram to vram, y only
+;demo.c:1145: cmd.command = 0xd0; // vram to vram, y only
 	ld	de,#_cmd + 14
 	ld	a,#0xD0
 	ld	(de),a
-;demo.c:1145: cmd.source_x = 178;
+;demo.c:1146: cmd.source_x = 178;
 	ld	hl,#_cmd
 	ld	(hl),#0xB2
 	inc	hl
 	ld	(hl),#0x00
-;demo.c:1146: cmd.source_y = 0;
+;demo.c:1147: cmd.source_y = 0;
 	ld	de,#_cmd + 2
 	ex	de,hl
 	ld	(hl),#0x00
 	inc	hl
 	ld	(hl),#0x00
-;demo.c:1147: cmd.dest_x = 84;
+;demo.c:1148: cmd.dest_x = 84;
 	ld	de,#_cmd + 4
 	ex	de,hl
 	ld	(hl),#0x54
 	inc	hl
 	ld	(hl),#0x00
-;demo.c:1148: cmd.dest_y = 72+bo;
+;demo.c:1149: cmd.dest_y = 72+bo;
 	ld	de,#_cmd + 6
 	ld	hl,#0x0048
 	add	hl,bc
@@ -7739,52 +7761,57 @@ _thewave:
 	ld	(hl),c
 	inc	hl
 	ld	(hl),b
-;demo.c:1149: vdp_copier(&cmd);
+;demo.c:1150: vdp_copier(&cmd);
 	push	bc
 	ld	hl,#_cmd
 	push	hl
 	call	_vdp_copier
 	pop	af
 	pop	bc
-;demo.c:1151: for (y = 0; y < 5; y+=1) {
+;demo.c:1152: lukema = ffa;
+	ld	hl,(_ffa)
+	ld	-6 (ix),l
+	ld	-5 (ix),h
+;demo.c:1153: for (y = 0; y < 5; y+=1) {
 	ld	-2 (ix),#0x00
 00140$:
 	ld	a,-2 (ix)
 	sub	a,#0x05
 	jp	NC,00143$
-;demo.c:1152: for (x = 0; x < 6; x+=1) {
+;demo.c:1154: for (x = 0; x < 6; x+=1) {
 	ld	a,-2 (ix)
 	add	a,a
-	ld	-7 (ix),a
+	ld	-9 (ix),a
 	ld	-1 (ix),#0x00
 00136$:
 	ld	a,-1 (ix)
 	sub	a,#0x06
 	jp	NC,00142$
-;demo.c:1154: px=7 + (sintab[(ffa + (x<<2) + (y<<2)) & 255]>>4);
+;demo.c:1156: px=7 + (sintab[(lukema + (x<<3) + (y<<2)) & 255]>>4);
 	ld	e,-1 (ix)
 	ld	d,#0x00
 	sla	e
 	rl	d
 	sla	e
 	rl	d
-	ld	a,(#_ffa+0)
+	sla	e
+	rl	d
+	ld	a,-6 (ix)
 	add	a,e
-	ld	-6 (ix),a
-	ld	iy,#_ffa
-	ld	a,1 (iy)
+	ld	-8 (ix),a
+	ld	a,-5 (ix)
 	adc	a,d
-	ld	-5 (ix),a
+	ld	-7 (ix),a
 	ld	e,-2 (ix)
 	ld	d,#0x00
 	sla	e
 	rl	d
 	sla	e
 	rl	d
-	ld	a,-6 (ix)
+	ld	a,-8 (ix)
 	add	a,e
 	ld	e,a
-	ld	a,-5 (ix)
+	ld	a,-7 (ix)
 	adc	a,d
 	ld	d,#0x00
 	ld	hl,#_sintab
@@ -7801,7 +7828,7 @@ _thewave:
 	ld	hl,#0x0007
 	add	hl,de
 	ld	-4 (ix),l
-;demo.c:1155: if (px < 0) px = 0; 
+;demo.c:1157: if (px < 0) px = 0; 
 	ld	-3 (ix),h
 	ld	a, h
 	bit	7,a
@@ -7809,7 +7836,7 @@ _thewave:
 	ld	-4 (ix),#0x00
 	ld	-3 (ix),#0x00
 00118$:
-;demo.c:1156: if (px > 14) px = 14; 
+;demo.c:1158: if (px > 14) px = 14; 
 	ld	a,#0x0E
 	sub	a,-4 (ix)
 	ld	a,#0x00
@@ -7818,31 +7845,31 @@ _thewave:
 	ld	-4 (ix),#0x0E
 	ld	-3 (ix),#0x00
 00120$:
-;demo.c:1158: cmd.size_x = 12;
+;demo.c:1160: cmd.size_x = 12;
 	ld	de,#_cmd + 8
 	ex	de,hl
 	ld	(hl),#0x0C
 	inc	hl
 	ld	(hl),#0x00
-;demo.c:1159: cmd.size_y = 11;
+;demo.c:1161: cmd.size_y = 11;
 	ld	de,#_cmd + 10
 	ex	de,hl
 	ld	(hl),#0x0B
 	inc	hl
 	ld	(hl),#0x00
-;demo.c:1160: cmd.data = 0;
+;demo.c:1162: cmd.data = 0;
 	ld	de,#_cmd + 12
 	ld	a,#0x00
 	ld	(de),a
-;demo.c:1161: cmd.argument = 0x00; // from 70xY to left
+;demo.c:1163: cmd.argument = 0x00; // from 70xY to left
 	ld	de,#_cmd + 13
 	ld	a,#0x00
 	ld	(de),a
-;demo.c:1162: cmd.command = 0x98; // vram to vram, y only
+;demo.c:1164: cmd.command = 0x98; // vram to vram, y only
 	ld	de,#_cmd + 14
 	ld	a,#0x98
 	ld	(de),a
-;demo.c:1164: cmd.source_x = twelvetimes[px];
+;demo.c:1166: cmd.source_x = twelvetimes[px];
 	ld	e,-4 (ix)
 	ld	d,-3 (ix)
 	sla	e
@@ -7856,25 +7883,25 @@ _thewave:
 	ld	(hl),e
 	inc	hl
 	ld	(hl),d
-;demo.c:1165: cmd.source_y = 768+183+16-px;
+;demo.c:1167: cmd.source_y = 768+183+16-px;
 	inc	hl
-	ld	-6 (ix),l
-	ld	-5 (ix),h
+	ld	-8 (ix),l
+	ld	-7 (ix),h
 	ld	a,#0xC7
 	sub	a,-4 (ix)
 	ld	e,a
 	ld	a,#0x03
 	sbc	a,-3 (ix)
 	ld	d,a
-	ld	l,-6 (ix)
-	ld	h,-5 (ix)
+	ld	l,-8 (ix)
+	ld	h,-7 (ix)
 	ld	(hl),e
 	inc	hl
 	ld	(hl),d
-;demo.c:1166: cmd.dest_x = 84+twelvetimes[x];
+;demo.c:1168: cmd.dest_x = 84+twelvetimes[x];
 	ld	hl,#_cmd + 4
-	ld	-6 (ix),l
-	ld	-5 (ix),h
+	ld	-8 (ix),l
+	ld	-7 (ix),h
 	ld	a,-1 (ix)
 	add	a,a
 	add	a,#<_twelvetimes
@@ -7888,17 +7915,17 @@ _thewave:
 	ld	hl,#0x0054
 	add	hl,de
 	ex	de,hl
-	ld	l,-6 (ix)
-	ld	h,-5 (ix)
+	ld	l,-8 (ix)
+	ld	h,-7 (ix)
 	ld	(hl),e
 	inc	hl
 	ld	(hl),d
-;demo.c:1167: cmd.dest_y = 72+bo+(eighttimes[y]+4)+(14-px);
+;demo.c:1169: cmd.dest_y = 72+bo+(eighttimes[y]+4)+(14-px);
 	ld	hl,#_cmd + 6
-	ld	-6 (ix),l
-	ld	-5 (ix),h
+	ld	-8 (ix),l
+	ld	-7 (ix),h
 	ld	a,#<_eighttimes
-	add	a,-7 (ix)
+	add	a,-9 (ix)
 	ld	l,a
 	ld	a,#>_eighttimes
 	adc	a,#0x00
@@ -7912,60 +7939,61 @@ _thewave:
 	inc	de
 	ld	a,c
 	add	a,e
-	ld	-9 (ix),a
+	ld	-11 (ix),a
 	ld	a,b
 	adc	a,d
-	ld	-8 (ix),a
+	ld	-10 (ix),a
 	ld	a,#0x0E
 	sub	a,-4 (ix)
 	ld	e,a
 	ld	a,#0x00
 	sbc	a,-3 (ix)
 	ld	d,a
-	ld	a,-9 (ix)
+	ld	a,-11 (ix)
 	add	a,e
 	ld	e,a
-	ld	a,-8 (ix)
+	ld	a,-10 (ix)
 	adc	a,d
 	ld	d,a
-	ld	l,-6 (ix)
-	ld	h,-5 (ix)
+	ld	l,-8 (ix)
+	ld	h,-7 (ix)
 	ld	(hl),e
 	inc	hl
 	ld	(hl),d
-;demo.c:1168: vdp_copier(&cmd);
+;demo.c:1170: vdp_copier(&cmd);
 	push	bc
 	ld	hl,#_cmd
 	push	hl
 	call	_vdp_copier
 	pop	af
 	pop	bc
-;demo.c:1152: for (x = 0; x < 6; x+=1) {
+;demo.c:1154: for (x = 0; x < 6; x+=1) {
 	inc	-1 (ix)
 	jp	00136$
 00142$:
-;demo.c:1151: for (y = 0; y < 5; y+=1) {
+;demo.c:1153: for (y = 0; y < 5; y+=1) {
 	inc	-2 (ix)
 	jp	00140$
 00143$:
-;demo.c:1173: for (x = 0; x < 6; x+=1) {
+;demo.c:1175: for (x = 0; x < 6; x+=1) {
 	ld	-1 (ix),#0x00
 00144$:
 	ld	a,-1 (ix)
 	sub	a,#0x06
 	jp	NC,00147$
-;demo.c:1174: px=7 + (sintab[(ffa + (x<<2) + (y<<2)) & 255]>>4);
+;demo.c:1176: px=7 + (sintab[(lukema + (x<<3) + (y<<2)) & 255]>>4);
 	ld	e,-1 (ix)
 	ld	d,#0x00
 	sla	e
 	rl	d
 	sla	e
 	rl	d
-	ld	a,(#_ffa+0)
+	sla	e
+	rl	d
+	ld	a,-6 (ix)
 	add	a,e
 	ld	e,a
-	ld	iy,#_ffa
-	ld	a,1 (iy)
+	ld	a,-5 (ix)
 	adc	a,d
 	ld	d,a
 	ld	hl,#0x0014
@@ -7986,7 +8014,7 @@ _thewave:
 	ld	hl,#0x0007
 	add	hl,de
 	ld	-4 (ix),l
-;demo.c:1175: if (px < 0) px = 0; 
+;demo.c:1177: if (px < 0) px = 0; 
 	ld	-3 (ix),h
 	ld	a, h
 	bit	7,a
@@ -7994,7 +8022,7 @@ _thewave:
 	ld	-4 (ix),#0x00
 	ld	-3 (ix),#0x00
 00122$:
-;demo.c:1176: if (px > 14) px = 14; 
+;demo.c:1178: if (px > 14) px = 14; 
 	ld	a,#0x0E
 	sub	a,-4 (ix)
 	ld	a,#0x00
@@ -8003,46 +8031,46 @@ _thewave:
 	ld	-4 (ix),#0x0E
 	ld	-3 (ix),#0x00
 00124$:
-;demo.c:1178: cmd.size_x = 12;
+;demo.c:1180: cmd.size_x = 12;
 	ld	de,#_cmd + 8
 	ex	de,hl
 	ld	(hl),#0x0C
 	inc	hl
 	ld	(hl),#0x00
-;demo.c:1179: cmd.size_y = 27-(14-px);
+;demo.c:1181: cmd.size_y = 27-(14-px);
 	ld	hl,#_cmd + 10
-	ld	-9 (ix),l
-	ld	-8 (ix),h
+	ld	-11 (ix),l
+	ld	-10 (ix),h
 	ld	a,#0x0E
 	sub	a,-4 (ix)
-	ld	-6 (ix),a
+	ld	-8 (ix),a
 	ld	a,#0x00
 	sbc	a,-3 (ix)
-	ld	-5 (ix),a
+	ld	-7 (ix),a
 	ld	a,#0x1B
-	sub	a,-6 (ix)
+	sub	a,-8 (ix)
 	ld	e,a
 	ld	a,#0x00
-	sbc	a,-5 (ix)
+	sbc	a,-7 (ix)
 	ld	d,a
-	ld	l,-9 (ix)
-	ld	h,-8 (ix)
+	ld	l,-11 (ix)
+	ld	h,-10 (ix)
 	ld	(hl),e
 	inc	hl
 	ld	(hl),d
-;demo.c:1180: cmd.data = 0;
+;demo.c:1182: cmd.data = 0;
 	ld	de,#_cmd + 12
 	ld	a,#0x00
 	ld	(de),a
-;demo.c:1181: cmd.argument = 0x00; // from 70xY to left
+;demo.c:1183: cmd.argument = 0x00; // from 70xY to left
 	ld	de,#_cmd + 13
 	ld	a,#0x00
 	ld	(de),a
-;demo.c:1182: cmd.command = 0x98; // vram to vram, y only
+;demo.c:1184: cmd.command = 0x98; // vram to vram, y only
 	ld	de,#_cmd + 14
 	ld	a,#0x98
 	ld	(de),a
-;demo.c:1184: cmd.source_x = twelvetimes[px];
+;demo.c:1186: cmd.source_x = twelvetimes[px];
 	ld	e,-4 (ix)
 	ld	d,-3 (ix)
 	sla	e
@@ -8056,25 +8084,25 @@ _thewave:
 	ld	(hl),e
 	inc	hl
 	ld	(hl),d
-;demo.c:1185: cmd.source_y = 768+183+ 16-px;
+;demo.c:1187: cmd.source_y = 768+183+ 16-px;
 	inc	hl
-	ld	-9 (ix),l
-	ld	-8 (ix),h
+	ld	-11 (ix),l
+	ld	-10 (ix),h
 	ld	a,#0xC7
 	sub	a,-4 (ix)
 	ld	e,a
 	ld	a,#0x03
 	sbc	a,-3 (ix)
 	ld	d,a
-	ld	l,-9 (ix)
-	ld	h,-8 (ix)
+	ld	l,-11 (ix)
+	ld	h,-10 (ix)
 	ld	(hl),e
 	inc	hl
 	ld	(hl),d
-;demo.c:1186: cmd.dest_x = 84+twelvetimes[x];
+;demo.c:1188: cmd.dest_x = 84+twelvetimes[x];
 	ld	hl,#_cmd + 4
-	ld	-9 (ix),l
-	ld	-8 (ix),h
+	ld	-11 (ix),l
+	ld	-10 (ix),h
 	ld	a,-1 (ix)
 	add	a,a
 	add	a,#<_twelvetimes
@@ -8088,15 +8116,15 @@ _thewave:
 	ld	hl,#0x0054
 	add	hl,de
 	ex	de,hl
-	ld	l,-9 (ix)
-	ld	h,-8 (ix)
+	ld	l,-11 (ix)
+	ld	h,-10 (ix)
 	ld	(hl),e
 	inc	hl
 	ld	(hl),d
-;demo.c:1187: cmd.dest_y = 72+bo+(eighttimes[y]+4)+(14-px);
+;demo.c:1189: cmd.dest_y = 72+bo+(eighttimes[y]+4)+(14-px);
 	ld	hl,#_cmd + 6
-	ld	-9 (ix),l
-	ld	-8 (ix),h
+	ld	-11 (ix),l
+	ld	-10 (ix),h
 	ld	de,#_eighttimes + 10
 	ex	de,hl
 	ld	e,(hl)
@@ -8113,28 +8141,28 @@ _thewave:
 	adc	a,d
 	ld	d,a
 	ld	a,e
-	add	a,-6 (ix)
+	add	a,-8 (ix)
 	ld	e,a
 	ld	a,d
-	adc	a,-5 (ix)
+	adc	a,-7 (ix)
 	ld	d,a
-	ld	l,-9 (ix)
-	ld	h,-8 (ix)
+	ld	l,-11 (ix)
+	ld	h,-10 (ix)
 	ld	(hl),e
 	inc	hl
 	ld	(hl),d
-;demo.c:1188: vdp_copier(&cmd);
+;demo.c:1190: vdp_copier(&cmd);
 	push	bc
 	ld	hl,#_cmd
 	push	hl
 	call	_vdp_copier
 	pop	af
 	pop	bc
-;demo.c:1173: for (x = 0; x < 6; x+=1) {
+;demo.c:1175: for (x = 0; x < 6; x+=1) {
 	inc	-1 (ix)
 	jp	00144$
 00147$:
-;demo.c:1192: if (buf == -1) vdp_register(2, 0x1F);
+;demo.c:1194: if (buf == -1) vdp_register(2, 0x1F);
 	ld	a,(#_buf+0)
 	inc	a
 	jr	NZ,00200$
@@ -8150,13 +8178,13 @@ _thewave:
 	pop	af
 	jr	00127$
 00126$:
-;demo.c:1193: else vdp_register(2, 0x3F);
+;demo.c:1195: else vdp_register(2, 0x3F);
 	ld	hl,#0x3F02
 	push	hl
 	call	_vdp_register
 	pop	af
 00127$:
-;demo.c:1196: buf = -buf;
+;demo.c:1198: buf = -buf;
 	xor	a,a
 	ld	iy,#_buf
 	ld	a,#0x00
@@ -8168,7 +8196,7 @@ _thewave:
 	sbc	a,1 (iy)
 	ld	hl,#_buf + 1
 	ld	(hl), a
-;demo.c:1198: ffa+=8;
+;demo.c:1200: ffa+=8;
 	ld	hl,#_ffa
 	ld	a,(hl)
 	add	a,#0x08
@@ -8191,7 +8219,7 @@ _thewave:
 	pop	ix
 	ret
 _thewave_end::
-;demo.c:1204: void drawtritile(uint8_t tx, int ty, uint8_t x, uint8_t y) {
+;demo.c:1206: void drawtritile(uint8_t tx, int ty, uint8_t x, uint8_t y) {
 ;	---------------------------------
 ; Function drawtritile
 ; ---------------------------------
@@ -8200,14 +8228,14 @@ _drawtritile:
 	push	ix
 	ld	ix,#0
 	add	ix,sp
-;demo.c:1205: cmd.source_x = tx;
+;demo.c:1207: cmd.source_x = tx;
 	ld	c,4 (ix)
 	ld	b,#0x00
 	ld	hl,#_cmd
 	ld	(hl),c
 	inc	hl
 	ld	(hl),b
-;demo.c:1206: cmd.source_y = ty-1;
+;demo.c:1208: cmd.source_y = ty-1;
 	ld	bc,#_cmd + 2
 	ld	e,5 (ix)
 	ld	d,6 (ix)
@@ -8217,7 +8245,7 @@ _drawtritile:
 	ld	(hl),e
 	inc	hl
 	ld	(hl),d
-;demo.c:1207: cmd.dest_x = x;
+;demo.c:1209: cmd.dest_x = x;
 	ld	bc,#_cmd + 4
 	ld	e,7 (ix)
 	ld	d,#0x00
@@ -8226,7 +8254,7 @@ _drawtritile:
 	ld	(hl),e
 	inc	hl
 	ld	(hl),d
-;demo.c:1208: cmd.dest_y = y;
+;demo.c:1210: cmd.dest_y = y;
 	ld	bc,#_cmd + 6
 	ld	e,8 (ix)
 	ld	d,#0x00
@@ -8235,25 +8263,25 @@ _drawtritile:
 	ld	(hl),e
 	inc	hl
 	ld	(hl),d
-;demo.c:1209: cmd.size_x = 16;
+;demo.c:1211: cmd.size_x = 16;
 	ld	hl, #_cmd + 8
 	ld	(hl),#0x10
 	inc	hl
 	ld	(hl),#0x00
-;demo.c:1210: cmd.size_y = 16;
+;demo.c:1212: cmd.size_y = 16;
 	ld	hl, #_cmd + 10
 	ld	(hl),#0x10
 	inc	hl
 	ld	(hl),#0x00
-;demo.c:1211: cmd.data = 0;
-;demo.c:1212: cmd.argument = 0x00;
+;demo.c:1213: cmd.data = 0;
+;demo.c:1214: cmd.argument = 0x00;
 	ld	a,#0x00
 	ld	(#_cmd + 12),a
 	ld	(#_cmd + 13),a
-;demo.c:1213: cmd.command = 0xd0; // HMMM
+;demo.c:1215: cmd.command = 0xd0; // HMMM
 	ld	a,#0xD0
 	ld	(#_cmd + 14),a
-;demo.c:1214: vdp_copier(&cmd);
+;demo.c:1216: vdp_copier(&cmd);
 	ld	hl,#_cmd
 	push	hl
 	call	_vdp_copier
@@ -8261,7 +8289,7 @@ _drawtritile:
 	pop	ix
 	ret
 _drawtritile_end::
-;demo.c:1221: void drawtilescreen(char* tripic) {
+;demo.c:1223: void drawtilescreen(char* tripic) {
 ;	---------------------------------
 ; Function drawtilescreen
 ; ---------------------------------
@@ -8272,7 +8300,7 @@ _drawtilescreen:
 	add	ix,sp
 	push	af
 	dec	sp
-;demo.c:1223: if(tilei >= 192) return;
+;demo.c:1225: if(tilei >= 192) return;
 	ld	a,(#_tilei+0)
 	sub	a,#0xC0
 	ld	a,(#_tilei+1)
@@ -8280,10 +8308,10 @@ _drawtilescreen:
 	jp	M,00102$
 	jp	00112$
 00102$:
-;demo.c:1225: tiletick++;
+;demo.c:1227: tiletick++;
 	ld	iy,#_tiletick
 	inc	0 (iy)
-;demo.c:1226: if (tiletick > 6) { tiletick = 0;}
+;demo.c:1228: if (tiletick > 6) { tiletick = 0;}
 	ld	a,#0x06
 	ld	iy,#_tiletick
 	sub	a,0 (iy)
@@ -8292,16 +8320,16 @@ _drawtilescreen:
 	ld	0 (iy),#0x00
 	jr	00118$
 00104$:
-;demo.c:1227: else return;
+;demo.c:1229: else return;
 	jp	00112$
-;demo.c:1228: for (i=0;i<20;i++) {
+;demo.c:1230: for (i=0;i<20;i++) {
 00118$:
 	ld	-1 (ix),#0x00
 00108$:
 	ld	a,-1 (ix)
 	sub	a,#0x14
 	jp	NC,00112$
-;demo.c:1229: drawtritile(tri_lookup_x[tripic[tilei]],tri_lookup_y[tripic[tilei]],tilex,tiley);
+;demo.c:1231: drawtritile(tri_lookup_x[tripic[tilei]],tri_lookup_y[tripic[tilei]],tilex,tiley);
 	ld	a,(#_tiley+0)
 	ld	-3 (ix),a
 	ld	a,(#_tilex+0)
@@ -8345,7 +8373,7 @@ _drawtilescreen:
 	pop	af
 	pop	af
 	inc	sp
-;demo.c:1230: tilex+=16;
+;demo.c:1232: tilex+=16;
 	ld	hl,#_tilex
 	ld	a,(hl)
 	add	a,#0x10
@@ -8364,14 +8392,14 @@ _drawtilescreen:
 	adc	a,#0x00
 	inc	hl
 	ld	(hl),a
-;demo.c:1231: tilei++;
+;demo.c:1233: tilei++;
 	ld	iy,#_tilei
 	inc	0 (iy)
 	jr	NZ,00119$
 	ld	iy,#_tilei
 	inc	1 (iy)
 00119$:
-;demo.c:1232: if (tilex >= 256) {tilex = 0; tiley+=16; return; }
+;demo.c:1234: if (tilex >= 256) {tilex = 0; tiley+=16; return; }
 	ld	a,(#_tilex+0)
 	sub	a,#0x00
 	ld	a,(#_tilex+1)
@@ -8401,7 +8429,7 @@ _drawtilescreen:
 	ld	(hl),a
 	jr	00112$
 00110$:
-;demo.c:1228: for (i=0;i<20;i++) {
+;demo.c:1230: for (i=0;i<20;i++) {
 	inc	-1 (ix)
 	jp	00108$
 00112$:
@@ -8409,7 +8437,7 @@ _drawtilescreen:
 	pop	ix
 	ret
 _drawtilescreen_end::
-;demo.c:1237: void drawtilescreen_full(char* tripic) {
+;demo.c:1239: void drawtilescreen_full(char* tripic) {
 ;	---------------------------------
 ; Function drawtilescreen_full
 ; ---------------------------------
@@ -8421,10 +8449,10 @@ _drawtilescreen_full:
 	ld	hl,#-8
 	add	hl,sp
 	ld	sp,hl
-;demo.c:1238: int x = 0;
+;demo.c:1240: int x = 0;
 	ld	-2 (ix),#0x00
 	ld	-1 (ix),#0x00
-;demo.c:1241: while(i < 192) {
+;demo.c:1243: while(i < 192) {
 	ld	-4 (ix),#0x00
 	ld	-3 (ix),#0x00
 	ld	-6 (ix),#0x00
@@ -8435,7 +8463,7 @@ _drawtilescreen_full:
 	ld	a,-5 (ix)
 	sbc	a,#0x00
 	jp	P,00106$
-;demo.c:1242: drawtritile(tri_lookup_x[tripic[i]],tri_lookup_y[tripic[i]],x,y);
+;demo.c:1244: drawtritile(tri_lookup_x[tripic[i]],tri_lookup_y[tripic[i]],x,y);
 	ld	a,-4 (ix)
 	ld	-8 (ix),a
 	ld	a,-2 (ix)
@@ -8476,14 +8504,14 @@ _drawtilescreen_full:
 	pop	af
 	pop	af
 	inc	sp
-;demo.c:1243: x+=16;
+;demo.c:1245: x+=16;
 	ld	a,-2 (ix)
 	add	a,#0x10
 	ld	-2 (ix),a
 	ld	a,-1 (ix)
 	adc	a,#0x00
 	ld	-1 (ix),a
-;demo.c:1244: if (x >= 256) {x = 0; y+=16;}
+;demo.c:1246: if (x >= 256) {x = 0; y+=16;}
 	ld	a,-2 (ix)
 	sub	a,#0x00
 	ld	a,-1 (ix)
@@ -8498,7 +8526,7 @@ _drawtilescreen_full:
 	adc	a,#0x00
 	ld	-3 (ix),a
 00102$:
-;demo.c:1245: i++;
+;demo.c:1247: i++;
 	inc	-6 (ix)
 	jr	NZ,00112$
 	inc	-5 (ix)
@@ -8509,7 +8537,7 @@ _drawtilescreen_full:
 	pop	ix
 	ret
 _drawtilescreen_full_end::
-;demo.c:1261: void tritiles() {
+;demo.c:1263: void tritiles() {
 ;	---------------------------------
 ; Function tritiles
 ; ---------------------------------
@@ -8521,7 +8549,7 @@ _tritiles:
 	ld	hl,#-5
 	add	hl,sp
 	ld	sp,hl
-;demo.c:1268: if (tri_inited == 0 || tri_inited == 2) {
+;demo.c:1270: if (tri_inited == 0 || tri_inited == 2) {
 	xor	a,a
 	ld	iy,#_tri_inited
 	or	a,0 (iy)
@@ -8531,70 +8559,57 @@ _tritiles:
 	sub	a,#0x02
 	jp	NZ,00110$
 00109$:
-;demo.c:1270: cmd.size_x = 2;
+;demo.c:1272: cmd.size_x = 2;
 	ld	hl, #_cmd + 8
 	ld	(hl),#0x02
 	inc	hl
 	ld	(hl),#0x00
-;demo.c:1271: cmd.size_y = 212;
+;demo.c:1273: cmd.size_y = 212;
 	ld	hl, #_cmd + 10
 	ld	(hl),#0xD4
 	inc	hl
 	ld	(hl),#0x00
-;demo.c:1272: cmd.data = 0;
-;demo.c:1273: cmd.argument = 0x00; // from 70xY to left
+;demo.c:1274: cmd.data = 0;
+;demo.c:1275: cmd.argument = 0x00; // from 70xY to left
 	ld	a,#0x00
 	ld	(#_cmd + 12),a
 	ld	(#_cmd + 13),a
-;demo.c:1274: cmd.command = 0xd0; // vram to vram, y only
+;demo.c:1276: cmd.command = 0xd0; // vram to vram, y only
 	ld	bc,#_cmd + 14
 	ld	a,#0xD0
 	ld	(bc),a
-;demo.c:1275: cmd.source_x = 255;
+;demo.c:1277: cmd.source_x = 255;
 	ld	hl,#_cmd
 	ld	(hl),#0xFF
 	inc	hl
 	ld	(hl),#0x00
-;demo.c:1276: cmd.source_y = 0;
+;demo.c:1278: cmd.source_y = 0;
 	ld	hl, #_cmd + 2
 	ld	(hl),#0x00
 	inc	hl
 	ld	(hl),#0x00
-;demo.c:1278: for (x = 0; x < 256; x+=2) {
+;demo.c:1280: for (x = 0; x < 256; x+=2) {
 	ld	bc,#0x0000
-00165$:
+00170$:
 	ld	a,c
 	sub	a,#0x00
 	ld	a,b
 	sbc	a,#0x01
-	jp	P,00168$
-;demo.c:1279: waitVB();
+	jp	P,00173$
+;demo.c:1281: waitVB();
 		halt 
-;demo.c:1280: cmd.dest_y = 256;
+;demo.c:1282: cmd.dest_y = 256;
 	ld	de,#_cmd + 6
 	ex	de,hl
 	ld	(hl),#0x00
 	inc	hl
 	ld	(hl),#0x01
-;demo.c:1281: cmd.dest_x = x;
+;demo.c:1283: cmd.dest_x = x;
 	ld	de,#_cmd + 4
 	ex	de,hl
 	ld	(hl),c
 	inc	hl
 	ld	(hl),b
-;demo.c:1282: vdp_copier(&cmd);
-	push	bc
-	ld	hl,#_cmd
-	push	hl
-	call	_vdp_copier
-	pop	af
-	pop	bc
-;demo.c:1283: cmd.dest_y = 0;
-	ld	de,#_cmd + 6
-	ex	de,hl
-	ld	(hl),#0x00
-	inc	hl
-	ld	(hl),#0x00
 ;demo.c:1284: vdp_copier(&cmd);
 	push	bc
 	ld	hl,#_cmd
@@ -8602,12 +8617,25 @@ _tritiles:
 	call	_vdp_copier
 	pop	af
 	pop	bc
-;demo.c:1278: for (x = 0; x < 256; x+=2) {
+;demo.c:1285: cmd.dest_y = 0;
+	ld	de,#_cmd + 6
+	ex	de,hl
+	ld	(hl),#0x00
+	inc	hl
+	ld	(hl),#0x00
+;demo.c:1286: vdp_copier(&cmd);
+	push	bc
+	ld	hl,#_cmd
+	push	hl
+	call	_vdp_copier
+	pop	af
+	pop	bc
+;demo.c:1280: for (x = 0; x < 256; x+=2) {
 	inc	bc
 	inc	bc
-	jr	00165$
-00168$:
-;demo.c:1287: if (tri_inited == 0) vdp_load_palette(boxes_palette);
+	jr	00170$
+00173$:
+;demo.c:1289: if (tri_inited == 0) vdp_load_palette(boxes_palette);
 	xor	a,a
 	ld	hl,#_tri_inited + 0
 	or	a,(hl)
@@ -8618,57 +8646,57 @@ _tritiles:
 	pop	af
 	jr	00105$
 00104$:
-;demo.c:1288: else if (tri_inited == 2) { 
+;demo.c:1290: else if (tri_inited == 2) { 
 	ld	a,(#_tri_inited+0)
 	sub	a,#0x02
 	jr	NZ,00105$
-;demo.c:1289: vdp_load_palette(boxes_palette); 
+;demo.c:1291: vdp_load_palette(boxes_palette); 
 	ld	hl,#_boxes_palette
 	push	hl
 	call	_vdp_load_palette
 	pop	af
-;demo.c:1290: triframes = 0; 
+;demo.c:1292: triframes = 0; 
 	ld	hl,#_triframes + 0
 	ld	(hl), #0x00
 	ld	hl,#_triframes + 1
 	ld	(hl), #0x00
-;demo.c:1292: tripal[0] = 4;
+;demo.c:1294: tripal[0] = 4;
 	ld	hl,#_tripal
 	ld	(hl),#0x04
-;demo.c:1293: tripal[1] = 4;
+;demo.c:1295: tripal[1] = 4;
 	ld	a,#0x04
 	ld	(#_tripal + 1),a
-;demo.c:1294: tripal[2] = 3;
+;demo.c:1296: tripal[2] = 3;
 	ld	a,#0x03
 	ld	(#_tripal + 2),a
-;demo.c:1296: tripal[3] = 2;
+;demo.c:1298: tripal[3] = 2;
 	ld	a,#0x02
 	ld	(#_tripal + 3),a
-;demo.c:1297: tripal[4] = 3;
+;demo.c:1299: tripal[4] = 3;
 	ld	a,#0x03
 	ld	(#_tripal + 4),a
-;demo.c:1298: tripal[5] = 4;
+;demo.c:1300: tripal[5] = 4;
 	ld	a,#0x04
 	ld	(#_tripal + 5),a
-;demo.c:1300: tripal[6] = 1;
+;demo.c:1302: tripal[6] = 1;
 	ld	a,#0x01
 	ld	(#_tripal + 6),a
-;demo.c:1301: tripal[7] = 3;
+;demo.c:1303: tripal[7] = 3;
 	ld	a,#0x03
 	ld	(#_tripal + 7),a
-;demo.c:1302: tripal[8] = 1;
+;demo.c:1304: tripal[8] = 1;
 	ld	a,#0x01
 	ld	(#_tripal + 8),a
 00105$:
-;demo.c:1304: tri_inited++;
+;demo.c:1306: tri_inited++;
 	ld	iy,#_tri_inited
 	inc	0 (iy)
-;demo.c:1305: vdp_register(9,2); // 50hz,192
+;demo.c:1307: vdp_register(9,2); // 50hz,192
 	ld	hl,#0x0209
 	push	hl
 	call	_vdp_register
 	pop	af
-;demo.c:1307: msx2_palette(15,0,0,0);
+;demo.c:1309: msx2_palette(15,0,0,0);
 	ld	hl,#0x0000
 	push	hl
 	ld	l, #0x0F
@@ -8676,7 +8704,7 @@ _tritiles:
 	call	_msx2_palette
 	pop	af
 	pop	af
-;demo.c:1309: if (tri_inited == 1) drawtilescreen_full(tri_center);
+;demo.c:1311: if (tri_inited == 1) drawtilescreen_full(tri_center);
 	ld	a,(#_tri_inited+0)
 	sub	a,#0x01
 	jr	NZ,00107$
@@ -8686,39 +8714,44 @@ _tritiles:
 	pop	af
 	jr	00108$
 00107$:
-;demo.c:1310: else drawtilescreen_full(tri_inva2);
+;demo.c:1312: else drawtilescreen_full(tri_inva2);
 	ld	hl,#_tri_inva2
 	push	hl
 	call	_drawtilescreen_full
 	pop	af
 00108$:
-;demo.c:1311: vdp_register(2, 0x1f);
+;demo.c:1313: vdp_register(2, 0x1f);
 	ld	hl,#0x1F02
 	push	hl
 	call	_vdp_register
 	pop	af
+;demo.c:1314: tick = 0;
+	ld	hl,#_tick + 0
+	ld	(hl), #0x00
+	ld	hl,#_tick + 1
+	ld	(hl), #0x00
 00110$:
-;demo.c:1316: if (tri_inited == 1) triframes++;
+;demo.c:1318: if (tri_inited == 1) triframes++;
 	ld	a,(#_tri_inited+0)
 	sub	a,#0x01
 	jr	NZ,00113$
 	ld	iy,#_triframes
 	inc	0 (iy)
-	jr	NZ,00224$
+	jr	NZ,00231$
 	ld	iy,#_triframes
 	inc	1 (iy)
-00224$:
+00231$:
 00113$:
-;demo.c:1318: if (triframes == 150) { tilei = 0; tilex = 0; tiley = 0; }
+;demo.c:1320: if (triframes == 150) { tilei = 0; tilex = 0; tiley = 0; }
 	ld	a,(#_triframes+0)
 	sub	a,#0x96
-	jr	NZ,00225$
+	jr	NZ,00232$
 	ld	a,(#_triframes+1)
 	or	a,a
-	jr	Z,00226$
-00225$:
+	jr	Z,00233$
+00232$:
 	jr	00115$
-00226$:
+00233$:
 	ld	hl,#_tilei + 0
 	ld	(hl), #0x00
 	ld	hl,#_tilei + 1
@@ -8732,7 +8765,7 @@ _tritiles:
 	ld	hl,#_tiley + 1
 	ld	(hl), #0x00
 00115$:
-;demo.c:1319: if (triframes >= 150 && triframes < 300) {
+;demo.c:1321: if (triframes >= 150 && triframes < 300) {
 	ld	a,(#_triframes+0)
 	sub	a,#0x96
 	ld	a,(#_triframes+1)
@@ -8743,22 +8776,22 @@ _tritiles:
 	ld	a,(#_triframes+1)
 	sbc	a,#0x01
 	jp	P,00117$
-;demo.c:1320: drawtilescreen(tri_up);
+;demo.c:1322: drawtilescreen(tri_up);
 	ld	hl,#_tri_up
 	push	hl
 	call	_drawtilescreen
 	pop	af
 00117$:
-;demo.c:1323: if (triframes == 300) { tilei = 0; tilex = 0; tiley = 0; }
+;demo.c:1325: if (triframes == 300) { tilei = 0; tilex = 0; tiley = 0; }
 	ld	a,(#_triframes+0)
 	sub	a,#0x2C
-	jr	NZ,00227$
+	jr	NZ,00234$
 	ld	a,(#_triframes+1)
 	sub	a,#0x01
-	jr	Z,00228$
-00227$:
+	jr	Z,00235$
+00234$:
 	jr	00120$
-00228$:
+00235$:
 	ld	hl,#_tilei + 0
 	ld	(hl), #0x00
 	ld	hl,#_tilei + 1
@@ -8772,7 +8805,7 @@ _tritiles:
 	ld	hl,#_tiley + 1
 	ld	(hl), #0x00
 00120$:
-;demo.c:1324: if (triframes >= 300 && triframes < 450) {
+;demo.c:1326: if (triframes >= 300 && triframes < 450) {
 	ld	a,(#_triframes+0)
 	sub	a,#0x2C
 	ld	a,(#_triframes+1)
@@ -8783,22 +8816,22 @@ _tritiles:
 	ld	a,(#_triframes+1)
 	sbc	a,#0x01
 	jp	P,00122$
-;demo.c:1325: drawtilescreen(tri_dia);
+;demo.c:1327: drawtilescreen(tri_dia);
 	ld	hl,#_tri_dia
 	push	hl
 	call	_drawtilescreen
 	pop	af
 00122$:
-;demo.c:1328: if (triframes == 450) { tilei = 0; tilex = 0; tiley = 0; }
+;demo.c:1330: if (triframes == 450) { tilei = 0; tilex = 0; tiley = 0; }
 	ld	a,(#_triframes+0)
 	sub	a,#0xC2
-	jr	NZ,00229$
+	jr	NZ,00236$
 	ld	a,(#_triframes+1)
 	sub	a,#0x01
-	jr	Z,00230$
-00229$:
+	jr	Z,00237$
+00236$:
 	jr	00125$
-00230$:
+00237$:
 	ld	hl,#_tilei + 0
 	ld	(hl), #0x00
 	ld	hl,#_tilei + 1
@@ -8812,7 +8845,7 @@ _tritiles:
 	ld	hl,#_tiley + 1
 	ld	(hl), #0x00
 00125$:
-;demo.c:1329: if (triframes >= 450 && triframes < 600) {
+;demo.c:1331: if (triframes >= 450 && triframes < 600) {
 	ld	a,(#_triframes+0)
 	sub	a,#0xC2
 	ld	a,(#_triframes+1)
@@ -8823,22 +8856,22 @@ _tritiles:
 	ld	a,(#_triframes+1)
 	sbc	a,#0x02
 	jp	P,00127$
-;demo.c:1330: drawtilescreen(tri_side1);
+;demo.c:1332: drawtilescreen(tri_side1);
 	ld	hl,#_tri_side1
 	push	hl
 	call	_drawtilescreen
 	pop	af
 00127$:
-;demo.c:1333: if (triframes == 600) { tilei = 0; tilex = 0; tiley = 0; }
+;demo.c:1335: if (triframes == 600) { tilei = 0; tilex = 0; tiley = 0; }
 	ld	a,(#_triframes+0)
 	sub	a,#0x58
-	jr	NZ,00231$
+	jr	NZ,00238$
 	ld	a,(#_triframes+1)
 	sub	a,#0x02
-	jr	Z,00232$
-00231$:
+	jr	Z,00239$
+00238$:
 	jr	00130$
-00232$:
+00239$:
 	ld	hl,#_tilei + 0
 	ld	(hl), #0x00
 	ld	hl,#_tilei + 1
@@ -8852,7 +8885,7 @@ _tritiles:
 	ld	hl,#_tiley + 1
 	ld	(hl), #0x00
 00130$:
-;demo.c:1334: if (triframes >= 600 && triframes < 750) {
+;demo.c:1336: if (triframes >= 600 && triframes < 750) {
 	ld	a,(#_triframes+0)
 	sub	a,#0x58
 	ld	a,(#_triframes+1)
@@ -8863,22 +8896,22 @@ _tritiles:
 	ld	a,(#_triframes+1)
 	sbc	a,#0x02
 	jp	P,00132$
-;demo.c:1335: drawtilescreen(tri_side2);
+;demo.c:1337: drawtilescreen(tri_side2);
 	ld	hl,#_tri_side2
 	push	hl
 	call	_drawtilescreen
 	pop	af
 00132$:
-;demo.c:1338: if (triframes == 750) { tilei = 0; tilex = 0; tiley = 0; }
+;demo.c:1340: if (triframes == 750) { tilei = 0; tilex = 0; tiley = 0; }
 	ld	a,(#_triframes+0)
 	sub	a,#0xEE
-	jr	NZ,00233$
+	jr	NZ,00240$
 	ld	a,(#_triframes+1)
 	sub	a,#0x02
-	jr	Z,00234$
-00233$:
+	jr	Z,00241$
+00240$:
 	jr	00135$
-00234$:
+00241$:
 	ld	hl,#_tilei + 0
 	ld	(hl), #0x00
 	ld	hl,#_tilei + 1
@@ -8892,7 +8925,7 @@ _tritiles:
 	ld	hl,#_tiley + 1
 	ld	(hl), #0x00
 00135$:
-;demo.c:1339: if (triframes >= 750 && triframes < 900) {
+;demo.c:1341: if (triframes >= 750 && triframes < 900) {
 	ld	a,(#_triframes+0)
 	sub	a,#0xEE
 	ld	a,(#_triframes+1)
@@ -8903,22 +8936,22 @@ _tritiles:
 	ld	a,(#_triframes+1)
 	sbc	a,#0x03
 	jp	P,00137$
-;demo.c:1340: drawtilescreen(tri_inva1);
+;demo.c:1342: drawtilescreen(tri_inva1);
 	ld	hl,#_tri_inva1
 	push	hl
 	call	_drawtilescreen
 	pop	af
 00137$:
-;demo.c:1343: if (triframes == 900) { tilei = 0; tilex = 0; tiley = 0; }
+;demo.c:1345: if (triframes == 900) { tilei = 0; tilex = 0; tiley = 0; }
 	ld	a,(#_triframes+0)
 	sub	a,#0x84
-	jr	NZ,00235$
+	jr	NZ,00242$
 	ld	a,(#_triframes+1)
 	sub	a,#0x03
-	jr	Z,00236$
-00235$:
+	jr	Z,00243$
+00242$:
 	jr	00140$
-00236$:
+00243$:
 	ld	hl,#_tilei + 0
 	ld	(hl), #0x00
 	ld	hl,#_tilei + 1
@@ -8932,7 +8965,7 @@ _tritiles:
 	ld	hl,#_tiley + 1
 	ld	(hl), #0x00
 00140$:
-;demo.c:1344: if (triframes >= 900 && triframes < 1050) {
+;demo.c:1346: if (triframes >= 900 && triframes < 1050) {
 	ld	a,(#_triframes+0)
 	sub	a,#0x84
 	ld	a,(#_triframes+1)
@@ -8943,22 +8976,22 @@ _tritiles:
 	ld	a,(#_triframes+1)
 	sbc	a,#0x04
 	jp	P,00142$
-;demo.c:1345: drawtilescreen(tri_inva2);
+;demo.c:1347: drawtilescreen(tri_inva2);
 	ld	hl,#_tri_inva2
 	push	hl
 	call	_drawtilescreen
 	pop	af
 00142$:
-;demo.c:1348: if (triframes == 1050) { tilei = 0; tilex = 0; tiley = 0; }
+;demo.c:1350: if (triframes == 1050) { tilei = 0; tilex = 0; tiley = 0; }
 	ld	a,(#_triframes+0)
 	sub	a,#0x1A
-	jr	NZ,00237$
+	jr	NZ,00244$
 	ld	a,(#_triframes+1)
 	sub	a,#0x04
-	jr	Z,00238$
-00237$:
+	jr	Z,00245$
+00244$:
 	jr	00145$
-00238$:
+00245$:
 	ld	hl,#_tilei + 0
 	ld	(hl), #0x00
 	ld	hl,#_tilei + 1
@@ -8972,7 +9005,7 @@ _tritiles:
 	ld	hl,#_tiley + 1
 	ld	(hl), #0x00
 00145$:
-;demo.c:1349: if (triframes >= 1050 && triframes < 1200) {
+;demo.c:1351: if (triframes >= 1050 && triframes < 1200) {
 	ld	a,(#_triframes+0)
 	sub	a,#0x1A
 	ld	a,(#_triframes+1)
@@ -8983,22 +9016,22 @@ _tritiles:
 	ld	a,(#_triframes+1)
 	sbc	a,#0x04
 	jp	P,00147$
-;demo.c:1350: drawtilescreen(tri_inva3);
+;demo.c:1352: drawtilescreen(tri_inva3);
 	ld	hl,#_tri_inva3
 	push	hl
 	call	_drawtilescreen
 	pop	af
 00147$:
-;demo.c:1353: if (triframes == 1200) { tilei = 0; tilex = 0; tiley = 0; }
+;demo.c:1355: if (triframes == 1200) { tilei = 0; tilex = 0; tiley = 0; }
 	ld	a,(#_triframes+0)
 	sub	a,#0xB0
-	jr	NZ,00239$
+	jr	NZ,00246$
 	ld	a,(#_triframes+1)
 	sub	a,#0x04
-	jr	Z,00240$
-00239$:
+	jr	Z,00247$
+00246$:
 	jr	00150$
-00240$:
+00247$:
 	ld	hl,#_tilei + 0
 	ld	(hl), #0x00
 	ld	hl,#_tilei + 1
@@ -9012,7 +9045,7 @@ _tritiles:
 	ld	hl,#_tiley + 1
 	ld	(hl), #0x00
 00150$:
-;demo.c:1354: if (triframes >= 1200 && triframes < 1350) {
+;demo.c:1356: if (triframes >= 1200 && triframes < 1350) {
 	ld	a,(#_triframes+0)
 	sub	a,#0xB0
 	ld	a,(#_triframes+1)
@@ -9023,22 +9056,22 @@ _tritiles:
 	ld	a,(#_triframes+1)
 	sbc	a,#0x05
 	jp	P,00152$
-;demo.c:1355: drawtilescreen(tri_inva4);
+;demo.c:1357: drawtilescreen(tri_inva4);
 	ld	hl,#_tri_inva4
 	push	hl
 	call	_drawtilescreen
 	pop	af
 00152$:
-;demo.c:1358: if (triframes == 1350) { tilei = 0; tilex = 0; tiley = 0; }
+;demo.c:1360: if (triframes == 1350) { tilei = 0; tilex = 0; tiley = 0; }
 	ld	a,(#_triframes+0)
 	sub	a,#0x46
-	jr	NZ,00241$
+	jr	NZ,00248$
 	ld	a,(#_triframes+1)
 	sub	a,#0x05
-	jr	Z,00242$
-00241$:
+	jr	Z,00249$
+00248$:
 	jr	00155$
-00242$:
+00249$:
 	ld	hl,#_tilei + 0
 	ld	(hl), #0x00
 	ld	hl,#_tilei + 1
@@ -9052,7 +9085,7 @@ _tritiles:
 	ld	hl,#_tiley + 1
 	ld	(hl), #0x00
 00155$:
-;demo.c:1359: if (triframes >= 1350 && triframes < 1500) {
+;demo.c:1361: if (triframes >= 1350 && triframes < 1500) {
 	ld	a,(#_triframes+0)
 	sub	a,#0x46
 	ld	a,(#_triframes+1)
@@ -9063,13 +9096,13 @@ _tritiles:
 	ld	a,(#_triframes+1)
 	sbc	a,#0x05
 	jp	P,00157$
-;demo.c:1360: drawtilescreen(tri_center);
+;demo.c:1362: drawtilescreen(tri_center);
 	ld	hl,#_tri_center
 	push	hl
 	call	_drawtilescreen
 	pop	af
 00157$:
-;demo.c:1363: if (triframes > 1500) triframes = 199;
+;demo.c:1365: if (triframes > 1500) triframes = 199;
 	ld	a,#0xDC
 	ld	iy,#_triframes
 	sub	a,0 (iy)
@@ -9082,7 +9115,7 @@ _tritiles:
 	ld	hl,#_triframes + 1
 	ld	(hl), #0x00
 00160$:
-;demo.c:1366: msx2_palette(2,0,0,0);
+;demo.c:1368: msx2_palette(2,0,0,0);
 	ld	hl,#0x0000
 	push	hl
 	ld	l, #0x02
@@ -9090,7 +9123,7 @@ _tritiles:
 	call	_msx2_palette
 	pop	af
 	pop	af
-;demo.c:1367: msx2_palette(11,0,0,0);
+;demo.c:1369: msx2_palette(11,0,0,0);
 	ld	hl,#0x0000
 	push	hl
 	ld	l, #0x0B
@@ -9098,7 +9131,47 @@ _tritiles:
 	call	_msx2_palette
 	pop	af
 	pop	af
-;demo.c:1370: msx2_palette(3,tripal[0],tripal[1],tripal[2]);
+;demo.c:1371: if (PLY_PSGReg10 > 4) {
+	ld	a,#0x04
+	ld	iy,#_PLY_PSGReg10
+	sub	a,0 (iy)
+	jp	NC,00162$
+;demo.c:1372: vdp_register(VDP_VOFFSET,192-sintabx[(PLY_PSGReg10 + tripaltick) & 255]>>3);
+	ld	hl,#_PLY_PSGReg10 + 0
+	ld	c,(hl)
+	ld	b,#0x00
+	ld	hl,#_tripaltick + 0
+	ld	e,(hl)
+	ld	d,#0x00
+	ld	a,c
+	add	a,e
+	ld	c,a
+	ld	a,b
+	adc	a,d
+	ld	b,#0x00
+	ld	hl,#_sintabx
+	add	hl,bc
+	ld	a,(hl)
+	ld	c,a
+	ld	b,#0x00
+	ld	a,#0xC0
+	sub	a,c
+	ld	c,a
+	ld	a,#0x00
+	sbc	a,b
+	ld	b,a
+	sra	b
+	rr	c
+	sra	b
+	rr	c
+	sra	b
+	rr	c
+	ld	b,c
+	ld	c,#0x17
+	push	bc
+	call	_vdp_register
+	pop	af
+;demo.c:1374: msx2_palette(3,tripal[0]+PLY_PSGReg10,tripal[1],tripal[2]);
 	ld	hl,#_tripal + 2
 	ld	c,(hl)
 	ld	de,#_tripal + 1
@@ -9106,6 +9179,11 @@ _tritiles:
 	ld	b,a
 	ld	hl,#_tripal
 	ld	e,(hl)
+	ld	hl,#_PLY_PSGReg10 + 0
+	ld	d,(hl)
+	ld	a,e
+	add	a,d
+	ld	e,a
 	ld	a,c
 	push	af
 	inc	sp
@@ -9117,7 +9195,7 @@ _tritiles:
 	call	_msx2_palette
 	pop	af
 	pop	af
-;demo.c:1371: msx2_palette(14,tripal[3],tripal[4],tripal[5]);
+;demo.c:1375: msx2_palette(14,tripal[3],tripal[4],tripal[5]);
 	ld	hl,#_tripal + 5
 	ld	c,(hl)
 	ld	de,#_tripal + 4
@@ -9136,7 +9214,7 @@ _tritiles:
 	call	_msx2_palette
 	pop	af
 	pop	af
-;demo.c:1372: msx2_palette(6,tripal[6],tripal[7],tripal[8]);
+;demo.c:1376: msx2_palette(6,tripal[6],tripal[7],tripal[8]);
 	ld	hl,#_tripal + 8
 	ld	c,(hl)
 	ld	de,#_tripal + 7
@@ -9155,47 +9233,125 @@ _tritiles:
 	call	_msx2_palette
 	pop	af
 	pop	af
-;demo.c:1375: tripaltick++;
+	jp	00163$
+00162$:
+;demo.c:1379: vdp_register(VDP_VOFFSET,0);
+	ld	hl,#0x0017
+	push	hl
+	call	_vdp_register
+	pop	af
+;demo.c:1381: msx2_palette(3,tripal[0],tripal[1],tripal[2]);
+	ld	hl,#_tripal + 2
+	ld	c,(hl)
+	ld	de,#_tripal + 1
+	ld	a,(de)
+	ld	b,a
+	ld	hl,#_tripal
+	ld	e,(hl)
+	ld	a,c
+	push	af
+	inc	sp
+	push	bc
+	inc	sp
+	ld	d,e
+	ld	e,#0x03
+	push	de
+	call	_msx2_palette
+	pop	af
+	pop	af
+;demo.c:1382: msx2_palette(14,tripal[3],tripal[4],tripal[5]);
+	ld	hl,#_tripal + 5
+	ld	c,(hl)
+	ld	de,#_tripal + 4
+	ld	a,(de)
+	ld	b,a
+	ld	hl,#_tripal + 3
+	ld	e,(hl)
+	ld	a,c
+	push	af
+	inc	sp
+	push	bc
+	inc	sp
+	ld	d,e
+	ld	e,#0x0E
+	push	de
+	call	_msx2_palette
+	pop	af
+	pop	af
+;demo.c:1383: msx2_palette(6,tripal[6],tripal[7],tripal[8]);
+	ld	hl,#_tripal + 8
+	ld	c,(hl)
+	ld	de,#_tripal + 7
+	ld	a,(de)
+	ld	b,a
+	ld	hl,#_tripal + 6
+	ld	e,(hl)
+	ld	a,c
+	push	af
+	inc	sp
+	push	bc
+	inc	sp
+	ld	d,e
+	ld	e,#0x06
+	push	de
+	call	_msx2_palette
+	pop	af
+	pop	af
+00163$:
+;demo.c:1387: if (tick > 28) tick = 0;
+	ld	a,#0x1C
+	ld	iy,#_tick
+	sub	a,0 (iy)
+	ld	a,#0x00
+	ld	iy,#_tick
+	sbc	a,1 (iy)
+	jp	P,00165$
+	ld	hl,#_tick + 0
+	ld	(hl), #0x00
+	ld	hl,#_tick + 1
+	ld	(hl), #0x00
+00165$:
+;demo.c:1389: tripaltick++;
 	ld	iy,#_tripaltick
 	inc	0 (iy)
-;demo.c:1376: if (tripaltick > 6) {
+;demo.c:1390: if (tripaltick > 6) {
 	ld	a,#0x06
 	ld	iy,#_tripaltick
 	sub	a,0 (iy)
-	jp	NC,00173$
-;demo.c:1377: tripaltick2++;
+	jp	NC,00178$
+;demo.c:1391: tripaltick2++;
 	ld	iy,#_tripaltick2
 	inc	0 (iy)
-;demo.c:1378: if (tripaltick2 > 6) tripaltick2 = 0;
+;demo.c:1392: if (tripaltick2 > 6) tripaltick2 = 0;
 	ld	a,#0x06
 	ld	iy,#_tripaltick2
 	sub	a,0 (iy)
-	jr	NC,00162$
+	jr	NC,00167$
 	ld	hl,#_tripaltick2 + 0
 	ld	(hl), #0x00
-00162$:
-;demo.c:1380: r = tripal[0];
+00167$:
+;demo.c:1394: r = tripal[0];
 	ld	hl,#_tripal
 	ld	c,(hl)
 	ld	-3 (ix),c
-;demo.c:1381: g = tripal[1];
+;demo.c:1395: g = tripal[1];
 	ld	de,#_tripal + 1
 	ld	a,(de)
 	ld	-4 (ix),a
-;demo.c:1382: b = tripal[2];
+;demo.c:1396: b = tripal[2];
 	ld	hl,#_tripal + 2
 	ld	e,(hl)
 	ld	-5 (ix),e
-;demo.c:1384: for (x = 0; x < 6; x++) {
+;demo.c:1398: for (x = 0; x < 6; x++) {
 	ld	-2 (ix),#0x00
 	ld	-1 (ix),#0x00
-00169$:
+00174$:
 	ld	a,-2 (ix)
 	sub	a,#0x06
 	ld	a,-1 (ix)
 	sbc	a,#0x00
-	jp	P,00172$
-;demo.c:1385: tripal[x] = tripal[x+3];
+	jp	P,00177$
+;demo.c:1399: tripal[x] = tripal[x+3];
 	ld	a,#<_tripal
 	add	a,-2 (ix)
 	ld	c,a
@@ -9214,34 +9370,34 @@ _tritiles:
 	ld	d,a
 	ld	a,(de)
 	ld	(bc),a
-;demo.c:1384: for (x = 0; x < 6; x++) {
+;demo.c:1398: for (x = 0; x < 6; x++) {
 	inc	-2 (ix)
-	jr	NZ,00243$
+	jr	NZ,00251$
 	inc	-1 (ix)
-00243$:
-	jr	00169$
-00172$:
-;demo.c:1388: tripal[6] = r;
+00251$:
+	jr	00174$
+00177$:
+;demo.c:1402: tripal[6] = r;
 	ld	bc,#_tripal + 6
 	ld	a,-3 (ix)
 	ld	(bc),a
-;demo.c:1389: tripal[7] = g;
+;demo.c:1403: tripal[7] = g;
 	ld	bc,#_tripal + 7
 	ld	a,-4 (ix)
 	ld	(bc),a
-;demo.c:1390: tripal[8] = b;
+;demo.c:1404: tripal[8] = b;
 	ld	bc,#_tripal + 8
 	ld	a,-5 (ix)
 	ld	(bc),a
-;demo.c:1391: tripaltick = 0;
+;demo.c:1405: tripaltick = 0;
 	ld	hl,#_tripaltick + 0
 	ld	(hl), #0x00
-00173$:
+00178$:
 	ld	sp,ix
 	pop	ix
 	ret
 _tritiles_end::
-;demo.c:1396: int abs (int n) {
+;demo.c:1410: int abs (int n) {
 ;	---------------------------------
 ; Function abs
 ; ---------------------------------
@@ -9253,7 +9409,7 @@ _abs:
 	ld	hl,#-6
 	add	hl,sp
 	ld	sp,hl
-;demo.c:1397: const int ret[2] = { n, -n };
+;demo.c:1411: const int ret[2] = { n, -n };
 	ld	hl,#0x0002
 	add	hl,sp
 	ld	c,l
@@ -9278,7 +9434,7 @@ _abs:
 	ld	(hl),e
 	inc	hl
 	ld	(hl),d
-;demo.c:1398: return ret [n<0];
+;demo.c:1412: return ret [n<0];
 	ld	a,5 (ix)
 	rlca
 	and	a,#0x01
@@ -9299,7 +9455,7 @@ _abs:
 	pop	ix
 	ret
 _abs_end::
-;demo.c:1404: void logoeffu() {
+;demo.c:1418: void logoeffu() {
 ;	---------------------------------
 ; Function logoeffu
 ; ---------------------------------
@@ -9310,9 +9466,9 @@ _logoeffu:
 	add	ix,sp
 	push	af
 	push	af
-;demo.c:1408: fadein();
+;demo.c:1422: fadein();
 	call	_fadein
-;demo.c:1410: v = abs(sintabx[(vbicount) & 255]>>4);
+;demo.c:1424: v = abs(sintabx[(vbicount) & 255]>>4);
 	ld	hl,#_vbicount + 0
 	ld	c,(hl)
 	ld	b,#0x00
@@ -9331,7 +9487,7 @@ _logoeffu:
 	ld	b,h
 	ld	-4 (ix),l
 	ld	-3 (ix),b
-;demo.c:1412: for (y = 0; y < 116; y+=2) {
+;demo.c:1426: for (y = 0; y < 116; y+=2) {
 	ld	-2 (ix),#0x00
 	ld	-1 (ix),#0x00
 00108$:
@@ -9340,36 +9496,36 @@ _logoeffu:
 	ld	a,-1 (ix)
 	sbc	a,#0x00
 	jp	P,00111$
-;demo.c:1413: cmd.size_x = 108;
+;demo.c:1427: cmd.size_x = 108;
 	ld	de,#_cmd + 8
 	ex	de,hl
 	ld	(hl),#0x6C
 	inc	hl
 	ld	(hl),#0x00
-;demo.c:1414: cmd.size_y = 2;
+;demo.c:1428: cmd.size_y = 2;
 	ld	de,#_cmd + 10
 	ex	de,hl
 	ld	(hl),#0x02
 	inc	hl
 	ld	(hl),#0x00
-;demo.c:1415: cmd.data = 0;
+;demo.c:1429: cmd.data = 0;
 	ld	de,#_cmd + 12
 	ld	a,#0x00
 	ld	(de),a
-;demo.c:1416: cmd.argument = 0x00;
+;demo.c:1430: cmd.argument = 0x00;
 	ld	de,#_cmd + 13
 	ld	a,#0x00
 	ld	(de),a
-;demo.c:1417: cmd.command = 0xd0; 
+;demo.c:1431: cmd.command = 0xd0; 
 	ld	de,#_cmd + 14
 	ld	a,#0xD0
 	ld	(de),a
-;demo.c:1418: cmd.source_x = 74;
+;demo.c:1432: cmd.source_x = 74;
 	ld	hl,#_cmd
 	ld	(hl),#0x4A
 	inc	hl
 	ld	(hl),#0x00
-;demo.c:1419: cmd.source_y = 256+y;
+;demo.c:1433: cmd.source_y = 256+y;
 	ld	de,#_cmd + 2
 	ld	a,-2 (ix)
 	add	a,#0x00
@@ -9382,14 +9538,14 @@ _logoeffu:
 	ld	(hl),c
 	inc	hl
 	ld	(hl),b
-;demo.c:1420: v+=y;
+;demo.c:1434: v+=y;
 	ld	a,-4 (ix)
 	add	a,-2 (ix)
 	ld	-4 (ix),a
 	ld	a,-3 (ix)
 	adc	a,-1 (ix)
 	ld	-3 (ix),a
-;demo.c:1421: v -= powa;
+;demo.c:1435: v -= powa;
 	ld	hl,#_powa
 	ld	a,-4 (ix)
 	sub	a,(hl)
@@ -9397,14 +9553,14 @@ _logoeffu:
 	ld	a,-3 (ix)
 	inc	hl
 	sbc	a,(hl)
-;demo.c:1422: if (v<0) v = 0;
+;demo.c:1436: if (v<0) v = 0;
 	ld	-3 (ix),a
 	bit	7,a
 	jr	Z,00102$
 	ld	-4 (ix),#0x00
 	ld	-3 (ix),#0x00
 00102$:
-;demo.c:1423: if (v>150) v = 150;
+;demo.c:1437: if (v>150) v = 150;
 	ld	a,#0x96
 	sub	a,-4 (ix)
 	ld	a,#0x00
@@ -9413,7 +9569,7 @@ _logoeffu:
 	ld	-4 (ix),#0x96
 	ld	-3 (ix),#0x00
 00104$:
-;demo.c:1424: cmd.dest_x = 74+v;
+;demo.c:1438: cmd.dest_x = 74+v;
 	ld	bc,#_cmd + 4
 	ld	a,-4 (ix)
 	add	a,#0x4A
@@ -9426,7 +9582,7 @@ _logoeffu:
 	ld	(hl),e
 	inc	hl
 	ld	(hl),d
-;demo.c:1425: cmd.dest_y = 50+y+1;
+;demo.c:1439: cmd.dest_y = 50+y+1;
 	ld	bc,#_cmd + 6
 	ld	a,-2 (ix)
 	add	a,#0x33
@@ -9439,12 +9595,12 @@ _logoeffu:
 	ld	(hl),e
 	inc	hl
 	ld	(hl),d
-;demo.c:1426: vdp_copier(&cmd);
+;demo.c:1440: vdp_copier(&cmd);
 	ld	hl,#_cmd
 	push	hl
 	call	_vdp_copier
 	pop	af
-;demo.c:1412: for (y = 0; y < 116; y+=2) {
+;demo.c:1426: for (y = 0; y < 116; y+=2) {
 	ld	a,-2 (ix)
 	add	a,#0x02
 	ld	-2 (ix),a
@@ -9453,7 +9609,7 @@ _logoeffu:
 	ld	-1 (ix),a
 	jp	00108$
 00111$:
-;demo.c:1429: if (vbicount > scenetimings[2]+84 && onceclear > 182) {
+;demo.c:1443: if (vbicount > scenetimings[2]+84 && onceclear > 182) {
 	ld	hl, #_scenetimings + 4
 	ld	c,(hl)
 	inc	hl
@@ -9473,36 +9629,36 @@ _logoeffu:
 	ld	iy,#_onceclear
 	sub	a,0 (iy)
 	jp	NC,00106$
-;demo.c:1430: cmd.size_x = 4;
+;demo.c:1444: cmd.size_x = 4;
 	ld	hl, #_cmd + 8
 	ld	(hl),#0x04
 	inc	hl
 	ld	(hl),#0x00
-;demo.c:1431: cmd.size_y = 116;
+;demo.c:1445: cmd.size_y = 116;
 	ld	hl, #_cmd + 10
 	ld	(hl),#0x74
 	inc	hl
 	ld	(hl),#0x00
-;demo.c:1432: cmd.data = 0;
-;demo.c:1433: cmd.argument = 0x00;
+;demo.c:1446: cmd.data = 0;
+;demo.c:1447: cmd.argument = 0x00;
 	ld	a,#0x00
 	ld	(#_cmd + 12),a
 	ld	(#_cmd + 13),a
-;demo.c:1434: cmd.command = 0xd0; 
+;demo.c:1448: cmd.command = 0xd0; 
 	ld	bc,#_cmd + 14
 	ld	a,#0xD0
 	ld	(bc),a
-;demo.c:1435: cmd.source_x = 20;
+;demo.c:1449: cmd.source_x = 20;
 	ld	hl,#_cmd
 	ld	(hl),#0x14
 	inc	hl
 	ld	(hl),#0x00
-;demo.c:1436: cmd.source_y = 0;
+;demo.c:1450: cmd.source_y = 0;
 	ld	hl, #_cmd + 2
 	ld	(hl),#0x00
 	inc	hl
 	ld	(hl),#0x00
-;demo.c:1437: cmd.dest_x = onceclear;
+;demo.c:1451: cmd.dest_x = onceclear;
 	ld	bc,#_cmd + 4
 	ld	hl,#_onceclear + 0
 	ld	e,(hl)
@@ -9512,23 +9668,23 @@ _logoeffu:
 	ld	(hl),e
 	inc	hl
 	ld	(hl),d
-;demo.c:1438: cmd.dest_y = 68;
+;demo.c:1452: cmd.dest_y = 68;
 	ld	hl, #_cmd + 6
 	ld	(hl),#0x44
 	inc	hl
 	ld	(hl),#0x00
-;demo.c:1439: vdp_copier(&cmd);
+;demo.c:1453: vdp_copier(&cmd);
 	ld	hl,#_cmd
 	push	hl
 	call	_vdp_copier
 	pop	af
-;demo.c:1440: onceclear-=4;
+;demo.c:1454: onceclear-=4;
 	ld	hl,#_onceclear
 	ld	a,(hl)
 	add	a,#0xFC
 	ld	(hl),a
 00106$:
-;demo.c:1444: powa+=2;
+;demo.c:1458: powa+=2;
 	ld	hl,#_powa
 	ld	a,(hl)
 	add	a,#0x02
@@ -9547,7 +9703,7 @@ _logoeffu:
 	adc	a,#0x00
 	inc	hl
 	ld	(hl),a
-;demo.c:1445: powatick = 0;
+;demo.c:1459: powatick = 0;
 	ld	hl,#_powatick + 0
 	ld	(hl), #0x00
 	ld	hl,#_powatick + 1
@@ -9556,7 +9712,7 @@ _logoeffu:
 	pop	ix
 	ret
 _logoeffu_end::
-;demo.c:1454: void points() {
+;demo.c:1468: void points() {
 ;	---------------------------------
 ; Function points
 ; ---------------------------------
@@ -9567,56 +9723,56 @@ _points:
 	add	ix,sp
 	push	af
 	dec	sp
-;demo.c:1458: if (initpoints == 0) {
+;demo.c:1472: if (initpoints == 0) {
 	xor	a,a
 	ld	iy,#_initpoints
 	or	a,0 (iy)
 	jp	NZ,00102$
-;demo.c:1459: cmd.size_x = 256;
+;demo.c:1473: cmd.size_x = 256;
 	ld	hl, #_cmd + 8
 	ld	(hl),#0x00
 	inc	hl
 	ld	(hl),#0x01
-;demo.c:1460: cmd.size_y = 4;
+;demo.c:1474: cmd.size_y = 4;
 	ld	hl, #_cmd + 10
 	ld	(hl),#0x04
 	inc	hl
 	ld	(hl),#0x00
-;demo.c:1461: cmd.data = 0;
-;demo.c:1462: cmd.argument = 0x00; // from 70xY to left
+;demo.c:1475: cmd.data = 0;
+;demo.c:1476: cmd.argument = 0x00; // from 70xY to left
 	ld	a,#0x00
 	ld	(#_cmd + 12),a
 	ld	(#_cmd + 13),a
-;demo.c:1463: cmd.command = 0xd0; // vram to vram, y only
+;demo.c:1477: cmd.command = 0xd0; // vram to vram, y only
 	ld	a,#0xD0
 	ld	(#_cmd + 14),a
-;demo.c:1464: cmd.source_x = 0;
+;demo.c:1478: cmd.source_x = 0;
 	ld	hl,#_cmd
 	ld	(hl),#0x00
 	inc	hl
 	ld	(hl),#0x00
-;demo.c:1465: cmd.dest_x = 0;
+;demo.c:1479: cmd.dest_x = 0;
 	ld	bc,#_cmd + 4
 	ld	l,c
 	ld	h,b
 	ld	(hl),#0x00
 	inc	hl
 	ld	(hl),#0x00
-;demo.c:1467: for (y = 0; y < 212; y+=4) {
+;demo.c:1481: for (y = 0; y < 212; y+=4) {
 	ld	-1 (ix),#0x00
 00113$:
 	ld	a,-1 (ix)
 	sub	a,#0xD4
 	jr	NC,00116$
-;demo.c:1468: waitVB();
+;demo.c:1482: waitVB();
 		halt 
-;demo.c:1469: cmd.source_y = 193;
+;demo.c:1483: cmd.source_y = 193;
 	ld	de,#_cmd + 2
 	ex	de,hl
 	ld	(hl),#0xC1
 	inc	hl
 	ld	(hl),#0x00
-;demo.c:1470: cmd.dest_y = y;
+;demo.c:1484: cmd.dest_y = y;
 	ld	de,#_cmd + 6
 	ld	c,-1 (ix)
 	ld	b,#0x00
@@ -9624,24 +9780,24 @@ _points:
 	ld	(hl),c
 	inc	hl
 	ld	(hl),b
-;demo.c:1471: vdp_copier(&cmd);
+;demo.c:1485: vdp_copier(&cmd);
 	ld	hl,#_cmd
 	push	hl
 	call	_vdp_copier
 	pop	af
-;demo.c:1467: for (y = 0; y < 212; y+=4) {
+;demo.c:1481: for (y = 0; y < 212; y+=4) {
 	inc	-1 (ix)
 	inc	-1 (ix)
 	inc	-1 (ix)
 	inc	-1 (ix)
 	jr	00113$
 00116$:
-;demo.c:1475: vdp_load_palette(bulbs_palette);
+;demo.c:1489: vdp_load_palette(bulbs_palette);
 	ld	hl,#_bulbs_palette
 	push	hl
 	call	_vdp_load_palette
 	pop	af
-;demo.c:1477: for (x = 0; x < 256; x+=1) {
+;demo.c:1491: for (x = 0; x < 256; x+=1) {
 	ld	-3 (ix),#0x00
 	ld	-2 (ix),#0x00
 00117$:
@@ -9650,7 +9806,7 @@ _points:
 	ld	a,-2 (ix)
 	sbc	a,#0x01
 	jp	P,00120$
-;demo.c:1479: cmd.data = 1+((pointframe>>2) & 0xe);
+;demo.c:1493: cmd.data = 1+((pointframe>>2) & 0xe);
 	ld	de,#_cmd + 12
 	ld	hl,#_pointframe + 0
 	ld	c,(hl)
@@ -9664,27 +9820,27 @@ _points:
 	and	a,#0x0E
 	inc	a
 	ld	(de),a
-;demo.c:1480: cmd.dest_x = x;
+;demo.c:1494: cmd.dest_x = x;
 	ld	hl, #_cmd + 4
 	ld	a,-3 (ix)
 	ld	(hl),a
 	inc	hl
 	ld	a,-2 (ix)
 	ld	(hl),a
-;demo.c:1481: cmd.dest_y = y;
+;demo.c:1495: cmd.dest_y = y;
 	ld	hl, #_cmd + 6
 	ld	(hl),#0x1D
 	inc	hl
 	ld	(hl),#0x00
-;demo.c:1482: cmd.command = 0x50;
+;demo.c:1496: cmd.command = 0x50;
 	ld	a,#0x50
 	ld	(#_cmd + 14),a
-;demo.c:1483: vdp_copier(&cmd);
+;demo.c:1497: vdp_copier(&cmd);
 	ld	hl,#_cmd
 	push	hl
 	call	_vdp_copier
 	pop	af
-;demo.c:1486: cmd.data = 1+((pointframe>>2) & 0xe);
+;demo.c:1500: cmd.data = 1+((pointframe>>2) & 0xe);
 	ld	bc,#_cmd + 12
 	ld	hl,#_pointframe + 0
 	ld	e,(hl)
@@ -9698,43 +9854,43 @@ _points:
 	and	a,#0x0E
 	inc	a
 	ld	(bc),a
-;demo.c:1487: cmd.dest_y = y;
+;demo.c:1501: cmd.dest_y = y;
 	ld	hl, #_cmd + 6
 	ld	(hl),#0xA2
 	inc	hl
 	ld	(hl),#0x00
-;demo.c:1488: vdp_copier(&cmd);
+;demo.c:1502: vdp_copier(&cmd);
 	ld	hl,#_cmd
 	push	hl
 	call	_vdp_copier
 	pop	af
-;demo.c:1490: pointframe+=1;
+;demo.c:1504: pointframe+=1;
 	ld	iy,#_pointframe
 	inc	0 (iy)
 	jr	NZ,00144$
 	ld	iy,#_pointframe
 	inc	1 (iy)
 00144$:
-;demo.c:1477: for (x = 0; x < 256; x+=1) {
+;demo.c:1491: for (x = 0; x < 256; x+=1) {
 	inc	-3 (ix)
 	jr	NZ,00145$
 	inc	-2 (ix)
 00145$:
 	jp	00117$
 00120$:
-;demo.c:1493: initpoints = 1;
+;demo.c:1507: initpoints = 1;
 	ld	hl,#_initpoints + 0
 	ld	(hl), #0x01
-;demo.c:1494: ltrpointer = 0;
+;demo.c:1508: ltrpointer = 0;
 	ld	hl,#_ltrpointer + 0
 	ld	(hl), #0x00
 	ld	hl,#_ltrpointer + 1
 	ld	(hl), #0x00
 00102$:
-;demo.c:1497: cmd.argument = 0x0;
+;demo.c:1511: cmd.argument = 0x0;
 	ld	a,#0x00
 	ld	(#_cmd + 13),a
-;demo.c:1499: cmd.data = 1+((pointframe>>2) & 0xe);
+;demo.c:1513: cmd.data = 1+((pointframe>>2) & 0xe);
 	ld	bc,#_cmd + 12
 	ld	hl,#_pointframe + 0
 	ld	e,(hl)
@@ -9748,7 +9904,7 @@ _points:
 	and	a,#0x0E
 	inc	a
 	ld	(bc),a
-;demo.c:1501: for (x = 30; x < 162; x+=1) {
+;demo.c:1515: for (x = 30; x < 162; x+=1) {
 	ld	-3 (ix),#0x1E
 	ld	-2 (ix),#0x00
 00121$:
@@ -9757,7 +9913,7 @@ _points:
 	ld	a,-2 (ix)
 	sbc	a,#0x00
 	jp	P,00124$
-;demo.c:1502: y = 64+(sintabx[(x+pointframe) & 255]>>1);
+;demo.c:1516: y = 64+(sintabx[(x+pointframe) & 255]>>1);
 	ld	hl,#_pointframe
 	ld	a,-3 (ix)
 	add	a,(hl)
@@ -9772,7 +9928,7 @@ _points:
 	srl	a
 	add	a,#0x40
 	ld	c,a
-;demo.c:1503: cmd.dest_x = y;
+;demo.c:1517: cmd.dest_x = y;
 	ld	de,#_cmd + 4
 	ld	b,#0x00
 	ld	l,e
@@ -9780,29 +9936,29 @@ _points:
 	ld	(hl),c
 	inc	hl
 	ld	(hl),b
-;demo.c:1504: cmd.dest_y = x;
+;demo.c:1518: cmd.dest_y = x;
 	ld	hl, #_cmd + 6
 	ld	a,-3 (ix)
 	ld	(hl),a
 	inc	hl
 	ld	a,-2 (ix)
 	ld	(hl),a
-;demo.c:1505: cmd.command = 0x53;
+;demo.c:1519: cmd.command = 0x53;
 	ld	a,#0x53
 	ld	(#_cmd + 14),a
-;demo.c:1506: vdp_copier(&cmd);
+;demo.c:1520: vdp_copier(&cmd);
 	ld	hl,#_cmd
 	push	hl
 	call	_vdp_copier
 	pop	af
-;demo.c:1501: for (x = 30; x < 162; x+=1) {
+;demo.c:1515: for (x = 30; x < 162; x+=1) {
 	inc	-3 (ix)
 	jr	NZ,00147$
 	inc	-2 (ix)
 00147$:
 	jr	00121$
 00124$:
-;demo.c:1508: pointframe+=2;
+;demo.c:1522: pointframe+=2;
 	ld	hl,#_pointframe
 	ld	a,(hl)
 	add	a,#0x02
@@ -9821,17 +9977,17 @@ _points:
 	adc	a,#0x00
 	inc	hl
 	ld	(hl),a
-;demo.c:1510: if (greetindex == 0) {
+;demo.c:1524: if (greetindex == 0) {
 	ld	a,(#_greetindex+0)
 	ld	hl,#_greetindex + 1
 	or	a,(hl)
 	jr	NZ,00104$
-;demo.c:1511: slowend = 27;
+;demo.c:1525: slowend = 27;
 	ld	hl,#_slowend + 0
 	ld	(hl), #0x1B
 	ld	hl,#_slowend + 1
 	ld	(hl), #0x00
-;demo.c:1512: drawstrslow("GREETINGS TO VARIOUS GROUPS",10,20);
+;demo.c:1526: drawstrslow("GREETINGS TO VARIOUS GROUPS",10,20);
 	ld	hl,#0x140A
 	push	hl
 	ld	hl,#__str_15
@@ -9840,7 +9996,7 @@ _points:
 	pop	af
 	pop	af
 00104$:
-;demo.c:1514: if (greetindex == 1) {
+;demo.c:1528: if (greetindex == 1) {
 	ld	a,(#_greetindex+0)
 	sub	a,#0x01
 	jr	NZ,00148$
@@ -9850,12 +10006,12 @@ _points:
 00148$:
 	jr	00106$
 00149$:
-;demo.c:1515: slowend = 33;
+;demo.c:1529: slowend = 33;
 	ld	hl,#_slowend + 0
 	ld	(hl), #0x21
 	ld	hl,#_slowend + 1
 	ld	(hl), #0x00
-;demo.c:1516: drawstrslow("Trilobit  Prismbeings  Ivory Labs",10,164);
+;demo.c:1530: drawstrslow("Trilobit  Prismbeings  Ivory Labs",10,164);
 	ld	hl,#0xA40A
 	push	hl
 	ld	hl,#__str_16
@@ -9864,7 +10020,7 @@ _points:
 	pop	af
 	pop	af
 00106$:
-;demo.c:1518: if (greetindex == 2) {
+;demo.c:1532: if (greetindex == 2) {
 	ld	a,(#_greetindex+0)
 	sub	a,#0x02
 	jr	NZ,00150$
@@ -9874,12 +10030,12 @@ _points:
 00150$:
 	jr	00108$
 00151$:
-;demo.c:1519: slowend = 29;
+;demo.c:1533: slowend = 29;
 	ld	hl,#_slowend + 0
 	ld	(hl), #0x1D
 	ld	hl,#_slowend + 1
 	ld	(hl), #0x00
-;demo.c:1520: drawstrslow("PWP  Dekadence  Paraguay  ISO",18,174);
+;demo.c:1534: drawstrslow("PWP  Dekadence  Paraguay  ISO",18,174);
 	ld	hl,#0xAE12
 	push	hl
 	ld	hl,#__str_17
@@ -9888,7 +10044,7 @@ _points:
 	pop	af
 	pop	af
 00108$:
-;demo.c:1522: if (greetindex == 3) {
+;demo.c:1536: if (greetindex == 3) {
 	ld	a,(#_greetindex+0)
 	sub	a,#0x03
 	jr	NZ,00152$
@@ -9898,12 +10054,12 @@ _points:
 00152$:
 	jr	00110$
 00153$:
-;demo.c:1523: slowend = 24;
+;demo.c:1537: slowend = 24;
 	ld	hl,#_slowend + 0
 	ld	(hl), #0x18
 	ld	hl,#_slowend + 1
 	ld	(hl), #0x00
-;demo.c:1524: drawstrslow("Cartoon Horse Demo Force",20,184);
+;demo.c:1538: drawstrslow("Cartoon Horse Demo Force",20,184);
 	ld	hl,#0xB814
 	push	hl
 	ld	hl,#__str_18
@@ -9912,14 +10068,14 @@ _points:
 	pop	af
 	pop	af
 00110$:
-;demo.c:1526: if (ltrpointer >= slowend) { greetindex++; ltrpointer = 0; }
+;demo.c:1540: if (ltrpointer >= slowend) { greetindex++; ltrpointer = 0; }
 	ld	hl,#_slowend
 	ld	a,(#_ltrpointer+0)
 	sub	a,(hl)
 	ld	a,(#_ltrpointer+1)
 	inc	hl
 	sbc	a,(hl)
-	jp	M,00125$
+	jp	M,00112$
 	ld	iy,#_greetindex
 	inc	0 (iy)
 	jr	NZ,00154$
@@ -9930,7 +10086,15 @@ _points:
 	ld	(hl), #0x00
 	ld	hl,#_ltrpointer + 1
 	ld	(hl), #0x00
-00125$:
+00112$:
+;demo.c:1542: msx2_palette(4,0,0,0);
+	ld	hl,#0x0000
+	push	hl
+	ld	l, #0x04
+	push	hl
+	call	_msx2_palette
+	pop	af
+	pop	af
 	ld	sp,ix
 	pop	ix
 	ret
@@ -9947,47 +10111,47 @@ __str_17:
 __str_18:
 	.ascii "Cartoon Horse Demo Force"
 	.db 0x00
-;demo.c:1531: void bigtext() {
+;demo.c:1547: void bigtext() {
 ;	---------------------------------
 ; Function bigtext
 ; ---------------------------------
 _bigtext_start::
 _bigtext:
-;demo.c:1533: if (bigtextp == 0) {
+;demo.c:1549: if (bigtextp == 0) {
 	ld	a,(#_bigtextp+0)
 	ld	iy,#_bigtextp
 	or	a,1 (iy)
 	jp	NZ,00102$
-;demo.c:1534: cmd.size_x = 2;
+;demo.c:1550: cmd.size_x = 2;
 	ld	hl, #_cmd + 8
 	ld	(hl),#0x02
 	inc	hl
 	ld	(hl),#0x00
-;demo.c:1535: cmd.size_y = 212;
+;demo.c:1551: cmd.size_y = 212;
 	ld	hl, #_cmd + 10
 	ld	(hl),#0xD4
 	inc	hl
 	ld	(hl),#0x00
-;demo.c:1536: cmd.data = 0;
-;demo.c:1537: cmd.argument = 0x00; // from 70xY to left
+;demo.c:1552: cmd.data = 0;
+;demo.c:1553: cmd.argument = 0x00; // from 70xY to left
 	ld	a,#0x00
 	ld	(#_cmd + 12),a
 	ld	(#_cmd + 13),a
-;demo.c:1538: cmd.command = 0xd0; // vram to vram, y only
+;demo.c:1554: cmd.command = 0xd0; // vram to vram, y only
 	ld	bc,#_cmd + 14
 	ld	a,#0xD0
 	ld	(bc),a
-;demo.c:1539: cmd.source_x = 255;
+;demo.c:1555: cmd.source_x = 255;
 	ld	hl,#_cmd
 	ld	(hl),#0xFF
 	inc	hl
 	ld	(hl),#0x00
-;demo.c:1540: cmd.source_y = 0;
+;demo.c:1556: cmd.source_y = 0;
 	ld	hl, #_cmd + 2
 	ld	(hl),#0x00
 	inc	hl
 	ld	(hl),#0x00
-;demo.c:1542: for (x = 0; x < 256; x+=4) {
+;demo.c:1558: for (x = 0; x < 256; x+=4) {
 	ld	bc,#0x0000
 00103$:
 	ld	a,c
@@ -9995,48 +10159,48 @@ _bigtext:
 	ld	a,b
 	sbc	a,#0x01
 	jp	P,00106$
-;demo.c:1543: waitVB();
+;demo.c:1559: waitVB();
 		halt 
-;demo.c:1544: cmd.dest_y = 256;
+;demo.c:1560: cmd.dest_y = 256;
 	ld	de,#_cmd + 6
 	ex	de,hl
 	ld	(hl),#0x00
 	inc	hl
 	ld	(hl),#0x01
-;demo.c:1545: cmd.dest_x = x;
+;demo.c:1561: cmd.dest_x = x;
 	ld	de,#_cmd + 4
 	ex	de,hl
 	ld	(hl),c
 	inc	hl
 	ld	(hl),b
-;demo.c:1546: vdp_copier(&cmd);
+;demo.c:1562: vdp_copier(&cmd);
 	push	bc
 	ld	hl,#_cmd
 	push	hl
 	call	_vdp_copier
 	pop	af
 	pop	bc
-;demo.c:1547: cmd.dest_y = 0;
+;demo.c:1563: cmd.dest_y = 0;
 	ld	de,#_cmd + 6
 	ex	de,hl
 	ld	(hl),#0x00
 	inc	hl
 	ld	(hl),#0x00
-;demo.c:1548: vdp_copier(&cmd);
+;demo.c:1564: vdp_copier(&cmd);
 	push	bc
 	ld	hl,#_cmd
 	push	hl
 	call	_vdp_copier
 	pop	af
 	pop	bc
-;demo.c:1542: for (x = 0; x < 256; x+=4) {
+;demo.c:1558: for (x = 0; x < 256; x+=4) {
 	inc	bc
 	inc	bc
 	inc	bc
 	inc	bc
 	jr	00103$
 00106$:
-;demo.c:1551: for (x = 254; x > 0; x-=4) {
+;demo.c:1567: for (x = 254; x > 0; x-=4) {
 	ld	bc,#0x00FE
 00107$:
 	ld	a,#0x00
@@ -10044,41 +10208,41 @@ _bigtext:
 	ld	a,#0x00
 	sbc	a,b
 	jp	P,00110$
-;demo.c:1552: waitVB();
+;demo.c:1568: waitVB();
 		halt 
-;demo.c:1553: cmd.dest_y = 256;
+;demo.c:1569: cmd.dest_y = 256;
 	ld	de,#_cmd + 6
 	ex	de,hl
 	ld	(hl),#0x00
 	inc	hl
 	ld	(hl),#0x01
-;demo.c:1554: cmd.dest_x = x;
+;demo.c:1570: cmd.dest_x = x;
 	ld	de,#_cmd + 4
 	ex	de,hl
 	ld	(hl),c
 	inc	hl
 	ld	(hl),b
-;demo.c:1555: vdp_copier(&cmd);
+;demo.c:1571: vdp_copier(&cmd);
 	push	bc
 	ld	hl,#_cmd
 	push	hl
 	call	_vdp_copier
 	pop	af
 	pop	bc
-;demo.c:1556: cmd.dest_y = 0;
+;demo.c:1572: cmd.dest_y = 0;
 	ld	de,#_cmd + 6
 	ex	de,hl
 	ld	(hl),#0x00
 	inc	hl
 	ld	(hl),#0x00
-;demo.c:1557: vdp_copier(&cmd);
+;demo.c:1573: vdp_copier(&cmd);
 	push	bc
 	ld	hl,#_cmd
 	push	hl
 	call	_vdp_copier
 	pop	af
 	pop	bc
-;demo.c:1551: for (x = 254; x > 0; x-=4) {
+;demo.c:1567: for (x = 254; x > 0; x-=4) {
 	ld	a,c
 	add	a,#0xFC
 	ld	c,a
@@ -10087,12 +10251,12 @@ _bigtext:
 	ld	b,a
 	jr	00107$
 00110$:
-;demo.c:1560: vdp_load_palette(twister_palette);
+;demo.c:1576: vdp_load_palette(twister_palette);
 	ld	hl,#_twister_palette
 	push	hl
 	call	_vdp_load_palette
 	pop	af
-;demo.c:1561: drawstr2x("DIGITAL",26,44);
+;demo.c:1577: drawstr2x("DIGITAL",26,44);
 	ld	hl,#0x2C1A
 	push	hl
 	ld	hl,#__str_19
@@ -10100,7 +10264,7 @@ _bigtext:
 	call	_drawstr2x
 	pop	af
 	pop	af
-;demo.c:1562: drawstr2x("SOUNDS",27,84);
+;demo.c:1578: drawstr2x("SOUNDS",27,84);
 	ld	hl,#0x541B
 	push	hl
 	ld	hl,#__str_20
@@ -10108,7 +10272,7 @@ _bigtext:
 	call	_drawstr2x
 	pop	af
 	pop	af
-;demo.c:1563: drawstr2x("SYSTEM",25,124);
+;demo.c:1579: drawstr2x("SYSTEM",25,124);
 	ld	hl,#0x7C19
 	push	hl
 	ld	hl,#__str_21
@@ -10116,18 +10280,18 @@ _bigtext:
 	call	_drawstr2x
 	pop	af
 	pop	af
-;demo.c:1564: bigtextp++;
+;demo.c:1580: bigtextp++;
 	ld	iy,#_bigtextp
 	inc	0 (iy)
 	jr	NZ,00120$
 	ld	iy,#_bigtextp
 	inc	1 (iy)
 00120$:
-;demo.c:1565: tri_inited = 2;
+;demo.c:1581: tri_inited = 2;
 	ld	hl,#_tri_inited + 0
 	ld	(hl), #0x02
 00102$:
-;demo.c:1568: msx2_palette(4,ff>>2,ff>>3,ff>>2);
+;demo.c:1584: msx2_palette(4,ff>>2,ff>>3,ff>>2);
 	ld	hl,#_ff + 0
 	ld	c,(hl)
 	ld	hl,#_ff + 1
@@ -10158,7 +10322,7 @@ _bigtext:
 	call	_msx2_palette
 	pop	af
 	pop	af
-;demo.c:1569: ff+=2;
+;demo.c:1585: ff+=2;
 	ld	hl,#_ff
 	ld	a,(hl)
 	add	a,#0x02
@@ -10188,41 +10352,41 @@ __str_20:
 __str_21:
 	.ascii "SYSTEM"
 	.db 0x00
-;demo.c:1572: void waiter() {
+;demo.c:1588: void waiter() {
 ;	---------------------------------
 ; Function waiter
 ; ---------------------------------
 _waiter_start::
 _waiter:
-;demo.c:1574: }
+;demo.c:1590: }
 	ret
 _waiter_end::
-;demo.c:1581: void do_quit() {
+;demo.c:1597: void do_quit() {
 ;	---------------------------------
 ; Function do_quit
 ; ---------------------------------
 _do_quit_start::
 _do_quit:
-;demo.c:1582: waitVB();
+;demo.c:1598: waitVB();
 		halt 
-;demo.c:1583: uninstall_isr();
+;demo.c:1599: uninstall_isr();
 	call	_uninstall_isr
-;demo.c:1584: PLY_Stop();
+;demo.c:1600: PLY_Stop();
 	call	_PLY_Stop
-;demo.c:1585: PLY_SendRegisters();
+;demo.c:1601: PLY_SendRegisters();
 	call	_PLY_SendRegisters
-;demo.c:1587: screen(0);
+;demo.c:1603: screen(0);
 	ld	a,#0x00
 	push	af
 	inc	sp
 	call	_screen
 	inc	sp
-;demo.c:1589: puts("demo quit\r\n\r\n");
+;demo.c:1605: puts("demo quit\r\n\r\n");
 	ld	hl,#__str_22
 	push	hl
 	call	_puts
 	pop	af
-;demo.c:1591: exit(0);	
+;demo.c:1607: exit(0);	
 	ld	a,#0x00
 	push	af
 	inc	sp
@@ -10237,7 +10401,7 @@ __str_22:
 	.db 0x0D
 	.db 0x0A
 	.db 0x00
-;demo.c:1597: void main() {
+;demo.c:1613: void main() {
 ;	---------------------------------
 ; Function main
 ; ---------------------------------
@@ -10249,16 +10413,16 @@ _main:
 	ld	hl,#-7
 	add	hl,sp
 	ld	sp,hl
-;demo.c:1598: unsigned char quit=0;
+;demo.c:1614: unsigned char quit=0;
 	ld	-1 (ix),#0x00
-;demo.c:1604: spindown();
+;demo.c:1620: spindown();
 	call	_spindown
-;demo.c:1606: puts("demo init\r\n\r\n");
+;demo.c:1622: puts("demo init\r\n\r\n");
 	ld	hl,#__str_23
 	push	hl
 	call	_puts
 	pop	af
-;demo.c:1608: for (y = 0; y < 2; y++) {
+;demo.c:1624: for (y = 0; y < 2; y++) {
 	ld	-5 (ix),#0x00
 	ld	-4 (ix),#0x00
 00118$:
@@ -10267,7 +10431,7 @@ _main:
 	ld	a,-4 (ix)
 	sbc	a,#0x00
 	jp	P,00121$
-;demo.c:1609: for (x = 0; x < 16; x++) {
+;demo.c:1625: for (x = 0; x < 16; x++) {
 	ld	c,-5 (ix)
 	ld	b,-4 (ix)
 	sla	c
@@ -10290,7 +10454,7 @@ _main:
 	ld	a,-2 (ix)
 	sbc	a,#0x00
 	jp	P,00120$
-;demo.c:1610: tri_lookup_x[(y*16)+x] = x * 16;
+;demo.c:1626: tri_lookup_x[(y*16)+x] = x * 16;
 	ld	a,-5 (ix)
 	rlca
 	rlca
@@ -10314,7 +10478,7 @@ _main:
 	rlca
 	and	a,#0xF0
 	ld	(bc),a
-;demo.c:1611: tri_lookup_y[(y*16)+x] = (768+129)+(y * 16);
+;demo.c:1627: tri_lookup_y[(y*16)+x] = (768+129)+(y * 16);
 	sla	e
 	ld	a,#<_tri_lookup_y
 	add	a,e
@@ -10327,21 +10491,21 @@ _main:
 	inc	hl
 	ld	a,-6 (ix)
 	ld	(hl),a
-;demo.c:1609: for (x = 0; x < 16; x++) {
+;demo.c:1625: for (x = 0; x < 16; x++) {
 	inc	-3 (ix)
 	jr	NZ,00146$
 	inc	-2 (ix)
 00146$:
 	jp	00114$
 00120$:
-;demo.c:1608: for (y = 0; y < 2; y++) {
+;demo.c:1624: for (y = 0; y < 2; y++) {
 	inc	-5 (ix)
 	jr	NZ,00147$
 	inc	-4 (ix)
 00147$:
 	jp	00118$
 00121$:
-;demo.c:1615: for (x = 0; x < 26; x++) {
+;demo.c:1631: for (x = 0; x < 26; x++) {
 	ld	-3 (ix),#0x00
 	ld	-2 (ix),#0x00
 	ld	-7 (ix),#0x00
@@ -10352,7 +10516,7 @@ _main:
 	ld	a,-2 (ix)
 	sbc	a,#0x00
 	jp	P,00125$
-;demo.c:1616: twelvetimes[x] = x * 12;
+;demo.c:1632: twelvetimes[x] = x * 12;
 	ld	c,-3 (ix)
 	ld	b,-2 (ix)
 	sla	c
@@ -10364,7 +10528,7 @@ _main:
 	inc	hl
 	ld	a,-6 (ix)
 	ld	(hl),a
-;demo.c:1617: eighttimes[x] = x * 8;
+;demo.c:1633: eighttimes[x] = x * 8;
 	ld	hl,#_eighttimes
 	add	hl,bc
 	ld	c,l
@@ -10382,7 +10546,7 @@ _main:
 	ld	(hl),e
 	inc	hl
 	ld	(hl),d
-;demo.c:1615: for (x = 0; x < 26; x++) {
+;demo.c:1631: for (x = 0; x < 26; x++) {
 	ld	a,-7 (ix)
 	add	a,#0x0C
 	ld	-7 (ix),a
@@ -10395,49 +10559,49 @@ _main:
 00152$:
 	jp	00122$
 00125$:
-;demo.c:1620: puts("music init...");
+;demo.c:1636: puts("music init...");
 	ld	hl,#__str_24
 	push	hl
 	call	_puts
 	pop	af
-;demo.c:1622: PLY_SongPtr = (char *)0x0103;
+;demo.c:1638: PLY_SongPtr = (char *)0x0103;
 	ld	hl,#_PLY_SongPtr + 0
 	ld	(hl), #0x03
 	ld	hl,#_PLY_SongPtr + 1
 	ld	(hl), #0x01
-;demo.c:1623: PLY_Init();
+;demo.c:1639: PLY_Init();
 	call	_PLY_Init
-;demo.c:1624: puts("done.\r\n");
+;demo.c:1640: puts("done.\r\n");
 	ld	hl,#__str_25
 	push	hl
 	call	_puts
 	pop	af
-;demo.c:1626: puts("detecting vdp type...\r\n\r\n");
+;demo.c:1642: puts("detecting vdp type...\r\n\r\n");
 	ld	hl,#__str_26
 	push	hl
 	call	_puts
 	pop	af
-;demo.c:1627: if(isvdp2())
+;demo.c:1643: if(isvdp2())
 	call	_isvdp2
 	xor	a,a
 	or	a,l
 	jr	Z,00102$
-;demo.c:1629: puts("vdp2 found! setting 50hz...\r\n\r\n");
+;demo.c:1645: puts("vdp2 found! setting 50hz...\r\n\r\n");
 	ld	hl,#__str_27
 	push	hl
 	call	_puts
 	pop	af
 	jr	00103$
 00102$:
-;demo.c:1632: puts(" vdp1 found.\r\nSorry, this demo requires a VDP2 with 128k for VRAM.\r\n\r\n");
+;demo.c:1648: puts(" vdp1 found.\r\nSorry, this demo requires a VDP2 with 128k for VRAM.\r\n\r\n");
 	ld	hl,#__str_28
 	push	hl
 	call	_puts
 	pop	af
-;demo.c:1633: do_quit();
+;demo.c:1649: do_quit();
 	call	_do_quit
 00103$:
-;demo.c:1636: pal_load("TWISTER PL5",32,1);
+;demo.c:1652: pal_load("TWISTER PL5",32,1);
 	ld	hl,#0x0001
 	push	hl
 	ld	a,#0x20
@@ -10449,7 +10613,7 @@ _main:
 	pop	af
 	pop	af
 	inc	sp
-;demo.c:1637: memcpy(twister_palette, cur_palette, 32);
+;demo.c:1653: memcpy(twister_palette, cur_palette, 32);
 	ld	hl,#0x0020
 	push	hl
 	ld	hl,#_cur_palette
@@ -10460,7 +10624,7 @@ _main:
 	pop	af
 	pop	af
 	pop	af
-;demo.c:1638: pal_load("LF      PL5",32,1);
+;demo.c:1654: pal_load("LF      PL5",32,1);
 	ld	hl,#0x0001
 	push	hl
 	ld	a,#0x20
@@ -10472,7 +10636,7 @@ _main:
 	pop	af
 	pop	af
 	inc	sp
-;demo.c:1639: memcpy(tf_palette, cur_palette, 32);
+;demo.c:1655: memcpy(tf_palette, cur_palette, 32);
 	ld	hl,#0x0020
 	push	hl
 	ld	hl,#_cur_palette
@@ -10483,7 +10647,7 @@ _main:
 	pop	af
 	pop	af
 	pop	af
-;demo.c:1640: pal_load("BOXES   PL5",32,1);
+;demo.c:1656: pal_load("BOXES   PL5",32,1);
 	ld	hl,#0x0001
 	push	hl
 	ld	a,#0x20
@@ -10495,7 +10659,7 @@ _main:
 	pop	af
 	pop	af
 	inc	sp
-;demo.c:1641: memcpy(boxes_palette, cur_palette, 32);
+;demo.c:1657: memcpy(boxes_palette, cur_palette, 32);
 	ld	hl,#0x0020
 	push	hl
 	ld	hl,#_cur_palette
@@ -10506,7 +10670,7 @@ _main:
 	pop	af
 	pop	af
 	pop	af
-;demo.c:1642: pal_load("BULBS   PL5",32,1);
+;demo.c:1658: pal_load("BULBS   PL5",32,1);
 	ld	hl,#0x0001
 	push	hl
 	ld	a,#0x20
@@ -10518,7 +10682,7 @@ _main:
 	pop	af
 	pop	af
 	inc	sp
-;demo.c:1643: memcpy(bulbs_palette, cur_palette, 32);
+;demo.c:1659: memcpy(bulbs_palette, cur_palette, 32);
 	ld	hl,#0x0020
 	push	hl
 	ld	hl,#_cur_palette
@@ -10529,16 +10693,16 @@ _main:
 	pop	af
 	pop	af
 	pop	af
-;demo.c:1645: scratch_clear();
+;demo.c:1661: scratch_clear();
 	call	_scratch_clear
-;demo.c:1646: vdp_load_palette(scratch);
+;demo.c:1662: vdp_load_palette(scratch);
 	ld	hl,#_scratch
 	push	hl
 	call	_vdp_load_palette
 	pop	af
-;demo.c:1648: vdp_set_screen5();
+;demo.c:1664: vdp_set_screen5();
 	call	_vdp_set_screen5
-;demo.c:1650: pck_load("BULBS   PCK",2431,0x0000,VRAM_0,0);
+;demo.c:1666: pck_load("BULBS   PCK",2431,0x0000,VRAM_0,0);
 	ld	hl,#0x0000
 	push	hl
 	ld	l, #0x01
@@ -10553,51 +10717,51 @@ _main:
 	ld	iy,#0x000A
 	add	iy,sp
 	ld	sp,iy
-;demo.c:1652: cmd.size_x = 256;
+;demo.c:1668: cmd.size_x = 256;
 	ld	hl, #_cmd + 8
 	ld	(hl),#0x00
 	inc	hl
 	ld	(hl),#0x01
-;demo.c:1653: cmd.size_y = 212;
+;demo.c:1669: cmd.size_y = 212;
 	ld	hl, #_cmd + 10
 	ld	(hl),#0xD4
 	inc	hl
 	ld	(hl),#0x00
-;demo.c:1654: cmd.data = 0;
-;demo.c:1655: cmd.argument = 0x00;
+;demo.c:1670: cmd.data = 0;
+;demo.c:1671: cmd.argument = 0x00;
 	ld	a,#0x00
 	ld	(#_cmd + 12),a
 	ld	(#_cmd + 13),a
-;demo.c:1656: cmd.command = 0xd0; 
+;demo.c:1672: cmd.command = 0xd0; 
 	ld	bc,#_cmd + 14
 	ld	a,#0xD0
 	ld	(bc),a
-;demo.c:1657: cmd.source_x = 0;
+;demo.c:1673: cmd.source_x = 0;
 	ld	hl,#_cmd
 	ld	(hl),#0x00
 	inc	hl
 	ld	(hl),#0x00
-;demo.c:1658: cmd.source_y = 0;
+;demo.c:1674: cmd.source_y = 0;
 	ld	hl, #_cmd + 2
 	ld	(hl),#0x00
 	inc	hl
 	ld	(hl),#0x00
-;demo.c:1659: cmd.dest_x = 0;
+;demo.c:1675: cmd.dest_x = 0;
 	ld	hl, #_cmd + 4
 	ld	(hl),#0x00
 	inc	hl
 	ld	(hl),#0x00
-;demo.c:1660: cmd.dest_y = 256;
+;demo.c:1676: cmd.dest_y = 256;
 	ld	hl, #_cmd + 6
 	ld	(hl),#0x00
 	inc	hl
 	ld	(hl),#0x01
-;demo.c:1661: vdp_copier(&cmd);
+;demo.c:1677: vdp_copier(&cmd);
 	ld	hl,#_cmd
 	push	hl
 	call	_vdp_copier
 	pop	af
-;demo.c:1663: pck_load("TWISTER PCK",4032,0x0000,VRAM_0,0);
+;demo.c:1679: pck_load("TWISTER PCK",4032,0x0000,VRAM_0,0);
 	ld	hl,#0x0000
 	push	hl
 	ld	l, #0x01
@@ -10612,51 +10776,51 @@ _main:
 	ld	iy,#0x000A
 	add	iy,sp
 	ld	sp,iy
-;demo.c:1665: cmd.size_x = 256;
+;demo.c:1681: cmd.size_x = 256;
 	ld	hl, #_cmd + 8
 	ld	(hl),#0x00
 	inc	hl
 	ld	(hl),#0x01
-;demo.c:1666: cmd.size_y = 212;
+;demo.c:1682: cmd.size_y = 212;
 	ld	hl, #_cmd + 10
 	ld	(hl),#0xD4
 	inc	hl
 	ld	(hl),#0x00
-;demo.c:1667: cmd.data = 0;
-;demo.c:1668: cmd.argument = 0x00;
+;demo.c:1683: cmd.data = 0;
+;demo.c:1684: cmd.argument = 0x00;
 	ld	a,#0x00
 	ld	(#_cmd + 12),a
 	ld	(#_cmd + 13),a
-;demo.c:1669: cmd.command = 0xd0; 
+;demo.c:1685: cmd.command = 0xd0; 
 	ld	bc,#_cmd + 14
 	ld	a,#0xD0
 	ld	(bc),a
-;demo.c:1670: cmd.source_x = 0;
+;demo.c:1686: cmd.source_x = 0;
 	ld	hl,#_cmd
 	ld	(hl),#0x00
 	inc	hl
 	ld	(hl),#0x00
-;demo.c:1671: cmd.source_y = 0;
+;demo.c:1687: cmd.source_y = 0;
 	ld	hl, #_cmd + 2
 	ld	(hl),#0x00
 	inc	hl
 	ld	(hl),#0x00
-;demo.c:1672: cmd.dest_x = 0;
+;demo.c:1688: cmd.dest_x = 0;
 	ld	hl, #_cmd + 4
 	ld	(hl),#0x00
 	inc	hl
 	ld	(hl),#0x00
-;demo.c:1673: cmd.dest_y = 512;
+;demo.c:1689: cmd.dest_y = 512;
 	ld	hl, #_cmd + 6
 	ld	(hl),#0x00
 	inc	hl
 	ld	(hl),#0x02
-;demo.c:1674: vdp_copier(&cmd);
+;demo.c:1690: vdp_copier(&cmd);
 	ld	hl,#_cmd
 	push	hl
 	call	_vdp_copier
 	pop	af
-;demo.c:1677: pck_load("BOXES   PCK",2731,0x0000,VRAM_0,0);
+;demo.c:1693: pck_load("BOXES   PCK",2731,0x0000,VRAM_0,0);
 	ld	hl,#0x0000
 	push	hl
 	ld	l, #0x01
@@ -10671,58 +10835,58 @@ _main:
 	ld	iy,#0x000A
 	add	iy,sp
 	ld	sp,iy
-;demo.c:1678: cmd.size_x = 256;
+;demo.c:1694: cmd.size_x = 256;
 	ld	hl, #_cmd + 8
 	ld	(hl),#0x00
 	inc	hl
 	ld	(hl),#0x01
-;demo.c:1679: cmd.size_y = 212;
+;demo.c:1695: cmd.size_y = 212;
 	ld	hl, #_cmd + 10
 	ld	(hl),#0xD4
 	inc	hl
 	ld	(hl),#0x00
-;demo.c:1680: cmd.data = 0;
-;demo.c:1681: cmd.argument = 0x00;
+;demo.c:1696: cmd.data = 0;
+;demo.c:1697: cmd.argument = 0x00;
 	ld	a,#0x00
 	ld	(#_cmd + 12),a
 	ld	(#_cmd + 13),a
-;demo.c:1682: cmd.command = 0xd0; 
+;demo.c:1698: cmd.command = 0xd0; 
 	ld	bc,#_cmd + 14
 	ld	a,#0xD0
 	ld	(bc),a
-;demo.c:1683: cmd.source_x = 0;
+;demo.c:1699: cmd.source_x = 0;
 	ld	hl,#_cmd
 	ld	(hl),#0x00
 	inc	hl
 	ld	(hl),#0x00
-;demo.c:1684: cmd.source_y = 0;
+;demo.c:1700: cmd.source_y = 0;
 	ld	hl, #_cmd + 2
 	ld	(hl),#0x00
 	inc	hl
 	ld	(hl),#0x00
-;demo.c:1685: cmd.dest_x = 0;
+;demo.c:1701: cmd.dest_x = 0;
 	ld	hl, #_cmd + 4
 	ld	(hl),#0x00
 	inc	hl
 	ld	(hl),#0x00
-;demo.c:1686: cmd.dest_y = 768;
+;demo.c:1702: cmd.dest_y = 768;
 	ld	hl, #_cmd + 6
 	ld	(hl),#0x00
 	inc	hl
 	ld	(hl),#0x03
-;demo.c:1687: vdp_copier(&cmd);
+;demo.c:1703: vdp_copier(&cmd);
 	ld	hl,#_cmd
 	push	hl
 	call	_vdp_copier
 	pop	af
-;demo.c:1689: scratch_clear();
+;demo.c:1705: scratch_clear();
 	call	_scratch_clear
-;demo.c:1690: vdp_load_palette(scratch);
+;demo.c:1706: vdp_load_palette(scratch);
 	ld	hl,#_scratch
 	push	hl
 	call	_vdp_load_palette
 	pop	af
-;demo.c:1692: pck_load("DSSLOGO PCK",2154,0x0000,VRAM_0,0);
+;demo.c:1708: pck_load("DSSLOGO PCK",2154,0x0000,VRAM_0,0);
 	ld	hl,#0x0000
 	push	hl
 	ld	l, #0x01
@@ -10737,110 +10901,110 @@ _main:
 	ld	iy,#0x000A
 	add	iy,sp
 	ld	sp,iy
-;demo.c:1694: cmd.size_x = 108;
+;demo.c:1710: cmd.size_x = 108;
 	ld	hl, #_cmd + 8
 	ld	(hl),#0x6C
 	inc	hl
 	ld	(hl),#0x00
-;demo.c:1695: cmd.size_y = 116;
+;demo.c:1711: cmd.size_y = 116;
 	ld	hl, #_cmd + 10
 	ld	(hl),#0x74
 	inc	hl
 	ld	(hl),#0x00
-;demo.c:1696: cmd.data = 0;
-;demo.c:1697: cmd.argument = 0x00;
+;demo.c:1712: cmd.data = 0;
+;demo.c:1713: cmd.argument = 0x00;
 	ld	a,#0x00
 	ld	(#_cmd + 12),a
 	ld	(#_cmd + 13),a
-;demo.c:1698: cmd.command = 0xd0; 
+;demo.c:1714: cmd.command = 0xd0; 
 	ld	bc,#_cmd + 14
 	ld	a,#0xD0
 	ld	(bc),a
-;demo.c:1699: cmd.source_x = 75;
+;demo.c:1715: cmd.source_x = 75;
 	ld	hl,#_cmd
 	ld	(hl),#0x4B
 	inc	hl
 	ld	(hl),#0x00
-;demo.c:1700: cmd.source_y = 50;
+;demo.c:1716: cmd.source_y = 50;
 	ld	hl, #_cmd + 2
 	ld	(hl),#0x32
 	inc	hl
 	ld	(hl),#0x00
-;demo.c:1701: cmd.dest_x = 75;
+;demo.c:1717: cmd.dest_x = 75;
 	ld	hl, #_cmd + 4
 	ld	(hl),#0x4B
 	inc	hl
 	ld	(hl),#0x00
-;demo.c:1702: cmd.dest_y = 256;
+;demo.c:1718: cmd.dest_y = 256;
 	ld	hl, #_cmd + 6
 	ld	(hl),#0x00
 	inc	hl
 	ld	(hl),#0x01
-;demo.c:1703: vdp_copier(&cmd);
+;demo.c:1719: vdp_copier(&cmd);
 	ld	hl,#_cmd
 	push	hl
 	call	_vdp_copier
 	pop	af
-;demo.c:1705: cmd.size_x = 108;
+;demo.c:1721: cmd.size_x = 108;
 	ld	hl, #_cmd + 8
 	ld	(hl),#0x6C
 	inc	hl
 	ld	(hl),#0x00
-;demo.c:1706: cmd.size_y = 60;
+;demo.c:1722: cmd.size_y = 60;
 	ld	hl, #_cmd + 10
 	ld	(hl),#0x3C
 	inc	hl
 	ld	(hl),#0x00
-;demo.c:1707: cmd.data = 0;
-;demo.c:1708: cmd.argument = 0x00;
+;demo.c:1723: cmd.data = 0;
+;demo.c:1724: cmd.argument = 0x00;
 	ld	a,#0x00
 	ld	(#_cmd + 12),a
 	ld	(#_cmd + 13),a
-;demo.c:1709: cmd.command = 0xd0; 
+;demo.c:1725: cmd.command = 0xd0; 
 	ld	bc,#_cmd + 14
 	ld	a,#0xD0
 	ld	(bc),a
-;demo.c:1710: cmd.source_x = 75;
+;demo.c:1726: cmd.source_x = 75;
 	ld	hl,#_cmd
 	ld	(hl),#0x4B
 	inc	hl
 	ld	(hl),#0x00
-;demo.c:1711: cmd.source_y = 256+110;
+;demo.c:1727: cmd.source_y = 256+110;
 	ld	hl, #_cmd + 2
 	ld	(hl),#0x6E
 	inc	hl
 	ld	(hl),#0x01
-;demo.c:1712: cmd.dest_x = 75;
+;demo.c:1728: cmd.dest_x = 75;
 	ld	hl, #_cmd + 4
 	ld	(hl),#0x4B
 	inc	hl
 	ld	(hl),#0x00
-;demo.c:1713: cmd.dest_y = 40;
+;demo.c:1729: cmd.dest_y = 40;
 	ld	hl, #_cmd + 6
 	ld	(hl),#0x28
 	inc	hl
 	ld	(hl),#0x00
-;demo.c:1714: vdp_copier(&cmd);
+;demo.c:1730: vdp_copier(&cmd);
 	ld	hl,#_cmd
 	push	hl
 	call	_vdp_copier
 	pop	af
-;demo.c:1715: cmd.dest_x = 75;
+;demo.c:1731: cmd.dest_x = 75;
 	ld	hl, #_cmd + 4
 	ld	(hl),#0x4B
 	inc	hl
 	ld	(hl),#0x00
-;demo.c:1716: cmd.dest_y = 100;
+;demo.c:1732: cmd.dest_y = 100;
 	ld	hl, #_cmd + 6
 	ld	(hl),#0x64
 	inc	hl
 	ld	(hl),#0x00
-;demo.c:1717: vdp_copier(&cmd);
+;demo.c:1733: vdp_copier(&cmd);
 	ld	hl,#_cmd
 	push	hl
 	call	_vdp_copier
 	pop	af
-;demo.c:1719: pal_load("DSSLOGO PL5",32,0);
+;demo.c:1735: pal_load("DSSLOGO PL5",32,0);
 	ld	hl,#0x0000
 	push	hl
 	ld	a,#0x20
@@ -10852,24 +11016,24 @@ _main:
 	pop	af
 	pop	af
 	inc	sp
-;demo.c:1721: scratch_clear();
+;demo.c:1737: scratch_clear();
 	call	_scratch_clear
-;demo.c:1723: vdp_register(9,130); // 50hz,212
+;demo.c:1739: vdp_register(9,130); // 50hz,212
 	ld	hl,#0x8209
 	push	hl
 	call	_vdp_register
 	pop	af
-;demo.c:1725: install_isr(my_isr);
+;demo.c:1741: install_isr(my_isr);
 	ld	hl,#_my_isr
 	push	hl
 	call	_install_isr
 	pop	af
-;demo.c:1729: while (!quit) {
+;demo.c:1745: while (!quit) {
 00111$:
 	xor	a,a
 	or	a,-1 (ix)
 	jp	NZ,00113$
-;demo.c:1731: if (vbicount >= scenetimings[timeindex+1]) {
+;demo.c:1747: if (vbicount >= scenetimings[timeindex+1]) {
 	ld	hl,#_timeindex + 0
 	ld	c,(hl)
 	inc	c
@@ -10888,14 +11052,14 @@ _main:
 	ld	a,(#_vbicount+1)
 	sbc	a,b
 	jp	M,00105$
-;demo.c:1732: sceneindex++;
+;demo.c:1748: sceneindex++;
 	ld	iy,#_sceneindex
 	inc	0 (iy)
 	jr	NZ,00153$
 	ld	iy,#_sceneindex
 	inc	1 (iy)
 00153$:
-;demo.c:1733: timeindex+=2;
+;demo.c:1749: timeindex+=2;
 	ld	hl,#_timeindex
 	ld	a,(hl)
 	add	a,#0x02
@@ -10915,7 +11079,7 @@ _main:
 	inc	hl
 	ld	(hl),a
 00105$:
-;demo.c:1736: if (vbicount >= scenetimings[timeindex] && vbicount < scenetimings[timeindex+1]) {
+;demo.c:1752: if (vbicount >= scenetimings[timeindex] && vbicount < scenetimings[timeindex+1]) {
 	ld	hl,#_timeindex + 0
 	ld	c,(hl)
 	ld	hl,#_timeindex + 1
@@ -10951,9 +11115,9 @@ _main:
 	ld	a,1 (iy)
 	sbc	a,b
 	jp	P,00107$
-;demo.c:1737: waitVB();
+;demo.c:1753: waitVB();
 		halt 
-;demo.c:1738: scenepointers[sceneindex]();
+;demo.c:1754: scenepointers[sceneindex]();
 	ld	hl,#_sceneindex + 0
 	ld	c,(hl)
 	ld	iy,#_sceneindex
@@ -10974,7 +11138,7 @@ _main:
 00158$:
 	pop	bc
 00107$:
-;demo.c:1742: if(space())
+;demo.c:1758: if(space())
 	ld	hl,#0x0108
 	push	hl
 	call	_ispressed
@@ -10982,11 +11146,11 @@ _main:
 	xor	a,a
 	or	a,l
 	jp	Z,00111$
-;demo.c:1743: quit=1;
+;demo.c:1759: quit=1;
 	ld	-1 (ix),#0x01
 	jp	00111$
 00113$:
-;demo.c:1746: do_quit();
+;demo.c:1762: do_quit();
 	call	_do_quit
 	ld	sp,ix
 	pop	ix

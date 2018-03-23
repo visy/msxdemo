@@ -754,7 +754,7 @@ void twister() {
 	}
 
 	//msx2_palette(9,vbicount>>2,vbicount>>2,vbicount>>2);
-	msx2_palette(4,ff>>2,ff>>3,ff>>2);
+	msx2_palette(4,PLY_PSGReg8+ff>>2,PLY_PSGReg9+ff>>3,ff>>2);
 
 	font();
 
@@ -1088,6 +1088,7 @@ void thewave() {
 	int px;
 	uint8_t ya = 0;
 	int bo = 0;
+	int lukema = 0;
 
 	if (initwave == 0) {
 		initwave = 1;
@@ -1148,10 +1149,11 @@ void thewave() {
 	cmd.dest_y = 72+bo;
 	vdp_copier(&cmd);
 
+	lukema = ffa;
 	for (y = 0; y < 5; y+=1) {
 		for (x = 0; x < 6; x+=1) {
 
-			px=7 + (sintab[(ffa + (x<<2) + (y<<2)) & 255]>>4);
+			px=7 + (sintab[(lukema + (x<<3) + (y<<2)) & 255]>>4);
 			if (px < 0) px = 0; 
 			if (px > 14) px = 14; 
 
@@ -1171,7 +1173,7 @@ void thewave() {
 
 	y = 5;
 	for (x = 0; x < 6; x+=1) {
-		px=7 + (sintab[(ffa + (x<<2) + (y<<2)) & 255]>>4);
+		px=7 + (sintab[(lukema + (x<<3) + (y<<2)) & 255]>>4);
 		if (px < 0) px = 0; 
 		if (px > 14) px = 14; 
 
@@ -1309,7 +1311,7 @@ void tritiles() {
 		if (tri_inited == 1) drawtilescreen_full(tri_center);
 		else drawtilescreen_full(tri_inva2);
 		vdp_register(2, 0x1f);
-
+		tick = 0;
 	}
 
 
@@ -1366,11 +1368,23 @@ void tritiles() {
 	msx2_palette(2,0,0,0);
 	msx2_palette(11,0,0,0);
 
+	if (PLY_PSGReg10 > 4) {
+    vdp_register(VDP_VOFFSET,192-sintabx[(PLY_PSGReg10 + tripaltick) & 255]>>3);
+
+	msx2_palette(3,tripal[0]+PLY_PSGReg10,tripal[1],tripal[2]);
+	msx2_palette(14,tripal[3],tripal[4],tripal[5]);
+	msx2_palette(6,tripal[6],tripal[7],tripal[8]);
+	}
+	else {
+    vdp_register(VDP_VOFFSET,0);
 
 	msx2_palette(3,tripal[0],tripal[1],tripal[2]);
 	msx2_palette(14,tripal[3],tripal[4],tripal[5]);
 	msx2_palette(6,tripal[6],tripal[7],tripal[8]);
 
+	}
+
+	if (tick > 28) tick = 0;
 
 	tripaltick++;
 	if (tripaltick > 6) {
@@ -1524,6 +1538,8 @@ void points() {
 		drawstrslow("Cartoon Horse Demo Force",20,184);
 	}
 	if (ltrpointer >= slowend) { greetindex++; ltrpointer = 0; }
+
+	msx2_palette(4,0,0,0);
 
 }
 
