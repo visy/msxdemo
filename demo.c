@@ -34,8 +34,6 @@ const uint8_t sintabx[256] = {
 };
 
 
-const char* credits = "demo code by visy_        tjoppen__music by lynn__graphics by lynn_            siikikala_            visy__msxlib by marq__basecode by Konamiman__depacker_help by_         GuyveR";
-
 const uint8_t tri_center[192] = {
 8,10,18,16,0,2,8,10,11,9,3,1,17,19,11,9,
 10,18,16,0,2,8,10,18,19,11,9,3,1,17,19,11,
@@ -182,7 +180,7 @@ int eighttimes[26] = { 0 };
 
 int tri_lookup_y[16*2] = { 0 };
 
-uint8_t packbuffer[16000] = {0};
+uint8_t packbuffer[5000] = {0};
 
 uint8_t scratch[128];
 uint8_t cur_palette[32];
@@ -196,6 +194,35 @@ volatile int vbicount=0;
 volatile int tick=0;
 
 vdp_copy_command cmd;
+
+
+void (*scenepointers[10])() = {
+	waiter,
+	logoeffu,
+	bulbs, 
+	twister,
+	boxes,
+	thewave,
+	tritiles,
+	points,
+	bigtext,
+	tritiles
+};
+
+int scenetimings[20] = {
+	0, 170,
+	170, 350,
+	750, 1300,
+	1300, 2300,
+	2300, 3600,
+	3600, 4100,
+	4100, 5550,
+	5550, 6100,
+	6100, 6400,
+	6400, 8000
+};
+
+
 
 int isNthBitSet (unsigned char c, int n) {
     static unsigned char mask[] = {1, 2, 4, 8, 16, 32, 64, 128};
@@ -581,10 +608,8 @@ void do_2xletter(char cc) {
 			cmd.dest_y = 1+ly+y*3;
 			vdp_copier(&cmd);
 		}
-
+		waitVB();
 	}
-
-
 
 	lx+=font_w[cidx]-1+(x*4);
 }
@@ -631,6 +656,27 @@ void drawstr(char* str, uint8_t x, uint8_t y) {
 	}
 }
 
+int ltrpointer = 0;
+int slowend = 128;
+
+void drawstrslow(char* str, uint8_t x, uint8_t y) {
+	char* c = str+ltrpointer;
+	if (ltrpointer > slowend) return;
+	if (ltrpointer == 0) {
+		lx = x;
+		ly = y;
+	}
+	while (*c) {
+		char ltr = *c++; 
+		if (ltr == ' ') lx+=4;
+		else if (ltr == '_') { ly+=9; lx = x; }
+		else do_letter(ltr);
+		break;
+	}
+
+	ltrpointer++;
+}
+
 void drawstr2x(char* str, uint8_t x, uint8_t y) {
 	char* c = str;
 	lx = x;
@@ -640,6 +686,7 @@ void drawstr2x(char* str, uint8_t x, uint8_t y) {
 		if (ltr == ' ') lx+=4*4;
 		else if (ltr == '_') { ly+=9*4; lx = x; }
 		else do_2xletter(ltr);
+
 	}
 }
 
@@ -656,9 +703,8 @@ void drawsine(char* str, uint8_t x, uint8_t y) {
 }
 
 void font() {
-
-	drawstr("DIGITAL SOUNDS SYSTEM__ IN THE HOUSE__  ON MSX__   AT REVISION__    OLDSKOOL_     DEMO_      COMPO",74,60);
-
+	slowend = 128;
+	drawstrslow("DIGITAL SOUNDS SYSTEM__ IN THE HOUSE__  ON MSX__   AT REVISION__    OLDSKOOL_     DEMO_      COMPO__MAKE SOME NOISE PARTY PEOPLE",74,60);
 }
 
 
@@ -689,10 +735,7 @@ void twister() {
 
 		twinited = 1;
 		vdp_load_palette(twister_palette);
-		font();
-
 		drawstr2x("DSS",80,15);
-
 	}
 
 
@@ -712,6 +755,8 @@ void twister() {
 
 	//msx2_palette(9,vbicount>>2,vbicount>>2,vbicount>>2);
 	msx2_palette(4,ff>>2,ff>>3,ff>>2);
+
+	font();
 
 	ff+=4;
 }
@@ -1220,87 +1265,102 @@ void tritiles() {
 	char g;
 	char b;
 
-	if (tri_inited == 0) {
-		tri_inited = 1;
+	if (tri_inited == 0 || tri_inited == 2) {
 
-		cmd.size_x = 256;
-		cmd.size_y = 1;
+		cmd.size_x = 2;
+		cmd.size_y = 212;
 		cmd.data = 0;
 		cmd.argument = 0x00; // from 70xY to left
 		cmd.command = 0xd0; // vram to vram, y only
-		cmd.source_x = 0;
-		cmd.source_y = 212;
-		cmd.dest_y = 0;
+		cmd.source_x = 255;
+		cmd.source_y = 0;
 
-		for (x = 0; x < 212; x++) {
+		for (x = 0; x < 256; x+=2) {
 			waitVB();
-			cmd.dest_x = 0;
-			cmd.dest_y = 256+x;
+			cmd.dest_y = 256;
+			cmd.dest_x = x;
 			vdp_copier(&cmd);
-			cmd.dest_y = 0+x;
+			cmd.dest_y = 0;
 			vdp_copier(&cmd);
 		}
 
-    	vdp_load_palette(boxes_palette);
+    	if (tri_inited == 0) vdp_load_palette(boxes_palette);
+    	else if (tri_inited == 2) { 
+    		vdp_load_palette(boxes_palette); 
+    		triframes = 0; 
 
+    		tripal[0] = 4;
+    		tripal[1] = 4;
+    		tripal[2] = 3;
+
+    		tripal[3] = 2;
+    		tripal[4] = 3;
+    		tripal[5] = 4;
+
+    		tripal[6] = 1;
+    		tripal[7] = 3;
+    		tripal[8] = 1;
+    	}
+    	tri_inited++;
 		vdp_register(9,2); // 50hz,192
 
     	msx2_palette(15,0,0,0);
 
-		drawtilescreen_full(tri_center);
+		if (tri_inited == 1) drawtilescreen_full(tri_center);
+		else drawtilescreen_full(tri_inva2);
 		vdp_register(2, 0x1f);
 
 	}
 
 
-	triframes++;
+	if (tri_inited == 1) triframes++;
 
-	if (triframes == 200) { tilei = 0; tilex = 0; tiley = 0; }
-	if (triframes >= 200 && triframes < 400) {
+	if (triframes == 150) { tilei = 0; tilex = 0; tiley = 0; }
+	if (triframes >= 150 && triframes < 300) {
 		drawtilescreen(tri_up);
 	}
 
-	if (triframes == 400) { tilei = 0; tilex = 0; tiley = 0; }
-	if (triframes >= 400 && triframes < 600) {
+	if (triframes == 300) { tilei = 0; tilex = 0; tiley = 0; }
+	if (triframes >= 300 && triframes < 450) {
 		drawtilescreen(tri_dia);
 	}
 
-	if (triframes == 600) { tilei = 0; tilex = 0; tiley = 0; }
-	if (triframes >= 600 && triframes < 700) {
+	if (triframes == 450) { tilei = 0; tilex = 0; tiley = 0; }
+	if (triframes >= 450 && triframes < 600) {
 		drawtilescreen(tri_side1);
 	}
 
-	if (triframes == 800) { tilei = 0; tilex = 0; tiley = 0; }
-	if (triframes >= 800 && triframes < 1000) {
+	if (triframes == 600) { tilei = 0; tilex = 0; tiley = 0; }
+	if (triframes >= 600 && triframes < 750) {
 		drawtilescreen(tri_side2);
 	}
 
-	if (triframes == 1000) { tilei = 0; tilex = 0; tiley = 0; }
-	if (triframes >= 1000 && triframes < 1200) {
+	if (triframes == 750) { tilei = 0; tilex = 0; tiley = 0; }
+	if (triframes >= 750 && triframes < 900) {
 		drawtilescreen(tri_inva1);
 	}
 
-	if (triframes == 1200) { tilei = 0; tilex = 0; tiley = 0; }
-	if (triframes >= 1200 && triframes < 1400) {
+	if (triframes == 900) { tilei = 0; tilex = 0; tiley = 0; }
+	if (triframes >= 900 && triframes < 1050) {
 		drawtilescreen(tri_inva2);
 	}
 
-	if (triframes == 1400) { tilei = 0; tilex = 0; tiley = 0; }
-	if (triframes >= 1400 && triframes < 1600) {
+	if (triframes == 1050) { tilei = 0; tilex = 0; tiley = 0; }
+	if (triframes >= 1050 && triframes < 1200) {
 		drawtilescreen(tri_inva3);
 	}
 
-	if (triframes == 1600) { tilei = 0; tilex = 0; tiley = 0; }
-	if (triframes >= 1600 && triframes < 1800) {
+	if (triframes == 1200) { tilei = 0; tilex = 0; tiley = 0; }
+	if (triframes >= 1200 && triframes < 1350) {
 		drawtilescreen(tri_inva4);
 	}
 
-	if (triframes == 1800) { tilei = 0; tilex = 0; tiley = 0; }
-	if (triframes >= 1800 && triframes < 2000) {
+	if (triframes == 1350) { tilei = 0; tilex = 0; tiley = 0; }
+	if (triframes >= 1350 && triframes < 1500) {
 		drawtilescreen(tri_center);
 	}
 
-	if (triframes > 2000) triframes = 199;
+	if (triframes > 1500) triframes = 199;
 
 
 	msx2_palette(2,0,0,0);
@@ -1366,7 +1426,7 @@ void logoeffu() {
 		vdp_copier(&cmd);
 	}
 
-	if (vbicount > 84 && onceclear > 182) {
+	if (vbicount > scenetimings[2]+84 && onceclear > 182) {
 			cmd.size_x = 4;
 			cmd.size_y = 116;
 			cmd.data = 0;
@@ -1387,6 +1447,10 @@ void logoeffu() {
 
 uint8_t initpoints = 0;
 int pointframe = 0;
+
+
+int greetindex = 0;
+
 void points() {
 	uint8_t y = 0;
 	int x = 0;
@@ -1427,6 +1491,7 @@ void points() {
 		}
 
 		initpoints = 1;
+		ltrpointer = 0;
 	}
 
 	cmd.argument = 0x0;
@@ -1441,6 +1506,70 @@ void points() {
 		vdp_copier(&cmd);
 	}
 	pointframe+=2;
+
+	if (greetindex == 0) {
+		slowend = 27;
+		drawstrslow("GREETINGS TO VARIOUS GROUPS",10,20);
+	}
+	if (greetindex == 1) {
+		slowend = 33;
+		drawstrslow("Trilobit  Prismbeings  Ivory Labs",10,164);
+	}
+	if (greetindex == 2) {
+		slowend = 29;
+		drawstrslow("PWP  Dekadence  Paraguay  ISO",18,174);
+	}
+	if (greetindex == 3) {
+		slowend = 24;
+		drawstrslow("Cartoon Horse Demo Force",20,184);
+	}
+	if (ltrpointer >= slowend) { greetindex++; ltrpointer = 0; }
+
+}
+
+int bigtextp = 0;
+void bigtext() {
+	int x = 0;
+	if (bigtextp == 0) {
+		cmd.size_x = 2;
+		cmd.size_y = 212;
+		cmd.data = 0;
+		cmd.argument = 0x00; // from 70xY to left
+		cmd.command = 0xd0; // vram to vram, y only
+		cmd.source_x = 255;
+		cmd.source_y = 0;
+
+		for (x = 0; x < 256; x+=4) {
+			waitVB();
+			cmd.dest_y = 256;
+			cmd.dest_x = x;
+			vdp_copier(&cmd);
+			cmd.dest_y = 0;
+			vdp_copier(&cmd);
+		}
+
+		for (x = 254; x > 0; x-=4) {
+			waitVB();
+			cmd.dest_y = 256;
+			cmd.dest_x = x;
+			vdp_copier(&cmd);
+			cmd.dest_y = 0;
+			vdp_copier(&cmd);
+		}
+
+		vdp_load_palette(twister_palette);
+		drawstr2x("DIGITAL",26,44);
+		drawstr2x("SOUNDS",27,84);
+		drawstr2x("SYSTEM",25,124);
+		bigtextp++;
+		tri_inited = 2;
+	}
+
+	msx2_palette(4,ff>>2,ff>>3,ff>>2);
+	ff+=2;
+}
+
+void waiter() {
 
 }
 
@@ -1464,28 +1593,6 @@ void do_quit() {
 
 int sceneindex = 0;
 int timeindex = 0;
-
-void (*scenepointers[8])() = {
-	logoeffu,
-	bulbs, 
-	twister,
-	boxes,
-	thewave,
-	tritiles,
-	points,
-	animplay
-};
-
-int scenetimings[16] = {
-	0, 250,
-	250, 1100,
-	1100, 2200,
-	2200, 3700,
-	3700, 5000,
-	5000, 8000,
-	8000, 9000,
-	9000, 15000
-};
 
 void main() {
 	unsigned char quit=0;

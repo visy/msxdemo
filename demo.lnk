@@ -3,7 +3,7 @@
 -j
 -x
 -i demo
--b _CODE = 0x040c
+-b _CODE = 0x0e8c
 -b _DATA = 0x0000
 -k .
 -k /usr/local/bin/../share/sdcc/lib/z80
