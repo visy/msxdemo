@@ -224,8 +224,8 @@ int scenetimings[24] = {
 	3600, 4100,
 	4100, 5550,
 	5550, 6100,
-	6100, 9120,
-	9120, 10100,
+	6100, 9205,
+	9205, 10100,
 	10100, 100000
 };
 
@@ -1314,8 +1314,8 @@ void points() {
 		drawstrslow("PWP  Dekadence  Paraguay  ISO",18,174);
 	}
 	if (greetindex == 3) {
-		slowend = 24;
-		drawstrslow("Cartoon Horse Demo Force",20,184);
+		slowend = 17;
+		drawstrslow("Furry Trash Group",26,184);
 	}
 	if (ltrpointer >= slowend) { greetindex++; ltrpointer = 0; }
 
@@ -1353,7 +1353,7 @@ void bigtext() {
 			vdp_copier(&cmd);
 		}
 
-		vdp_load_palette(twister_palette);
+		vdp_load_palette(boxes_palette);
 		drawstr2x("DIGITAL",26,44);
 		drawstr2x("SOUNDS",27,84);
 		drawstr2x("SYSTEM",25,124);
@@ -1454,6 +1454,50 @@ void bigtext() {
 		drawstrslow("of this amazing party",64,164+16);
 	}
 
+	if (ff >= 2000 && ff < 3890) {
+		cmd.size_x = 1;
+		cmd.size_y = 17;
+		cmd.data = 0;
+		cmd.argument = 0x00; // from 70xY to left
+		cmd.command = 0xd0; // vram to vram, y only
+		cmd.source_x = 128+20*(((ff-2001)>>3) % 6);
+		cmd.source_y = 768+30;
+		cmd.dest_x = (255)-((ff-2000)>>3);
+		cmd.dest_y = 12;
+		vdp_copier(&cmd);
+
+
+		cmd.size_x = 20;
+		cmd.size_y = 17;
+		cmd.data = 0;
+		cmd.argument = 0x00; // from 70xY to left
+		cmd.command = 0xd0; // vram to vram, y only
+		cmd.source_x = 128+20*(((ff-2000)>>3) % 6);
+		cmd.source_y = 768;
+		cmd.dest_x = (256-20)-((ff-2000)>>3);
+		cmd.dest_y = 12;
+		vdp_copier(&cmd);
+
+	}
+
+
+	if (ff == 2800) {
+		ltrpointer = 0;
+	}
+
+	if (ff > 2800 && ff < 2900) {
+		slowend = 21;
+		drawstrslow("Digital Sounds System",0,0);
+	}
+
+	if (ff == 3400) {
+		ltrpointer = 0;
+	}
+
+	if (ff > 3400 && ff < 3500) {
+		slowend = 19;
+		drawstrslow("mew mew mew miu mou",134,0);
+	}
 
 }
 
@@ -1644,7 +1688,7 @@ void main() {
 	vdp_copier(&cmd);
 
 
-   	pck_load("BOXES   PCK",2731,0x0000,VRAM_0,0);
+   	pck_load("BOXES   PCK",3002,0x0000,VRAM_0,0);
 	cmd.size_x = 256;
 	cmd.size_y = 212;
 	cmd.data = 0;
