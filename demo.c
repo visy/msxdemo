@@ -189,6 +189,7 @@ uint8_t block_palette[32];
 uint8_t twister_palette[32];
 uint8_t tf_palette[32];
 uint8_t boxes_palette[32];
+uint8_t credits_palette[32];
 
 volatile int vbicount=0;
 volatile int tick=0;
@@ -196,7 +197,7 @@ volatile int tick=0;
 vdp_copy_command cmd;
 
 
-void (*scenepointers[10])() = {
+void (*scenepointers[12])() = {
 	waiter,
 	logoeffu,
 	bulbs, 
@@ -206,10 +207,11 @@ void (*scenepointers[10])() = {
 	tritiles,
 	points,
 	bigtext,
-	tritiles
+	credits,
+	do_quit
 };
 
-int scenetimings[20] = {
+int scenetimings[24] = {
 	0, 170,
 	170, 350,
 	750, 1300,
@@ -218,8 +220,9 @@ int scenetimings[20] = {
 	3600, 4100,
 	4100, 5550,
 	5550, 6100,
-	6100, 6800,
-	6800, 8000
+	6100, 9120,
+	9120, 10100,
+	10100, 100000
 };
 
 
@@ -998,6 +1001,8 @@ void boxes() {
 		cmd.dest_y = 0;
 
 		for (x = 248; x >= 0; x-=8) {
+			msx2_palette(4,ff>>2,ff>>3,ff>>2);
+			ff+=2;
 			waitVB();
 			cmd.dest_x = x;
 			cmd.dest_y = 0;
@@ -1479,6 +1484,21 @@ void points() {
 		cmd.dest_x = 0;
 
 		for (y = 0; y < 212; y+=4) {
+			if (PLY_PSGReg10 > 4) {
+		    vdp_register(VDP_VOFFSET,192-sintabx[(PLY_PSGReg10 + tripaltick) & 255]>>3);
+
+			msx2_palette(3,tripal[0]+PLY_PSGReg10,tripal[1],tripal[2]);
+			msx2_palette(14,tripal[3],tripal[4],tripal[5]);
+			msx2_palette(6,tripal[6],tripal[7],tripal[8]);
+			}
+			else {
+		    vdp_register(VDP_VOFFSET,0);
+
+			msx2_palette(3,tripal[0],tripal[1],tripal[2]);
+			msx2_palette(14,tripal[3],tripal[4],tripal[5]);
+			msx2_palette(6,tripal[6],tripal[7],tripal[8]);
+
+			}
 			waitVB();
 			cmd.source_y = 193;
 			cmd.dest_y = y;
@@ -1579,13 +1599,187 @@ void bigtext() {
 		drawstr2x("SYSTEM",25,124);
 		bigtextp++;
 		tri_inited = 2;
+		ff = 0;
+		ltrpointer = 0;
 	}
 
 	msx2_palette(4,ff>>2,ff>>3,ff>>2);
 	ff+=2;
+
+	if (ff == 600) {
+		cmd.size_x = 2;
+		cmd.size_y = 212;
+		cmd.data = 0;
+		cmd.argument = 0x00; // from 70xY to left
+		cmd.command = 0xd0; // vram to vram, y only
+		cmd.source_x = 255;
+		cmd.source_y = 0;
+
+		for (x = 254; x > 0; x-=4) {
+			msx2_palette(4,ff>>2,ff>>3,ff>>2);
+			ff+=2;
+			waitVB();
+			cmd.dest_y = 256;
+			cmd.dest_x = x;
+			vdp_copier(&cmd);
+			cmd.dest_y = 0;
+			vdp_copier(&cmd);
+		}
+
+
+		for (x = 0; x < 256; x+=4) {
+			msx2_palette(4,ff>>2,ff>>3,ff>>2);
+			ff+=2;
+			waitVB();
+			cmd.dest_y = 256;
+			cmd.dest_x = x;
+			vdp_copier(&cmd);
+			cmd.dest_y = 0;
+			vdp_copier(&cmd);
+		}
+
+		drawstr2x("COMMAND",4,44);
+		drawstr2x("   THE  ",32,84);
+		drawstr2x("  BASS ",35,124);
+	}
+
+	if (ff == 1200) {
+		cmd.size_x = 3;
+		cmd.size_y = 212;
+		cmd.data = 0;
+		cmd.argument = 0x00; // from 70xY to left
+		cmd.command = 0xd0; // vram to vram, y only
+		cmd.source_x = 255;
+		cmd.source_y = 0;
+
+		for (x = 254; x > 0; x-=4) {
+			msx2_palette(4,ff>>2,ff>>3,ff>>2);
+			ff+=2;
+			waitVB();
+			cmd.dest_y = 256;
+			cmd.dest_x = x;
+			vdp_copier(&cmd);
+			cmd.dest_y = 0;
+			vdp_copier(&cmd);
+		}
+
+
+		for (x = 0; x < 256; x+=4) {
+			msx2_palette(4,ff>>2,ff>>3,ff>>2);
+			ff+=2;
+			waitVB();
+			cmd.dest_y = 256;
+			cmd.dest_x = x;
+			vdp_copier(&cmd);
+			cmd.dest_y = 0;
+			vdp_copier(&cmd);
+		}
+
+		drawstr2x("REVISION",10,44);
+		drawstr2x("   IS OUR",0,84);
+		drawstr2x("  PARTY",12,124);
+	}
+
+	if (ff >= 1600 && ff < 1700) {
+		slowend = 37;
+		drawstrslow("Give a big hand to all the organizers",28,164+6);
+	}
+
+	if (ff == 1700) {
+		ltrpointer = 0;
+	}
+
+	if (ff > 1700 && ff < 1800) {
+		slowend = 21;
+		drawstrslow("of this amazing party",64,164+16);
+	}
+
+
 }
 
 void waiter() {
+
+}
+
+
+int initcredits = 0;
+int credittimer = 0;
+void credits() {
+
+	if (initcredits == 0) {
+		scratch_clear();
+		vdp_load_palette(scratch);
+
+		uninstall_isr();
+	    PLY_Stop();
+	    PLY_SendRegisters();
+
+		initcredits = 1;
+
+	   	pck_load("CREDIT2 PCK",4724,0x0000,VRAM_0,0);
+
+		cmd.size_x = 512;
+		cmd.size_y = 212;
+		cmd.data = 0;
+		cmd.argument = 0x00;
+		cmd.command = 0xd0; 
+		cmd.source_x = 0;
+		cmd.source_y = 0;
+		cmd.dest_x = 0;
+		cmd.dest_y = 256;
+		vdp_copier(&cmd);
+
+	   	pck_load("CREDIT3 PCK",3723,0x0000,VRAM_0,0);
+
+		cmd.size_x = 512;
+		cmd.size_y = 212;
+		cmd.data = 0;
+		cmd.argument = 0x00;
+		cmd.command = 0xd0; 
+		cmd.source_x = 0;
+		cmd.source_y = 0;
+		cmd.dest_x = 0;
+		cmd.dest_y = 512;
+		vdp_copier(&cmd);
+
+	   	pck_load("CREDIT1 PCK",3323,0x0000,VRAM_0,0);
+
+		install_isr(my_isr);
+		vdp_register(0,8); // mode 512x212
+		vdp_register(8,2); // mode 512x212
+		vdp_register(9,130); // mode 512x212
+
+		msx2_palette(0,0,0,0);
+		msx2_palette(1,2,2,2);
+		msx2_palette(2,5,5,5);
+		msx2_palette(3,7,7,7);
+		msx2_palette(4,2,2,2);
+		msx2_palette(5,5,5,5);
+		msx2_palette(6,7,7,7);
+		msx2_palette(7,2,2,2);
+		msx2_palette(8,5,5,5);
+		msx2_palette(9,7,7,7);
+		msx2_palette(10,2,2,2);
+		msx2_palette(11,5,5,5);
+		msx2_palette(12,7,7,7);
+		msx2_palette(13,2,2,2);
+		msx2_palette(14,5,5,5);
+		msx2_palette(15,7,7,7);
+		vdp_register(2, 0x1F);
+		scratch_clear();
+	}
+
+	credittimer++;
+	if (credittimer == 300) {
+		vdp_register(2, 0x3F);
+	}
+	if (credittimer == 600) {
+		vdp_register(2, 0x5F);
+	}
+
+	if (credittimer == 900) {
+		vdp_load_palette(scratch);
+	}
 
 }
 
@@ -1600,9 +1794,11 @@ void do_quit() {
     PLY_Stop();
     PLY_SendRegisters();
 
+	vdp_load_palette(bulbs_palette);
+
 	screen(0);
 
-	puts("demo quit\r\n\r\n");
+	puts("bye friends.\r\n\r\n");
 
 	exit(0);	
 }
@@ -1619,7 +1815,7 @@ void main() {
 
 	spindown();
 
-	puts("demo init\r\n\r\n");
+	puts("[starting DSS MSX demosystem]\r\n\r\n");
 
 	for (y = 0; y < 2; y++) {
 		for (x = 0; x < 16; x++) {
@@ -1633,30 +1829,46 @@ void main() {
 		eighttimes[x] = x * 8;
 	}
 
-	puts("music init...");
+	puts("init sweet PSG bleeps...");
 
 	PLY_SongPtr = (char *)0x0103;
 	PLY_Init();
 	puts("done.\r\n");
 
-	puts("detecting vdp type...\r\n\r\n");
+	puts("detecting ya vdp type...\r\n");
 	if(isvdp2())
 	{
-		puts("vdp2 found! setting 50hz...\r\n\r\n");
+		puts("vdp2 found! setting 50hz...\r\n");
 //		msx2_palette(6,4,0,0); // Bloodier red for VDP2
 	} else {
-		puts(" vdp1 found.\r\nSorry, this demo requires a VDP2 with 128k for VRAM.\r\n\r\n");
+		puts(" vdp1 found.\r\nSorry, this demo requires a VDP2 with 128k for VRAM.\r\n");
 		do_quit();
 	}
 
-    pal_load("TWISTER PL5",32,1);
+    pal_load("TWISTER PL5",32,0);
     memcpy(twister_palette, cur_palette, 32);
-    pal_load("LF      PL5",32,1);
+    pal_load("LF      PL5",32,0);
     memcpy(tf_palette, cur_palette, 32);
-    pal_load("BOXES   PL5",32,1);
+    pal_load("BOXES   PL5",32,0);
     memcpy(boxes_palette, cur_palette, 32);
-    pal_load("BULBS   PL5",32,1);
+    pal_load("BULBS   PL5",32,0);
     memcpy(bulbs_palette, cur_palette, 32);
+    pal_load("CREDIT1 PL6",32,0);
+    memcpy(credits_palette, cur_palette, 32);
+
+    pause();
+    pause();
+    pause();
+    pause();
+
+	puts("all good, starting the demo!\r\n");
+
+    pause();
+    pause();
+    pause();
+    pause();
+    pause();
+    pause();
 
 	scratch_clear();
 	vdp_load_palette(scratch);
