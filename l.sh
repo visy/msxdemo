@@ -30,7 +30,7 @@ make wrdsk
 if [ -f demo.ihx ]; then
 	hex2bin demo.ihx
 	mv demo.bin demo.com
-	./wrdsk demo.dsk demo.com credit1.pck credit2.pck credit3.pck credit1.pl6 boxes.pck boxes.pl5 bulbs.pck bulbs.pl5 dsslogo.pck dsslogo.pl5 twister.pck twister.pl5 sample.raw stdblck.pck stdblck.pl5 MSXDOS.SYS MSXDOS2.SYS COMMAND.COM COMMAND2.COM AUTOEXEC.BAT
+	./wrdsk demo.dsk demo.com credit1.pck credit2.pck credit3.pck credit1.pl6 boxes.pck boxes.pl5 bulbs.pck bulbs.pl5 dsslogo.pck dsslogo.pl5 twister.pck twister.pl5 MSXDOS.SYS MSXDOS2.SYS COMMAND.COM COMMAND2.COM AUTOEXEC.BAT
 	echo "done, demo built to demo.dsk"
 fi
 

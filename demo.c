@@ -182,6 +182,12 @@ int tri_lookup_y[16*2] = { 0 };
 
 uint8_t packbuffer[5000] = {0};
 
+
+uint8_t crebuffer1[3323] = {0};
+uint8_t crebuffer2[4724] = {0};
+uint8_t crebuffer3[3723] = {0};
+
+
 uint8_t scratch[128];
 uint8_t cur_palette[32];
 uint8_t bulbs_palette[32];
@@ -1716,7 +1722,7 @@ void credits() {
 
 		initcredits = 1;
 
-	   	pck_load("CREDIT2 PCK",4724,0x0000,VRAM_0,0);
+		bitbuster(crebuffer2,0x0000,VRAM_0);
 
 		cmd.size_x = 512;
 		cmd.size_y = 212;
@@ -1729,7 +1735,7 @@ void credits() {
 		cmd.dest_y = 256;
 		vdp_copier(&cmd);
 
-	   	pck_load("CREDIT3 PCK",3723,0x0000,VRAM_0,0);
+		bitbuster(crebuffer3,0x0000,VRAM_0);
 
 		cmd.size_x = 512;
 		cmd.size_y = 212;
@@ -1742,32 +1748,20 @@ void credits() {
 		cmd.dest_y = 512;
 		vdp_copier(&cmd);
 
-	   	pck_load("CREDIT1 PCK",3323,0x0000,VRAM_0,0);
+		bitbuster(crebuffer1,0x0000,VRAM_0);
 
 		install_isr(my_isr);
 		vdp_register(0,8); // mode 512x212
 		vdp_register(8,2); // mode 512x212
 		vdp_register(9,130); // mode 512x212
 
-		msx2_palette(0,0,0,0);
-		msx2_palette(1,2,2,2);
-		msx2_palette(2,5,5,5);
-		msx2_palette(3,7,7,7);
-		msx2_palette(4,2,2,2);
-		msx2_palette(5,5,5,5);
-		msx2_palette(6,7,7,7);
-		msx2_palette(7,2,2,2);
-		msx2_palette(8,5,5,5);
-		msx2_palette(9,7,7,7);
-		msx2_palette(10,2,2,2);
-		msx2_palette(11,5,5,5);
-		msx2_palette(12,7,7,7);
-		msx2_palette(13,2,2,2);
-		msx2_palette(14,5,5,5);
-		msx2_palette(15,7,7,7);
+	    memcpy(cur_palette, credits_palette, 32);
+
 		vdp_register(2, 0x1F);
 		scratch_clear();
 	}
+
+	fadein();
 
 	credittimer++;
 	if (credittimer == 300) {
@@ -1794,9 +1788,8 @@ void do_quit() {
     PLY_Stop();
     PLY_SendRegisters();
 
-	vdp_load_palette(bulbs_palette);
-
 	screen(0);
+	vdp_load_palette(twister_palette);
 
 	puts("bye friends.\r\n\r\n");
 
@@ -1856,11 +1849,6 @@ void main() {
     pal_load("CREDIT1 PL6",32,0);
     memcpy(credits_palette, cur_palette, 32);
 
-    pause();
-    pause();
-    pause();
-    pause();
-
 	puts("all good, starting the demo!\r\n");
 
     pause();
@@ -1913,6 +1901,13 @@ void main() {
 	cmd.dest_x = 0;
 	cmd.dest_y = 768;
 	vdp_copier(&cmd);
+
+	memset((uint8_t *) &crebuffer1, 0, 3323);
+	raw_load("CREDIT1 PCK", 3323, crebuffer1,0);
+	memset((uint8_t *) &crebuffer2, 0, 4724);
+	raw_load("CREDIT2 PCK", 4724, crebuffer2,0);
+	memset((uint8_t *) &crebuffer3, 0, 3723);
+	raw_load("CREDIT3 PCK", 3723, crebuffer3,0);
 
 	scratch_clear();
 	vdp_load_palette(scratch);
