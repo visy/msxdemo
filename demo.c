@@ -12,7 +12,6 @@
 #define VRAM_1 0
 
 extern void bitbuster(unsigned char*, uint16_t, unsigned char);
-extern void play_sample(unsigned char*, uint16_t);
 
 const uint8_t sintabx[256] = {
  120, 122, 125, 128, 131, 134, 137, 140, 143, 146, 149, 152, 154, 157, 160, 163,
@@ -180,8 +179,7 @@ int eighttimes[26] = { 0 };
 
 int tri_lookup_y[16*2] = { 0 };
 
-uint8_t packbuffer[5000] = {0};
-
+uint8_t packbuffer[4100] = {0};
 
 uint8_t crebuffer1[3323] = {0};
 uint8_t crebuffer2[4724] = {0};
@@ -257,62 +255,10 @@ void my_isr(void) interrupt
         EI;
 }
 
-void color_isr(void) interrupt
-{
-        DI;
-
-		if(isNthBitSet(vdp2_status(1),0)) {
-	        vdp_register(VDP_VOFFSET,sintab[vbicount & 255]);
-	        READ_VDP_STATUS;
-//	        msx2_palette(0,4,5,6);
-		} else {
-	        READ_VDP_STATUS;
-	        vbicount++;
-//	        msx2_palette(0,0,0,0);
-
-	        PLY_Play();
-	        PLY_SendRegisters();
-		}
-
-        EI;
-}
 
 // helpers ---------------------------------------------------------------------------------------------------------------------------
 // helpers ---------------------------------------------------------------------------------------------------------------------------
 // helpers ---------------------------------------------------------------------------------------------------------------------------
-
-uint8_t ge5_load(char *file_name, uint8_t vramh, uint16_t vraml, int debugprint) {
-	fcb f;
-	uint8_t i;
-
-	if(debugprint == 1) {
-		puts("loading ge5file: ");
-		puts(file_name);
-		puts("\r\n");
-	}
-
-	memset((uint8_t *) &f, 0, sizeof(fcb));
-
-	f.record_size = 128;
-	f.drive = 0;
-
-	memcpy(f.name, file_name, 11);
-
-	if (open(&f) != 0) return 0;
-	vdp_set_write_address(vramh, vraml);
-
-	for (i = 0; i < 213; i++) {
-		if (block_set_data_ptr(scratch) != 0) return 0;
-		if (block_read(&f) != 0) return 0;
-		
-		if (i == 0) vdp_load_screen(scratch + 7, 121);   // to skip GE5 header
-		else vdp_load_screen(scratch, 128);
-	}
-
-	close(&f);
-
-	return 1;
-}
 
 void scratch_clear() {
 	memset((uint8_t *) &scratch, 0, 128);
@@ -435,32 +381,6 @@ static int flipper = 0;
 static int ymmmf = 0;
 
 void do_ymmm() {
-	int xo;
-	const int step = 2;
-
-	if (tick > 32) { tick = 0; flipper++;}
-	if (flipper > 10) { flipper = 0;}
-
-	ymmmf++;
-	for (yofff = 0; yofff<212-step;yofff+=step) {
-		xo = (sintabx[(yofff+ymmmf) & 255]);
-
-//		msx2_palette(1,xo>>1,xo>>1,xo>>2);
-		cmd.source_x = 0;
-		cmd.source_y = 0+yofff;
-		cmd.dest_x = xo;
-		cmd.dest_y = 3+yofff;
-		cmd.size_x = 256;
-		cmd.size_y = 1;
-		cmd.data = 0;
-		cmd.argument = 0;
-		cmd.command = 0xD0;
-
-
-		vdp_copier(&cmd);
-
-	}
-
 }
 
 char block_init = 0;
@@ -475,83 +395,11 @@ int btab[16] = {0};
 int flof = 0;
 
 void do_blocks() {
-	int i=0;
-	int ys = 0;
-	int ye = 0;
-
-	vdp_register(VDP_VOFFSET,0);
-
-	if (block_init == 0) {
-
-		vdp_set_screen5();
-
-		vdp_register(2, 0x5F);
-
-		for(i=0;i<16;i++) btab[i] = i*16;
-		vdp_load_palette(block_palette);
-
-		block_init = 1;
-
-	} else {
-
-		if (flof == 0) { ys = 0; ye = 8; }
-		if (flof == 1) { ys = 8; ye = 16; }
-
-		for(bty=3;bty<11;bty++) {
-			for(btx=ys;btx<ye;btx++) {
-				bsx = (PLY_PSGReg8 & PLY_PSGReg9 | PLY_PSGReg10)>>1;
-				bsy = PLY_PSGReg10;
-				cmd.source_x = btab[bsx];
-				cmd.source_y = 768+btab[bsy];
-				cmd.dest_x = btab[btx];
-				cmd.dest_y = 512+btab[bty];
-				cmd.size_x = 16;
-				cmd.size_y = 16;
-				cmd.data = 0;
-				cmd.argument = 0x00;
-				cmd.command = 0xD0;
-				vdp_copier(&cmd);
-			}
-		}
-
-		flof++;
-		if (flof == 2) flof = 0;
-	
-	}
-
 }
 
 int linenum = 0;
 
 void raster_effu() {
-	vdp_register(VDP_VOFFSET,0);
-	waitVB();
-
-	vdp_register(1,0x40); // disable vblank
-
-	for (linenum = 40; linenum < 212; linenum+=4) {
-		vdp_register(19,linenum); // interrupt on line
-		vdp_register(0,0x16); // mode SC5, IE1 interrupts on
-
-		waitVB();
-	}
-
-	vdp_register(VDP_VOFFSET,0);
-
-/*
-
-	vdp_register(19,linenum+30); // interrupt on line
-
-	while(CHECK_BIT(vdp2_status(1),0) == 0) {}
-
-	vdp_load_palette(cur_palette);
-
-	vdp_register(0,0x6); // mode SC5, IE1 interrupts on
-
-*/
-
-	vdp_register(0,0x6); // mode SC5, IE1 interrupts off
-	vdp_register(1,0x60); // enable vblank
 }
 
 
@@ -840,100 +688,6 @@ static int frames = 0;
 int anim_init = 0;
 
 void animplay() {
-	uint8_t y = 0;
-	uint8_t xx = 0;
-	uint8_t dx = 0;
-
-	if (anim_init == 0) {
-		drawsine("L O A D I N G",8,180);
-
-
-		uninstall_isr();
-	    PLY_Stop();
-	    PLY_SendRegisters();
-
-	    pause();
-	    pause();
-
-		scratch_clear();
-		vdp_load_palette(scratch);
-
-	   	pck_load("LF1     PCK",14089,0x0000,VRAM_0,0);
-
-
-
-		cmd.size_x = 256;
-		cmd.size_y = 212;
-		cmd.data = 0;
-		cmd.argument = 0x00;
-		cmd.command = 0xd0; 
-		cmd.source_x = 0;
-		cmd.source_y = 0;
-		cmd.dest_x = 0;
-		cmd.dest_y = 256;
-		vdp_copier(&cmd);
-
-	   	pck_load("LF2     PCK",15990,0x0000,VRAM_0,0);
-
-		cmd.size_x = 256;
-		cmd.size_y = 212;
-		cmd.data = 0;
-		cmd.argument = 0x00;
-		cmd.command = 0xd0; 
-		cmd.source_x = 0;
-		cmd.source_y = 0;
-		cmd.dest_x = 0;
-		cmd.dest_y = 512;
-		vdp_copier(&cmd);
-
-
-	   	pck_load("LF3     PCK",15006,0x0000,VRAM_0,0);
-
-		cmd.size_x = 256;
-		cmd.size_y = 212;
-		cmd.data = 0;
-		cmd.argument = 0x00;
-		cmd.command = 0xd0; 
-		cmd.source_x = 0;
-		cmd.source_y = 0;
-		cmd.dest_x = 0;
-		cmd.dest_y = 768;
-		vdp_copier(&cmd);
-
-		vdp_register(9,130); // 50hz,212
-
-		scratch_clear();
-
-		vdp_set_write_address(0, 0);
-			
-		for (y = 0; y < 212; y++) { 
-			vdp_load_screen(scratch, 128);
-		}
-
-		install_isr(my_isr);
-		anim_init = 1;
-		vdp_load_palette(tf_palette);
-	}
-
-		for (y = 0; y < 106; y+=1) {
-			cmd.source_x = 0;
-			cmd.source_y = 256+po+frames+(y>>1);
-			cmd.dest_x = 0;
-			cmd.dest_y = (y<<1);
-			cmd.size_x = 256;
-			cmd.size_y = 1;
-			cmd.data = 0;
-			cmd.argument = 0x00;
-			cmd.command = 0xD0;
-			vdp_copier(&cmd);
-		}
-
-		frames+=53;
-		if (frames >= 212) { frames = 0; po+=256; }
-		if (po >= 768) {
-			po = 0;
-		}
-
 }
 
 

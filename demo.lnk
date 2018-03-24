@@ -12,9 +12,7 @@
 demo.o
 crt0msx_msxdos_biisi.o
 bitbuster.o
-sample.o
 putchar.o
-getchar.o
 dos.o
 vdp.o
 arkos.o
