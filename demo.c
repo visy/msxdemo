@@ -1508,11 +1508,16 @@ void waiter() {
 
 int initcredits = 0;
 int credittimer = 0;
+int musicstopped = 0;
 void credits() {
+	int x = 0;
 
 	if (initcredits == 0) {
 		scratch_clear();
 		vdp_load_palette(scratch);
+
+		vdp_register(0,8); // mode 512x212
+		vdp_register(9,130); // 50hz,192
 
 		uninstall_isr();
 	    PLY_Stop();
@@ -1549,27 +1554,19 @@ void credits() {
 		bitbuster(crebuffer1,0x0000,VRAM_0);
 
 		install_isr(my_isr);
-		vdp_register(0,8); // mode 512x212
-		vdp_register(8,2); // mode 512x212
-		vdp_register(9,130); // mode 512x212
 
 	    memcpy(cur_palette, credits_palette, 32);
 
-		vdp_register(2, 0x1F);
 		scratch_clear();
 	}
 
-	fadein();
+	if (credittimer < 100) fadein();
+
+	if(credittimer == 200) vdp_register(2, 0x3f);
+	if(credittimer == 400) vdp_register(2, 0x5f);
 
 	credittimer++;
-	if (credittimer == 300) {
-		vdp_register(2, 0x3F);
-	}
 	if (credittimer == 600) {
-		vdp_register(2, 0x5F);
-	}
-
-	if (credittimer == 900) {
 		vdp_load_palette(scratch);
 	}
 
