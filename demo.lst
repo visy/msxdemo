@@ -1,7 +1,7 @@
                               1 ;--------------------------------------------------------
                               2 ; File Created by SDCC : free open source ANSI-C Compiler
                               3 ; Version 2.9.0 #5416 (Mar 22 2009) (Mac OS X i386)
-                              4 ; This file was generated Mon Mar 26 19:26:45 2018
+                              4 ; This file was generated Mon Mar 26 19:59:47 2018
                               5 ;--------------------------------------------------------
                               6 	.module demo
                               7 	.optsdcc -mz80
@@ -11146,7 +11146,7 @@
                           11039 ;demo.c:1650: spindown();
    3B6F CDr00s00          11040 	call	_spindown
                           11041 ;demo.c:1652: puts("[starting DSS MSX demosystem]\r\n\r\n");
-   3B72 21rF3s40          11042 	ld	hl,#__str_27
+   3B72 21r6Es41          11042 	ld	hl,#__str_27
    3B75 E5                11043 	push	hl
    3B76 CDr00s00          11044 	call	_puts
    3B79 F1                11045 	pop	af
@@ -11288,7 +11288,7 @@
    3C77 C3r1Es3C          11181 	jp	00122$
    3C7A                   11182 00125$:
                           11183 ;demo.c:1666: puts("init sweet PSG bleeps...");
-   3C7A 21r15s41          11184 	ld	hl,#__str_28
+   3C7A 21r90s41          11184 	ld	hl,#__str_28
    3C7D E5                11185 	push	hl
    3C7E CDr00s00          11186 	call	_puts
    3C81 F1                11187 	pop	af
@@ -11300,12 +11300,12 @@
                           11193 ;demo.c:1669: PLY_Init();
    3C8C CDr00s00          11194 	call	_PLY_Init
                           11195 ;demo.c:1670: puts("done.\r\n");
-   3C8F 21r2Es41          11196 	ld	hl,#__str_29
+   3C8F 21rA9s41          11196 	ld	hl,#__str_29
    3C92 E5                11197 	push	hl
    3C93 CDr00s00          11198 	call	_puts
    3C96 F1                11199 	pop	af
                           11200 ;demo.c:1672: puts("detecting ya vdp type...\r\n");
-   3C97 21r36s41          11201 	ld	hl,#__str_30
+   3C97 21rB1s41          11201 	ld	hl,#__str_30
    3C9A E5                11202 	push	hl
    3C9B CDr00s00          11203 	call	_puts
    3C9E F1                11204 	pop	af
@@ -11315,14 +11315,14 @@
    3CA3 B5                11208 	or	a,l
    3CA4 28 0A             11209 	jr	Z,00102$
                           11210 ;demo.c:1675: puts("vdp2 found! setting 50hz...\r\n");
-   3CA6 21r51s41          11211 	ld	hl,#__str_31
+   3CA6 21rCCs41          11211 	ld	hl,#__str_31
    3CA9 E5                11212 	push	hl
    3CAA CDr00s00          11213 	call	_puts
    3CAD F1                11214 	pop	af
    3CAE 18 0B             11215 	jr	00103$
    3CB0                   11216 00102$:
                           11217 ;demo.c:1678: puts(" vdp1 found.\r\nSorry, this demo requires a VDP2 with 128k for VRAM.\r\n");
-   3CB0 21r6Fs41          11218 	ld	hl,#__str_32
+   3CB0 21rEAs41          11218 	ld	hl,#__str_32
    3CB3 E5                11219 	push	hl
    3CB4 CDr00s00          11220 	call	_puts
    3CB7 F1                11221 	pop	af
@@ -11335,7 +11335,7 @@
    3CBF 3E 20             11228 	ld	a,#0x20
    3CC1 F5                11229 	push	af
    3CC2 33                11230 	inc	sp
-   3CC3 21rB4s41          11231 	ld	hl,#__str_33
+   3CC3 21r2Fs42          11231 	ld	hl,#__str_33
    3CC6 E5                11232 	push	hl
    3CC7 CDr37s08          11233 	call	_pal_load
    3CCA F1                11234 	pop	af
@@ -11358,7 +11358,7 @@
    3CE3 3E 20             11251 	ld	a,#0x20
    3CE5 F5                11252 	push	af
    3CE6 33                11253 	inc	sp
-   3CE7 21rC0s41          11254 	ld	hl,#__str_34
+   3CE7 21r3Bs42          11254 	ld	hl,#__str_34
    3CEA E5                11255 	push	hl
    3CEB CDr37s08          11256 	call	_pal_load
    3CEE F1                11257 	pop	af
@@ -11381,7 +11381,7 @@
    3D07 3E 20             11274 	ld	a,#0x20
    3D09 F5                11275 	push	af
    3D0A 33                11276 	inc	sp
-   3D0B 21rCCs41          11277 	ld	hl,#__str_35
+   3D0B 21r47s42          11277 	ld	hl,#__str_35
    3D0E E5                11278 	push	hl
    3D0F CDr37s08          11279 	call	_pal_load
    3D12 F1                11280 	pop	af
@@ -11404,7 +11404,7 @@
    3D2B 3E 20             11297 	ld	a,#0x20
    3D2D F5                11298 	push	af
    3D2E 33                11299 	inc	sp
-   3D2F 21rD8s41          11300 	ld	hl,#__str_36
+   3D2F 21r53s42          11300 	ld	hl,#__str_36
    3D32 E5                11301 	push	hl
    3D33 CDr37s08          11302 	call	_pal_load
    3D36 F1                11303 	pop	af
@@ -11427,7 +11427,7 @@
    3D4F 3E 20             11320 	ld	a,#0x20
    3D51 F5                11321 	push	af
    3D52 33                11322 	inc	sp
-   3D53 21rE4s41          11323 	ld	hl,#__str_37
+   3D53 21r5Fs42          11323 	ld	hl,#__str_37
    3D56 E5                11324 	push	hl
    3D57 CDr37s08          11325 	call	_pal_load
    3D5A F1                11326 	pop	af
@@ -11445,7 +11445,7 @@
    3D6D F1                11338 	pop	af
    3D6E F1                11339 	pop	af
                           11340 ;demo.c:1693: puts("all good, starting the demo!\r\n");
-   3D6F 21rF0s41          11341 	ld	hl,#__str_38
+   3D6F 21r6Bs42          11341 	ld	hl,#__str_38
    3D72 E5                11342 	push	hl
    3D73 CDr00s00          11343 	call	_puts
    3D76 F1                11344 	pop	af
@@ -11470,583 +11470,657 @@
    3D93 F1                11363 	pop	af
                           11364 ;demo.c:1705: vdp_set_screen5();
    3D94 CDr00s00          11365 	call	_vdp_set_screen5
-                          11366 ;demo.c:1707: pck_load("BULBS   PCK",2431,0x0000,VRAM_0,0);
+                          11366 ;demo.c:1707: pck_load("LOADING PCK",5489,0x0000,VRAM_0,0);
    3D97 21 00 00          11367 	ld	hl,#0x0000
    3D9A E5                11368 	push	hl
    3D9B 2E 01             11369 	ld	l, #0x01
    3D9D E5                11370 	push	hl
    3D9E 2E 00             11371 	ld	l, #0x00
    3DA0 E5                11372 	push	hl
-   3DA1 21 7F 09          11373 	ld	hl,#0x097F
+   3DA1 21 71 15          11373 	ld	hl,#0x1571
    3DA4 E5                11374 	push	hl
-   3DA5 21r0Fs42          11375 	ld	hl,#__str_39
+   3DA5 21r8As42          11375 	ld	hl,#__str_39
    3DA8 E5                11376 	push	hl
    3DA9 CDr2Ds0A          11377 	call	_pck_load
    3DAC FD 21 0A 00       11378 	ld	iy,#0x000A
    3DB0 FD 39             11379 	add	iy,sp
    3DB2 FD F9             11380 	ld	sp,iy
-                          11381 ;demo.c:1709: cmd.size_x = 256;
+                          11381 ;demo.c:1708: cmd.size_x = 256;
    3DB4 21r32s41          11382 	ld	hl, #_cmd + 8
    3DB7 36 00             11383 	ld	(hl),#0x00
    3DB9 23                11384 	inc	hl
    3DBA 36 01             11385 	ld	(hl),#0x01
-                          11386 ;demo.c:1710: cmd.size_y = 212;
+                          11386 ;demo.c:1709: cmd.size_y = 212;
    3DBC 21r34s41          11387 	ld	hl, #_cmd + 10
    3DBF 36 D4             11388 	ld	(hl),#0xD4
    3DC1 23                11389 	inc	hl
    3DC2 36 00             11390 	ld	(hl),#0x00
-                          11391 ;demo.c:1711: cmd.data = 0;
-                          11392 ;demo.c:1712: cmd.argument = 0x00;
+                          11391 ;demo.c:1710: cmd.data = 0;
+                          11392 ;demo.c:1711: cmd.argument = 0x00;
    3DC4 3E 00             11393 	ld	a,#0x00
    3DC6 32r36s41          11394 	ld	(#_cmd + 12),a
    3DC9 32r37s41          11395 	ld	(#_cmd + 13),a
-                          11396 ;demo.c:1713: cmd.command = 0xd0; 
+                          11396 ;demo.c:1712: cmd.command = 0xd0; 
    3DCC 01r38s41          11397 	ld	bc,#_cmd + 14
    3DCF 3E D0             11398 	ld	a,#0xD0
    3DD1 02                11399 	ld	(bc),a
-                          11400 ;demo.c:1714: cmd.source_x = 0;
+                          11400 ;demo.c:1713: cmd.source_x = 0;
    3DD2 21r2As41          11401 	ld	hl,#_cmd
    3DD5 36 00             11402 	ld	(hl),#0x00
    3DD7 23                11403 	inc	hl
    3DD8 36 00             11404 	ld	(hl),#0x00
-                          11405 ;demo.c:1715: cmd.source_y = 0;
+                          11405 ;demo.c:1714: cmd.source_y = 0;
    3DDA 21r2Cs41          11406 	ld	hl, #_cmd + 2
    3DDD 36 00             11407 	ld	(hl),#0x00
    3DDF 23                11408 	inc	hl
    3DE0 36 00             11409 	ld	(hl),#0x00
-                          11410 ;demo.c:1716: cmd.dest_x = 0;
+                          11410 ;demo.c:1715: cmd.dest_x = 0;
    3DE2 21r2Es41          11411 	ld	hl, #_cmd + 4
    3DE5 36 00             11412 	ld	(hl),#0x00
    3DE7 23                11413 	inc	hl
    3DE8 36 00             11414 	ld	(hl),#0x00
-                          11415 ;demo.c:1717: cmd.dest_y = 256;
+                          11415 ;demo.c:1716: cmd.dest_y = 768;
    3DEA 21r30s41          11416 	ld	hl, #_cmd + 6
    3DED 36 00             11417 	ld	(hl),#0x00
    3DEF 23                11418 	inc	hl
-   3DF0 36 01             11419 	ld	(hl),#0x01
-                          11420 ;demo.c:1718: vdp_copier(&cmd);
+   3DF0 36 03             11419 	ld	(hl),#0x03
+                          11420 ;demo.c:1717: vdp_copier(&cmd);
    3DF2 21r2As41          11421 	ld	hl,#_cmd
    3DF5 E5                11422 	push	hl
    3DF6 CDr00s00          11423 	call	_vdp_copier
    3DF9 F1                11424 	pop	af
-                          11425 ;demo.c:1720: pck_load("TWISTER PCK",4032,0x0000,VRAM_0,0);
-   3DFA 21 00 00          11426 	ld	hl,#0x0000
+                          11425 ;demo.c:1719: vdp_register(2,0x7f);
+   3DFA 21 02 7F          11426 	ld	hl,#0x7F02
    3DFD E5                11427 	push	hl
-   3DFE 2E 01             11428 	ld	l, #0x01
-   3E00 E5                11429 	push	hl
-   3E01 2E 00             11430 	ld	l, #0x00
-   3E03 E5                11431 	push	hl
-   3E04 21 C0 0F          11432 	ld	hl,#0x0FC0
-   3E07 E5                11433 	push	hl
-   3E08 21r1Bs42          11434 	ld	hl,#__str_40
-   3E0B E5                11435 	push	hl
-   3E0C CDr2Ds0A          11436 	call	_pck_load
-   3E0F FD 21 0A 00       11437 	ld	iy,#0x000A
-   3E13 FD 39             11438 	add	iy,sp
-   3E15 FD F9             11439 	ld	sp,iy
-                          11440 ;demo.c:1722: cmd.size_x = 256;
-   3E17 21r32s41          11441 	ld	hl, #_cmd + 8
-   3E1A 36 00             11442 	ld	(hl),#0x00
-   3E1C 23                11443 	inc	hl
-   3E1D 36 01             11444 	ld	(hl),#0x01
-                          11445 ;demo.c:1723: cmd.size_y = 212;
-   3E1F 21r34s41          11446 	ld	hl, #_cmd + 10
-   3E22 36 D4             11447 	ld	(hl),#0xD4
-   3E24 23                11448 	inc	hl
-   3E25 36 00             11449 	ld	(hl),#0x00
-                          11450 ;demo.c:1724: cmd.data = 0;
-                          11451 ;demo.c:1725: cmd.argument = 0x00;
-   3E27 3E 00             11452 	ld	a,#0x00
-   3E29 32r36s41          11453 	ld	(#_cmd + 12),a
-   3E2C 32r37s41          11454 	ld	(#_cmd + 13),a
-                          11455 ;demo.c:1726: cmd.command = 0xd0; 
-   3E2F 01r38s41          11456 	ld	bc,#_cmd + 14
-   3E32 3E D0             11457 	ld	a,#0xD0
-   3E34 02                11458 	ld	(bc),a
-                          11459 ;demo.c:1727: cmd.source_x = 0;
-   3E35 21r2As41          11460 	ld	hl,#_cmd
-   3E38 36 00             11461 	ld	(hl),#0x00
-   3E3A 23                11462 	inc	hl
-   3E3B 36 00             11463 	ld	(hl),#0x00
-                          11464 ;demo.c:1728: cmd.source_y = 0;
-   3E3D 21r2Cs41          11465 	ld	hl, #_cmd + 2
-   3E40 36 00             11466 	ld	(hl),#0x00
-   3E42 23                11467 	inc	hl
-   3E43 36 00             11468 	ld	(hl),#0x00
-                          11469 ;demo.c:1729: cmd.dest_x = 0;
-   3E45 21r2Es41          11470 	ld	hl, #_cmd + 4
+   3DFE CDr00s00          11428 	call	_vdp_register
+   3E01 F1                11429 	pop	af
+                          11430 ;demo.c:1720: vdp_load_palette(boxes_palette);
+   3E02 21rE6s40          11431 	ld	hl,#_boxes_palette
+   3E05 E5                11432 	push	hl
+   3E06 CDr00s00          11433 	call	_vdp_load_palette
+   3E09 F1                11434 	pop	af
+                          11435 ;demo.c:1724: pck_load("BULBS   PCK",2431,0x0000,VRAM_0,0);
+   3E0A 21 00 00          11436 	ld	hl,#0x0000
+   3E0D E5                11437 	push	hl
+   3E0E 2E 01             11438 	ld	l, #0x01
+   3E10 E5                11439 	push	hl
+   3E11 2E 00             11440 	ld	l, #0x00
+   3E13 E5                11441 	push	hl
+   3E14 21 7F 09          11442 	ld	hl,#0x097F
+   3E17 E5                11443 	push	hl
+   3E18 21r96s42          11444 	ld	hl,#__str_40
+   3E1B E5                11445 	push	hl
+   3E1C CDr2Ds0A          11446 	call	_pck_load
+   3E1F FD 21 0A 00       11447 	ld	iy,#0x000A
+   3E23 FD 39             11448 	add	iy,sp
+   3E25 FD F9             11449 	ld	sp,iy
+                          11450 ;demo.c:1726: cmd.size_x = 256;
+   3E27 21r32s41          11451 	ld	hl, #_cmd + 8
+   3E2A 36 00             11452 	ld	(hl),#0x00
+   3E2C 23                11453 	inc	hl
+   3E2D 36 01             11454 	ld	(hl),#0x01
+                          11455 ;demo.c:1727: cmd.size_y = 212;
+   3E2F 21r34s41          11456 	ld	hl, #_cmd + 10
+   3E32 36 D4             11457 	ld	(hl),#0xD4
+   3E34 23                11458 	inc	hl
+   3E35 36 00             11459 	ld	(hl),#0x00
+                          11460 ;demo.c:1728: cmd.data = 0;
+                          11461 ;demo.c:1729: cmd.argument = 0x00;
+   3E37 3E 00             11462 	ld	a,#0x00
+   3E39 32r36s41          11463 	ld	(#_cmd + 12),a
+   3E3C 32r37s41          11464 	ld	(#_cmd + 13),a
+                          11465 ;demo.c:1730: cmd.command = 0xd0; 
+   3E3F 01r38s41          11466 	ld	bc,#_cmd + 14
+   3E42 3E D0             11467 	ld	a,#0xD0
+   3E44 02                11468 	ld	(bc),a
+                          11469 ;demo.c:1731: cmd.source_x = 0;
+   3E45 21r2As41          11470 	ld	hl,#_cmd
    3E48 36 00             11471 	ld	(hl),#0x00
    3E4A 23                11472 	inc	hl
    3E4B 36 00             11473 	ld	(hl),#0x00
-                          11474 ;demo.c:1730: cmd.dest_y = 512;
-   3E4D 21r30s41          11475 	ld	hl, #_cmd + 6
+                          11474 ;demo.c:1732: cmd.source_y = 0;
+   3E4D 21r2Cs41          11475 	ld	hl, #_cmd + 2
    3E50 36 00             11476 	ld	(hl),#0x00
    3E52 23                11477 	inc	hl
-   3E53 36 02             11478 	ld	(hl),#0x02
-                          11479 ;demo.c:1731: vdp_copier(&cmd);
-   3E55 21r2As41          11480 	ld	hl,#_cmd
-   3E58 E5                11481 	push	hl
-   3E59 CDr00s00          11482 	call	_vdp_copier
-   3E5C F1                11483 	pop	af
-                          11484 ;demo.c:1734: pck_load("BOXES   PCK",3002,0x0000,VRAM_0,0);
-   3E5D 21 00 00          11485 	ld	hl,#0x0000
-   3E60 E5                11486 	push	hl
-   3E61 2E 01             11487 	ld	l, #0x01
-   3E63 E5                11488 	push	hl
-   3E64 2E 00             11489 	ld	l, #0x00
-   3E66 E5                11490 	push	hl
-   3E67 21 BA 0B          11491 	ld	hl,#0x0BBA
-   3E6A E5                11492 	push	hl
-   3E6B 21r27s42          11493 	ld	hl,#__str_41
-   3E6E E5                11494 	push	hl
-   3E6F CDr2Ds0A          11495 	call	_pck_load
-   3E72 FD 21 0A 00       11496 	ld	iy,#0x000A
-   3E76 FD 39             11497 	add	iy,sp
-   3E78 FD F9             11498 	ld	sp,iy
-                          11499 ;demo.c:1735: cmd.size_x = 256;
-   3E7A 21r32s41          11500 	ld	hl, #_cmd + 8
-   3E7D 36 00             11501 	ld	(hl),#0x00
-   3E7F 23                11502 	inc	hl
-   3E80 36 01             11503 	ld	(hl),#0x01
-                          11504 ;demo.c:1736: cmd.size_y = 212;
-   3E82 21r34s41          11505 	ld	hl, #_cmd + 10
-   3E85 36 D4             11506 	ld	(hl),#0xD4
-   3E87 23                11507 	inc	hl
-   3E88 36 00             11508 	ld	(hl),#0x00
-                          11509 ;demo.c:1737: cmd.data = 0;
-                          11510 ;demo.c:1738: cmd.argument = 0x00;
-   3E8A 3E 00             11511 	ld	a,#0x00
-   3E8C 32r36s41          11512 	ld	(#_cmd + 12),a
-   3E8F 32r37s41          11513 	ld	(#_cmd + 13),a
-                          11514 ;demo.c:1739: cmd.command = 0xd0; 
-   3E92 01r38s41          11515 	ld	bc,#_cmd + 14
-   3E95 3E D0             11516 	ld	a,#0xD0
-   3E97 02                11517 	ld	(bc),a
-                          11518 ;demo.c:1740: cmd.source_x = 0;
-   3E98 21r2As41          11519 	ld	hl,#_cmd
-   3E9B 36 00             11520 	ld	(hl),#0x00
-   3E9D 23                11521 	inc	hl
-   3E9E 36 00             11522 	ld	(hl),#0x00
-                          11523 ;demo.c:1741: cmd.source_y = 0;
-   3EA0 21r2Cs41          11524 	ld	hl, #_cmd + 2
-   3EA3 36 00             11525 	ld	(hl),#0x00
-   3EA5 23                11526 	inc	hl
-   3EA6 36 00             11527 	ld	(hl),#0x00
-                          11528 ;demo.c:1742: cmd.dest_x = 0;
-   3EA8 21r2Es41          11529 	ld	hl, #_cmd + 4
+   3E53 36 00             11478 	ld	(hl),#0x00
+                          11479 ;demo.c:1733: cmd.dest_x = 0;
+   3E55 21r2Es41          11480 	ld	hl, #_cmd + 4
+   3E58 36 00             11481 	ld	(hl),#0x00
+   3E5A 23                11482 	inc	hl
+   3E5B 36 00             11483 	ld	(hl),#0x00
+                          11484 ;demo.c:1734: cmd.dest_y = 256;
+   3E5D 21r30s41          11485 	ld	hl, #_cmd + 6
+   3E60 36 00             11486 	ld	(hl),#0x00
+   3E62 23                11487 	inc	hl
+   3E63 36 01             11488 	ld	(hl),#0x01
+                          11489 ;demo.c:1735: vdp_copier(&cmd);
+   3E65 21r2As41          11490 	ld	hl,#_cmd
+   3E68 E5                11491 	push	hl
+   3E69 CDr00s00          11492 	call	_vdp_copier
+   3E6C F1                11493 	pop	af
+                          11494 ;demo.c:1737: pck_load("TWISTER PCK",4032,0x0000,VRAM_0,0);
+   3E6D 21 00 00          11495 	ld	hl,#0x0000
+   3E70 E5                11496 	push	hl
+   3E71 2E 01             11497 	ld	l, #0x01
+   3E73 E5                11498 	push	hl
+   3E74 2E 00             11499 	ld	l, #0x00
+   3E76 E5                11500 	push	hl
+   3E77 21 C0 0F          11501 	ld	hl,#0x0FC0
+   3E7A E5                11502 	push	hl
+   3E7B 21rA2s42          11503 	ld	hl,#__str_41
+   3E7E E5                11504 	push	hl
+   3E7F CDr2Ds0A          11505 	call	_pck_load
+   3E82 FD 21 0A 00       11506 	ld	iy,#0x000A
+   3E86 FD 39             11507 	add	iy,sp
+   3E88 FD F9             11508 	ld	sp,iy
+                          11509 ;demo.c:1739: cmd.size_x = 256;
+   3E8A 21r32s41          11510 	ld	hl, #_cmd + 8
+   3E8D 36 00             11511 	ld	(hl),#0x00
+   3E8F 23                11512 	inc	hl
+   3E90 36 01             11513 	ld	(hl),#0x01
+                          11514 ;demo.c:1740: cmd.size_y = 212;
+   3E92 21r34s41          11515 	ld	hl, #_cmd + 10
+   3E95 36 D4             11516 	ld	(hl),#0xD4
+   3E97 23                11517 	inc	hl
+   3E98 36 00             11518 	ld	(hl),#0x00
+                          11519 ;demo.c:1741: cmd.data = 0;
+                          11520 ;demo.c:1742: cmd.argument = 0x00;
+   3E9A 3E 00             11521 	ld	a,#0x00
+   3E9C 32r36s41          11522 	ld	(#_cmd + 12),a
+   3E9F 32r37s41          11523 	ld	(#_cmd + 13),a
+                          11524 ;demo.c:1743: cmd.command = 0xd0; 
+   3EA2 01r38s41          11525 	ld	bc,#_cmd + 14
+   3EA5 3E D0             11526 	ld	a,#0xD0
+   3EA7 02                11527 	ld	(bc),a
+                          11528 ;demo.c:1744: cmd.source_x = 0;
+   3EA8 21r2As41          11529 	ld	hl,#_cmd
    3EAB 36 00             11530 	ld	(hl),#0x00
    3EAD 23                11531 	inc	hl
    3EAE 36 00             11532 	ld	(hl),#0x00
-                          11533 ;demo.c:1743: cmd.dest_y = 768;
-   3EB0 21r30s41          11534 	ld	hl, #_cmd + 6
+                          11533 ;demo.c:1745: cmd.source_y = 0;
+   3EB0 21r2Cs41          11534 	ld	hl, #_cmd + 2
    3EB3 36 00             11535 	ld	(hl),#0x00
    3EB5 23                11536 	inc	hl
-   3EB6 36 03             11537 	ld	(hl),#0x03
-                          11538 ;demo.c:1744: vdp_copier(&cmd);
-   3EB8 21r2As41          11539 	ld	hl,#_cmd
-   3EBB E5                11540 	push	hl
-   3EBC CDr00s00          11541 	call	_vdp_copier
-   3EBF F1                11542 	pop	af
-                          11543 ;demo.c:1746: memset((uint8_t *) &crebuffer1, 0, 3323);
-   3EC0 21 FB 0C          11544 	ld	hl,#0x0CFB
-   3EC3 E5                11545 	push	hl
-   3EC4 3E 00             11546 	ld	a,#0x00
-   3EC6 F5                11547 	push	af
-   3EC7 33                11548 	inc	sp
-   3EC8 21rCCs11          11549 	ld	hl,#_crebuffer1
+   3EB6 36 00             11537 	ld	(hl),#0x00
+                          11538 ;demo.c:1746: cmd.dest_x = 0;
+   3EB8 21r2Es41          11539 	ld	hl, #_cmd + 4
+   3EBB 36 00             11540 	ld	(hl),#0x00
+   3EBD 23                11541 	inc	hl
+   3EBE 36 00             11542 	ld	(hl),#0x00
+                          11543 ;demo.c:1747: cmd.dest_y = 512;
+   3EC0 21r30s41          11544 	ld	hl, #_cmd + 6
+   3EC3 36 00             11545 	ld	(hl),#0x00
+   3EC5 23                11546 	inc	hl
+   3EC6 36 02             11547 	ld	(hl),#0x02
+                          11548 ;demo.c:1748: vdp_copier(&cmd);
+   3EC8 21r2As41          11549 	ld	hl,#_cmd
    3ECB E5                11550 	push	hl
-   3ECC CDr00s00          11551 	call	_memset
+   3ECC CDr00s00          11551 	call	_vdp_copier
    3ECF F1                11552 	pop	af
-   3ED0 F1                11553 	pop	af
-   3ED1 33                11554 	inc	sp
-                          11555 ;demo.c:1747: raw_load("CREDIT1 PCK", 3323, crebuffer1,0);
-   3ED2 21 00 00          11556 	ld	hl,#0x0000
-   3ED5 E5                11557 	push	hl
-   3ED6 21rCCs11          11558 	ld	hl,#_crebuffer1
-   3ED9 E5                11559 	push	hl
-   3EDA 21 FB 0C          11560 	ld	hl,#0x0CFB
-   3EDD E5                11561 	push	hl
-   3EDE 21r33s42          11562 	ld	hl,#__str_42
-   3EE1 E5                11563 	push	hl
-   3EE2 CDr2As09          11564 	call	_raw_load
-   3EE5 F1                11565 	pop	af
-   3EE6 F1                11566 	pop	af
-   3EE7 F1                11567 	pop	af
-   3EE8 F1                11568 	pop	af
-                          11569 ;demo.c:1748: memset((uint8_t *) &crebuffer2, 0, 4724);
-   3EE9 21 74 12          11570 	ld	hl,#0x1274
-   3EEC E5                11571 	push	hl
-   3EED 3E 00             11572 	ld	a,#0x00
-   3EEF F5                11573 	push	af
-   3EF0 33                11574 	inc	sp
-   3EF1 21rC7s1E          11575 	ld	hl,#_crebuffer2
-   3EF4 E5                11576 	push	hl
-   3EF5 CDr00s00          11577 	call	_memset
+                          11553 ;demo.c:1750: memset((uint8_t *) &crebuffer1, 0, 3323);
+   3ED0 21 FB 0C          11554 	ld	hl,#0x0CFB
+   3ED3 E5                11555 	push	hl
+   3ED4 3E 00             11556 	ld	a,#0x00
+   3ED6 F5                11557 	push	af
+   3ED7 33                11558 	inc	sp
+   3ED8 21rCCs11          11559 	ld	hl,#_crebuffer1
+   3EDB E5                11560 	push	hl
+   3EDC CDr00s00          11561 	call	_memset
+   3EDF F1                11562 	pop	af
+   3EE0 F1                11563 	pop	af
+   3EE1 33                11564 	inc	sp
+                          11565 ;demo.c:1751: raw_load("CREDIT1 PCK", 3323, crebuffer1,0);
+   3EE2 21 00 00          11566 	ld	hl,#0x0000
+   3EE5 E5                11567 	push	hl
+   3EE6 21rCCs11          11568 	ld	hl,#_crebuffer1
+   3EE9 E5                11569 	push	hl
+   3EEA 21 FB 0C          11570 	ld	hl,#0x0CFB
+   3EED E5                11571 	push	hl
+   3EEE 21rAEs42          11572 	ld	hl,#__str_42
+   3EF1 E5                11573 	push	hl
+   3EF2 CDr2As09          11574 	call	_raw_load
+   3EF5 F1                11575 	pop	af
+   3EF6 F1                11576 	pop	af
+   3EF7 F1                11577 	pop	af
    3EF8 F1                11578 	pop	af
-   3EF9 F1                11579 	pop	af
-   3EFA 33                11580 	inc	sp
-                          11581 ;demo.c:1749: raw_load("CREDIT2 PCK", 4724, crebuffer2,0);
-   3EFB 21 00 00          11582 	ld	hl,#0x0000
-   3EFE E5                11583 	push	hl
-   3EFF 21rC7s1E          11584 	ld	hl,#_crebuffer2
-   3F02 E5                11585 	push	hl
-   3F03 21 74 12          11586 	ld	hl,#0x1274
-   3F06 E5                11587 	push	hl
-   3F07 21r3Fs42          11588 	ld	hl,#__str_43
-   3F0A E5                11589 	push	hl
-   3F0B CDr2As09          11590 	call	_raw_load
-   3F0E F1                11591 	pop	af
-   3F0F F1                11592 	pop	af
-   3F10 F1                11593 	pop	af
-   3F11 F1                11594 	pop	af
-                          11595 ;demo.c:1750: memset((uint8_t *) &crebuffer3, 0, 3723);
-   3F12 21 8B 0E          11596 	ld	hl,#0x0E8B
-   3F15 E5                11597 	push	hl
-   3F16 3E 00             11598 	ld	a,#0x00
-   3F18 F5                11599 	push	af
-   3F19 33                11600 	inc	sp
-   3F1A 21r3Bs31          11601 	ld	hl,#_crebuffer3
-   3F1D E5                11602 	push	hl
-   3F1E CDr00s00          11603 	call	_memset
+                          11579 ;demo.c:1752: memset((uint8_t *) &crebuffer2, 0, 4724);
+   3EF9 21 74 12          11580 	ld	hl,#0x1274
+   3EFC E5                11581 	push	hl
+   3EFD 3E 00             11582 	ld	a,#0x00
+   3EFF F5                11583 	push	af
+   3F00 33                11584 	inc	sp
+   3F01 21rC7s1E          11585 	ld	hl,#_crebuffer2
+   3F04 E5                11586 	push	hl
+   3F05 CDr00s00          11587 	call	_memset
+   3F08 F1                11588 	pop	af
+   3F09 F1                11589 	pop	af
+   3F0A 33                11590 	inc	sp
+                          11591 ;demo.c:1753: raw_load("CREDIT2 PCK", 4724, crebuffer2,0);
+   3F0B 21 00 00          11592 	ld	hl,#0x0000
+   3F0E E5                11593 	push	hl
+   3F0F 21rC7s1E          11594 	ld	hl,#_crebuffer2
+   3F12 E5                11595 	push	hl
+   3F13 21 74 12          11596 	ld	hl,#0x1274
+   3F16 E5                11597 	push	hl
+   3F17 21rBAs42          11598 	ld	hl,#__str_43
+   3F1A E5                11599 	push	hl
+   3F1B CDr2As09          11600 	call	_raw_load
+   3F1E F1                11601 	pop	af
+   3F1F F1                11602 	pop	af
+   3F20 F1                11603 	pop	af
    3F21 F1                11604 	pop	af
-   3F22 F1                11605 	pop	af
-   3F23 33                11606 	inc	sp
-                          11607 ;demo.c:1751: raw_load("CREDIT3 PCK", 3723, crebuffer3,0);
-   3F24 21 00 00          11608 	ld	hl,#0x0000
-   3F27 E5                11609 	push	hl
-   3F28 21r3Bs31          11610 	ld	hl,#_crebuffer3
-   3F2B E5                11611 	push	hl
-   3F2C 21 8B 0E          11612 	ld	hl,#0x0E8B
-   3F2F E5                11613 	push	hl
-   3F30 21r4Bs42          11614 	ld	hl,#__str_44
-   3F33 E5                11615 	push	hl
-   3F34 CDr2As09          11616 	call	_raw_load
-   3F37 F1                11617 	pop	af
-   3F38 F1                11618 	pop	af
-   3F39 F1                11619 	pop	af
-   3F3A F1                11620 	pop	af
-                          11621 ;demo.c:1753: scratch_clear();
-   3F3B CDr24s08          11622 	call	_scratch_clear
-                          11623 ;demo.c:1754: vdp_load_palette(scratch);
-   3F3E 21rC6s3F          11624 	ld	hl,#_scratch
-   3F41 E5                11625 	push	hl
-   3F42 CDr00s00          11626 	call	_vdp_load_palette
-   3F45 F1                11627 	pop	af
-                          11628 ;demo.c:1756: pck_load("DSSLOGO PCK",2154,0x0000,VRAM_0,0);
-   3F46 21 00 00          11629 	ld	hl,#0x0000
-   3F49 E5                11630 	push	hl
-   3F4A 2E 01             11631 	ld	l, #0x01
-   3F4C E5                11632 	push	hl
-   3F4D 2E 00             11633 	ld	l, #0x00
-   3F4F E5                11634 	push	hl
-   3F50 21 6A 08          11635 	ld	hl,#0x086A
-   3F53 E5                11636 	push	hl
-   3F54 21r57s42          11637 	ld	hl,#__str_45
-   3F57 E5                11638 	push	hl
-   3F58 CDr2Ds0A          11639 	call	_pck_load
-   3F5B FD 21 0A 00       11640 	ld	iy,#0x000A
-   3F5F FD 39             11641 	add	iy,sp
-   3F61 FD F9             11642 	ld	sp,iy
-                          11643 ;demo.c:1758: cmd.size_x = 108;
-   3F63 21r32s41          11644 	ld	hl, #_cmd + 8
-   3F66 36 6C             11645 	ld	(hl),#0x6C
-   3F68 23                11646 	inc	hl
-   3F69 36 00             11647 	ld	(hl),#0x00
-                          11648 ;demo.c:1759: cmd.size_y = 116;
-   3F6B 21r34s41          11649 	ld	hl, #_cmd + 10
-   3F6E 36 74             11650 	ld	(hl),#0x74
-   3F70 23                11651 	inc	hl
-   3F71 36 00             11652 	ld	(hl),#0x00
-                          11653 ;demo.c:1760: cmd.data = 0;
-                          11654 ;demo.c:1761: cmd.argument = 0x00;
-   3F73 3E 00             11655 	ld	a,#0x00
-   3F75 32r36s41          11656 	ld	(#_cmd + 12),a
-   3F78 32r37s41          11657 	ld	(#_cmd + 13),a
-                          11658 ;demo.c:1762: cmd.command = 0xd0; 
-   3F7B 01r38s41          11659 	ld	bc,#_cmd + 14
-   3F7E 3E D0             11660 	ld	a,#0xD0
-   3F80 02                11661 	ld	(bc),a
-                          11662 ;demo.c:1763: cmd.source_x = 75;
-   3F81 21r2As41          11663 	ld	hl,#_cmd
-   3F84 36 4B             11664 	ld	(hl),#0x4B
-   3F86 23                11665 	inc	hl
-   3F87 36 00             11666 	ld	(hl),#0x00
-                          11667 ;demo.c:1764: cmd.source_y = 50;
-   3F89 21r2Cs41          11668 	ld	hl, #_cmd + 2
-   3F8C 36 32             11669 	ld	(hl),#0x32
-   3F8E 23                11670 	inc	hl
-   3F8F 36 00             11671 	ld	(hl),#0x00
-                          11672 ;demo.c:1765: cmd.dest_x = 75;
-   3F91 21r2Es41          11673 	ld	hl, #_cmd + 4
-   3F94 36 4B             11674 	ld	(hl),#0x4B
-   3F96 23                11675 	inc	hl
-   3F97 36 00             11676 	ld	(hl),#0x00
-                          11677 ;demo.c:1766: cmd.dest_y = 256;
-   3F99 21r30s41          11678 	ld	hl, #_cmd + 6
+                          11605 ;demo.c:1754: memset((uint8_t *) &crebuffer3, 0, 3723);
+   3F22 21 8B 0E          11606 	ld	hl,#0x0E8B
+   3F25 E5                11607 	push	hl
+   3F26 3E 00             11608 	ld	a,#0x00
+   3F28 F5                11609 	push	af
+   3F29 33                11610 	inc	sp
+   3F2A 21r3Bs31          11611 	ld	hl,#_crebuffer3
+   3F2D E5                11612 	push	hl
+   3F2E CDr00s00          11613 	call	_memset
+   3F31 F1                11614 	pop	af
+   3F32 F1                11615 	pop	af
+   3F33 33                11616 	inc	sp
+                          11617 ;demo.c:1755: raw_load("CREDIT3 PCK", 3723, crebuffer3,0);
+   3F34 21 00 00          11618 	ld	hl,#0x0000
+   3F37 E5                11619 	push	hl
+   3F38 21r3Bs31          11620 	ld	hl,#_crebuffer3
+   3F3B E5                11621 	push	hl
+   3F3C 21 8B 0E          11622 	ld	hl,#0x0E8B
+   3F3F E5                11623 	push	hl
+   3F40 21rC6s42          11624 	ld	hl,#__str_44
+   3F43 E5                11625 	push	hl
+   3F44 CDr2As09          11626 	call	_raw_load
+   3F47 F1                11627 	pop	af
+   3F48 F1                11628 	pop	af
+   3F49 F1                11629 	pop	af
+   3F4A F1                11630 	pop	af
+                          11631 ;demo.c:1757: scratch_clear();
+   3F4B CDr24s08          11632 	call	_scratch_clear
+                          11633 ;demo.c:1758: vdp_load_palette(scratch);
+   3F4E 21rC6s3F          11634 	ld	hl,#_scratch
+   3F51 E5                11635 	push	hl
+   3F52 CDr00s00          11636 	call	_vdp_load_palette
+   3F55 F1                11637 	pop	af
+                          11638 ;demo.c:1760: vdp_register(2,0x1f);
+   3F56 21 02 1F          11639 	ld	hl,#0x1F02
+   3F59 E5                11640 	push	hl
+   3F5A CDr00s00          11641 	call	_vdp_register
+   3F5D F1                11642 	pop	af
+                          11643 ;demo.c:1762: pck_load("BOXES   PCK",3002,0x0000,VRAM_0,0);
+   3F5E 21 00 00          11644 	ld	hl,#0x0000
+   3F61 E5                11645 	push	hl
+   3F62 2E 01             11646 	ld	l, #0x01
+   3F64 E5                11647 	push	hl
+   3F65 2E 00             11648 	ld	l, #0x00
+   3F67 E5                11649 	push	hl
+   3F68 21 BA 0B          11650 	ld	hl,#0x0BBA
+   3F6B E5                11651 	push	hl
+   3F6C 21rD2s42          11652 	ld	hl,#__str_45
+   3F6F E5                11653 	push	hl
+   3F70 CDr2Ds0A          11654 	call	_pck_load
+   3F73 FD 21 0A 00       11655 	ld	iy,#0x000A
+   3F77 FD 39             11656 	add	iy,sp
+   3F79 FD F9             11657 	ld	sp,iy
+                          11658 ;demo.c:1763: cmd.size_x = 256;
+   3F7B 21r32s41          11659 	ld	hl, #_cmd + 8
+   3F7E 36 00             11660 	ld	(hl),#0x00
+   3F80 23                11661 	inc	hl
+   3F81 36 01             11662 	ld	(hl),#0x01
+                          11663 ;demo.c:1764: cmd.size_y = 212;
+   3F83 21r34s41          11664 	ld	hl, #_cmd + 10
+   3F86 36 D4             11665 	ld	(hl),#0xD4
+   3F88 23                11666 	inc	hl
+   3F89 36 00             11667 	ld	(hl),#0x00
+                          11668 ;demo.c:1765: cmd.data = 0;
+                          11669 ;demo.c:1766: cmd.argument = 0x00;
+   3F8B 3E 00             11670 	ld	a,#0x00
+   3F8D 32r36s41          11671 	ld	(#_cmd + 12),a
+   3F90 32r37s41          11672 	ld	(#_cmd + 13),a
+                          11673 ;demo.c:1767: cmd.command = 0xd0; 
+   3F93 01r38s41          11674 	ld	bc,#_cmd + 14
+   3F96 3E D0             11675 	ld	a,#0xD0
+   3F98 02                11676 	ld	(bc),a
+                          11677 ;demo.c:1768: cmd.source_x = 0;
+   3F99 21r2As41          11678 	ld	hl,#_cmd
    3F9C 36 00             11679 	ld	(hl),#0x00
    3F9E 23                11680 	inc	hl
-   3F9F 36 01             11681 	ld	(hl),#0x01
-                          11682 ;demo.c:1767: vdp_copier(&cmd);
-   3FA1 21r2As41          11683 	ld	hl,#_cmd
-   3FA4 E5                11684 	push	hl
-   3FA5 CDr00s00          11685 	call	_vdp_copier
-   3FA8 F1                11686 	pop	af
-                          11687 ;demo.c:1769: cmd.size_x = 108;
-   3FA9 21r32s41          11688 	ld	hl, #_cmd + 8
-   3FAC 36 6C             11689 	ld	(hl),#0x6C
+   3F9F 36 00             11681 	ld	(hl),#0x00
+                          11682 ;demo.c:1769: cmd.source_y = 0;
+   3FA1 21r2Cs41          11683 	ld	hl, #_cmd + 2
+   3FA4 36 00             11684 	ld	(hl),#0x00
+   3FA6 23                11685 	inc	hl
+   3FA7 36 00             11686 	ld	(hl),#0x00
+                          11687 ;demo.c:1770: cmd.dest_x = 0;
+   3FA9 21r2Es41          11688 	ld	hl, #_cmd + 4
+   3FAC 36 00             11689 	ld	(hl),#0x00
    3FAE 23                11690 	inc	hl
    3FAF 36 00             11691 	ld	(hl),#0x00
-                          11692 ;demo.c:1770: cmd.size_y = 60;
-   3FB1 21r34s41          11693 	ld	hl, #_cmd + 10
-   3FB4 36 3C             11694 	ld	(hl),#0x3C
+                          11692 ;demo.c:1771: cmd.dest_y = 768;
+   3FB1 21r30s41          11693 	ld	hl, #_cmd + 6
+   3FB4 36 00             11694 	ld	(hl),#0x00
    3FB6 23                11695 	inc	hl
-   3FB7 36 00             11696 	ld	(hl),#0x00
-                          11697 ;demo.c:1771: cmd.data = 0;
-                          11698 ;demo.c:1772: cmd.argument = 0x00;
-   3FB9 3E 00             11699 	ld	a,#0x00
-   3FBB 32r36s41          11700 	ld	(#_cmd + 12),a
-   3FBE 32r37s41          11701 	ld	(#_cmd + 13),a
-                          11702 ;demo.c:1773: cmd.command = 0xd0; 
-   3FC1 01r38s41          11703 	ld	bc,#_cmd + 14
-   3FC4 3E D0             11704 	ld	a,#0xD0
-   3FC6 02                11705 	ld	(bc),a
-                          11706 ;demo.c:1774: cmd.source_x = 75;
-   3FC7 21r2As41          11707 	ld	hl,#_cmd
-   3FCA 36 4B             11708 	ld	(hl),#0x4B
-   3FCC 23                11709 	inc	hl
-   3FCD 36 00             11710 	ld	(hl),#0x00
-                          11711 ;demo.c:1775: cmd.source_y = 256+110;
-   3FCF 21r2Cs41          11712 	ld	hl, #_cmd + 2
-   3FD2 36 6E             11713 	ld	(hl),#0x6E
-   3FD4 23                11714 	inc	hl
-   3FD5 36 01             11715 	ld	(hl),#0x01
-                          11716 ;demo.c:1776: cmd.dest_x = 75;
-   3FD7 21r2Es41          11717 	ld	hl, #_cmd + 4
-   3FDA 36 4B             11718 	ld	(hl),#0x4B
-   3FDC 23                11719 	inc	hl
-   3FDD 36 00             11720 	ld	(hl),#0x00
-                          11721 ;demo.c:1777: cmd.dest_y = 40;
-   3FDF 21r30s41          11722 	ld	hl, #_cmd + 6
-   3FE2 36 28             11723 	ld	(hl),#0x28
-   3FE4 23                11724 	inc	hl
-   3FE5 36 00             11725 	ld	(hl),#0x00
-                          11726 ;demo.c:1778: vdp_copier(&cmd);
-   3FE7 21r2As41          11727 	ld	hl,#_cmd
-   3FEA E5                11728 	push	hl
-   3FEB CDr00s00          11729 	call	_vdp_copier
-   3FEE F1                11730 	pop	af
-                          11731 ;demo.c:1779: cmd.dest_x = 75;
-   3FEF 21r2Es41          11732 	ld	hl, #_cmd + 4
-   3FF2 36 4B             11733 	ld	(hl),#0x4B
-   3FF4 23                11734 	inc	hl
-   3FF5 36 00             11735 	ld	(hl),#0x00
-                          11736 ;demo.c:1780: cmd.dest_y = 100;
-   3FF7 21r30s41          11737 	ld	hl, #_cmd + 6
-   3FFA 36 64             11738 	ld	(hl),#0x64
-   3FFC 23                11739 	inc	hl
-   3FFD 36 00             11740 	ld	(hl),#0x00
-                          11741 ;demo.c:1781: vdp_copier(&cmd);
-   3FFF 21r2As41          11742 	ld	hl,#_cmd
-   4002 E5                11743 	push	hl
-   4003 CDr00s00          11744 	call	_vdp_copier
-   4006 F1                11745 	pop	af
-                          11746 ;demo.c:1783: pal_load("DSSLOGO PL5",32,0);
-   4007 21 00 00          11747 	ld	hl,#0x0000
-   400A E5                11748 	push	hl
-   400B 3E 20             11749 	ld	a,#0x20
-   400D F5                11750 	push	af
-   400E 33                11751 	inc	sp
-   400F 21r63s42          11752 	ld	hl,#__str_46
-   4012 E5                11753 	push	hl
-   4013 CDr37s08          11754 	call	_pal_load
-   4016 F1                11755 	pop	af
-   4017 F1                11756 	pop	af
-   4018 33                11757 	inc	sp
-                          11758 ;demo.c:1785: scratch_clear();
-   4019 CDr24s08          11759 	call	_scratch_clear
-                          11760 ;demo.c:1787: vdp_register(9,130); // 50hz,212
-   401C 21 09 82          11761 	ld	hl,#0x8209
-   401F E5                11762 	push	hl
-   4020 CDr00s00          11763 	call	_vdp_register
-   4023 F1                11764 	pop	af
-                          11765 ;demo.c:1789: install_isr(my_isr);
-   4024 21rECs07          11766 	ld	hl,#_my_isr
-   4027 E5                11767 	push	hl
-   4028 CDr00s00          11768 	call	_install_isr
-   402B F1                11769 	pop	af
-                          11770 ;demo.c:1793: while (!quit) {
-   402C                   11771 00111$:
-   402C AF                11772 	xor	a,a
-   402D DD B6 FF          11773 	or	a,-1 (ix)
-   4030 C2rEBs40          11774 	jp	NZ,00113$
-                          11775 ;demo.c:1795: if (vbicount >= scenetimings[timeindex+1]) {
-   4033 21r3Es42          11776 	ld	hl,#_timeindex + 0
-   4036 4E                11777 	ld	c,(hl)
-   4037 0C                11778 	inc	c
-   4038 CB 21             11779 	sla	c
-   403A 3Er51             11780 	ld	a,#<_scenetimings
-   403C 81                11781 	add	a,c
-   403D 6F                11782 	ld	l,a
-   403E 3Es41             11783 	ld	a,#>_scenetimings
-   4040 CE 00             11784 	adc	a,#0x00
-   4042 67                11785 	ld	h,a
-   4043 4E                11786 	ld	c,(hl)
-   4044 23                11787 	inc	hl
-   4045 46                11788 	ld	b,(hl)
-   4046 3Ar26s41          11789 	ld	a,(#_vbicount+0)
-   4049 91                11790 	sub	a,c
-   404A 3Ar27s41          11791 	ld	a,(#_vbicount+1)
-   404D 98                11792 	sbc	a,b
-   404E FAr77s40          11793 	jp	M,00105$
-                          11794 ;demo.c:1796: sceneindex++;
-   4051 FD 21r3Cs42       11795 	ld	iy,#_sceneindex
-   4055 FD 34 00          11796 	inc	0 (iy)
-   4058 20 07             11797 	jr	NZ,00153$
-   405A FD 21r3Cs42       11798 	ld	iy,#_sceneindex
-   405E FD 34 01          11799 	inc	1 (iy)
-   4061                   11800 00153$:
-                          11801 ;demo.c:1797: timeindex+=2;
-   4061 21r3Es42          11802 	ld	hl,#_timeindex
-   4064 7E                11803 	ld	a,(hl)
-   4065 C6 02             11804 	add	a,#0x02
-   4067 23                11805 	inc	hl
-   4068 2B                11806 	dec	hl
-   4069 C5                11807 	push	bc
-   406A 4F                11808 	ld	c, a
-   406B 23                11809 	inc	hl
-   406C 7E                11810 	ld	a, (hl)
-   406D 47                11811 	ld	b, a
-   406E 79                11812 	ld	a, c
-   406F 2B                11813 	dec	hl
-   4070 77                11814 	ld	(hl), a
-   4071 78                11815 	ld	a, b
-   4072 C1                11816 	pop	bc
-   4073 CE 00             11817 	adc	a,#0x00
-   4075 23                11818 	inc	hl
-   4076 77                11819 	ld	(hl),a
-   4077                   11820 00105$:
-                          11821 ;demo.c:1800: if (vbicount >= scenetimings[timeindex] && vbicount < scenetimings[timeindex+1]) {
-   4077 21r3Es42          11822 	ld	hl,#_timeindex + 0
-   407A 4E                11823 	ld	c,(hl)
-   407B 21r3Fs42          11824 	ld	hl,#_timeindex + 1
-   407E 46                11825 	ld	b,(hl)
-   407F CB 21             11826 	sla	c
-   4081 CB 10             11827 	rl	b
-   4083 21r51s41          11828 	ld	hl,#_scenetimings
-   4086 09                11829 	add	hl,bc
-   4087 4E                11830 	ld	c,(hl)
-   4088 23                11831 	inc	hl
-   4089 46                11832 	ld	b,(hl)
-   408A 3Ar26s41          11833 	ld	a,(#_vbicount+0)
-   408D 91                11834 	sub	a,c
-   408E 3Ar27s41          11835 	ld	a,(#_vbicount+1)
-   4091 98                11836 	sbc	a,b
-   4092 FArD7s40          11837 	jp	M,00107$
-   4095 21r3Es42          11838 	ld	hl,#_timeindex + 0
-   4098 4E                11839 	ld	c,(hl)
-   4099 0C                11840 	inc	c
-   409A CB 21             11841 	sla	c
-   409C 3Er51             11842 	ld	a,#<_scenetimings
-   409E 81                11843 	add	a,c
-   409F 6F                11844 	ld	l,a
-   40A0 3Es41             11845 	ld	a,#>_scenetimings
-   40A2 CE 00             11846 	adc	a,#0x00
-   40A4 67                11847 	ld	h,a
-   40A5 4E                11848 	ld	c,(hl)
-   40A6 23                11849 	inc	hl
-   40A7 46                11850 	ld	b,(hl)
-   40A8 3Ar26s41          11851 	ld	a,(#_vbicount+0)
-   40AB 91                11852 	sub	a,c
-   40AC FD 21r26s41       11853 	ld	iy,#_vbicount
-   40B0 FD 7E 01          11854 	ld	a,1 (iy)
-   40B3 98                11855 	sbc	a,b
-   40B4 F2rD7s40          11856 	jp	P,00107$
-                          11857 ;demo.c:1801: waitVB();
-   40B7 76                11858 		halt 
-                          11859 ;demo.c:1802: scenepointers[sceneindex]();
-   40B8 21r3Cs42          11860 	ld	hl,#_sceneindex + 0
-   40BB 4E                11861 	ld	c,(hl)
-   40BC FD 21r3Cs42       11862 	ld	iy,#_sceneindex
-   40C0 FD 46 01          11863 	ld	b,1 (iy)
-   40C3 CB 21             11864 	sla	c
-   40C5 CB 10             11865 	rl	b
-   40C7 21r39s41          11866 	ld	hl,#_scenepointers
-   40CA 09                11867 	add	hl,bc
-   40CB 4E                11868 	ld	c,(hl)
-   40CC 23                11869 	inc	hl
-   40CD 46                11870 	ld	b,(hl)
-   40CE C5                11871 	push	bc
-   40CF 21rD6s40          11872 	ld	hl,#00158$
-   40D2 E5                11873 	push	hl
-   40D3 69                11874 	ld	l,c
-   40D4 60                11875 	ld	h,b
-   40D5 E9                11876 	jp	(hl)
-   40D6                   11877 00158$:
-   40D6 C1                11878 	pop	bc
-   40D7                   11879 00107$:
-                          11880 ;demo.c:1806: if(space())
-   40D7 21 08 01          11881 	ld	hl,#0x0108
-   40DA E5                11882 	push	hl
-   40DB CDr00s00          11883 	call	_ispressed
-   40DE F1                11884 	pop	af
-   40DF AF                11885 	xor	a,a
-   40E0 B5                11886 	or	a,l
-   40E1 CAr2Cs40          11887 	jp	Z,00111$
-                          11888 ;demo.c:1807: quit=1;
-   40E4 DD 36 FF 01       11889 	ld	-1 (ix),#0x01
-   40E8 C3r2Cs40          11890 	jp	00111$
-   40EB                   11891 00113$:
-                          11892 ;demo.c:1810: do_quit();
-   40EB CDr22s3B          11893 	call	_do_quit
-   40EE DD F9             11894 	ld	sp,ix
-   40F0 DD E1             11895 	pop	ix
-   40F2 C9                11896 	ret
-   40F3                   11897 _main_end::
-   40F3                   11898 __str_27:
-   40F3 5B 73 74 61 72 74 11899 	.ascii "[starting DSS MSX demosystem]"
+   3FB7 36 03             11696 	ld	(hl),#0x03
+                          11697 ;demo.c:1772: vdp_copier(&cmd);
+   3FB9 21r2As41          11698 	ld	hl,#_cmd
+   3FBC E5                11699 	push	hl
+   3FBD CDr00s00          11700 	call	_vdp_copier
+   3FC0 F1                11701 	pop	af
+                          11702 ;demo.c:1774: pck_load("DSSLOGO PCK",2154,0x0000,VRAM_0,0);
+   3FC1 21 00 00          11703 	ld	hl,#0x0000
+   3FC4 E5                11704 	push	hl
+   3FC5 2E 01             11705 	ld	l, #0x01
+   3FC7 E5                11706 	push	hl
+   3FC8 2E 00             11707 	ld	l, #0x00
+   3FCA E5                11708 	push	hl
+   3FCB 21 6A 08          11709 	ld	hl,#0x086A
+   3FCE E5                11710 	push	hl
+   3FCF 21rDEs42          11711 	ld	hl,#__str_46
+   3FD2 E5                11712 	push	hl
+   3FD3 CDr2Ds0A          11713 	call	_pck_load
+   3FD6 FD 21 0A 00       11714 	ld	iy,#0x000A
+   3FDA FD 39             11715 	add	iy,sp
+   3FDC FD F9             11716 	ld	sp,iy
+                          11717 ;demo.c:1776: cmd.size_x = 108;
+   3FDE 21r32s41          11718 	ld	hl, #_cmd + 8
+   3FE1 36 6C             11719 	ld	(hl),#0x6C
+   3FE3 23                11720 	inc	hl
+   3FE4 36 00             11721 	ld	(hl),#0x00
+                          11722 ;demo.c:1777: cmd.size_y = 116;
+   3FE6 21r34s41          11723 	ld	hl, #_cmd + 10
+   3FE9 36 74             11724 	ld	(hl),#0x74
+   3FEB 23                11725 	inc	hl
+   3FEC 36 00             11726 	ld	(hl),#0x00
+                          11727 ;demo.c:1778: cmd.data = 0;
+                          11728 ;demo.c:1779: cmd.argument = 0x00;
+   3FEE 3E 00             11729 	ld	a,#0x00
+   3FF0 32r36s41          11730 	ld	(#_cmd + 12),a
+   3FF3 32r37s41          11731 	ld	(#_cmd + 13),a
+                          11732 ;demo.c:1780: cmd.command = 0xd0; 
+   3FF6 01r38s41          11733 	ld	bc,#_cmd + 14
+   3FF9 3E D0             11734 	ld	a,#0xD0
+   3FFB 02                11735 	ld	(bc),a
+                          11736 ;demo.c:1781: cmd.source_x = 75;
+   3FFC 21r2As41          11737 	ld	hl,#_cmd
+   3FFF 36 4B             11738 	ld	(hl),#0x4B
+   4001 23                11739 	inc	hl
+   4002 36 00             11740 	ld	(hl),#0x00
+                          11741 ;demo.c:1782: cmd.source_y = 50;
+   4004 21r2Cs41          11742 	ld	hl, #_cmd + 2
+   4007 36 32             11743 	ld	(hl),#0x32
+   4009 23                11744 	inc	hl
+   400A 36 00             11745 	ld	(hl),#0x00
+                          11746 ;demo.c:1783: cmd.dest_x = 75;
+   400C 21r2Es41          11747 	ld	hl, #_cmd + 4
+   400F 36 4B             11748 	ld	(hl),#0x4B
+   4011 23                11749 	inc	hl
+   4012 36 00             11750 	ld	(hl),#0x00
+                          11751 ;demo.c:1784: cmd.dest_y = 256;
+   4014 21r30s41          11752 	ld	hl, #_cmd + 6
+   4017 36 00             11753 	ld	(hl),#0x00
+   4019 23                11754 	inc	hl
+   401A 36 01             11755 	ld	(hl),#0x01
+                          11756 ;demo.c:1785: vdp_copier(&cmd);
+   401C 21r2As41          11757 	ld	hl,#_cmd
+   401F E5                11758 	push	hl
+   4020 CDr00s00          11759 	call	_vdp_copier
+   4023 F1                11760 	pop	af
+                          11761 ;demo.c:1787: cmd.size_x = 108;
+   4024 21r32s41          11762 	ld	hl, #_cmd + 8
+   4027 36 6C             11763 	ld	(hl),#0x6C
+   4029 23                11764 	inc	hl
+   402A 36 00             11765 	ld	(hl),#0x00
+                          11766 ;demo.c:1788: cmd.size_y = 60;
+   402C 21r34s41          11767 	ld	hl, #_cmd + 10
+   402F 36 3C             11768 	ld	(hl),#0x3C
+   4031 23                11769 	inc	hl
+   4032 36 00             11770 	ld	(hl),#0x00
+                          11771 ;demo.c:1789: cmd.data = 0;
+                          11772 ;demo.c:1790: cmd.argument = 0x00;
+   4034 3E 00             11773 	ld	a,#0x00
+   4036 32r36s41          11774 	ld	(#_cmd + 12),a
+   4039 32r37s41          11775 	ld	(#_cmd + 13),a
+                          11776 ;demo.c:1791: cmd.command = 0xd0; 
+   403C 01r38s41          11777 	ld	bc,#_cmd + 14
+   403F 3E D0             11778 	ld	a,#0xD0
+   4041 02                11779 	ld	(bc),a
+                          11780 ;demo.c:1792: cmd.source_x = 75;
+   4042 21r2As41          11781 	ld	hl,#_cmd
+   4045 36 4B             11782 	ld	(hl),#0x4B
+   4047 23                11783 	inc	hl
+   4048 36 00             11784 	ld	(hl),#0x00
+                          11785 ;demo.c:1793: cmd.source_y = 256+110;
+   404A 21r2Cs41          11786 	ld	hl, #_cmd + 2
+   404D 36 6E             11787 	ld	(hl),#0x6E
+   404F 23                11788 	inc	hl
+   4050 36 01             11789 	ld	(hl),#0x01
+                          11790 ;demo.c:1794: cmd.dest_x = 75;
+   4052 21r2Es41          11791 	ld	hl, #_cmd + 4
+   4055 36 4B             11792 	ld	(hl),#0x4B
+   4057 23                11793 	inc	hl
+   4058 36 00             11794 	ld	(hl),#0x00
+                          11795 ;demo.c:1795: cmd.dest_y = 40;
+   405A 21r30s41          11796 	ld	hl, #_cmd + 6
+   405D 36 28             11797 	ld	(hl),#0x28
+   405F 23                11798 	inc	hl
+   4060 36 00             11799 	ld	(hl),#0x00
+                          11800 ;demo.c:1796: vdp_copier(&cmd);
+   4062 21r2As41          11801 	ld	hl,#_cmd
+   4065 E5                11802 	push	hl
+   4066 CDr00s00          11803 	call	_vdp_copier
+   4069 F1                11804 	pop	af
+                          11805 ;demo.c:1797: cmd.dest_x = 75;
+   406A 21r2Es41          11806 	ld	hl, #_cmd + 4
+   406D 36 4B             11807 	ld	(hl),#0x4B
+   406F 23                11808 	inc	hl
+   4070 36 00             11809 	ld	(hl),#0x00
+                          11810 ;demo.c:1798: cmd.dest_y = 100;
+   4072 21r30s41          11811 	ld	hl, #_cmd + 6
+   4075 36 64             11812 	ld	(hl),#0x64
+   4077 23                11813 	inc	hl
+   4078 36 00             11814 	ld	(hl),#0x00
+                          11815 ;demo.c:1799: vdp_copier(&cmd);
+   407A 21r2As41          11816 	ld	hl,#_cmd
+   407D E5                11817 	push	hl
+   407E CDr00s00          11818 	call	_vdp_copier
+   4081 F1                11819 	pop	af
+                          11820 ;demo.c:1801: pal_load("DSSLOGO PL5",32,0);
+   4082 21 00 00          11821 	ld	hl,#0x0000
+   4085 E5                11822 	push	hl
+   4086 3E 20             11823 	ld	a,#0x20
+   4088 F5                11824 	push	af
+   4089 33                11825 	inc	sp
+   408A 21rEAs42          11826 	ld	hl,#__str_47
+   408D E5                11827 	push	hl
+   408E CDr37s08          11828 	call	_pal_load
+   4091 F1                11829 	pop	af
+   4092 F1                11830 	pop	af
+   4093 33                11831 	inc	sp
+                          11832 ;demo.c:1803: scratch_clear();
+   4094 CDr24s08          11833 	call	_scratch_clear
+                          11834 ;demo.c:1805: vdp_register(9,130); // 50hz,212
+   4097 21 09 82          11835 	ld	hl,#0x8209
+   409A E5                11836 	push	hl
+   409B CDr00s00          11837 	call	_vdp_register
+   409E F1                11838 	pop	af
+                          11839 ;demo.c:1807: install_isr(my_isr);
+   409F 21rECs07          11840 	ld	hl,#_my_isr
+   40A2 E5                11841 	push	hl
+   40A3 CDr00s00          11842 	call	_install_isr
+   40A6 F1                11843 	pop	af
+                          11844 ;demo.c:1811: while (!quit) {
+   40A7                   11845 00111$:
+   40A7 AF                11846 	xor	a,a
+   40A8 DD B6 FF          11847 	or	a,-1 (ix)
+   40AB C2r66s41          11848 	jp	NZ,00113$
+                          11849 ;demo.c:1813: if (vbicount >= scenetimings[timeindex+1]) {
+   40AE 21r3Es42          11850 	ld	hl,#_timeindex + 0
+   40B1 4E                11851 	ld	c,(hl)
+   40B2 0C                11852 	inc	c
+   40B3 CB 21             11853 	sla	c
+   40B5 3Er51             11854 	ld	a,#<_scenetimings
+   40B7 81                11855 	add	a,c
+   40B8 6F                11856 	ld	l,a
+   40B9 3Es41             11857 	ld	a,#>_scenetimings
+   40BB CE 00             11858 	adc	a,#0x00
+   40BD 67                11859 	ld	h,a
+   40BE 4E                11860 	ld	c,(hl)
+   40BF 23                11861 	inc	hl
+   40C0 46                11862 	ld	b,(hl)
+   40C1 3Ar26s41          11863 	ld	a,(#_vbicount+0)
+   40C4 91                11864 	sub	a,c
+   40C5 3Ar27s41          11865 	ld	a,(#_vbicount+1)
+   40C8 98                11866 	sbc	a,b
+   40C9 FArF2s40          11867 	jp	M,00105$
+                          11868 ;demo.c:1814: sceneindex++;
+   40CC FD 21r3Cs42       11869 	ld	iy,#_sceneindex
+   40D0 FD 34 00          11870 	inc	0 (iy)
+   40D3 20 07             11871 	jr	NZ,00153$
+   40D5 FD 21r3Cs42       11872 	ld	iy,#_sceneindex
+   40D9 FD 34 01          11873 	inc	1 (iy)
+   40DC                   11874 00153$:
+                          11875 ;demo.c:1815: timeindex+=2;
+   40DC 21r3Es42          11876 	ld	hl,#_timeindex
+   40DF 7E                11877 	ld	a,(hl)
+   40E0 C6 02             11878 	add	a,#0x02
+   40E2 23                11879 	inc	hl
+   40E3 2B                11880 	dec	hl
+   40E4 C5                11881 	push	bc
+   40E5 4F                11882 	ld	c, a
+   40E6 23                11883 	inc	hl
+   40E7 7E                11884 	ld	a, (hl)
+   40E8 47                11885 	ld	b, a
+   40E9 79                11886 	ld	a, c
+   40EA 2B                11887 	dec	hl
+   40EB 77                11888 	ld	(hl), a
+   40EC 78                11889 	ld	a, b
+   40ED C1                11890 	pop	bc
+   40EE CE 00             11891 	adc	a,#0x00
+   40F0 23                11892 	inc	hl
+   40F1 77                11893 	ld	(hl),a
+   40F2                   11894 00105$:
+                          11895 ;demo.c:1818: if (vbicount >= scenetimings[timeindex] && vbicount < scenetimings[timeindex+1]) {
+   40F2 21r3Es42          11896 	ld	hl,#_timeindex + 0
+   40F5 4E                11897 	ld	c,(hl)
+   40F6 21r3Fs42          11898 	ld	hl,#_timeindex + 1
+   40F9 46                11899 	ld	b,(hl)
+   40FA CB 21             11900 	sla	c
+   40FC CB 10             11901 	rl	b
+   40FE 21r51s41          11902 	ld	hl,#_scenetimings
+   4101 09                11903 	add	hl,bc
+   4102 4E                11904 	ld	c,(hl)
+   4103 23                11905 	inc	hl
+   4104 46                11906 	ld	b,(hl)
+   4105 3Ar26s41          11907 	ld	a,(#_vbicount+0)
+   4108 91                11908 	sub	a,c
+   4109 3Ar27s41          11909 	ld	a,(#_vbicount+1)
+   410C 98                11910 	sbc	a,b
+   410D FAr52s41          11911 	jp	M,00107$
+   4110 21r3Es42          11912 	ld	hl,#_timeindex + 0
+   4113 4E                11913 	ld	c,(hl)
+   4114 0C                11914 	inc	c
+   4115 CB 21             11915 	sla	c
+   4117 3Er51             11916 	ld	a,#<_scenetimings
+   4119 81                11917 	add	a,c
+   411A 6F                11918 	ld	l,a
+   411B 3Es41             11919 	ld	a,#>_scenetimings
+   411D CE 00             11920 	adc	a,#0x00
+   411F 67                11921 	ld	h,a
+   4120 4E                11922 	ld	c,(hl)
+   4121 23                11923 	inc	hl
+   4122 46                11924 	ld	b,(hl)
+   4123 3Ar26s41          11925 	ld	a,(#_vbicount+0)
+   4126 91                11926 	sub	a,c
+   4127 FD 21r26s41       11927 	ld	iy,#_vbicount
+   412B FD 7E 01          11928 	ld	a,1 (iy)
+   412E 98                11929 	sbc	a,b
+   412F F2r52s41          11930 	jp	P,00107$
+                          11931 ;demo.c:1819: waitVB();
+   4132 76                11932 		halt 
+                          11933 ;demo.c:1820: scenepointers[sceneindex]();
+   4133 21r3Cs42          11934 	ld	hl,#_sceneindex + 0
+   4136 4E                11935 	ld	c,(hl)
+   4137 FD 21r3Cs42       11936 	ld	iy,#_sceneindex
+   413B FD 46 01          11937 	ld	b,1 (iy)
+   413E CB 21             11938 	sla	c
+   4140 CB 10             11939 	rl	b
+   4142 21r39s41          11940 	ld	hl,#_scenepointers
+   4145 09                11941 	add	hl,bc
+   4146 4E                11942 	ld	c,(hl)
+   4147 23                11943 	inc	hl
+   4148 46                11944 	ld	b,(hl)
+   4149 C5                11945 	push	bc
+   414A 21r51s41          11946 	ld	hl,#00158$
+   414D E5                11947 	push	hl
+   414E 69                11948 	ld	l,c
+   414F 60                11949 	ld	h,b
+   4150 E9                11950 	jp	(hl)
+   4151                   11951 00158$:
+   4151 C1                11952 	pop	bc
+   4152                   11953 00107$:
+                          11954 ;demo.c:1824: if(space())
+   4152 21 08 01          11955 	ld	hl,#0x0108
+   4155 E5                11956 	push	hl
+   4156 CDr00s00          11957 	call	_ispressed
+   4159 F1                11958 	pop	af
+   415A AF                11959 	xor	a,a
+   415B B5                11960 	or	a,l
+   415C CArA7s40          11961 	jp	Z,00111$
+                          11962 ;demo.c:1825: quit=1;
+   415F DD 36 FF 01       11963 	ld	-1 (ix),#0x01
+   4163 C3rA7s40          11964 	jp	00111$
+   4166                   11965 00113$:
+                          11966 ;demo.c:1828: do_quit();
+   4166 CDr22s3B          11967 	call	_do_quit
+   4169 DD F9             11968 	ld	sp,ix
+   416B DD E1             11969 	pop	ix
+   416D C9                11970 	ret
+   416E                   11971 _main_end::
+   416E                   11972 __str_27:
+   416E 5B 73 74 61 72 74 11973 	.ascii "[starting DSS MSX demosystem]"
         69 6E 67 20 44 53
         53 20 4D 53 58 20
         64 65 6D 6F 73 79
         73 74 65 6D 5D
-   4110 0D                11900 	.db 0x0D
-   4111 0A                11901 	.db 0x0A
-   4112 0D                11902 	.db 0x0D
-   4113 0A                11903 	.db 0x0A
-   4114 00                11904 	.db 0x00
-   4115                   11905 __str_28:
-   4115 69 6E 69 74 20 73 11906 	.ascii "init sweet PSG bleeps..."
+   418B 0D                11974 	.db 0x0D
+   418C 0A                11975 	.db 0x0A
+   418D 0D                11976 	.db 0x0D
+   418E 0A                11977 	.db 0x0A
+   418F 00                11978 	.db 0x00
+   4190                   11979 __str_28:
+   4190 69 6E 69 74 20 73 11980 	.ascii "init sweet PSG bleeps..."
         77 65 65 74 20 50
         53 47 20 62 6C 65
         65 70 73 2E 2E 2E
-   412D 00                11907 	.db 0x00
-   412E                   11908 __str_29:
-   412E 64 6F 6E 65 2E    11909 	.ascii "done."
-   4133 0D                11910 	.db 0x0D
-   4134 0A                11911 	.db 0x0A
-   4135 00                11912 	.db 0x00
-   4136                   11913 __str_30:
-   4136 64 65 74 65 63 74 11914 	.ascii "detecting ya vdp type..."
+   41A8 00                11981 	.db 0x00
+   41A9                   11982 __str_29:
+   41A9 64 6F 6E 65 2E    11983 	.ascii "done."
+   41AE 0D                11984 	.db 0x0D
+   41AF 0A                11985 	.db 0x0A
+   41B0 00                11986 	.db 0x00
+   41B1                   11987 __str_30:
+   41B1 64 65 74 65 63 74 11988 	.ascii "detecting ya vdp type..."
         69 6E 67 20 79 61
         20 76 64 70 20 74
         79 70 65 2E 2E 2E
-   414E 0D                11915 	.db 0x0D
-   414F 0A                11916 	.db 0x0A
-   4150 00                11917 	.db 0x00
-   4151                   11918 __str_31:
-   4151 76 64 70 32 20 66 11919 	.ascii "vdp2 found! setting 50hz..."
+   41C9 0D                11989 	.db 0x0D
+   41CA 0A                11990 	.db 0x0A
+   41CB 00                11991 	.db 0x00
+   41CC                   11992 __str_31:
+   41CC 76 64 70 32 20 66 11993 	.ascii "vdp2 found! setting 50hz..."
         6F 75 6E 64 21 20
         73 65 74 74 69 6E
         67 20 35 30 68 7A
         2E 2E 2E
-   416C 0D                11920 	.db 0x0D
-   416D 0A                11921 	.db 0x0A
-   416E 00                11922 	.db 0x00
-   416F                   11923 __str_32:
-   416F 20 76 64 70 31 20 11924 	.ascii " vdp1 found."
+   41E7 0D                11994 	.db 0x0D
+   41E8 0A                11995 	.db 0x0A
+   41E9 00                11996 	.db 0x00
+   41EA                   11997 __str_32:
+   41EA 20 76 64 70 31 20 11998 	.ascii " vdp1 found."
         66 6F 75 6E 64 2E
-   417B 0D                11925 	.db 0x0D
-   417C 0A                11926 	.db 0x0A
-   417D 53 6F 72 72 79 2C 11927 	.ascii "Sorry, this demo requires a VDP2 with 128k for"
+   41F6 0D                11999 	.db 0x0D
+   41F7 0A                12000 	.db 0x0A
+   41F8 53 6F 72 72 79 2C 12001 	.ascii "Sorry, this demo requires a VDP2 with 128k for"
         20 74 68 69 73 20
         64 65 6D 6F 20 72
         65 71 75 69 72 65
@@ -12054,70 +12128,74 @@
         50 32 20 77 69 74
         68 20 31 32 38 6B
         20 66 6F 72
-   41AB 20 56 52 41 4D 2E 11928 	.ascii " VRAM."
-   41B1 0D                11929 	.db 0x0D
-   41B2 0A                11930 	.db 0x0A
-   41B3 00                11931 	.db 0x00
-   41B4                   11932 __str_33:
-   41B4 54 57 49 53 54 45 11933 	.ascii "TWISTER PL5"
+   4226 20 56 52 41 4D 2E 12002 	.ascii " VRAM."
+   422C 0D                12003 	.db 0x0D
+   422D 0A                12004 	.db 0x0A
+   422E 00                12005 	.db 0x00
+   422F                   12006 __str_33:
+   422F 54 57 49 53 54 45 12007 	.ascii "TWISTER PL5"
         52 20 50 4C 35
-   41BF 00                11934 	.db 0x00
-   41C0                   11935 __str_34:
-   41C0 4C 46 20 20 20 20 11936 	.ascii "LF      PL5"
+   423A 00                12008 	.db 0x00
+   423B                   12009 __str_34:
+   423B 4C 46 20 20 20 20 12010 	.ascii "LF      PL5"
         20 20 50 4C 35
-   41CB 00                11937 	.db 0x00
-   41CC                   11938 __str_35:
-   41CC 42 4F 58 45 53 20 11939 	.ascii "BOXES   PL5"
+   4246 00                12011 	.db 0x00
+   4247                   12012 __str_35:
+   4247 42 4F 58 45 53 20 12013 	.ascii "BOXES   PL5"
         20 20 50 4C 35
-   41D7 00                11940 	.db 0x00
-   41D8                   11941 __str_36:
-   41D8 42 55 4C 42 53 20 11942 	.ascii "BULBS   PL5"
+   4252 00                12014 	.db 0x00
+   4253                   12015 __str_36:
+   4253 42 55 4C 42 53 20 12016 	.ascii "BULBS   PL5"
         20 20 50 4C 35
-   41E3 00                11943 	.db 0x00
-   41E4                   11944 __str_37:
-   41E4 43 52 45 44 49 54 11945 	.ascii "CREDIT1 PL6"
+   425E 00                12017 	.db 0x00
+   425F                   12018 __str_37:
+   425F 43 52 45 44 49 54 12019 	.ascii "CREDIT1 PL6"
         31 20 50 4C 36
-   41EF 00                11946 	.db 0x00
-   41F0                   11947 __str_38:
-   41F0 61 6C 6C 20 67 6F 11948 	.ascii "all good, starting the demo!"
+   426A 00                12020 	.db 0x00
+   426B                   12021 __str_38:
+   426B 61 6C 6C 20 67 6F 12022 	.ascii "all good, starting the demo!"
         6F 64 2C 20 73 74
         61 72 74 69 6E 67
         20 74 68 65 20 64
         65 6D 6F 21
-   420C 0D                11949 	.db 0x0D
-   420D 0A                11950 	.db 0x0A
-   420E 00                11951 	.db 0x00
-   420F                   11952 __str_39:
-   420F 42 55 4C 42 53 20 11953 	.ascii "BULBS   PCK"
+   4287 0D                12023 	.db 0x0D
+   4288 0A                12024 	.db 0x0A
+   4289 00                12025 	.db 0x00
+   428A                   12026 __str_39:
+   428A 4C 4F 41 44 49 4E 12027 	.ascii "LOADING PCK"
+        47 20 50 43 4B
+   4295 00                12028 	.db 0x00
+   4296                   12029 __str_40:
+   4296 42 55 4C 42 53 20 12030 	.ascii "BULBS   PCK"
         20 20 50 43 4B
-   421A 00                11954 	.db 0x00
-   421B                   11955 __str_40:
-   421B 54 57 49 53 54 45 11956 	.ascii "TWISTER PCK"
+   42A1 00                12031 	.db 0x00
+   42A2                   12032 __str_41:
+   42A2 54 57 49 53 54 45 12033 	.ascii "TWISTER PCK"
         52 20 50 43 4B
-   4226 00                11957 	.db 0x00
-   4227                   11958 __str_41:
-   4227 42 4F 58 45 53 20 11959 	.ascii "BOXES   PCK"
-        20 20 50 43 4B
-   4232 00                11960 	.db 0x00
-   4233                   11961 __str_42:
-   4233 43 52 45 44 49 54 11962 	.ascii "CREDIT1 PCK"
+   42AD 00                12034 	.db 0x00
+   42AE                   12035 __str_42:
+   42AE 43 52 45 44 49 54 12036 	.ascii "CREDIT1 PCK"
         31 20 50 43 4B
-   423E 00                11963 	.db 0x00
-   423F                   11964 __str_43:
-   423F 43 52 45 44 49 54 11965 	.ascii "CREDIT2 PCK"
+   42B9 00                12037 	.db 0x00
+   42BA                   12038 __str_43:
+   42BA 43 52 45 44 49 54 12039 	.ascii "CREDIT2 PCK"
         32 20 50 43 4B
-   424A 00                11966 	.db 0x00
-   424B                   11967 __str_44:
-   424B 43 52 45 44 49 54 11968 	.ascii "CREDIT3 PCK"
+   42C5 00                12040 	.db 0x00
+   42C6                   12041 __str_44:
+   42C6 43 52 45 44 49 54 12042 	.ascii "CREDIT3 PCK"
         33 20 50 43 4B
-   4256 00                11969 	.db 0x00
-   4257                   11970 __str_45:
-   4257 44 53 53 4C 4F 47 11971 	.ascii "DSSLOGO PCK"
+   42D1 00                12043 	.db 0x00
+   42D2                   12044 __str_45:
+   42D2 42 4F 58 45 53 20 12045 	.ascii "BOXES   PCK"
+        20 20 50 43 4B
+   42DD 00                12046 	.db 0x00
+   42DE                   12047 __str_46:
+   42DE 44 53 53 4C 4F 47 12048 	.ascii "DSSLOGO PCK"
         4F 20 50 43 4B
-   4262 00                11972 	.db 0x00
-   4263                   11973 __str_46:
-   4263 44 53 53 4C 4F 47 11974 	.ascii "DSSLOGO PL5"
+   42E9 00                12049 	.db 0x00
+   42EA                   12050 __str_47:
+   42EA 44 53 53 4C 4F 47 12051 	.ascii "DSSLOGO PL5"
         4F 20 50 4C 35
-   426E 00                11975 	.db 0x00
-                          11976 	.area _CODE
-                          11977 	.area _CABS
+   42F5 00                12052 	.db 0x00
+                          12053 	.area _CODE
+                          12054 	.area _CABS

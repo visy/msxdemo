@@ -1704,6 +1704,23 @@ void main() {
 
 	vdp_set_screen5();
 
+   	pck_load("LOADING PCK",5489,0x0000,VRAM_0,0);
+	cmd.size_x = 256;
+	cmd.size_y = 212;
+	cmd.data = 0;
+	cmd.argument = 0x00;
+	cmd.command = 0xd0; 
+	cmd.source_x = 0;
+	cmd.source_y = 0;
+	cmd.dest_x = 0;
+	cmd.dest_y = 768;
+	vdp_copier(&cmd);
+
+	vdp_register(2,0x7f);
+	vdp_load_palette(boxes_palette);
+
+	//////////////////////////////////////////
+
    	pck_load("BULBS   PCK",2431,0x0000,VRAM_0,0);
 
 	cmd.size_x = 256;
@@ -1730,6 +1747,17 @@ void main() {
 	cmd.dest_y = 512;
 	vdp_copier(&cmd);
 
+	memset((uint8_t *) &crebuffer1, 0, 3323);
+	raw_load("CREDIT1 PCK", 3323, crebuffer1,0);
+	memset((uint8_t *) &crebuffer2, 0, 4724);
+	raw_load("CREDIT2 PCK", 4724, crebuffer2,0);
+	memset((uint8_t *) &crebuffer3, 0, 3723);
+	raw_load("CREDIT3 PCK", 3723, crebuffer3,0);
+
+	scratch_clear();
+	vdp_load_palette(scratch);
+
+	vdp_register(2,0x1f);
 
    	pck_load("BOXES   PCK",3002,0x0000,VRAM_0,0);
 	cmd.size_x = 256;
@@ -1742,16 +1770,6 @@ void main() {
 	cmd.dest_x = 0;
 	cmd.dest_y = 768;
 	vdp_copier(&cmd);
-
-	memset((uint8_t *) &crebuffer1, 0, 3323);
-	raw_load("CREDIT1 PCK", 3323, crebuffer1,0);
-	memset((uint8_t *) &crebuffer2, 0, 4724);
-	raw_load("CREDIT2 PCK", 4724, crebuffer2,0);
-	memset((uint8_t *) &crebuffer3, 0, 3723);
-	raw_load("CREDIT3 PCK", 3723, crebuffer3,0);
-
-	scratch_clear();
-	vdp_load_palette(scratch);
 
     pck_load("DSSLOGO PCK",2154,0x0000,VRAM_0,0);
 
