@@ -224,8 +224,8 @@ int scenetimings[24] = {
 	3600, 4100,
 	4100, 5550,
 	5550, 6100,
-	6100, 9205,
-	9205, 10100,
+	6100, 8405,
+	8405, 10100,
 	10100, 100000
 };
 
@@ -490,11 +490,11 @@ void do_letter(char cc) {
 void do_letter_tall(char cc) {
 	int cidx = cc - 65;
 	cmd.source_x = 127+font_x[cidx];
-	cmd.source_y = 512+font_y[cidx]-1;
+	cmd.source_y = 512+font_y[cidx];
 	cmd.dest_x = lx;
 	cmd.dest_y = ly;
 	cmd.size_x = font_w[cidx];
-	cmd.size_y = 10;
+	cmd.size_y = 8;
 	cmd.argument = 0x00;
 	cmd.command = 0x90; // logical vram to vram
 	vdp_copier(&cmd);
@@ -548,15 +548,22 @@ void drawstr2x(char* str, uint8_t x, uint8_t y) {
 }
 
 void drawsine(char* str, uint8_t x, uint8_t y) {
-	char* c = str;
-	lx = x;
-
+	char* c = str+ltrpointer;
+	if (ltrpointer > slowend) return;
+	if (ltrpointer == 0) {
+		lx = x;
+	}
 	while (*c) {
 		char ltr = *c++; 
-		ly = y+(sintabx[(lx+vbicount>>1) & 255]>>4);
+		ly = y+(sintabx[(lx+10>>1) & 255]>>4);
+
 		if (ltr == ' ') lx+=4;
+		else if (ltr == '_') { ly+=9; lx = x; }
 		else do_letter_tall(ltr);
+		break;
 	}
+
+	ltrpointer++;
 }
 
 void font() {
@@ -568,27 +575,46 @@ void font() {
 
 int ff = 0;
 int twinited = 0;
-
+int twialku = 2;
 void twister() {
 	int y;
 
 
 	if (twinited == 0) {
-		cmd.size_x = 256;
+		cmd.size_x = 74;
 		cmd.size_y = 1;
 		cmd.data = 0;
 		cmd.argument = 0x00; // from 70xY to left
 		cmd.command = 0xd0; // vram to vram, y only
 		cmd.source_x = 0;
-		cmd.dest_x = 0;
+		cmd.source_y = 0;
 
-		for (y = 0; y < 212; y+=1) {
+		for (y = 0; y < 106; y+=1) {
 			waitVB();
-			cmd.source_y = 0;
+			cmd.dest_x = 0;
+			cmd.dest_y = 106+y;
+			vdp_copier(&cmd);
+			cmd.dest_x = 256-74;
+			cmd.dest_y = 106+y;
+			vdp_copier(&cmd);
+
+			cmd.dest_x = 0;
+			cmd.dest_y = 106-y;
+			vdp_copier(&cmd);
+			cmd.dest_x = 256-74;
+			cmd.dest_y = 106-y;
+			vdp_copier(&cmd);
+
+		}
+
+		cmd.dest_x = 72;
+		cmd.size_x = 140;
+		cmd.size_y = 2;
+		for (y = 212-2; y >= 0; y-=2) {
+			waitVB();
 			cmd.dest_y = y;
 			vdp_copier(&cmd);
 		}
-
 
 		twinited = 1;
 		vdp_load_palette(twister_palette);
@@ -604,12 +630,16 @@ void twister() {
 	cmd.source_x = 70;
 	cmd.dest_x = 70;
 
-	for (y = 0; y < 212; y+=2) {
-		cmd.source_y = ((sintab[(ff+(y>>1)) & 255])>>1)+512+64;
-		cmd.dest_y = y;
-		vdp_copier(&cmd);
-	}
+	twialku++;
 
+	if (twialku > 212) twialku = 212;
+
+		cmd.command = 0xd0; // vram to vram, y only
+		for (y = 104-(twialku>>1); y < 106+(twialku>>1); y+=2) {
+			cmd.source_y = ((sintab[(ff+(y>>1)) & 255])>>1)+512+80;
+			cmd.dest_y = y;
+			vdp_copier(&cmd);
+		}
 	//msx2_palette(9,vbicount>>2,vbicount>>2,vbicount>>2);
 	msx2_palette(4,PLY_PSGReg8+ff>>2,PLY_PSGReg9+ff>>3,ff>>2);
 
@@ -726,7 +756,7 @@ int pbt = 0;
 
 int boxes_of[5] = {0,0,6,0,0};
 uint8_t prevbox_of = 0;
-
+int boxticks = 0;
 
 void boxes() {
 	int y;
@@ -784,7 +814,8 @@ void boxes() {
 			}
 		}
 
-		drawsine("LET US STOP   WE ARE BUILDING WALLS BETWEEN",8,182);
+		slowend = 43;
+		ltrpointer = 0;
 	}
 
 	if (bt >= 80) bt+=8;
@@ -808,8 +839,11 @@ void boxes() {
 	pbx = bx;
 	pbt = bt;
 
-
-
+	boxticks++;
+	if (boxticks > 8) {
+		drawsine("Let us stop   We are building walls between",8,182);
+		boxticks  = 0;
+	}
 
 	bonc = 1;
 	if (bt > by) {
@@ -1042,14 +1076,31 @@ void tritiles() {
 		cmd.source_x = 255;
 		cmd.source_y = 0;
 
-		for (x = 0; x < 256; x+=2) {
+		for (x = 0; x < 128; x+=2) {
 			waitVB();
 			cmd.dest_y = 256;
-			cmd.dest_x = x;
+			cmd.dest_x = 128-x;
+			vdp_copier(&cmd);
+			cmd.dest_y = 0;
+			vdp_copier(&cmd);
+			cmd.dest_y = 256;
+			cmd.dest_x = 128+x;
 			vdp_copier(&cmd);
 			cmd.dest_y = 0;
 			vdp_copier(&cmd);
 		}
+
+		scratch_clear();
+		vdp_load_palette(scratch);
+
+    	tri_inited++;
+		vdp_register(9,2); // 50hz,192
+
+		//if (tri_inited == 1) drawtilescreen_full(tri_center);
+		//else drawtilescreen_full(tri_inva2);
+		vdp_register(2, 0x1f);
+		tick = 0;
+
 
     	if (tri_inited == 0) vdp_load_palette(boxes_palette);
     	else if (tri_inited == 2) { 
@@ -1068,15 +1119,9 @@ void tritiles() {
     		tripal[7] = 3;
     		tripal[8] = 1;
     	}
-    	tri_inited++;
-		vdp_register(9,2); // 50hz,192
 
     	msx2_palette(15,0,0,0);
-
-		if (tri_inited == 1) drawtilescreen_full(tri_center);
-		else drawtilescreen_full(tri_inva2);
-		vdp_register(2, 0x1f);
-		tick = 0;
+    	triframes = 1350;
 	}
 
 
@@ -1127,7 +1172,7 @@ void tritiles() {
 		drawtilescreen(tri_center);
 	}
 
-	if (triframes > 1500) triframes = 199;
+	if (triframes > 1500) triframes = 149;
 
 
 	msx2_palette(2,0,0,0);
@@ -1562,11 +1607,12 @@ void credits() {
 
 	if (credittimer < 100) fadein();
 
-	if(credittimer == 200) vdp_register(2, 0x3f);
-	if(credittimer == 400) vdp_register(2, 0x5f);
+	if(credittimer == 500) vdp_register(2, 0x3f);
+	if(credittimer == 1000) vdp_register(2, 0x5f);
 
+	msx2_palette(0,PLY_PSGReg10,PLY_PSGReg10,PLY_PSGReg10);
 	credittimer++;
-	if (credittimer == 600) {
+	if (credittimer == 1500) {
 		vdp_load_palette(scratch);
 	}
 
