@@ -1411,36 +1411,41 @@ void bigtext() {
 	ff+=2;
 
 	if (ff == 600) {
-		cmd.size_x = 2;
-		cmd.size_y = 212;
+		cmd.size_x = 256;
+		cmd.size_y = 3;
 		cmd.data = 0;
 		cmd.argument = 0x00; // from 70xY to left
 		cmd.command = 0xd0; // vram to vram, y only
-		cmd.source_x = 255;
-		cmd.source_y = 0;
+		cmd.source_x = 0;
+		cmd.source_y = 28;
 
-		for (x = 254; x > 0; x-=4) {
-			msx2_palette(4,ff>>2,ff>>3,ff>>2);
-			ff+=2;
+		cmd.dest_y = 512;
+		cmd.dest_x = 0;
+		vdp_copier(&cmd);
+
+		cmd.source_x = 0;
+		cmd.source_y = 512;
+
+		for (x = 0; x < 66; x+=1) {
 			waitVB();
-			cmd.dest_y = 256;
-			cmd.dest_x = x;
+			cmd.dest_y = 28+x;
+			cmd.dest_x = 0;
 			vdp_copier(&cmd);
-			cmd.dest_y = 0;
+			cmd.dest_y = 161-x;
+			cmd.dest_x = 0;
 			vdp_copier(&cmd);
 		}
 
-
-		for (x = 0; x < 256; x+=4) {
-			msx2_palette(4,ff>>2,ff>>3,ff>>2);
-			ff+=2;
+		for (x = 0; x < 66; x+=1) {
 			waitVB();
-			cmd.dest_y = 256;
-			cmd.dest_x = x;
+			cmd.dest_y = 28+66-x;
+			cmd.dest_x = 0;
 			vdp_copier(&cmd);
-			cmd.dest_y = 0;
+			cmd.dest_y = 161-66+x;
+			cmd.dest_x = 0;
 			vdp_copier(&cmd);
 		}
+
 
 		drawstr2x("COMMAND",4,44);
 		drawstr2x("   THE  ",32,84);
@@ -1498,15 +1503,15 @@ void bigtext() {
 		drawstrslow("of this amazing party",64,164+16);
 	}
 
-	if (ff >= 2000 && ff < 3890) {
+	if (ff >= 1900 && ff < 3890) {
 		cmd.size_x = 1;
 		cmd.size_y = 17;
 		cmd.data = 0;
 		cmd.argument = 0x00; // from 70xY to left
 		cmd.command = 0xd0; // vram to vram, y only
-		cmd.source_x = 128+20*(((ff-2001)>>3) % 6);
+		cmd.source_x = 128+20*(((ff-1901)>>3) % 6);
 		cmd.source_y = 768+30;
-		cmd.dest_x = (255)-((ff-2000)>>3);
+		cmd.dest_x = (255)-((ff-1900)>>3);
 		cmd.dest_y = 12;
 		vdp_copier(&cmd);
 
@@ -1516,29 +1521,29 @@ void bigtext() {
 		cmd.data = 0;
 		cmd.argument = 0x00; // from 70xY to left
 		cmd.command = 0xd0; // vram to vram, y only
-		cmd.source_x = 128+20*(((ff-2000)>>3) % 6);
+		cmd.source_x = 128+20*(((ff-1900)>>3) % 6);
 		cmd.source_y = 768;
-		cmd.dest_x = (256-20)-((ff-2000)>>3);
+		cmd.dest_x = (256-20)-((ff-1900)>>3);
 		cmd.dest_y = 12;
 		vdp_copier(&cmd);
 
 	}
 
 
-	if (ff == 2800) {
+	if (ff == 2700) {
 		ltrpointer = 0;
 	}
 
-	if (ff > 2800 && ff < 2900) {
+	if (ff > 2700 && ff < 2800) {
 		slowend = 21;
 		drawstrslow("Digital Sounds System",0,0);
 	}
 
-	if (ff == 3400) {
+	if (ff == 3200) {
 		ltrpointer = 0;
 	}
 
-	if (ff > 3400 && ff < 3500) {
+	if (ff > 3200 && ff < 3400) {
 		slowend = 19;
 		drawstrslow("mew mew mew miu mou",134,0);
 	}
@@ -1623,7 +1628,7 @@ void credits() {
 		vdp_load_palette(scratch);
 	}
 
-	if (credittimer >= 300 && credittimer < 700 &&  flipo < 211) {
+	if (credittimer >= 300 && credittimer < 700 && flipo < 211) {
 		cmd.size_x = 64;
 		cmd.size_y = 1;
 		cmd.data = 0;
