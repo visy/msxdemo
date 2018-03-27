@@ -1554,8 +1554,14 @@ void waiter() {
 int initcredits = 0;
 int credittimer = 0;
 int musicstopped = 0;
+
+int curpage = 0;
+int myoffs = 0;
 void credits() {
 	int x = 0;
+	int fra = 0;
+	uint8_t y = 0;
+	uint8_t plusser = 0;
 
 	if (initcredits == 0) {
 		scratch_clear();
@@ -1603,19 +1609,46 @@ void credits() {
 	    memcpy(cur_palette, credits_palette, 32);
 
 		scratch_clear();
+		pointframe = 0;
+		curpage = 0;
+		myoffs = 180;
 	}
 
-	if (credittimer < 100) fadein();
+	if (credittimer < 400) fadein();
 
-	if(credittimer == 500) vdp_register(2, 0x3f);
-	if(credittimer == 1000) vdp_register(2, 0x5f);
+	if(credittimer >= 500 && curpage == 0) { vdp_register(2, 0x3f); curpage = 256; myoffs = 100; }
+	if(credittimer >= 1000 && curpage == 256) { vdp_register(2, 0x5f); curpage = 512; myoffs = 200; }
 
-	msx2_palette(0,PLY_PSGReg10,PLY_PSGReg10,PLY_PSGReg10);
-	credittimer++;
+	credittimer+=3;
 	if (credittimer == 1500) {
 		vdp_load_palette(scratch);
 	}
 
+	if ((credittimer > 200 && credittimer < 500) || (credittimer > 700 && credittimer < 1000) || (credittimer > 1200)) {
+		msx2_palette(0,PLY_PSGReg10,PLY_PSGReg10,PLY_PSGReg10);
+
+		cmd.size_x = 256;
+		cmd.size_y = 1;
+		cmd.data = 0;
+		cmd.argument = 0x00; // from 70xY to left
+		cmd.command = 0xd0; // vram to vram, y only
+		cmd.source_x = 0;
+		cmd.dest_x = 0;
+		cmd.argument = 0x0;
+
+		cmd.data = 1+((pointframe>>2) & 0xe);
+		cmd.command = 0x53;
+		for (x = 0; x < 212; x+=1) {
+			y = 64+(sintabx[(x+pointframe) & 255]>>1);
+			cmd.dest_x = myoffs+y;
+			cmd.dest_y = curpage+x;
+			vdp_copier(&cmd);
+		}
+		pointframe+=2;
+
+	} else {
+		msx2_palette(0,0,0,0);
+	}
 }
 
 
