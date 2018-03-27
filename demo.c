@@ -908,7 +908,6 @@ void thewave() {
 			waitVB();
 		}
 
-
 		for (y = 9; y < 15; y+=1) {
 			for (x = 0; x < 21; x+=1) {
 				if (x > 6 && x < 13) continue; 
@@ -1554,7 +1553,7 @@ void waiter() {
 int initcredits = 0;
 int credittimer = 0;
 int musicstopped = 0;
-
+int flipo = 0;
 int curpage = 0;
 int myoffs = 0;
 void credits() {
@@ -1616,15 +1615,30 @@ void credits() {
 
 	if (credittimer < 400) fadein();
 
-	if(credittimer >= 500 && curpage == 0) { vdp_register(2, 0x3f); curpage = 256; myoffs = 100; }
-	if(credittimer >= 1000 && curpage == 256) { vdp_register(2, 0x5f); curpage = 512; myoffs = 200; }
+	if(credittimer >= 1000 && curpage == 0) { vdp_register(2, 0x3f); curpage = 256; myoffs = 100; }
+	if(credittimer >= 1500 && curpage == 256) { vdp_register(2, 0x5f); curpage = 512; myoffs = 200; }
 
 	credittimer+=3;
 	if (credittimer == 1500) {
 		vdp_load_palette(scratch);
 	}
 
-	if ((credittimer > 200 && credittimer < 500) || (credittimer > 700 && credittimer < 1000) || (credittimer > 1200)) {
+	if (credittimer >= 400 && credittimer < 700 &&  flipo < 211) {
+		cmd.size_x = 256;
+		cmd.size_y = 1;
+		cmd.data = 0;
+		cmd.argument = 0x00; // from 70xY to left
+		cmd.command = 0xd0; // vram to vram, y only
+		cmd.source_x = 0;
+		cmd.source_y = 211-flipo;
+
+		cmd.dest_x = flipo;
+		cmd.dest_y = flipo;
+		vdp_copier(&cmd);
+		flipo+=2;
+	}
+
+	if (credittimer > 700) {
 		msx2_palette(0,PLY_PSGReg10,PLY_PSGReg10,PLY_PSGReg10);
 
 		cmd.size_x = 256;
