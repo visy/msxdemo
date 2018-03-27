@@ -8,6 +8,15 @@
 #include "msxlib.h"
 #include "ArkosTrackerPlayer_MSX.h"
 
+#include "twister.pl5.h"
+#include "boxes.pl5.h"
+#include "bulbs.pl5.h"
+#include "credit1.pl6.h"
+#include "dsslogo.pl5.h"
+
+#include "dsslogo.pck.h"
+#include "loading.pck.h"
+
 #define VRAM_0 1
 #define VRAM_1 0
 
@@ -179,12 +188,7 @@ int eighttimes[26] = { 0 };
 
 int tri_lookup_y[16*2] = { 0 };
 
-uint8_t packbuffer[4100] = {0};
-
-uint8_t crebuffer1[3323] = {0};
-uint8_t crebuffer2[4724] = {0};
-uint8_t crebuffer3[3723] = {0};
-
+uint8_t packbuffer[4724] = {0};
 
 uint8_t scratch[128];
 uint8_t cur_palette[32];
@@ -1568,19 +1572,39 @@ void credits() {
 	uint8_t plusser = 0;
 
 	if (initcredits == 0) {
-		scratch_clear();
-		vdp_load_palette(scratch);
-
-		vdp_register(0,8); // mode 512x212
-		vdp_register(9,130); // 50hz,192
-
 		uninstall_isr();
 	    PLY_Stop();
 	    PLY_SendRegisters();
 
+		scratch_clear();
+		vdp_load_palette(scratch);
+
+
+		vdp_register(9,130); // 50hz,212
+
+		bitbuster(loading_pck,0x0000,VRAM_0);
+
+		cmd.size_x = 256;
+		cmd.size_y = 212;
+		cmd.data = 0;
+		cmd.argument = 0x00;
+		cmd.command = 0xd0; 
+		cmd.source_x = 0;
+		cmd.source_y = 0;
+		cmd.dest_x = 0;
+		cmd.dest_y = 768;
+		vdp_copier(&cmd);
+
+		pause();
+
+		vdp_register(2,0x7f);
+		vdp_load_palette(boxes_palette);
+
 		initcredits = 1;
 
-		bitbuster(crebuffer2,0x0000,VRAM_0);
+		raw_load("CREDIT2 PCK", 4724, packbuffer,0);
+
+		bitbuster(packbuffer,0x0000,VRAM_0);
 
 		cmd.size_x = 512;
 		cmd.size_y = 212;
@@ -1593,7 +1617,9 @@ void credits() {
 		cmd.dest_y = 256;
 		vdp_copier(&cmd);
 
-		bitbuster(crebuffer3,0x0000,VRAM_0);
+		raw_load("CREDIT3 PCK", 3723, packbuffer,0);
+
+		bitbuster(packbuffer,0x0000,VRAM_0);
 
 		cmd.size_x = 512;
 		cmd.size_y = 212;
@@ -1606,7 +1632,15 @@ void credits() {
 		cmd.dest_y = 512;
 		vdp_copier(&cmd);
 
-		bitbuster(crebuffer1,0x0000,VRAM_0);
+		raw_load("CREDIT1 PCK", 3323, packbuffer,0);
+
+		bitbuster(packbuffer,0x0000,VRAM_0);
+
+		scratch_clear();
+		vdp_load_palette(scratch);
+
+		vdp_register(0,8); // mode 512x212
+		vdp_register(9,130); // 50hz,192
 
 		install_isr(my_isr);
 
@@ -1616,6 +1650,8 @@ void credits() {
 		pointframe = 0;
 		curpage = 0;
 		myoffs = 180;
+		vdp_register(2,0x1f);
+
 	}
 
 	if (credittimer < 400) fadein();
@@ -1731,16 +1767,18 @@ void main() {
 		do_quit();
 	}
 
-    pal_load("TWISTER PL5",32,0);
+	memcpy(cur_palette, twister_pl5+7, 32);
     memcpy(twister_palette, cur_palette, 32);
-    pal_load("LF      PL5",32,0);
-    memcpy(tf_palette, cur_palette, 32);
-    pal_load("BOXES   PL5",32,0);
+
+	memcpy(cur_palette, boxes_pl5+7, 32);
     memcpy(boxes_palette, cur_palette, 32);
-    pal_load("BULBS   PL5",32,0);
+
+	memcpy(cur_palette, bulbs_pl5+7, 32);
     memcpy(bulbs_palette, cur_palette, 32);
-    pal_load("CREDIT1 PL6",32,0);
+
+	memcpy(cur_palette, credit1_pl6+7, 32);
     memcpy(credits_palette, cur_palette, 32);
+
 
 	puts("all good, starting the demo!\r\n");
 
@@ -1751,12 +1789,13 @@ void main() {
     pause();
     pause();
 
+	vdp_set_screen5();
+
 	scratch_clear();
 	vdp_load_palette(scratch);
 
-	vdp_set_screen5();
+	bitbuster(loading_pck,0x0000,VRAM_0);
 
-   	pck_load("LOADING PCK",5489,0x0000,VRAM_0,0);
 	cmd.size_x = 256;
 	cmd.size_y = 212;
 	cmd.data = 0;
@@ -1773,7 +1812,7 @@ void main() {
 
 	//////////////////////////////////////////
 
-   	pck_load("BULBS   PCK",2431,0x0000,VRAM_0,0);
+	pck_load("BULBS   PCK",2431,0x0000,VRAM_0,0);
 
 	cmd.size_x = 256;
 	cmd.size_y = 212;
@@ -1786,7 +1825,7 @@ void main() {
 	cmd.dest_y = 256;
 	vdp_copier(&cmd);
 
-   	pck_load("TWISTER PCK",4032,0x0000,VRAM_0,0);
+	pck_load("TWISTER PCK",4032,0x0000,VRAM_0,0);
 
 	cmd.size_x = 256;
 	cmd.size_y = 212;
@@ -1799,19 +1838,13 @@ void main() {
 	cmd.dest_y = 512;
 	vdp_copier(&cmd);
 
-	memset((uint8_t *) &crebuffer1, 0, 3323);
-	raw_load("CREDIT1 PCK", 3323, crebuffer1,0);
-	memset((uint8_t *) &crebuffer2, 0, 4724);
-	raw_load("CREDIT2 PCK", 4724, crebuffer2,0);
-	memset((uint8_t *) &crebuffer3, 0, 3723);
-	raw_load("CREDIT3 PCK", 3723, crebuffer3,0);
-
 	scratch_clear();
 	vdp_load_palette(scratch);
 
 	vdp_register(2,0x1f);
 
-   	pck_load("BOXES   PCK",3002,0x0000,VRAM_0,0);
+	pck_load("BOXES   PCK",3002,0x0000,VRAM_0,0);
+
 	cmd.size_x = 256;
 	cmd.size_y = 212;
 	cmd.data = 0;
@@ -1823,7 +1856,7 @@ void main() {
 	cmd.dest_y = 768;
 	vdp_copier(&cmd);
 
-    pck_load("DSSLOGO PCK",2154,0x0000,VRAM_0,0);
+	bitbuster(dsslogo_pck,0x0000,VRAM_0);
 
 	cmd.size_x = 108;
 	cmd.size_y = 116;
@@ -1850,7 +1883,7 @@ void main() {
 	cmd.dest_y = 100;
 	vdp_copier(&cmd);
 
-    pal_load("DSSLOGO PL5",32,0);
+	memcpy(cur_palette, dsslogo_pl5+7, 32);
 
 	scratch_clear();
 
