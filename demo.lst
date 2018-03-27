@@ -1,7 +1,7 @@
                               1 ;--------------------------------------------------------
                               2 ; File Created by SDCC : free open source ANSI-C Compiler
                               3 ; Version 2.9.0 #5416 (Mar 22 2009) (Mac OS X i386)
-                              4 ; This file was generated Tue Mar 27 15:04:15 2018
+                              4 ; This file was generated Tue Mar 27 15:08:02 2018
                               5 ;--------------------------------------------------------
                               6 	.module demo
                               7 	.optsdcc -mz80
@@ -11143,9 +11143,9 @@
    3B70 CDr00s00          11037 	call	_vdp_load_palette
    3B73 F1                11038 	pop	af
    3B74                   11039 00112$:
-                          11040 ;demo.c:1626: if (credittimer >= 400 && credittimer < 700 &&  flipo < 211) {
+                          11040 ;demo.c:1626: if (credittimer >= 300 && credittimer < 700 &&  flipo < 211) {
    3B74 3Ar38s42          11041 	ld	a,(#_credittimer+0)
-   3B77 D6 90             11042 	sub	a,#0x90
+   3B77 D6 2C             11042 	sub	a,#0x2C
    3B79 3Ar39s42          11043 	ld	a,(#_credittimer+1)
    3B7C DE 01             11044 	sbc	a,#0x01
    3B7E FAr0As3C          11045 	jp	M,00114$
@@ -11159,11 +11159,11 @@
    3B93 3Ar3Ds42          11053 	ld	a,(#_flipo+1)
    3B96 DE 00             11054 	sbc	a,#0x00
    3B98 F2r0As3C          11055 	jp	P,00114$
-                          11056 ;demo.c:1627: cmd.size_x = 256;
+                          11056 ;demo.c:1627: cmd.size_x = 64;
    3B9B 21r32s41          11057 	ld	hl, #_cmd + 8
-   3B9E 36 00             11058 	ld	(hl),#0x00
+   3B9E 36 40             11058 	ld	(hl),#0x40
    3BA0 23                11059 	inc	hl
-   3BA1 36 01             11060 	ld	(hl),#0x01
+   3BA1 36 00             11060 	ld	(hl),#0x00
                           11061 ;demo.c:1628: cmd.size_y = 1;
    3BA3 21r34s41          11062 	ld	hl, #_cmd + 10
    3BA6 36 01             11063 	ld	(hl),#0x01
@@ -11174,8 +11174,8 @@
    3BAB 3E 00             11068 	ld	a,#0x00
    3BAD 32r36s41          11069 	ld	(#_cmd + 12),a
    3BB0 32r37s41          11070 	ld	(#_cmd + 13),a
-                          11071 ;demo.c:1631: cmd.command = 0xd0; // vram to vram, y only
-   3BB3 3E D0             11072 	ld	a,#0xD0
+                          11071 ;demo.c:1631: cmd.command = 0x93; // vram to vram, y only
+   3BB3 3E 93             11072 	ld	a,#0x93
    3BB5 32r38s41          11073 	ld	(#_cmd + 14),a
                           11074 ;demo.c:1632: cmd.source_x = 0;
    3BB8 21r2As41          11075 	ld	hl,#_cmd

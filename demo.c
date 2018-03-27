@@ -1623,12 +1623,12 @@ void credits() {
 		vdp_load_palette(scratch);
 	}
 
-	if (credittimer >= 400 && credittimer < 700 &&  flipo < 211) {
-		cmd.size_x = 256;
+	if (credittimer >= 300 && credittimer < 700 &&  flipo < 211) {
+		cmd.size_x = 64;
 		cmd.size_y = 1;
 		cmd.data = 0;
 		cmd.argument = 0x00; // from 70xY to left
-		cmd.command = 0xd0; // vram to vram, y only
+		cmd.command = 0x93; // vram to vram, y only
 		cmd.source_x = 0;
 		cmd.source_y = 211-flipo;
 

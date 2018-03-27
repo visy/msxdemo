@@ -1,7 +1,7 @@
 ;--------------------------------------------------------
 ; File Created by SDCC : free open source ANSI-C Compiler
 ; Version 2.9.0 #5416 (Mar 22 2009) (Mac OS X i386)
-; This file was generated Tue Mar 27 15:04:15 2018
+; This file was generated Tue Mar 27 15:08:02 2018
 ;--------------------------------------------------------
 	.module demo
 	.optsdcc -mz80
@@ -11037,9 +11037,9 @@ _credits:
 	call	_vdp_load_palette
 	pop	af
 00112$:
-;demo.c:1626: if (credittimer >= 400 && credittimer < 700 &&  flipo < 211) {
+;demo.c:1626: if (credittimer >= 300 && credittimer < 700 &&  flipo < 211) {
 	ld	a,(#_credittimer+0)
-	sub	a,#0x90
+	sub	a,#0x2C
 	ld	a,(#_credittimer+1)
 	sbc	a,#0x01
 	jp	M,00114$
@@ -11053,11 +11053,11 @@ _credits:
 	ld	a,(#_flipo+1)
 	sbc	a,#0x00
 	jp	P,00114$
-;demo.c:1627: cmd.size_x = 256;
+;demo.c:1627: cmd.size_x = 64;
 	ld	hl, #_cmd + 8
-	ld	(hl),#0x00
+	ld	(hl),#0x40
 	inc	hl
-	ld	(hl),#0x01
+	ld	(hl),#0x00
 ;demo.c:1628: cmd.size_y = 1;
 	ld	hl, #_cmd + 10
 	ld	(hl),#0x01
@@ -11068,8 +11068,8 @@ _credits:
 	ld	a,#0x00
 	ld	(#_cmd + 12),a
 	ld	(#_cmd + 13),a
-;demo.c:1631: cmd.command = 0xd0; // vram to vram, y only
-	ld	a,#0xD0
+;demo.c:1631: cmd.command = 0x93; // vram to vram, y only
+	ld	a,#0x93
 	ld	(#_cmd + 14),a
 ;demo.c:1632: cmd.source_x = 0;
 	ld	hl,#_cmd
