@@ -913,7 +913,7 @@ void thewave() {
 		}
 
 		for (y = 9; y < 15; y+=1) {
-			for (x = 0; x < 21; x+=1) {
+			for (x = 0; x < 22; x+=1) {
 				if (x > 6 && x < 13) continue; 
 
 				if (x <= 6) px=7 + (sintab[(105 + (x<<3) + (y<<3)) & 255]>>4);
@@ -955,7 +955,7 @@ void thewave() {
 	for (y = 0; y < 5; y+=1) {
 		for (x = 0; x < 6; x+=1) {
 
-			px=7 + (sintab[(lukema + (x<<3) + (y<<2)) & 255]>>4);
+      		px=7 + (sintab[(ffa + (x<<(4+(ffa>>7))) + (y<<2)) & 255]>>4);
 			if (px < 0) px = 0; 
 			if (px > 14) px = 14; 
 
@@ -975,7 +975,7 @@ void thewave() {
 
 	y = 5;
 	for (x = 0; x < 6; x+=1) {
-		px=7 + (sintab[(lukema + (x<<3) + (y<<2)) & 255]>>4);
+        px=7 + (sintab[(ffa + (x<<(4+(ffa>>7))) + (y<<2)) & 255]>>4);
 		if (px < 0) px = 0; 
 		if (px > 14) px = 14; 
 
@@ -988,7 +988,7 @@ void thewave() {
 		cmd.source_x = twelvetimes[px];
 		cmd.source_y = 768+183+ 16-px;
 		cmd.dest_x = 84+twelvetimes[x];
-		cmd.dest_y = 72+bo+(eighttimes[y]+4)+(14-px);
+		cmd.dest_y = 72+bo+(eighttimes[y]+6)+(14-px);
 		vdp_copier(&cmd);
 	}
 
@@ -1072,24 +1072,24 @@ void tritiles() {
 	if (tri_inited == 0 || tri_inited == 2) {
 
 		cmd.size_x = 2;
-		cmd.size_y = 212;
+		cmd.size_y = 78;
 		cmd.data = 0;
 		cmd.argument = 0x00; // from 70xY to left
 		cmd.command = 0xd0; // vram to vram, y only
-		cmd.source_x = 255;
+		cmd.source_x = 0;
 		cmd.source_y = 0;
 
 		for (x = 0; x < 128; x+=2) {
 			waitVB();
-			cmd.dest_y = 256;
+			cmd.dest_y = 256+78;
 			cmd.dest_x = 128-x;
 			vdp_copier(&cmd);
-			cmd.dest_y = 0;
+			cmd.dest_y = 0+78;
 			vdp_copier(&cmd);
-			cmd.dest_y = 256;
+			cmd.dest_y = 256+78;
 			cmd.dest_x = 128+x;
 			vdp_copier(&cmd);
-			cmd.dest_y = 0;
+			cmd.dest_y = 0+78;
 			vdp_copier(&cmd);
 		}
 
@@ -1557,7 +1557,6 @@ void bigtext() {
 void waiter() {
 
 }
-
 
 int initcredits = 0;
 int credittimer = 0;
