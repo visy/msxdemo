@@ -433,6 +433,9 @@ const uint8_t font_w[64] = {
 
 uint8_t lx = 0;
 uint8_t ly = 0;
+int ff = 0;
+int ffz = 0;
+int bigtextp = 0;
 
 
 void do_2xletter(char cc) {
@@ -470,6 +473,10 @@ void do_2xletter(char cc) {
 			vdp_copier(&cmd);
 		}
 		waitVB();
+		if (bigtextp > 0) {
+			msx2_palette(4,ffz>>4,ffz>>4,ffz>>4);
+			ffz+=2;			
+		}
 	}
 
 	lx+=font_w[cidx]-1+(x*4);
@@ -577,7 +584,6 @@ void font() {
 
 
 
-int ff = 0;
 int twinited = 0;
 int twialku = 2;
 void twister() {
@@ -1371,7 +1377,6 @@ void points() {
 
 }
 
-int bigtextp = 0;
 void bigtext() {
 	int x = 0;
 	if (bigtextp == 0) {
@@ -1401,11 +1406,12 @@ void bigtext() {
 			vdp_copier(&cmd);
 		}
 
+		bigtextp++;
 		vdp_load_palette(boxes_palette);
 		drawstr2x("DIGITAL",26,44);
 		drawstr2x("SOUNDS",27,84);
 		drawstr2x("SYSTEM",25,124);
-		bigtextp++;
+
 		tri_inited = 2;
 		ff = 0;
 		ltrpointer = 0;
@@ -1431,6 +1437,9 @@ void bigtext() {
 		cmd.source_y = 512;
 
 		for (x = 0; x < 66; x+=1) {
+			msx2_palette(4,ff>>2,ff>>3,ff>>2);
+			ff+=2;
+
 			waitVB();
 			cmd.dest_y = 28+x;
 			cmd.dest_x = 0;
@@ -1441,6 +1450,9 @@ void bigtext() {
 		}
 
 		for (x = 0; x < 66; x+=1) {
+			msx2_palette(4,ff>>2,ff>>3,ff>>2);
+			ff+=2;
+
 			waitVB();
 			cmd.dest_y = 28+66-x;
 			cmd.dest_x = 0;
