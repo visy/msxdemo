@@ -224,9 +224,9 @@ int scenetimings[24] = {
 	170, 350,
 	750, 1300,
 	1300, 2300,
-	2300, 3600,
-	3600, 4100,
-	4100, 5550,
+	2300, 3641,
+	3641, 4200,
+	4200, 5550,
 	5550, 6100,
 	6100, 8405,
 	8405, 10100,
@@ -889,6 +889,7 @@ void boxes() {
 uint8_t initwave = 0;
 int buf = -1;
 int ffa = 0;
+int firstwave = 0;
 
 void thewave() {
 
@@ -901,7 +902,10 @@ void thewave() {
 
 	if (initwave == 0) {
 		initwave = 1;
-		for (y = 0; y < 212; y++) {
+		for (y=0;y < 90;y++) {
+			waitVB();
+		}
+		for (y = 0; y < 212; y+=2) {
 			cmd.size_x = 256;
 			cmd.size_y = 2;
 			cmd.data = 0;
@@ -917,6 +921,9 @@ void thewave() {
 			vdp_copier(&cmd);
 			waitVB();
 		}
+
+		scratch_clear();
+		vdp_load_palette(scratch);
 
 		for (y = 9; y < 15; y+=1) {
 			for (x = 0; x < 22; x+=1) {
@@ -1006,6 +1013,12 @@ void thewave() {
 	buf = -buf;
 
 	ffa+=8;
+
+	if (firstwave == 0) {
+		firstwave = 1;
+		vdp_load_palette(boxes_palette);
+	}
+
 }
 
 
