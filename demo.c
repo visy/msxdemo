@@ -379,6 +379,8 @@ void fadein() {
 // effut ---------------------------------------------------------------------------------------------------------------------------
 // effut ---------------------------------------------------------------------------------------------------------------------------
 
+int slowend = 9;
+
 uint8_t yofff = 0;
 uint8_t cc = 0;
 static int flipper = 0;
@@ -482,6 +484,45 @@ void do_2xletter(char cc) {
 	lx+=font_w[cidx]-1+(x*4);
 }
 
+void do_colorletter(char cc) {
+	int cidx = cc - 65;
+	int x,y,col;
+
+	for (y=0;y<8;y++) {
+		for (x=0;x<font_w[cidx];x++) {
+			cmd.source_x = 127+font_x[cidx]+x;
+			cmd.source_y = 512+font_y[cidx]+y;
+			cmd.size_x = 1;
+			cmd.size_y = 1;
+			cmd.argument = 0x00;
+			cmd.command = 0x40; // get pixel
+			vdp_copier(&cmd);
+
+			col = vdp2_status(7);
+
+			if (col == 0 || col == 4) continue;
+			else cmd.data = 0xf;
+			cmd.dest_x = lx+x;
+			cmd.dest_y = ly+y;
+//			cmd.size_x = 4;
+//			cmd.size_y = 4;
+			cmd.argument = 0x00;
+			cmd.command = 0x50; // rect
+			vdp_copier(&cmd);
+
+			cmd.data = 5;
+			cmd.dest_x = lx+x+1;
+			cmd.dest_y = ly+y+1;
+			cmd.command = 0x50; // rect
+			vdp_copier(&cmd);
+
+		}
+		waitVB();
+	}
+
+	lx+=font_w[cidx]-1;
+}
+
 
 void do_letter(char cc) {
 	int cidx = cc - 65;
@@ -525,7 +566,6 @@ void drawstr(char* str, uint8_t x, uint8_t y) {
 }
 
 int ltrpointer = 0;
-int slowend = 128;
 
 void drawstrslow(char* str, uint8_t x, uint8_t y) {
 	char* c = str+ltrpointer;
@@ -544,6 +584,20 @@ void drawstrslow(char* str, uint8_t x, uint8_t y) {
 
 	ltrpointer++;
 }
+
+void drawstrslowcolor(char* str, uint8_t x, uint8_t y) {
+	char* c = str;
+	lx = x;
+	ly = y;
+	while (*c) {
+		char ltr = *c++; 
+		if (ltr == ' ') lx+=4;
+		else if (ltr == '_') { ly+=9; lx = x; }
+		else do_colorletter(ltr);
+
+	}
+}
+
 
 void drawstr2x(char* str, uint8_t x, uint8_t y) {
 	char* c = str;
@@ -591,6 +645,8 @@ void twister() {
 
 
 	if (twinited == 0) {
+			ltrpointer = 0;
+
 		cmd.size_x = 74;
 		cmd.size_y = 1;
 		cmd.data = 0;
@@ -1247,6 +1303,9 @@ int abs (int n) {
 int powatick = 0;
 	int powa = 0;
 	uint8_t onceclear = 255;
+
+int stereodone = 0;
+
 void logoeffu() {
 	int y = 0;
 	int v = 0;
@@ -1289,6 +1348,11 @@ void logoeffu() {
 	powatick++;
 		powa+=2;
 		powatick = 0;
+
+	if (vbicount > 320 && stereodone == 0) {
+		drawstrslowcolor("in stereo",101,168);
+		stereodone = 1;
+	}
 }
 
 uint8_t initpoints = 0;
@@ -1695,7 +1759,7 @@ void credits() {
 		cmd.argument = 0x00; // from 70xY to left
 		cmd.command = 0x93; // vram to vram, y only
 		cmd.source_x = 0;
-		cmd.source_y = 211-flipo;
+		cmd.source_y = 211-(flipo>>4);
 
 		cmd.dest_x = flipo;
 		cmd.dest_y = flipo;
