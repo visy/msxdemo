@@ -1057,7 +1057,7 @@ void thewave() {
 		cmd.source_x = twelvetimes[px];
 		cmd.source_y = 768+183+ 16-px;
 		cmd.dest_x = 84+twelvetimes[x];
-		cmd.dest_y = 72+bo+(eighttimes[y]+6)+(14-px);
+		cmd.dest_y = 72+bo+(eighttimes[y]+5)+(14-px);
 		vdp_copier(&cmd);
 	}
 

@@ -1,7 +1,7 @@
 ;--------------------------------------------------------
 ; File Created by SDCC : free open source ANSI-C Compiler
 ; Version 2.9.0 #5416 (Mar 22 2009) (Mac OS X i386)
-; This file was generated Thu Mar 29 12:08:30 2018
+; This file was generated Thu Mar 29 12:33:01 2018
 ;--------------------------------------------------------
 	.module demo
 	.optsdcc -mz80
@@ -8952,7 +8952,7 @@ _thewave:
 	ld	(hl),e
 	inc	hl
 	ld	(hl),d
-;demo.c:1060: cmd.dest_y = 72+bo+(eighttimes[y]+6)+(14-px);
+;demo.c:1060: cmd.dest_y = 72+bo+(eighttimes[y]+5)+(14-px);
 	ld	hl,#_cmd + 6
 	ld	-9 (ix),l
 	ld	-8 (ix),h
@@ -8961,9 +8961,11 @@ _thewave:
 	ld	e,(hl)
 	inc	hl
 	ld	d,(hl)
-	ld	hl,#0x0006
-	add	hl,de
-	ex	de,hl
+	inc	de
+	inc	de
+	inc	de
+	inc	de
+	inc	de
 	ld	a,c
 	add	a,e
 	ld	e,a
